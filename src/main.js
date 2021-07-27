@@ -7,7 +7,10 @@
  */
 
 import 'core-js/stable'
-import allCollections from './all'
+import * as Linker from './collections/Linker'
+import * as LinkedList from './collections/LinkedList'
+import * as TreeLinker from './collections/TreeLinker'
+import * as LinkedTreeList from './collections/LinkedTreeList'
 
 /**
  * Store a reference to this scope which will be Window if rendered via browser
@@ -40,5 +43,8 @@ collections.noConflict = noConflict
 
 export default Object.assign(
   collections,
-  allCollections
+  Linker,
+  LinkedList,
+  TreeLinker,
+  LinkedTreeList
 )
