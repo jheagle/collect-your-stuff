@@ -1,42 +1,42 @@
-# Collections
+# Collect your stuff (and go)
 
 Data allocation and manipulation.
 
-<a name="module_collections"></a>
+<a name="module_collect-your-stuff"></a>
 
-## collections
+## collect-your-stuff
 All of the collections available.
 
 **Version**: 1.0.0  
 **Author**: Joshua Heagle <joshuaheagle@gmail.com>  
 
-* [collections](#module_collections)
-    * [~root](#module_collections..root)
-    * [~previousCollections](#module_collections..previousCollections) : <code>module</code> \| <code>\*</code>
-    * [~noConflict()](#module_collections..noConflict) ⇒ [<code>collections</code>](#module_collections..collections)
-    * [~collections](#module_collections..collections) : [<code>collections</code>](#module_collections)
+* [collect-your-stuff](#module_collect-your-stuff)
+    * [~root](#module_collect-your-stuff..root)
+    * [~previousCollectYourStuff](#module_collect-your-stuff..previousCollectYourStuff) : <code>module</code> \| <code>\*</code>
+    * [~noConflict()](#module_collect-your-stuff..noConflict) ⇒ [<code>collectYourStuff</code>](#module_collect-your-stuff..collectYourStuff)
+    * [~collectYourStuff](#module_collect-your-stuff..collectYourStuff) : [<code>collect-your-stuff</code>](#module_collect-your-stuff)
 
-<a name="module_collections..root"></a>
+<a name="module_collect-your-stuff..root"></a>
 
-### collections~root
+### collect-your-stuff~root
 Store a reference to this scope which will be Window if rendered via browser
 
-**Kind**: inner constant of [<code>collections</code>](#module_collections)  
-<a name="module_collections..previousCollections"></a>
+**Kind**: inner constant of [<code>collect-your-stuff</code>](#module_collect-your-stuff)  
+<a name="module_collect-your-stuff..previousCollectYourStuff"></a>
 
-### collections~previousCollections : <code>module</code> \| <code>\*</code>
+### collect-your-stuff~previousCollectYourStuff : <code>module</code> \| <code>\*</code>
 Store reference to any pre-existing module of the same name
 
-**Kind**: inner constant of [<code>collections</code>](#module_collections)  
-<a name="module_collections..noConflict"></a>
+**Kind**: inner constant of [<code>collect-your-stuff</code>](#module_collect-your-stuff)  
+<a name="module_collect-your-stuff..noConflict"></a>
 
-### collections~noConflict() ⇒ [<code>collections</code>](#module_collections..collections)
+### collect-your-stuff~noConflict() ⇒ [<code>collectYourStuff</code>](#module_collect-your-stuff..collectYourStuff)
 Return a reference to this library while preserving the original same-named library
 
-**Kind**: inner method of [<code>collections</code>](#module_collections)  
-<a name="module_collections..collections"></a>
+**Kind**: inner method of [<code>collect-your-stuff</code>](#module_collect-your-stuff)  
+<a name="module_collect-your-stuff..collectYourStuff"></a>
 
-### collections~collections : [<code>collections</code>](#module_collections)
-All methods exported from this module are encapsulated within collections.
+### collect-your-stuff~collectYourStuff : [<code>collect-your-stuff</code>](#module_collect-your-stuff)
+All methods exported from this module are encapsulated within collect-your-stuff.
 
-**Kind**: inner typedef of [<code>collections</code>](#module_collections)  
+**Kind**: inner typedef of [<code>collect-your-stuff</code>](#module_collect-your-stuff)  

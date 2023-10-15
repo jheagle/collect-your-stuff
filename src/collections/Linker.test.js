@@ -1,4 +1,4 @@
-import { Linker } from '../dist/collections/Linker'
+import { Linker } from '../../dist/collections/Linker'
 
 test('Linker can store data and pointer to next and previous linkers', () => {
   const arrayData = ['one', 'two', 'three']

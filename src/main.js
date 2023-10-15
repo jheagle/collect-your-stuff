@@ -3,7 +3,7 @@
  * @file
  * @author Joshua Heagle <joshuaheagle@gmail.com>
  * @version 1.0.0
- * @module collections
+ * @module collect-your-stuff
  */
 
 import 'core-js/stable'
@@ -21,28 +21,28 @@ const root = this || window || global || {}
  * Store reference to any pre-existing module of the same name
  * @type {module|*}
  */
-const previousCollections = root.collections || {}
+const previousCollectYourStuff = root.collectYourStuff || {}
 
 /**
- * All methods exported from this module are encapsulated within collections.
- * @typedef {module:collections} collections
+ * All methods exported from this module are encapsulated within collect-your-stuff.
+ * @typedef {module:collect-your-stuff} collectYourStuff
  */
-const collections = {}
-root.collections = collections
+const collectYourStuff = {}
+root.collectYourStuff = collectYourStuff
 
 /**
  * Return a reference to this library while preserving the original same-named library
  * @function
- * @returns {module:collections~collections}
+ * @returns {module:collect-your-stuff~collectYourStuff}
  */
 const noConflict = () => {
-  root.collections = previousCollections
-  return collections
+  root.collectYourStuff = previousCollectYourStuff
+  return collectYourStuff
 }
-collections.noConflict = noConflict
+collectYourStuff.noConflict = noConflict
 
 export default Object.assign(
-  collections,
+  collectYourStuff,
   Linker,
   LinkedList,
   TreeLinker,

@@ -4,197 +4,146 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 })
 exports.LinkedList = void 0
-
-require('core-js/modules/es.symbol.iterator.js')
-
-require('core-js/modules/es.array.iterator.js')
-
-require('core-js/modules/es.object.to-string.js')
-
-require('core-js/modules/es.string.iterator.js')
-
-require('core-js/modules/web.dom-collections.iterator.js')
-
-require('core-js/modules/es.symbol.js')
-
-require('core-js/modules/es.symbol.description.js')
-
-const _Linker = require('./Linker')
-
-function _classCallCheck (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function') } }
-
-function _defineProperties (target, props) { for (let i = 0; i < props.length; i++) { const descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor) } }
-
-function _createClass (Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor }
+var _Linker = require('./Linker')
+/**
+ * @file doubly linked list.
+ * @author Joshua Heagle <joshuaheagle@gmail.com>
+ * @version 1.0.0
+ */
 
 /**
  *
  */
-const LinkedList = /* #__PURE__ */(function () {
+class LinkedList {
   /**
    *
    * @param LinkerClass
    * @param ListClass
    */
-  function LinkedList () {
+  constructor () {
     const LinkerClass = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _Linker.Linker
     const ListClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : LinkedList
-
-    _classCallCheck(this, LinkedList)
-
     this.LinkerClass = LinkerClass
     this.ListClass = ListClass
     this.innerList = new this.LinkerClass()
   }
+
   /**
    *
    * @returns {Linker}
    */
-
-  _createClass(LinkedList, [{
-    key: 'first',
-    get: function get () {
-      let head = this.innerList
-      let prev = head.prev
-
-      while (prev !== null) {
-        head = prev
-        prev = head.prev
-      }
-
-      return head
+  get first () {
+    let head = this.innerList
+    let prev = head.prev
+    while (prev !== null) {
+      head = prev
+      prev = head.prev
     }
-    /**
-     *
-     * @returns {Linker}
-     */
+    return head
+  }
 
-  }, {
-    key: 'last',
-    get: function get () {
-      let tail = this.innerList
-      let next = tail.next
-
-      while (next !== null) {
-        tail = next
-        next = tail.next
-      }
-
-      return tail
+  /**
+   *
+   * @returns {Linker}
+   */
+  get last () {
+    let tail = this.innerList
+    let next = tail.next
+    while (next !== null) {
+      tail = next
+      next = tail.next
     }
-    /**
-     *
-     * @returns {number}
-     */
+    return tail
+  }
 
-  }, {
-    key: 'length',
-    get: function get () {
+  /**
+   *
+   * @returns {number}
+   */
+  get length () {
+    let current = this.first
+    let length = 0
+    while (current !== null) {
+      ++length
+      current = current.next
+    }
+    return length
+  }
+
+  /**
+   *
+   * @param node
+   */
+  append (node) {
+    this.last.after(node)
+    return this.first
+  }
+
+  /**
+   *
+   * @param node
+   */
+  prepend (node) {
+    return this.first.before(node)
+  }
+
+  /**
+   *
+   * @param index
+   * @returns {null|*}
+   */
+  item (index) {
+    if (index >= 0) {
       let current = this.first
-      let length = 0
-
-      while (current !== null) {
-        ++length
+      let currentIndex = -1
+      while (++currentIndex < index && current !== null) {
         current = current.next
       }
-
-      return length
+      return currentIndex === index ? current : null
     }
-    /**
-     *
-     * @param node
-     */
-
-  }, {
-    key: 'append',
-    value: function append (node) {
-      this.last.after(node)
-      return this.first
+    let current = this.last
+    let currentIndex = this.length
+    const calculatedIndex = this.length + index
+    if (calculatedIndex < 0) {
+      return null
     }
-    /**
-     *
-     * @param node
-     */
-
-  }, {
-    key: 'prepend',
-    value: function prepend (node) {
-      return this.first.before(node)
+    while (--currentIndex > calculatedIndex && current !== null) {
+      current = current.prev
     }
-    /**
-     *
-     * @param index
-     * @returns {null|*}
-     */
+    return currentIndex === calculatedIndex ? current : null
+  }
 
-  }, {
-    key: 'item',
-    value: function item (index) {
-      if (index >= 0) {
-        let _current = this.first
+  /**
+   *
+   * @param callback
+   */
+  forEach (callback) {
+    let current = this.first
+    while (current !== null) {
+      callback(current)
+      current = current.next
+    }
+  }
 
-        let _currentIndex = -1
-
-        while (++_currentIndex < index && _current !== null) {
-          _current = _current.next
+  /**
+   *
+   * @returns {{next: (function(): {value: (*|null), done: boolean})}}
+   */
+  [Symbol.iterator] () {
+    let current = this.first
+    return {
+      next: () => {
+        const result = {
+          value: current,
+          done: !current
         }
-
-        return _currentIndex === index ? _current : null
-      }
-
-      let current = this.last
-      let currentIndex = this.length
-      const calculatedIndex = this.length + index
-
-      if (calculatedIndex < 0) {
-        return null
-      }
-
-      while (--currentIndex > calculatedIndex && current !== null) {
-        current = current.prev
-      }
-
-      return currentIndex === calculatedIndex ? current : null
-    }
-    /**
-     *
-     * @param callback
-     */
-
-  }, {
-    key: 'forEach',
-    value: function forEach (callback) {
-      let current = this.first
-
-      while (current !== null) {
-        callback(current)
-        current = current.next
+        current = current ? current.next : null
+        return result
       }
     }
-    /**
-     *
-     * @returns {{next: (function(): {value: (*|null), done: boolean})}}
-     */
+  }
+}
 
-  }, {
-    key: Symbol.iterator,
-    value: function value () {
-      let current = this.first
-      return {
-        next: function next () {
-          const result = {
-            value: current,
-            done: !current
-          }
-          current = current ? current.next : null
-          return result
-        }
-      }
-    }
-  }])
-
-  return LinkedList
-}())
 /**
  *
  * @param values
@@ -202,9 +151,7 @@ const LinkedList = /* #__PURE__ */(function () {
  * @param ListClass
  * @returns {LinkedList}
  */
-
 exports.LinkedList = LinkedList
-
 LinkedList.fromArray = function () {
   const values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []
   const LinkerClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _Linker.Linker

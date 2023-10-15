@@ -1,4 +1,4 @@
-import { LinkedList } from '../dist/collections/LinkedList'
+import { LinkedList } from '../../dist/collections/LinkedList'
 
 test('LinkedList can store elements', () => {
   const arrayData = ['one', 'two', 'three', 'four']
