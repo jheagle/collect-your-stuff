@@ -1,7 +1,7 @@
 {
   "name": "collect-your-stuff",
   "description": "Use a variety of collections to collect your stuff when building code.",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "main": "dist/main.js",
   "author": "Joshua Heagle",
   "license": "GNU",
