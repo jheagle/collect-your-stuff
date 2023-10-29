@@ -24,13 +24,6 @@
   "devDependencies": {
     "js-build-tools": "^2.2.8"
   },
-  "dependencies": {
-    "@babel/runtime-corejs3": "^7.23.2",
-    "core-js": "^3.33.0",
-    "npm": "^10.2.0",
-    "regenerator-runtime": "^0.14.0",
-    "si-funciona": "^2.0.4"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jheagle/collections.git"
