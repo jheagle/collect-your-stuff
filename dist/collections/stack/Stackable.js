@@ -4,30 +4,22 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 })
 exports.default = void 0
-var _ArrayElement = _interopRequireDefault(require('../arrayable/ArrayElement'))
-function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
-/**
- * @file stack.
- * @author Joshua Heagle <joshuaheagle@gmail.com>
- * @version 1.0.0
- * @memberOf module:collect-your-stuff
- */
-
+require('core-js/modules/esnext.async-iterator.reduce.js')
+require('core-js/modules/esnext.iterator.constructor.js')
+require('core-js/modules/esnext.iterator.reduce.js')
 /**
  * Stackable represents a runnable entry in stack.
- * @extends ArrayElement
- * @extends Runnable
  */
-class Stackable extends _ArrayElement.default {
+class Stackable {
   /**
-   * Instantiate the Stackable which is used in a stack.
-   * @param {*} [stack=null]
-   * @param stackableClass
-   */
+  * Instantiate the Stackable which is used in a stack.
+  * @param {*} [stack=null]
+  */
   constructor () {
     const stack = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null
-    const stackableClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Stackable
-    super(stack, stackableClass)
+    this.data = null
+    this.classType = Stackable
+    this.data = stack
   }
 
   /**
@@ -49,37 +41,47 @@ class Stackable extends _ArrayElement.default {
     return this.task()
   }
 }
-
 /**
  * Make a new Stackable from the data given if it is not already a valid Stackable.
  * @methodof Stackable
  * @param {Stackable|*} stackable
- * @param {Stackable} [stackableClass=Stackable]
  * @return {Stackable}
  */
-Stackable.make = function (stackable) {
-  const stackableClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Stackable
+Stackable.make = stackable => {
   if (typeof stackable !== 'object') {
     // It is not an object, so instantiate the Stackable with stackable as the data
-    return new stackableClass(stackable)
+    return new Stackable(stackable)
   }
   if (stackable.classType) {
     // Already valid Stackable, return as-is
     return stackable
   }
   // Create the new node as the configured stackableClass
-  return new stackableClass(stackable, stackableClass)
+  return new Stackable(stackable)
 }
-
 /**
  * Convert an array into Stackable instances, return the head and tail Stackables.
  * @param {Array} [values=[]]
- * @param {Stackable} [stackableClass=Stackable]
  * @returns {{head: Stackable, tail: Stackable}}
  */
 Stackable.fromArray = function () {
   const values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []
-  const stackableClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Stackable
-  return _ArrayElement.default.fromArray(values, stackableClass)
+  return values.reduce((references, stackable) => {
+    const newStackable = Stackable.make(stackable)
+    if (!references.head.length) {
+      // Initialize the head and tail with the new node
+      return {
+        head: [newStackable],
+        tail: newStackable
+      }
+    }
+    // Only update the tail once head has been set, tail is always the most recent node
+    references.head.push(newStackable)
+    references.tail = newStackable
+    return references
+  }, {
+    head: [],
+    tail: null
+  })
 }
 var _default = exports.default = Stackable

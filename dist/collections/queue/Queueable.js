@@ -1,91 +1,60 @@
-"use strict";
+'use strict'
 
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
   value: true
-});
-exports.default = void 0;
-var _Linker = _interopRequireDefault(require("../linked-list/Linker"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-/**
- * @file queueable item.
- * @author Joshua Heagle <joshuaheagle@gmail.com>
- * @version 1.0.0
- * @memberOf module:collect-your-stuff
- */
-
-/**
- * Return results of the task.
- * @typedef {Object} completeResponse
- * @property {*} success
- * @property {*} error
- * @property {*} context
- */
+})
+exports.default = void 0
+require('core-js/modules/esnext.async-iterator.reduce.js')
+require('core-js/modules/esnext.iterator.constructor.js')
+require('core-js/modules/esnext.iterator.reduce.js')
 /**
  * Queueable represents a runnable entry in a queue.
- * @extends Linker
- * @extends Runnable
  */
-class Queueable extends _Linker.default {
-  complete = false;
-  ready = false;
-  running = false;
-
+class Queueable {
   /**
    * Create a queueable item that can be used in a queue.
    * @param {Object} [queueableData={}]
    * @param {*} [queueableData.task=null]
    * @param {boolean|Function} [queueableData.ready=false]
-   * @param {Queueable} [queueableClass=Queueable]
    */
-  constructor() {
-    let {
+  constructor () {
+    const {
       task = null,
+      next = null,
       ready = false
-    } = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    let queueableClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Queueable;
-    super({
-      data: task
-    }, queueableClass);
-    this.complete = false;
-    this.ready = ready;
-    this.running = false;
-  }
-
-  /**
-   * Check complete state.
-   * @return {boolean}
-   */
-  get complete() {
-    return this.complete;
+    } = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {}
+    this.data = null
+    this.next = null
+    this.complete = false
+    this.ready = false
+    this.running = false
+    this.classType = Queueable
+    this.data = task
+    this.next = next
+    this.complete = false
+    this.ready = ready
+    this.running = false
   }
 
   /**
    * Check ready state.
    * @return {boolean}
    */
-  get isReady() {
-    return typeof this.ready === 'function' ? this.ready() : this.ready;
-  }
-
-  /**
-   * Check running state.
-   * @return {boolean}
-   */
-  get running() {
-    return this.running;
+  get isReady () {
+    return typeof this.ready === 'function' ? this.ready() : this.ready
   }
 
   /**
    * Retrieve the data which should be formed as a task.
    * @return {*}
    */
-  get task() {
+  get task () {
     if (typeof this.data === 'function') {
-      return this.data;
+      return this.data
     }
     return complete => typeof complete === 'function' ? complete({
       context: this.data
-    }).context : this.data;
+    }).context : this.data
   }
 
   /**
@@ -96,82 +65,89 @@ class Queueable extends _Linker.default {
    * @param {*} [completeResponse.context=null]
    * @return {completeResponse}
    */
-  markCompleted() {
-    let {
+  markCompleted () {
+    const {
       success = true,
       error = false,
       context = null
-    } = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    this.complete = true;
-    this.running = false;
+    } = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {}
+    this.complete = true
+    this.running = false
     return {
       success: success,
       error: error,
       context: context
-    };
+    }
   }
 
   /**
    * Intend to run the queued task when it is ready. If ready, mark this task as running and run the task.
    * @return {completeResponse}
    */
-  run() {
+  run () {
     if (!this.isReady) {
       return {
         success: false,
         error: 'Task is not ready',
         context: this.data
-      };
+      }
     }
     if (this.running) {
       return {
         success: false,
         error: 'Queued task is already running, possible missing \'complete\' callback',
         context: this.data
-      };
+      }
     }
-    this.running = true;
-    return this.task(this.markCompleted.bind(this));
+    this.running = true
+    return this.task(this.markCompleted.bind(this))
   }
 }
-
 /**
  * Make a new Queueable from the data given if it is not already a valid Queueable.
  * @methodof Queueable
  * @param {Queueable|*} queueable
- * @param {Queueable} [queueableClass=Queueable]
  * @return {Queueable}
  */
-Queueable.make = function (queueable) {
-  let queueableClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Queueable;
+Queueable.make = queueable => {
   if (typeof queueable !== 'object') {
-    // It is not an object, so instantiate the Queueable with queueable as the data
-    return new queueableClass({
+    // It is not an object, so instantiate the Queueable with element as the data
+    return new Queueable({
       task: queueable
-    });
+    })
   }
   if (queueable.classType) {
     // Already valid Queueable, return as-is
-    return queueable;
+    return queueable
   }
   if (!queueable.task) {
     queueable = {
       task: queueable
-    };
+    }
   }
-  // Create the new node as the configured queueableClass
-  return new queueableClass(queueable, queueableClass);
-};
-
+  // Create the new node as the configured #classType
+  return new Queueable(queueable)
+}
 /**
  * Convert an array into Queueable instances, return the head and tail Queueables.
  * @param {Array} values
- * @param {Queueable} queueableClass
  * @returns {{head: Queueable, tail: Queueable}}
  */
-Queueable.fromArray = function () {
-  let values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-  let queueableClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Queueable;
-  return _Linker.default.fromArray(values, queueableClass);
-};
-var _default = exports.default = Queueable;
+Queueable.fromArray = values => values.reduce((references, queueable) => {
+  const newQueueable = Queueable.make(queueable)
+  if (references.head === null) {
+    // Initialize the head and tail with the new node
+    return {
+      head: newQueueable,
+      tail: newQueueable
+    }
+  }
+  // Only update the tail once head has been set, tail is always the most recent node
+  references.tail.next = newQueueable
+  references.tail = newQueueable
+  return references
+}, {
+  head: null,
+  tail: null
+})
+var _default = exports.default = Queueable

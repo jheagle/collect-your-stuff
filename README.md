@@ -16,38 +16,44 @@ Data allocation and manipulation.
 <dt><a href="#Runnable">Runnable</a></dt>
 <dd><p>Identify a class that can be run.</p>
 </dd>
-<dt><a href="#Stackable">Stackable</a> ⇐ <code><a href="#ArrayElement">ArrayElement</a></code></dt>
+<dt><a href="#LinkerIterator">LinkerIterator</a></dt>
+<dd><p>Class LinkerIterator returns the next value for Iterable classes.</p>
+</dd>
+<dt><a href="#ArrayIterator">ArrayIterator</a></dt>
+<dd><p>Class ArrayIterator returns the next value for Iterable classes.</p>
+</dd>
+<dt><a href="#Stackable">Stackable</a></dt>
 <dd><p>Stackable represents a runnable entry in stack.</p>
 </dd>
 <dt><a href="#Stack">Stack</a></dt>
 <dd><p>Store a collection of items which can only be inserted and removed from the top.</p>
 </dd>
-<dt><a href="#Queueable">Queueable</a> ⇐ <code><a href="#Linker">Linker</a></code></dt>
+<dt><a href="#Queueable">Queueable</a></dt>
 <dd><p>Queueable represents a runnable entry in a queue.</p>
 </dd>
 <dt><a href="#Queue">Queue</a></dt>
 <dd><p>Maintain a series of queued items.</p>
 </dd>
-<dt><a href="#TreeLinker">TreeLinker</a> ⇐ <code><a href="#DoubleLinker">DoubleLinker</a></code></dt>
+<dt><a href="#TreeLinker">TreeLinker</a></dt>
 <dd><p>TreeLinker represents a node in a LinkedTreeList.</p>
 </dd>
-<dt><a href="#LinkedTreeList">LinkedTreeList</a> ⇐ <code><a href="#DoublyLinkedList">DoublyLinkedList</a></code></dt>
-<dd><p>LinkedTreeList represents a collection stored with a root and spreading in branching (tree) formation..</p>
+<dt><a href="#LinkedTreeList">LinkedTreeList</a></dt>
+<dd><p>LinkedTreeList represents a collection stored with a root and spreading in branching (tree) formation.</p>
 </dd>
-<dt><a href="#Linker">Linker</a> ⇐ <code><a href="#ArrayElement">ArrayElement</a></code></dt>
+<dt><a href="#Linker">Linker</a></dt>
 <dd><p>Linker represents a node in a LinkedList.</p>
 </dd>
-<dt><a href="#LinkedList">LinkedList</a> ⇐ <code><a href="#Arrayable">Arrayable</a></code></dt>
+<dt><a href="#LinkedList">LinkedList</a></dt>
 <dd><p>LinkedList represents a collection stored as a LinkedList with next references.</p>
 </dd>
-<dt><a href="#DoublyLinkedList">DoublyLinkedList</a> ⇐ <code><a href="#LinkedList">LinkedList</a></code></dt>
+<dt><a href="#DoublyLinkedList">DoublyLinkedList</a></dt>
 <dd><p>DoublyLinkedList represents a collection stored as a LinkedList with prev and next references.</p>
 </dd>
-<dt><a href="#DoubleLinker">DoubleLinker</a> ⇐ <code><a href="#Linker">Linker</a></code></dt>
+<dt><a href="#DoubleLinker">DoubleLinker</a></dt>
 <dd><p>DoubleLinker represents a node in a DoublyLinkedList.</p>
 </dd>
 <dt><a href="#Arrayable">Arrayable</a></dt>
-<dd><p>DoublyLinkedList represents a collection stored as a LinkedList with prev and next references.</p>
+<dd><p>Arrayable represents a collection stored as an array.</p>
 </dd>
 <dt><a href="#ArrayElement">ArrayElement</a></dt>
 <dd><p>Element represents a node in an Arrayable.</p>
@@ -57,19 +63,8 @@ Data allocation and manipulation.
 ## Constants
 
 <dl>
-<dt><a href="#recipes">recipes</a> : <code>Object</code></dt>
+<dt><a href="#recipes">recipes</a></dt>
 <dd><p>List of class declarations that can be used to specify attributes for a style of object / class.</p>
-</dd>
-</dl>
-
-## Typedefs
-
-<dl>
-<dt><a href="#completeResponse">completeResponse</a> : <code>Object</code></dt>
-<dd><p>Return results of the task.</p>
-</dd>
-<dt><a href="#forEachCallback">forEachCallback</a> ⇒</dt>
-<dd><p>Run this function for each element in this arrayable.</p>
 </dd>
 </dl>
 
@@ -82,10 +77,10 @@ All of the collections available.
 **Author**: Joshua Heagle <joshuaheagle@gmail.com>  
 <a name="module_collect-your-stuff..collectYourStuff"></a>
 
-### collect-your-stuff~collectYourStuff : [<code>collect-your-stuff</code>](#module_collect-your-stuff)
+### collect-your-stuff~collectYourStuff
 All methods exported from this module are encapsulated within collect-your-stuff.
 
-**Kind**: inner typedef of [<code>collect-your-stuff</code>](#module_collect-your-stuff)  
+**Kind**: inner constant of [<code>collect-your-stuff</code>](#module_collect-your-stuff)  
 <a name="Runnable"></a>
 
 ## Runnable
@@ -94,11 +89,22 @@ Identify a class that can be run.
 **Kind**: global class  
 
 * [Runnable](#Runnable)
+    * [new Runnable(data)](#new_Runnable_new)
     * _instance_
         * [.task](#Runnable+task) ⇒ <code>function</code>
         * [.run()](#Runnable+run) ⇒ <code>\*</code>
     * _static_
         * [.isRunnable(thing)](#Runnable.isRunnable) ⇒ <code>boolean</code>
+
+<a name="new_Runnable_new"></a>
+
+### new Runnable(data)
+Instantiate a Runnable class.
+
+
+| Param | Type |
+| --- | --- |
+| data | <code>\*</code> | 
 
 <a name="Runnable+task"></a>
 
@@ -123,34 +129,43 @@ Check if a given thing is Runnable
 | --- | --- |
 | thing | <code>\*</code> | 
 
+<a name="LinkerIterator"></a>
+
+## LinkerIterator
+Class LinkerIterator returns the next value for Iterable classes.
+
+**Kind**: global class  
+<a name="ArrayIterator"></a>
+
+## ArrayIterator
+Class ArrayIterator returns the next value for Iterable classes.
+
+**Kind**: global class  
 <a name="Stackable"></a>
 
-## Stackable ⇐ [<code>ArrayElement</code>](#ArrayElement)
+## Stackable
 Stackable represents a runnable entry in stack.
 
 **Kind**: global class  
-**Extends**: [<code>ArrayElement</code>](#ArrayElement), [<code>Runnable</code>](#Runnable)  
 
-* [Stackable](#Stackable) ⇐ [<code>ArrayElement</code>](#ArrayElement)
-    * [new Stackable([stack], stackableClass)](#new_Stackable_new)
+* [Stackable](#Stackable)
+    * [new Stackable([stack])](#new_Stackable_new)
     * _instance_
         * [.task](#Stackable+task) ⇒ <code>\*</code>
-        * [.classType](#ArrayElement+classType) ⇒ [<code>ArrayElement</code>](#ArrayElement)
         * [.run()](#Stackable+run) ⇒ <code>\*</code>
     * _static_
-        * [.make(stackable, [stackableClass])](#Stackable.make) ⇒ [<code>Stackable</code>](#Stackable)
-        * [.fromArray([values], [stackableClass])](#Stackable.fromArray) ⇒ <code>Object</code>
+        * [.make(stackable)](#Stackable.make) ⇒ [<code>Stackable</code>](#Stackable)
+        * [.fromArray([values])](#Stackable.fromArray) ⇒ <code>Object</code>
 
 <a name="new_Stackable_new"></a>
 
-### new Stackable([stack], stackableClass)
+### new Stackable([stack])
 Instantiate the Stackable which is used in a stack.
 
 
 | Param | Type | Default |
 | --- | --- | --- |
 | [stack] | <code>\*</code> | <code></code> | 
-| stackableClass |  |  | 
 
 <a name="Stackable+task"></a>
 
@@ -158,37 +173,27 @@ Instantiate the Stackable which is used in a stack.
 Retrieve the data which should be formed as a task.
 
 **Kind**: instance property of [<code>Stackable</code>](#Stackable)  
-**Overrides**: [<code>task</code>](#Runnable+task)  
-<a name="ArrayElement+classType"></a>
-
-### stackable.classType ⇒ [<code>ArrayElement</code>](#ArrayElement)
-Return the type of class used for Element.
-
-**Kind**: instance property of [<code>Stackable</code>](#Stackable)  
-**Overrides**: [<code>classType</code>](#ArrayElement+classType)  
 <a name="Stackable+run"></a>
 
 ### stackable.run() ⇒ <code>\*</code>
 Run the stacked task.
 
 **Kind**: instance method of [<code>Stackable</code>](#Stackable)  
-**Overrides**: [<code>run</code>](#Runnable+run)  
 <a name="Stackable.make"></a>
 
-### Stackable.make(stackable, [stackableClass]) ⇒ [<code>Stackable</code>](#Stackable)
+### Stackable.make(stackable) ⇒ [<code>Stackable</code>](#Stackable)
 Make a new Stackable from the data given if it is not already a valid Stackable.
 
 **Kind**: static method of [<code>Stackable</code>](#Stackable)  
 **Methodof**: Stackable  
 
-| Param | Type | Default |
-| --- | --- | --- |
-| stackable | [<code>Stackable</code>](#Stackable) \| <code>\*</code> |  | 
-| [stackableClass] | [<code>Stackable</code>](#Stackable) | <code>Stackable</code> | 
+| Param | Type |
+| --- | --- |
+| stackable | [<code>Stackable</code>](#Stackable) \| <code>\*</code> | 
 
 <a name="Stackable.fromArray"></a>
 
-### Stackable.fromArray([values], [stackableClass]) ⇒ <code>Object</code>
+### Stackable.fromArray([values]) ⇒ <code>Object</code>
 Convert an array into Stackable instances, return the head and tail Stackables.
 
 **Kind**: static method of [<code>Stackable</code>](#Stackable)  
@@ -196,7 +201,6 @@ Convert an array into Stackable instances, return the head and tail Stackables.
 | Param | Type | Default |
 | --- | --- | --- |
 | [values] | <code>Array</code> | <code>[]</code> | 
-| [stackableClass] | [<code>Stackable</code>](#Stackable) | <code>Stackable</code> | 
 
 <a name="Stack"></a>
 
@@ -209,7 +213,6 @@ Store a collection of items which can only be inserted and removed from the top.
 * [Stack](#Stack)
     * [new Stack(stackedList)](#new_Stack_new)
     * _instance_
-        * [.stackedList](#Stack+stackedList) ⇒ <code>Iterable</code> \| [<code>LinkedList</code>](#LinkedList)
         * [.add(stackable)](#Stack+add)
         * [.empty()](#Stack+empty) ⇒ <code>boolean</code>
         * [.get()](#Stack+get) ⇒ [<code>Stackable</code>](#Stackable)
@@ -232,12 +235,6 @@ Instantiate the state with the starter stacked list.
 | --- | --- |
 | stackedList | <code>Iterable</code> \| [<code>Arrayable</code>](#Arrayable) | 
 
-<a name="Stack+stackedList"></a>
-
-### stack.stackedList ⇒ <code>Iterable</code> \| [<code>LinkedList</code>](#LinkedList)
-Return the internal stacked list.
-
-**Kind**: instance property of [<code>Stack</code>](#Stack)  
 <a name="Stack+add"></a>
 
 ### stack.add(stackable)
@@ -318,29 +315,25 @@ Convert an array to a Stack.
 
 <a name="Queueable"></a>
 
-## Queueable ⇐ [<code>Linker</code>](#Linker)
+## Queueable
 Queueable represents a runnable entry in a queue.
 
 **Kind**: global class  
-**Extends**: [<code>Linker</code>](#Linker), [<code>Runnable</code>](#Runnable)  
 
-* [Queueable](#Queueable) ⇐ [<code>Linker</code>](#Linker)
-    * [new Queueable([queueableData], [queueableClass])](#new_Queueable_new)
+* [Queueable](#Queueable)
+    * [new Queueable([queueableData])](#new_Queueable_new)
     * _instance_
-        * [.complete](#Queueable+complete) ⇒ <code>boolean</code>
         * [.isReady](#Queueable+isReady) ⇒ <code>boolean</code>
-        * [.running](#Queueable+running) ⇒ <code>boolean</code>
         * [.task](#Queueable+task) ⇒ <code>\*</code>
-        * [.classType](#ArrayElement+classType) ⇒ [<code>ArrayElement</code>](#ArrayElement)
-        * [.markCompleted(completeResponse)](#Queueable+markCompleted) ⇒ [<code>completeResponse</code>](#completeResponse)
-        * [.run()](#Queueable+run) ⇒ [<code>completeResponse</code>](#completeResponse)
+        * [.markCompleted(completeResponse)](#Queueable+markCompleted) ⇒ <code>completeResponse</code>
+        * [.run()](#Queueable+run) ⇒ <code>completeResponse</code>
     * _static_
-        * [.make(queueable, [queueableClass])](#Queueable.make) ⇒ [<code>Queueable</code>](#Queueable)
-        * [.fromArray(values, queueableClass)](#Queueable.fromArray) ⇒ <code>Object</code>
+        * [.make(queueable)](#Queueable.make) ⇒ [<code>Queueable</code>](#Queueable)
+        * [.fromArray(values)](#Queueable.fromArray) ⇒ <code>Object</code>
 
 <a name="new_Queueable_new"></a>
 
-### new Queueable([queueableData], [queueableClass])
+### new Queueable([queueableData])
 Create a queueable item that can be used in a queue.
 
 
@@ -349,24 +342,11 @@ Create a queueable item that can be used in a queue.
 | [queueableData] | <code>Object</code> | <code>{}</code> | 
 | [queueableData.task] | <code>\*</code> | <code></code> | 
 | [queueableData.ready] | <code>boolean</code> \| <code>function</code> | <code>false</code> | 
-| [queueableClass] | [<code>Queueable</code>](#Queueable) | <code>Queueable</code> | 
 
-<a name="Queueable+complete"></a>
-
-### queueable.complete ⇒ <code>boolean</code>
-Check complete state.
-
-**Kind**: instance property of [<code>Queueable</code>](#Queueable)  
 <a name="Queueable+isReady"></a>
 
 ### queueable.isReady ⇒ <code>boolean</code>
 Check ready state.
-
-**Kind**: instance property of [<code>Queueable</code>](#Queueable)  
-<a name="Queueable+running"></a>
-
-### queueable.running ⇒ <code>boolean</code>
-Check running state.
 
 **Kind**: instance property of [<code>Queueable</code>](#Queueable)  
 <a name="Queueable+task"></a>
@@ -375,17 +355,9 @@ Check running state.
 Retrieve the data which should be formed as a task.
 
 **Kind**: instance property of [<code>Queueable</code>](#Queueable)  
-**Overrides**: [<code>task</code>](#Runnable+task)  
-<a name="ArrayElement+classType"></a>
-
-### queueable.classType ⇒ [<code>ArrayElement</code>](#ArrayElement)
-Return the type of class used for Element.
-
-**Kind**: instance property of [<code>Queueable</code>](#Queueable)  
-**Overrides**: [<code>classType</code>](#ArrayElement+classType)  
 <a name="Queueable+markCompleted"></a>
 
-### queueable.markCompleted(completeResponse) ⇒ [<code>completeResponse</code>](#completeResponse)
+### queueable.markCompleted(completeResponse) ⇒ <code>completeResponse</code>
 Set this queueable as completed.
 
 **Kind**: instance method of [<code>Queueable</code>](#Queueable)  
@@ -399,27 +371,25 @@ Set this queueable as completed.
 
 <a name="Queueable+run"></a>
 
-### queueable.run() ⇒ [<code>completeResponse</code>](#completeResponse)
+### queueable.run() ⇒ <code>completeResponse</code>
 Intend to run the queued task when it is ready. If ready, mark this task as running and run the task.
 
 **Kind**: instance method of [<code>Queueable</code>](#Queueable)  
-**Overrides**: [<code>run</code>](#Runnable+run)  
 <a name="Queueable.make"></a>
 
-### Queueable.make(queueable, [queueableClass]) ⇒ [<code>Queueable</code>](#Queueable)
+### Queueable.make(queueable) ⇒ [<code>Queueable</code>](#Queueable)
 Make a new Queueable from the data given if it is not already a valid Queueable.
 
 **Kind**: static method of [<code>Queueable</code>](#Queueable)  
 **Methodof**: Queueable  
 
-| Param | Type | Default |
-| --- | --- | --- |
-| queueable | [<code>Queueable</code>](#Queueable) \| <code>\*</code> |  | 
-| [queueableClass] | [<code>Queueable</code>](#Queueable) | <code>Queueable</code> | 
+| Param | Type |
+| --- | --- |
+| queueable | [<code>Queueable</code>](#Queueable) \| <code>\*</code> | 
 
 <a name="Queueable.fromArray"></a>
 
-### Queueable.fromArray(values, queueableClass) ⇒ <code>Object</code>
+### Queueable.fromArray(values) ⇒ <code>Object</code>
 Convert an array into Queueable instances, return the head and tail Queueables.
 
 **Kind**: static method of [<code>Queueable</code>](#Queueable)  
@@ -427,7 +397,6 @@ Convert an array into Queueable instances, return the head and tail Queueables.
 | Param | Type |
 | --- | --- |
 | values | <code>Array</code> | 
-| queueableClass | [<code>Queueable</code>](#Queueable) | 
 
 <a name="Queue"></a>
 
@@ -440,9 +409,8 @@ Maintain a series of queued items.
 * [Queue](#Queue)
     * [new Queue(queuedList)](#new_Queue_new)
     * _instance_
-        * [.queuedList](#Queue+queuedList) ⇒ <code>Iterable</code> \| [<code>LinkedList</code>](#LinkedList)
         * [.add(queueable)](#Queue+add)
-        * [.dequeue()](#Queue+dequeue) ⇒ [<code>completeResponse</code>](#completeResponse) \| <code>\*</code>
+        * [.dequeue()](#Queue+dequeue) ⇒ <code>completeResponse</code> \| <code>\*</code>
         * [.empty()](#Queue+empty) ⇒ <code>boolean</code>
         * [.enqueue(queueable)](#Queue+enqueue)
         * [.get()](#Queue+get) ⇒ [<code>Queueable</code>](#Queueable)
@@ -463,12 +431,6 @@ Instantiate the queue with the given queue list.
 | --- | --- |
 | queuedList | <code>Iterable</code> \| [<code>LinkedList</code>](#LinkedList) | 
 
-<a name="Queue+queuedList"></a>
-
-### queue.queuedList ⇒ <code>Iterable</code> \| [<code>LinkedList</code>](#LinkedList)
-Return the internal queued list.
-
-**Kind**: instance property of [<code>Queue</code>](#Queue)  
 <a name="Queue+add"></a>
 
 ### queue.add(queueable)
@@ -482,7 +444,7 @@ Add a queued task to the end of the queue
 
 <a name="Queue+dequeue"></a>
 
-### queue.dequeue() ⇒ [<code>completeResponse</code>](#completeResponse) \| <code>\*</code>
+### queue.dequeue() ⇒ <code>completeResponse</code> \| <code>\*</code>
 Take a queued task from the front of the queue and run it if ready.
 
 **Kind**: instance method of [<code>Queue</code>](#Queue)  
@@ -549,26 +511,22 @@ Convert an array to a Queue.
 
 <a name="TreeLinker"></a>
 
-## TreeLinker ⇐ [<code>DoubleLinker</code>](#DoubleLinker)
+## TreeLinker
 TreeLinker represents a node in a LinkedTreeList.
 
 **Kind**: global class  
-**Extends**: [<code>DoubleLinker</code>](#DoubleLinker)  
 
-* [TreeLinker](#TreeLinker) ⇐ [<code>DoubleLinker</code>](#DoubleLinker)
-    * [new TreeLinker([settings], [linkerClass])](#new_TreeLinker_new)
+* [TreeLinker](#TreeLinker)
+    * [new TreeLinker([settings])](#new_TreeLinker_new)
     * _instance_
-        * [.parent](#TreeLinker+parent) ⇒ [<code>TreeLinker</code>](#TreeLinker) \| <code>null</code>
-        * [.children](#TreeLinker+children) ⇒ [<code>LinkedTreeList</code>](#LinkedTreeList) \| <code>null</code>
-        * [.classType](#ArrayElement+classType) ⇒ [<code>ArrayElement</code>](#ArrayElement)
-        * [.childrenFromArray(children, linkerClass)](#TreeLinker+childrenFromArray) ⇒ [<code>DoubleLinker</code>](#DoubleLinker) \| <code>null</code>
+        * [.childrenFromArray(children)](#TreeLinker+childrenFromArray) ⇒ [<code>DoubleLinker</code>](#DoubleLinker) \| <code>null</code>
     * _static_
-        * [.make(linker, [linkerClass])](#TreeLinker.make) ⇒ [<code>Linker</code>](#Linker)
+        * [.make(linker)](#TreeLinker.make) ⇒ [<code>TreeLinker</code>](#TreeLinker)
         * [.fromArray([values], [linkerClass])](#TreeLinker.fromArray) ⇒ <code>Object</code>
 
 <a name="new_TreeLinker_new"></a>
 
-### new TreeLinker([settings], [linkerClass])
+### new TreeLinker([settings])
 Create the new TreeLinker instance, provide the data and optionally configure the type of Linker.
 
 
@@ -580,51 +538,28 @@ Create the new TreeLinker instance, provide the data and optionally configure th
 | [settings.next] | [<code>TreeLinker</code>](#TreeLinker) | <code></code> | 
 | [settings.children] | [<code>LinkedTreeList</code>](#LinkedTreeList) | <code></code> | 
 | [settings.parent] | [<code>TreeLinker</code>](#TreeLinker) | <code></code> | 
-| [linkerClass] | [<code>TreeLinker</code>](#TreeLinker) | <code>TreeLinker</code> | 
 
-<a name="TreeLinker+parent"></a>
-
-### treeLinker.parent ⇒ [<code>TreeLinker</code>](#TreeLinker) \| <code>null</code>
-Return the parent of this Tree Linker.
-
-**Kind**: instance property of [<code>TreeLinker</code>](#TreeLinker)  
-<a name="TreeLinker+children"></a>
-
-### treeLinker.children ⇒ [<code>LinkedTreeList</code>](#LinkedTreeList) \| <code>null</code>
-Return the children of this Tree Linker.
-
-**Kind**: instance property of [<code>TreeLinker</code>](#TreeLinker)  
-<a name="ArrayElement+classType"></a>
-
-### treeLinker.classType ⇒ [<code>ArrayElement</code>](#ArrayElement)
-Return the type of class used for Element.
-
-**Kind**: instance property of [<code>TreeLinker</code>](#TreeLinker)  
-**Overrides**: [<code>classType</code>](#ArrayElement+classType)  
 <a name="TreeLinker+childrenFromArray"></a>
 
-### treeLinker.childrenFromArray(children, linkerClass) ⇒ [<code>DoubleLinker</code>](#DoubleLinker) \| <code>null</code>
+### treeLinker.childrenFromArray(children) ⇒ [<code>DoubleLinker</code>](#DoubleLinker) \| <code>null</code>
 Create the children for this tree from an array.
 
 **Kind**: instance method of [<code>TreeLinker</code>](#TreeLinker)  
 
-| Param | Type | Default |
-| --- | --- | --- |
-| children | <code>Array</code> \| <code>null</code> | <code></code> | 
-| linkerClass | [<code>TreeLinker</code>](#TreeLinker) |  | 
+| Param | Type |
+| --- | --- |
+| children | <code>Array</code> \| <code>null</code> | 
 
 <a name="TreeLinker.make"></a>
 
-### TreeLinker.make(linker, [linkerClass]) ⇒ [<code>Linker</code>](#Linker)
+### TreeLinker.make(linker) ⇒ [<code>TreeLinker</code>](#TreeLinker)
 Make a new DoubleLinker from the data given if it is not already a valid Linker.
 
 **Kind**: static method of [<code>TreeLinker</code>](#TreeLinker)  
-**Methodof**: TreeLinker  
 
-| Param | Type | Default |
-| --- | --- | --- |
-| linker | [<code>TreeLinker</code>](#TreeLinker) \| <code>\*</code> |  | 
-| [linkerClass] | [<code>TreeLinker</code>](#TreeLinker) | <code>TreeLinker</code> | 
+| Param | Type |
+| --- | --- |
+| linker | [<code>TreeLinker</code>](#TreeLinker) \| <code>\*</code> | 
 
 <a name="TreeLinker.fromArray"></a>
 
@@ -641,46 +576,81 @@ Convert an array into DoubleLinker instances, return the head and tail DoubleLin
 
 <a name="LinkedTreeList"></a>
 
-## LinkedTreeList ⇐ [<code>DoublyLinkedList</code>](#DoublyLinkedList)
-LinkedTreeList represents a collection stored with a root and spreading in branching (tree) formation..
+## LinkedTreeList
+LinkedTreeList represents a collection stored with a root and spreading in branching (tree) formation.
 
 **Kind**: global class  
-**Extends**: [<code>DoublyLinkedList</code>](#DoublyLinkedList)  
 
-* [LinkedTreeList](#LinkedTreeList) ⇐ [<code>DoublyLinkedList</code>](#DoublyLinkedList)
-    * [new LinkedTreeList([listClass])](#new_LinkedTreeList_new)
+* [LinkedTreeList](#LinkedTreeList)
+    * [new LinkedTreeList()](#new_LinkedTreeList_new)
     * _instance_
+        * [.list](#LinkedTreeList+list) ⇒ [<code>TreeLinker</code>](#TreeLinker)
+        * [.first](#LinkedTreeList+first) ⇒ [<code>TreeLinker</code>](#TreeLinker)
+        * [.last](#LinkedTreeList+last) ⇒ [<code>TreeLinker</code>](#TreeLinker)
+        * [.length](#LinkedTreeList+length) ⇒ <code>number</code>
+        * [.children](#LinkedTreeList+children)
+        * [.children](#LinkedTreeList+children)
         * [.parent](#LinkedTreeList+parent) ⇒ [<code>TreeLinker</code>](#TreeLinker)
         * [.parent](#LinkedTreeList+parent)
         * [.rootParent](#LinkedTreeList+rootParent) ⇒ [<code>TreeLinker</code>](#TreeLinker)
-        * [.first](#DoublyLinkedList+first) ⇒ [<code>DoubleLinker</code>](#DoubleLinker)
-        * [.last](#DoublyLinkedList+last) ⇒ [<code>DoubleLinker</code>](#DoubleLinker)
-        * [.length](#DoublyLinkedList+length) ⇒ <code>number</code>
-        * [.classType](#Arrayable+classType) ⇒ [<code>Arrayable</code>](#Arrayable)
-        * [.initialized](#Arrayable+initialized) ⇒ <code>boolean</code>
-        * [.innerList](#Arrayable+innerList) ⇒ <code>Array</code>
+        * [.initialize(initialList)](#LinkedTreeList+initialize) ⇒ [<code>LinkedTreeList</code>](#LinkedTreeList)
         * [.setChildren(item, children)](#LinkedTreeList+setChildren)
-        * [.insertAfter(node, newNode)](#DoublyLinkedList+insertAfter) ⇒ [<code>DoublyLinkedList</code>](#DoublyLinkedList)
-        * [.insertBefore(node, newNode)](#DoublyLinkedList+insertBefore) ⇒ [<code>DoublyLinkedList</code>](#DoublyLinkedList)
-        * [.remove(node)](#DoublyLinkedList+remove) ⇒ [<code>DoubleLinker</code>](#DoubleLinker)
-        * [.reset()](#DoublyLinkedList+reset) ⇒ [<code>DoubleLinker</code>](#DoubleLinker)
-        * [.item(index)](#DoublyLinkedList+item) ⇒ [<code>DoubleLinker</code>](#DoubleLinker) \| <code>null</code>
-        * [.forEach(callback, thisArg)](#DoublyLinkedList+forEach)
-        * [.initialize(initialList)](#LinkedList+initialize) ⇒ [<code>LinkedList</code>](#LinkedList)
-        * [.append(node, after)](#LinkedList+append) ⇒ [<code>Linker</code>](#Linker)
-        * [.prepend(node, before)](#LinkedList+prepend) ⇒ [<code>Linker</code>](#Linker)
+        * [.insertAfter(node, newNode)](#LinkedTreeList+insertAfter) ⇒ [<code>LinkedTreeList</code>](#LinkedTreeList)
+        * [.insertBefore(node, newNode)](#LinkedTreeList+insertBefore) ⇒ [<code>LinkedTreeList</code>](#LinkedTreeList)
+        * [.append(node, after)](#LinkedTreeList+append) ⇒ [<code>TreeLinker</code>](#TreeLinker)
+        * [.prepend(node, before)](#LinkedTreeList+prepend) ⇒ [<code>TreeLinker</code>](#TreeLinker)
+        * [.remove(node)](#LinkedTreeList+remove) ⇒ [<code>TreeLinker</code>](#TreeLinker)
+        * [.reset()](#LinkedTreeList+reset) ⇒ [<code>TreeLinker</code>](#TreeLinker)
+        * [.item(index)](#LinkedTreeList+item) ⇒ [<code>TreeLinker</code>](#TreeLinker) \| <code>null</code>
+        * [.forEach(callback, thisArg)](#LinkedTreeList+forEach)
     * _static_
-        * [.fromArray([values], [linkerClass], [listClass])](#LinkedTreeList.fromArray) ⇒ [<code>DoublyLinkedList</code>](#DoublyLinkedList)
+        * [.fromArray([values], [linkerClass])](#LinkedTreeList.fromArray) ⇒ [<code>LinkedTreeList</code>](#LinkedTreeList)
 
 <a name="new_LinkedTreeList_new"></a>
 
-### new LinkedTreeList([listClass])
+### new LinkedTreeList()
 Create the new LinkedTreeList instance, configure the list class.
 
+<a name="LinkedTreeList+list"></a>
 
-| Param | Type | Default |
-| --- | --- | --- |
-| [listClass] | [<code>LinkedTreeList</code>](#LinkedTreeList) \| <code>Iterable</code> | <code>LinkedTreeList</code> | 
+### linkedTreeList.list ⇒ [<code>TreeLinker</code>](#TreeLinker)
+Retrieve a copy of the innerList used.
+
+**Kind**: instance property of [<code>LinkedTreeList</code>](#LinkedTreeList)  
+<a name="LinkedTreeList+first"></a>
+
+### linkedTreeList.first ⇒ [<code>TreeLinker</code>](#TreeLinker)
+Retrieve the first TreeLinker in the list.
+
+**Kind**: instance property of [<code>LinkedTreeList</code>](#LinkedTreeList)  
+<a name="LinkedTreeList+last"></a>
+
+### linkedTreeList.last ⇒ [<code>TreeLinker</code>](#TreeLinker)
+Retrieve the last TreeLinker in the list.
+
+**Kind**: instance property of [<code>LinkedTreeList</code>](#LinkedTreeList)  
+<a name="LinkedTreeList+length"></a>
+
+### linkedTreeList.length ⇒ <code>number</code>
+Return the length of the list.
+
+**Kind**: instance property of [<code>LinkedTreeList</code>](#LinkedTreeList)  
+<a name="LinkedTreeList+children"></a>
+
+### linkedTreeList.children
+Alias for getting the inner list
+
+**Kind**: instance property of [<code>LinkedTreeList</code>](#LinkedTreeList)  
+<a name="LinkedTreeList+children"></a>
+
+### linkedTreeList.children
+Set the inner list to new children
+
+**Kind**: instance property of [<code>LinkedTreeList</code>](#LinkedTreeList)  
+
+| Param | Type |
+| --- | --- |
+| children | [<code>TreeLinker</code>](#TreeLinker) | 
 
 <a name="LinkedTreeList+parent"></a>
 
@@ -705,48 +675,17 @@ Set the parent of this tree list
 Return the root parent of the entire tree.
 
 **Kind**: instance property of [<code>LinkedTreeList</code>](#LinkedTreeList)  
-<a name="DoublyLinkedList+first"></a>
+<a name="LinkedTreeList+initialize"></a>
 
-### linkedTreeList.first ⇒ [<code>DoubleLinker</code>](#DoubleLinker)
-Retrieve the first DoubleLinker in the list.
+### linkedTreeList.initialize(initialList) ⇒ [<code>LinkedTreeList</code>](#LinkedTreeList)
+Initialize the inner list, should only run once.
 
-**Kind**: instance property of [<code>LinkedTreeList</code>](#LinkedTreeList)  
-**Overrides**: [<code>first</code>](#DoublyLinkedList+first)  
-<a name="DoublyLinkedList+last"></a>
+**Kind**: instance method of [<code>LinkedTreeList</code>](#LinkedTreeList)  
 
-### linkedTreeList.last ⇒ [<code>DoubleLinker</code>](#DoubleLinker)
-Retrieve the last DoubleLinker in the list.
+| Param | Type |
+| --- | --- |
+| initialList | [<code>TreeLinker</code>](#TreeLinker) | 
 
-**Kind**: instance property of [<code>LinkedTreeList</code>](#LinkedTreeList)  
-**Overrides**: [<code>last</code>](#DoublyLinkedList+last)  
-<a name="DoublyLinkedList+length"></a>
-
-### linkedTreeList.length ⇒ <code>number</code>
-Return the length of the list.
-
-**Kind**: instance property of [<code>LinkedTreeList</code>](#LinkedTreeList)  
-**Overrides**: [<code>length</code>](#DoublyLinkedList+length)  
-<a name="Arrayable+classType"></a>
-
-### linkedTreeList.classType ⇒ [<code>Arrayable</code>](#Arrayable)
-Return the type of class used for Arrayable.
-
-**Kind**: instance property of [<code>LinkedTreeList</code>](#LinkedTreeList)  
-**Overrides**: [<code>classType</code>](#Arrayable+classType)  
-<a name="Arrayable+initialized"></a>
-
-### linkedTreeList.initialized ⇒ <code>boolean</code>
-Detect if the inner list has been initialized.
-
-**Kind**: instance property of [<code>LinkedTreeList</code>](#LinkedTreeList)  
-**Overrides**: [<code>initialized</code>](#Arrayable+initialized)  
-<a name="Arrayable+innerList"></a>
-
-### linkedTreeList.innerList ⇒ <code>Array</code>
-Retrieve a copy of the innerList used.
-
-**Kind**: instance property of [<code>LinkedTreeList</code>](#LinkedTreeList)  
-**Overrides**: [<code>innerList</code>](#Arrayable+innerList)  
 <a name="LinkedTreeList+setChildren"></a>
 
 ### linkedTreeList.setChildren(item, children)
@@ -754,123 +693,103 @@ Set the children on a parent item.
 
 **Kind**: instance method of [<code>LinkedTreeList</code>](#LinkedTreeList)  
 
-| Param | Type | Default |
-| --- | --- | --- |
-| item | [<code>TreeLinker</code>](#TreeLinker) |  | 
-| children | [<code>LinkedTreeList</code>](#LinkedTreeList) | <code></code> | 
+| Param | Type |
+| --- | --- |
+| item | [<code>TreeLinker</code>](#TreeLinker) | 
+| children | [<code>LinkedTreeList</code>](#LinkedTreeList) | 
 
-<a name="DoublyLinkedList+insertAfter"></a>
+<a name="LinkedTreeList+insertAfter"></a>
 
-### linkedTreeList.insertAfter(node, newNode) ⇒ [<code>DoublyLinkedList</code>](#DoublyLinkedList)
+### linkedTreeList.insertAfter(node, newNode) ⇒ [<code>LinkedTreeList</code>](#LinkedTreeList)
 Insert a new node (or data) after a node.
 
 **Kind**: instance method of [<code>LinkedTreeList</code>](#LinkedTreeList)  
-**Overrides**: [<code>insertAfter</code>](#DoublyLinkedList+insertAfter)  
 
 | Param | Type |
 | --- | --- |
-| node | [<code>DoubleLinker</code>](#DoubleLinker) \| <code>\*</code> | 
-| newNode | [<code>DoubleLinker</code>](#DoubleLinker) \| <code>\*</code> | 
+| node | [<code>TreeLinker</code>](#TreeLinker) \| <code>\*</code> | 
+| newNode | [<code>TreeLinker</code>](#TreeLinker) \| <code>\*</code> | 
 
-<a name="DoublyLinkedList+insertBefore"></a>
+<a name="LinkedTreeList+insertBefore"></a>
 
-### linkedTreeList.insertBefore(node, newNode) ⇒ [<code>DoublyLinkedList</code>](#DoublyLinkedList)
+### linkedTreeList.insertBefore(node, newNode) ⇒ [<code>LinkedTreeList</code>](#LinkedTreeList)
 Insert a new node (or data) before a node.
 
 **Kind**: instance method of [<code>LinkedTreeList</code>](#LinkedTreeList)  
-**Overrides**: [<code>insertBefore</code>](#DoublyLinkedList+insertBefore)  
 
 | Param | Type |
 | --- | --- |
-| node | [<code>DoubleLinker</code>](#DoubleLinker) \| <code>\*</code> | 
-| newNode | [<code>DoubleLinker</code>](#DoubleLinker) \| <code>\*</code> | 
+| node | [<code>TreeLinker</code>](#TreeLinker) \| <code>\*</code> | 
+| newNode | [<code>TreeLinker</code>](#TreeLinker) \| <code>\*</code> | 
 
-<a name="DoublyLinkedList+remove"></a>
+<a name="LinkedTreeList+append"></a>
 
-### linkedTreeList.remove(node) ⇒ [<code>DoubleLinker</code>](#DoubleLinker)
+### linkedTreeList.append(node, after) ⇒ [<code>TreeLinker</code>](#TreeLinker)
+Add a node (or data) after the given (or last) node in the list.
+
+**Kind**: instance method of [<code>LinkedTreeList</code>](#LinkedTreeList)  
+
+| Param | Type |
+| --- | --- |
+| node | [<code>TreeLinker</code>](#TreeLinker) \| <code>\*</code> | 
+| after | [<code>TreeLinker</code>](#TreeLinker) | 
+
+<a name="LinkedTreeList+prepend"></a>
+
+### linkedTreeList.prepend(node, before) ⇒ [<code>TreeLinker</code>](#TreeLinker)
+Add a node (or data) before the given (or first) node in the list.
+
+**Kind**: instance method of [<code>LinkedTreeList</code>](#LinkedTreeList)  
+
+| Param | Type |
+| --- | --- |
+| node | [<code>TreeLinker</code>](#TreeLinker) \| <code>\*</code> | 
+| before | [<code>TreeLinker</code>](#TreeLinker) | 
+
+<a name="LinkedTreeList+remove"></a>
+
+### linkedTreeList.remove(node) ⇒ [<code>TreeLinker</code>](#TreeLinker)
 Remove a linker from this linked list.
 
 **Kind**: instance method of [<code>LinkedTreeList</code>](#LinkedTreeList)  
-**Overrides**: [<code>remove</code>](#DoublyLinkedList+remove)  
 
 | Param | Type |
 | --- | --- |
-| node | [<code>DoubleLinker</code>](#DoubleLinker) | 
+| node | [<code>TreeLinker</code>](#TreeLinker) | 
 
-<a name="DoublyLinkedList+reset"></a>
+<a name="LinkedTreeList+reset"></a>
 
-### linkedTreeList.reset() ⇒ [<code>DoubleLinker</code>](#DoubleLinker)
+### linkedTreeList.reset() ⇒ [<code>TreeLinker</code>](#TreeLinker)
 Refresh all references and return head reference.
 
 **Kind**: instance method of [<code>LinkedTreeList</code>](#LinkedTreeList)  
-**Overrides**: [<code>reset</code>](#DoublyLinkedList+reset)  
-<a name="DoublyLinkedList+item"></a>
+<a name="LinkedTreeList+item"></a>
 
-### linkedTreeList.item(index) ⇒ [<code>DoubleLinker</code>](#DoubleLinker) \| <code>null</code>
-Retrieve a DoubleLinker item from this list by numeric index, otherwise return null.
+### linkedTreeList.item(index) ⇒ [<code>TreeLinker</code>](#TreeLinker) \| <code>null</code>
+Retrieve a TreeLinker item from this list by numeric index, otherwise return null.
 
 **Kind**: instance method of [<code>LinkedTreeList</code>](#LinkedTreeList)  
-**Overrides**: [<code>item</code>](#DoublyLinkedList+item)  
 
 | Param | Type |
 | --- | --- |
 | index | <code>number</code> | 
 
-<a name="DoublyLinkedList+forEach"></a>
+<a name="LinkedTreeList+forEach"></a>
 
 ### linkedTreeList.forEach(callback, thisArg)
-Be able to run forEach on this DoublyLinkedList ot iterate over the DoubleLinker Items.
+Be able to run forEach on this LinkedTreeList ot iterate over the TreeLinker Items.
 
 **Kind**: instance method of [<code>LinkedTreeList</code>](#LinkedTreeList)  
-**Overrides**: [<code>forEach</code>](#DoublyLinkedList+forEach)  
 
 | Param | Type |
 | --- | --- |
-| callback | [<code>forEachCallback</code>](#forEachCallback) | 
-| thisArg | [<code>DoublyLinkedList</code>](#DoublyLinkedList) | 
-
-<a name="LinkedList+initialize"></a>
-
-### linkedTreeList.initialize(initialList) ⇒ [<code>LinkedList</code>](#LinkedList)
-Initialize the inner list, should only run once.
-
-**Kind**: instance method of [<code>LinkedTreeList</code>](#LinkedTreeList)  
-**Overrides**: [<code>initialize</code>](#LinkedList+initialize)  
-
-| Param | Type |
-| --- | --- |
-| initialList | [<code>Linker</code>](#Linker) \| <code>Array</code> | 
-
-<a name="LinkedList+append"></a>
-
-### linkedTreeList.append(node, after) ⇒ [<code>Linker</code>](#Linker)
-Add a node (or data) after the given (or last) node in the list.
-
-**Kind**: instance method of [<code>LinkedTreeList</code>](#LinkedTreeList)  
-**Overrides**: [<code>append</code>](#LinkedList+append)  
-
-| Param | Type |
-| --- | --- |
-| node | [<code>Linker</code>](#Linker) \| <code>\*</code> | 
-| after | [<code>Linker</code>](#Linker) | 
-
-<a name="LinkedList+prepend"></a>
-
-### linkedTreeList.prepend(node, before) ⇒ [<code>Linker</code>](#Linker)
-Add a node (or data) before the given (or first) node in the list.
-
-**Kind**: instance method of [<code>LinkedTreeList</code>](#LinkedTreeList)  
-**Overrides**: [<code>prepend</code>](#LinkedList+prepend)  
-
-| Param | Type |
-| --- | --- |
-| node | [<code>Linker</code>](#Linker) \| <code>\*</code> | 
-| before | [<code>Linker</code>](#Linker) | 
+| callback | <code>forEachCallback</code> | 
+| thisArg | [<code>LinkedTreeList</code>](#LinkedTreeList) | 
 
 <a name="LinkedTreeList.fromArray"></a>
 
-### LinkedTreeList.fromArray([values], [linkerClass], [listClass]) ⇒ [<code>DoublyLinkedList</code>](#DoublyLinkedList)
-Create an instance of LinkedTreeList from an array
+### LinkedTreeList.fromArray([values], [linkerClass]) ⇒ [<code>LinkedTreeList</code>](#LinkedTreeList)
+Convert an array into a LinkedTreeList instance, return the new instance.
 
 **Kind**: static method of [<code>LinkedTreeList</code>](#LinkedTreeList)  
 
@@ -878,27 +797,22 @@ Create an instance of LinkedTreeList from an array
 | --- | --- | --- |
 | [values] | <code>Array</code> | <code>[]</code> | 
 | [linkerClass] | [<code>TreeLinker</code>](#TreeLinker) | <code>TreeLinker</code> | 
-| [listClass] | [<code>LinkedTreeList</code>](#LinkedTreeList) | <code>LinkedTreeList</code> | 
 
 <a name="Linker"></a>
 
-## Linker ⇐ [<code>ArrayElement</code>](#ArrayElement)
+## Linker
 Linker represents a node in a LinkedList.
 
 **Kind**: global class  
-**Extends**: [<code>ArrayElement</code>](#ArrayElement)  
 
-* [Linker](#Linker) ⇐ [<code>ArrayElement</code>](#ArrayElement)
-    * [new Linker([nodeData], [linkerClass])](#new_Linker_new)
-    * _instance_
-        * [.classType](#ArrayElement+classType) ⇒ [<code>ArrayElement</code>](#ArrayElement)
-    * _static_
-        * [.make(linker, [linkerClass])](#Linker.make) ⇒ [<code>Linker</code>](#Linker)
-        * [.fromArray([values], [linkerClass])](#Linker.fromArray) ⇒ <code>Object</code>
+* [Linker](#Linker)
+    * [new Linker([nodeData])](#new_Linker_new)
+    * [.make(linker)](#Linker.make) ⇒ [<code>Linker</code>](#Linker)
+    * [.fromArray([values])](#Linker.fromArray) ⇒ <code>Object</code>
 
 <a name="new_Linker_new"></a>
 
-### new Linker([nodeData], [linkerClass])
+### new Linker([nodeData])
 Create the new Linker instance, provide the data and optionally configure the type of Linker.
 
 
@@ -907,58 +821,43 @@ Create the new Linker instance, provide the data and optionally configure the ty
 | [nodeData] | <code>Object</code> | <code>{}</code> | 
 | [nodeData.data] | <code>\*</code> | <code></code> | 
 | [nodeData.next] | [<code>Linker</code>](#Linker) \| <code>null</code> | <code></code> | 
-| [linkerClass] | [<code>Linker</code>](#Linker) | <code>Linker</code> | 
 
-<a name="ArrayElement+classType"></a>
-
-### linker.classType ⇒ [<code>ArrayElement</code>](#ArrayElement)
-Return the type of class used for Element.
-
-**Kind**: instance property of [<code>Linker</code>](#Linker)  
-**Overrides**: [<code>classType</code>](#ArrayElement+classType)  
 <a name="Linker.make"></a>
 
-### Linker.make(linker, [linkerClass]) ⇒ [<code>Linker</code>](#Linker)
+### Linker.make(linker) ⇒ [<code>Linker</code>](#Linker)
 Make a new Linker from the data given if it is not already a valid Linker.
 
 **Kind**: static method of [<code>Linker</code>](#Linker)  
-**Methodof**: Linker  
 
-| Param | Type | Default |
-| --- | --- | --- |
-| linker | [<code>Linker</code>](#Linker) \| <code>\*</code> |  | 
-| [linkerClass] | [<code>Linker</code>](#Linker) | <code>Linker</code> | 
+| Param | Type |
+| --- | --- |
+| linker | [<code>Linker</code>](#Linker) \| <code>\*</code> | 
 
 <a name="Linker.fromArray"></a>
 
-### Linker.fromArray([values], [linkerClass]) ⇒ <code>Object</code>
+### Linker.fromArray([values]) ⇒ <code>Object</code>
 Convert an array into Linker instances, return the head and tail Linkers.
 
 **Kind**: static method of [<code>Linker</code>](#Linker)  
-**Methodof**: Linker  
 
 | Param | Type | Default |
 | --- | --- | --- |
 | [values] | <code>Array</code> | <code>[]</code> | 
-| [linkerClass] | [<code>Linker</code>](#Linker) | <code>Linker</code> | 
 
 <a name="LinkedList"></a>
 
-## LinkedList ⇐ [<code>Arrayable</code>](#Arrayable)
+## LinkedList
 LinkedList represents a collection stored as a LinkedList with next references.
 
 **Kind**: global class  
-**Extends**: [<code>Arrayable</code>](#Arrayable)  
 
-* [LinkedList](#LinkedList) ⇐ [<code>Arrayable</code>](#Arrayable)
-    * [new LinkedList(listClass)](#new_LinkedList_new)
+* [LinkedList](#LinkedList)
+    * [new LinkedList()](#new_LinkedList_new)
     * _instance_
+        * [.list](#LinkedList+list) ⇒ [<code>Linker</code>](#Linker)
         * [.first](#LinkedList+first) ⇒ [<code>Linker</code>](#Linker)
         * [.last](#LinkedList+last) ⇒ [<code>Linker</code>](#Linker)
         * [.length](#LinkedList+length) ⇒ <code>number</code>
-        * [.classType](#Arrayable+classType) ⇒ [<code>Arrayable</code>](#Arrayable)
-        * [.initialized](#Arrayable+initialized) ⇒ <code>boolean</code>
-        * [.innerList](#Arrayable+innerList) ⇒ <code>Array</code>
         * [.initialize(initialList)](#LinkedList+initialize) ⇒ [<code>LinkedList</code>](#LinkedList)
         * [.insertAfter(node, newNode)](#LinkedList+insertAfter) ⇒ [<code>LinkedList</code>](#LinkedList)
         * [.insertBefore(node, newNode)](#LinkedList+insertBefore) ⇒ [<code>LinkedList</code>](#LinkedList)
@@ -968,67 +867,43 @@ LinkedList represents a collection stored as a LinkedList with next references.
         * [.item(index)](#LinkedList+item) ⇒ [<code>Linker</code>](#Linker) \| <code>null</code>
         * [.forEach(callback, thisArg)](#LinkedList+forEach) ⇒ [<code>LinkedList</code>](#LinkedList)
     * _static_
-        * [.fromArray(values, linkerClass, listClass)](#LinkedList.fromArray) ⇒ [<code>LinkedList</code>](#LinkedList)
+        * [.fromArray(values, linkerClass)](#LinkedList.fromArray) ⇒ [<code>LinkedList</code>](#LinkedList)
 
 <a name="new_LinkedList_new"></a>
 
-### new LinkedList(listClass)
+### new LinkedList()
 Create the new LinkedList instance, configure the Linker and List classes.
 
+<a name="LinkedList+list"></a>
 
-| Param | Type |
-| --- | --- |
-| listClass | [<code>LinkedList</code>](#LinkedList) \| <code>Iterable</code> | 
+### linkedList.list ⇒ [<code>Linker</code>](#Linker)
+Retrieve a copy of the innerList used.
 
+**Kind**: instance property of [<code>LinkedList</code>](#LinkedList)  
 <a name="LinkedList+first"></a>
 
 ### linkedList.first ⇒ [<code>Linker</code>](#Linker)
 Retrieve the first Linker in the list.
 
 **Kind**: instance property of [<code>LinkedList</code>](#LinkedList)  
-**Overrides**: [<code>first</code>](#Arrayable+first)  
 <a name="LinkedList+last"></a>
 
 ### linkedList.last ⇒ [<code>Linker</code>](#Linker)
 Retrieve the last Linker in the list.
 
 **Kind**: instance property of [<code>LinkedList</code>](#LinkedList)  
-**Overrides**: [<code>last</code>](#Arrayable+last)  
 <a name="LinkedList+length"></a>
 
 ### linkedList.length ⇒ <code>number</code>
 Return the length of the list.
 
 **Kind**: instance property of [<code>LinkedList</code>](#LinkedList)  
-**Overrides**: [<code>length</code>](#Arrayable+length)  
-<a name="Arrayable+classType"></a>
-
-### linkedList.classType ⇒ [<code>Arrayable</code>](#Arrayable)
-Return the type of class used for Arrayable.
-
-**Kind**: instance property of [<code>LinkedList</code>](#LinkedList)  
-**Overrides**: [<code>classType</code>](#Arrayable+classType)  
-<a name="Arrayable+initialized"></a>
-
-### linkedList.initialized ⇒ <code>boolean</code>
-Detect if the inner list has been initialized.
-
-**Kind**: instance property of [<code>LinkedList</code>](#LinkedList)  
-**Overrides**: [<code>initialized</code>](#Arrayable+initialized)  
-<a name="Arrayable+innerList"></a>
-
-### linkedList.innerList ⇒ <code>Array</code>
-Retrieve a copy of the innerList used.
-
-**Kind**: instance property of [<code>LinkedList</code>](#LinkedList)  
-**Overrides**: [<code>innerList</code>](#Arrayable+innerList)  
 <a name="LinkedList+initialize"></a>
 
 ### linkedList.initialize(initialList) ⇒ [<code>LinkedList</code>](#LinkedList)
 Initialize the inner list, should only run once.
 
 **Kind**: instance method of [<code>LinkedList</code>](#LinkedList)  
-**Overrides**: [<code>initialize</code>](#Arrayable+initialize)  
 
 | Param | Type |
 | --- | --- |
@@ -1040,7 +915,6 @@ Initialize the inner list, should only run once.
 Insert a new node (or data) after a node.
 
 **Kind**: instance method of [<code>LinkedList</code>](#LinkedList)  
-**Overrides**: [<code>insertAfter</code>](#Arrayable+insertAfter)  
 
 | Param | Type |
 | --- | --- |
@@ -1053,7 +927,6 @@ Insert a new node (or data) after a node.
 Insert a new node (or data) before a node.
 
 **Kind**: instance method of [<code>LinkedList</code>](#LinkedList)  
-**Overrides**: [<code>insertBefore</code>](#Arrayable+insertBefore)  
 
 | Param | Type |
 | --- | --- |
@@ -1066,7 +939,6 @@ Insert a new node (or data) before a node.
 Add a node (or data) after the given (or last) node in the list.
 
 **Kind**: instance method of [<code>LinkedList</code>](#LinkedList)  
-**Overrides**: [<code>append</code>](#Arrayable+append)  
 
 | Param | Type |
 | --- | --- |
@@ -1079,7 +951,6 @@ Add a node (or data) after the given (or last) node in the list.
 Add a node (or data) before the given (or first) node in the list.
 
 **Kind**: instance method of [<code>LinkedList</code>](#LinkedList)  
-**Overrides**: [<code>prepend</code>](#Arrayable+prepend)  
 
 | Param | Type |
 | --- | --- |
@@ -1092,7 +963,6 @@ Add a node (or data) before the given (or first) node in the list.
 Remove a linker from this linked list.
 
 **Kind**: instance method of [<code>LinkedList</code>](#LinkedList)  
-**Overrides**: [<code>remove</code>](#Arrayable+remove)  
 
 | Param | Type |
 | --- | --- |
@@ -1104,7 +974,6 @@ Remove a linker from this linked list.
 Retrieve a Linker item from this list by numeric index, otherwise return null.
 
 **Kind**: instance method of [<code>LinkedList</code>](#LinkedList)  
-**Overrides**: [<code>item</code>](#Arrayable+item)  
 
 | Param | Type |
 | --- | --- |
@@ -1116,115 +985,96 @@ Retrieve a Linker item from this list by numeric index, otherwise return null.
 Be able to run forEach on this LinkedList to iterate over the linkers.
 
 **Kind**: instance method of [<code>LinkedList</code>](#LinkedList)  
-**Overrides**: [<code>forEach</code>](#Arrayable+forEach)  
 
 | Param | Type |
 | --- | --- |
-| callback | [<code>forEachCallback</code>](#forEachCallback) | 
-| thisArg | [<code>LinkedList</code>](#LinkedList) \| [<code>Arrayable</code>](#Arrayable) | 
+| callback | <code>forEachCallback</code> | 
+| thisArg | [<code>LinkedList</code>](#LinkedList) | 
 
 <a name="LinkedList.fromArray"></a>
 
-### LinkedList.fromArray(values, linkerClass, listClass) ⇒ [<code>LinkedList</code>](#LinkedList)
+### LinkedList.fromArray(values, linkerClass) ⇒ [<code>LinkedList</code>](#LinkedList)
 Convert an array to a LinkedList.
 
 **Kind**: static method of [<code>LinkedList</code>](#LinkedList)  
-**Methodof**: LinkedList  
 
 | Param | Type |
 | --- | --- |
 | values | <code>Array</code> | 
 | linkerClass | [<code>Linker</code>](#Linker) | 
-| listClass | [<code>LinkedList</code>](#LinkedList) \| <code>Iterable</code> | 
 
 <a name="DoublyLinkedList"></a>
 
-## DoublyLinkedList ⇐ [<code>LinkedList</code>](#LinkedList)
+## DoublyLinkedList
 DoublyLinkedList represents a collection stored as a LinkedList with prev and next references.
 
 **Kind**: global class  
-**Extends**: [<code>LinkedList</code>](#LinkedList)  
 
-* [DoublyLinkedList](#DoublyLinkedList) ⇐ [<code>LinkedList</code>](#LinkedList)
-    * [new DoublyLinkedList([listClass])](#new_DoublyLinkedList_new)
+* [DoublyLinkedList](#DoublyLinkedList)
+    * [new DoublyLinkedList()](#new_DoublyLinkedList_new)
     * _instance_
+        * [.list](#DoublyLinkedList+list) ⇒ [<code>DoubleLinker</code>](#DoubleLinker)
         * [.first](#DoublyLinkedList+first) ⇒ [<code>DoubleLinker</code>](#DoubleLinker)
         * [.last](#DoublyLinkedList+last) ⇒ [<code>DoubleLinker</code>](#DoubleLinker)
         * [.length](#DoublyLinkedList+length) ⇒ <code>number</code>
-        * [.classType](#Arrayable+classType) ⇒ [<code>Arrayable</code>](#Arrayable)
-        * [.initialized](#Arrayable+initialized) ⇒ <code>boolean</code>
-        * [.innerList](#Arrayable+innerList) ⇒ <code>Array</code>
+        * [.initialize(initialList)](#DoublyLinkedList+initialize) ⇒ [<code>DoublyLinkedList</code>](#DoublyLinkedList)
         * [.insertAfter(node, newNode)](#DoublyLinkedList+insertAfter) ⇒ [<code>DoublyLinkedList</code>](#DoublyLinkedList)
         * [.insertBefore(node, newNode)](#DoublyLinkedList+insertBefore) ⇒ [<code>DoublyLinkedList</code>](#DoublyLinkedList)
+        * [.append(node, after)](#DoublyLinkedList+append) ⇒ [<code>DoubleLinker</code>](#DoubleLinker)
+        * [.prepend(node, before)](#DoublyLinkedList+prepend) ⇒ [<code>DoubleLinker</code>](#DoubleLinker)
         * [.remove(node)](#DoublyLinkedList+remove) ⇒ [<code>DoubleLinker</code>](#DoubleLinker)
         * [.reset()](#DoublyLinkedList+reset) ⇒ [<code>DoubleLinker</code>](#DoubleLinker)
         * [.item(index)](#DoublyLinkedList+item) ⇒ [<code>DoubleLinker</code>](#DoubleLinker) \| <code>null</code>
         * [.forEach(callback, thisArg)](#DoublyLinkedList+forEach)
-        * [.initialize(initialList)](#LinkedList+initialize) ⇒ [<code>LinkedList</code>](#LinkedList)
-        * [.append(node, after)](#LinkedList+append) ⇒ [<code>Linker</code>](#Linker)
-        * [.prepend(node, before)](#LinkedList+prepend) ⇒ [<code>Linker</code>](#Linker)
     * _static_
-        * [.fromArray([values], [linkerClass], [listClass])](#DoublyLinkedList.fromArray) ⇒ [<code>DoublyLinkedList</code>](#DoublyLinkedList)
+        * [.fromArray([values], [linkerClass])](#DoublyLinkedList.fromArray) ⇒ [<code>DoublyLinkedList</code>](#DoublyLinkedList)
 
 <a name="new_DoublyLinkedList_new"></a>
 
-### new DoublyLinkedList([listClass])
+### new DoublyLinkedList()
 Create the new DoublyLinkedList instance, configure the Linker and List classes.
 
+<a name="DoublyLinkedList+list"></a>
 
-| Param | Type | Default |
-| --- | --- | --- |
-| [listClass] | [<code>DoublyLinkedList</code>](#DoublyLinkedList) \| <code>Iterable</code> | <code>DoublyLinkedList</code> | 
+### doublyLinkedList.list ⇒ [<code>DoubleLinker</code>](#DoubleLinker)
+Retrieve a copy of the innerList used.
 
+**Kind**: instance property of [<code>DoublyLinkedList</code>](#DoublyLinkedList)  
 <a name="DoublyLinkedList+first"></a>
 
 ### doublyLinkedList.first ⇒ [<code>DoubleLinker</code>](#DoubleLinker)
 Retrieve the first DoubleLinker in the list.
 
 **Kind**: instance property of [<code>DoublyLinkedList</code>](#DoublyLinkedList)  
-**Overrides**: [<code>first</code>](#LinkedList+first)  
 <a name="DoublyLinkedList+last"></a>
 
 ### doublyLinkedList.last ⇒ [<code>DoubleLinker</code>](#DoubleLinker)
 Retrieve the last DoubleLinker in the list.
 
 **Kind**: instance property of [<code>DoublyLinkedList</code>](#DoublyLinkedList)  
-**Overrides**: [<code>last</code>](#LinkedList+last)  
 <a name="DoublyLinkedList+length"></a>
 
 ### doublyLinkedList.length ⇒ <code>number</code>
 Return the length of the list.
 
 **Kind**: instance property of [<code>DoublyLinkedList</code>](#DoublyLinkedList)  
-**Overrides**: [<code>length</code>](#LinkedList+length)  
-<a name="Arrayable+classType"></a>
+<a name="DoublyLinkedList+initialize"></a>
 
-### doublyLinkedList.classType ⇒ [<code>Arrayable</code>](#Arrayable)
-Return the type of class used for Arrayable.
+### doublyLinkedList.initialize(initialList) ⇒ [<code>DoublyLinkedList</code>](#DoublyLinkedList)
+Initialize the inner list, should only run once.
 
-**Kind**: instance property of [<code>DoublyLinkedList</code>](#DoublyLinkedList)  
-**Overrides**: [<code>classType</code>](#Arrayable+classType)  
-<a name="Arrayable+initialized"></a>
+**Kind**: instance method of [<code>DoublyLinkedList</code>](#DoublyLinkedList)  
 
-### doublyLinkedList.initialized ⇒ <code>boolean</code>
-Detect if the inner list has been initialized.
+| Param | Type |
+| --- | --- |
+| initialList | [<code>DoubleLinker</code>](#DoubleLinker) | 
 
-**Kind**: instance property of [<code>DoublyLinkedList</code>](#DoublyLinkedList)  
-**Overrides**: [<code>initialized</code>](#Arrayable+initialized)  
-<a name="Arrayable+innerList"></a>
-
-### doublyLinkedList.innerList ⇒ <code>Array</code>
-Retrieve a copy of the innerList used.
-
-**Kind**: instance property of [<code>DoublyLinkedList</code>](#DoublyLinkedList)  
-**Overrides**: [<code>innerList</code>](#Arrayable+innerList)  
 <a name="DoublyLinkedList+insertAfter"></a>
 
 ### doublyLinkedList.insertAfter(node, newNode) ⇒ [<code>DoublyLinkedList</code>](#DoublyLinkedList)
 Insert a new node (or data) after a node.
 
 **Kind**: instance method of [<code>DoublyLinkedList</code>](#DoublyLinkedList)  
-**Overrides**: [<code>insertAfter</code>](#LinkedList+insertAfter)  
 
 | Param | Type |
 | --- | --- |
@@ -1237,12 +1087,35 @@ Insert a new node (or data) after a node.
 Insert a new node (or data) before a node.
 
 **Kind**: instance method of [<code>DoublyLinkedList</code>](#DoublyLinkedList)  
-**Overrides**: [<code>insertBefore</code>](#LinkedList+insertBefore)  
 
 | Param | Type |
 | --- | --- |
 | node | [<code>DoubleLinker</code>](#DoubleLinker) \| <code>\*</code> | 
 | newNode | [<code>DoubleLinker</code>](#DoubleLinker) \| <code>\*</code> | 
+
+<a name="DoublyLinkedList+append"></a>
+
+### doublyLinkedList.append(node, after) ⇒ [<code>DoubleLinker</code>](#DoubleLinker)
+Add a node (or data) after the given (or last) node in the list.
+
+**Kind**: instance method of [<code>DoublyLinkedList</code>](#DoublyLinkedList)  
+
+| Param | Type |
+| --- | --- |
+| node | [<code>DoubleLinker</code>](#DoubleLinker) \| <code>\*</code> | 
+| after | [<code>DoubleLinker</code>](#DoubleLinker) | 
+
+<a name="DoublyLinkedList+prepend"></a>
+
+### doublyLinkedList.prepend(node, before) ⇒ [<code>DoubleLinker</code>](#DoubleLinker)
+Add a node (or data) before the given (or first) node in the list.
+
+**Kind**: instance method of [<code>DoublyLinkedList</code>](#DoublyLinkedList)  
+
+| Param | Type |
+| --- | --- |
+| node | [<code>DoubleLinker</code>](#DoubleLinker) \| <code>\*</code> | 
+| before | [<code>DoubleLinker</code>](#DoubleLinker) | 
 
 <a name="DoublyLinkedList+remove"></a>
 
@@ -1250,7 +1123,6 @@ Insert a new node (or data) before a node.
 Remove a linker from this linked list.
 
 **Kind**: instance method of [<code>DoublyLinkedList</code>](#DoublyLinkedList)  
-**Overrides**: [<code>remove</code>](#LinkedList+remove)  
 
 | Param | Type |
 | --- | --- |
@@ -1268,7 +1140,6 @@ Refresh all references and return head reference.
 Retrieve a DoubleLinker item from this list by numeric index, otherwise return null.
 
 **Kind**: instance method of [<code>DoublyLinkedList</code>](#DoublyLinkedList)  
-**Overrides**: [<code>item</code>](#LinkedList+item)  
 
 | Param | Type |
 | --- | --- |
@@ -1280,84 +1151,39 @@ Retrieve a DoubleLinker item from this list by numeric index, otherwise return n
 Be able to run forEach on this DoublyLinkedList ot iterate over the DoubleLinker Items.
 
 **Kind**: instance method of [<code>DoublyLinkedList</code>](#DoublyLinkedList)  
-**Overrides**: [<code>forEach</code>](#LinkedList+forEach)  
 
 | Param | Type |
 | --- | --- |
-| callback | [<code>forEachCallback</code>](#forEachCallback) | 
+| callback | <code>forEachCallback</code> | 
 | thisArg | [<code>DoublyLinkedList</code>](#DoublyLinkedList) | 
-
-<a name="LinkedList+initialize"></a>
-
-### doublyLinkedList.initialize(initialList) ⇒ [<code>LinkedList</code>](#LinkedList)
-Initialize the inner list, should only run once.
-
-**Kind**: instance method of [<code>DoublyLinkedList</code>](#DoublyLinkedList)  
-**Overrides**: [<code>initialize</code>](#LinkedList+initialize)  
-
-| Param | Type |
-| --- | --- |
-| initialList | [<code>Linker</code>](#Linker) \| <code>Array</code> | 
-
-<a name="LinkedList+append"></a>
-
-### doublyLinkedList.append(node, after) ⇒ [<code>Linker</code>](#Linker)
-Add a node (or data) after the given (or last) node in the list.
-
-**Kind**: instance method of [<code>DoublyLinkedList</code>](#DoublyLinkedList)  
-**Overrides**: [<code>append</code>](#LinkedList+append)  
-
-| Param | Type |
-| --- | --- |
-| node | [<code>Linker</code>](#Linker) \| <code>\*</code> | 
-| after | [<code>Linker</code>](#Linker) | 
-
-<a name="LinkedList+prepend"></a>
-
-### doublyLinkedList.prepend(node, before) ⇒ [<code>Linker</code>](#Linker)
-Add a node (or data) before the given (or first) node in the list.
-
-**Kind**: instance method of [<code>DoublyLinkedList</code>](#DoublyLinkedList)  
-**Overrides**: [<code>prepend</code>](#LinkedList+prepend)  
-
-| Param | Type |
-| --- | --- |
-| node | [<code>Linker</code>](#Linker) \| <code>\*</code> | 
-| before | [<code>Linker</code>](#Linker) | 
 
 <a name="DoublyLinkedList.fromArray"></a>
 
-### DoublyLinkedList.fromArray([values], [linkerClass], [listClass]) ⇒ [<code>DoublyLinkedList</code>](#DoublyLinkedList)
+### DoublyLinkedList.fromArray([values], [linkerClass]) ⇒ [<code>DoublyLinkedList</code>](#DoublyLinkedList)
 Convert an array into a DoublyLinkedList instance, return the new instance.
 
 **Kind**: static method of [<code>DoublyLinkedList</code>](#DoublyLinkedList)  
-**Methodof**: DoublyLinkedList  
 
 | Param | Type | Default |
 | --- | --- | --- |
 | [values] | <code>Array</code> | <code>[]</code> | 
 | [linkerClass] | [<code>DoubleLinker</code>](#DoubleLinker) | <code>DoubleLinker</code> | 
-| [listClass] | [<code>DoublyLinkedList</code>](#DoublyLinkedList) | <code>DoublyLinkedList</code> | 
 
 <a name="DoubleLinker"></a>
 
-## DoubleLinker ⇐ [<code>Linker</code>](#Linker)
+## DoubleLinker
 DoubleLinker represents a node in a DoublyLinkedList.
 
 **Kind**: global class  
-**Extends**: [<code>Linker</code>](#Linker)  
 
-* [DoubleLinker](#DoubleLinker) ⇐ [<code>Linker</code>](#Linker)
-    * [new DoubleLinker([nodeData], [linkerClass])](#new_DoubleLinker_new)
-    * _instance_
-        * [.classType](#ArrayElement+classType) ⇒ [<code>ArrayElement</code>](#ArrayElement)
-    * _static_
-        * [.make(linker, [linkerClass])](#DoubleLinker.make) ⇒ [<code>Linker</code>](#Linker)
-        * [.fromArray([values], [linkerClass])](#DoubleLinker.fromArray) ⇒ <code>Object</code>
+* [DoubleLinker](#DoubleLinker)
+    * [new DoubleLinker([nodeData])](#new_DoubleLinker_new)
+    * [.make(linker)](#DoubleLinker.make) ⇒ [<code>DoubleLinker</code>](#DoubleLinker)
+    * [.fromArray([values], [linkerClass])](#DoubleLinker.fromArray) ⇒ <code>Object</code>
 
 <a name="new_DoubleLinker_new"></a>
 
-### new DoubleLinker([nodeData], [linkerClass])
+### new DoubleLinker([nodeData])
 Create the new DoubleLinker instance, provide the data and optionally configure the type of Linker.
 
 
@@ -1367,27 +1193,17 @@ Create the new DoubleLinker instance, provide the data and optionally configure 
 | [nodeData.data] | <code>\*</code> | <code></code> | 
 | [nodeData.prev] | [<code>DoubleLinker</code>](#DoubleLinker) \| <code>null</code> | <code></code> | 
 | [nodeData.next] | [<code>DoubleLinker</code>](#DoubleLinker) \| <code>null</code> | <code></code> | 
-| [linkerClass] | [<code>DoubleLinker</code>](#DoubleLinker) | <code>DoubleLinker</code> | 
 
-<a name="ArrayElement+classType"></a>
-
-### doubleLinker.classType ⇒ [<code>ArrayElement</code>](#ArrayElement)
-Return the type of class used for Element.
-
-**Kind**: instance property of [<code>DoubleLinker</code>](#DoubleLinker)  
-**Overrides**: [<code>classType</code>](#ArrayElement+classType)  
 <a name="DoubleLinker.make"></a>
 
-### DoubleLinker.make(linker, [linkerClass]) ⇒ [<code>Linker</code>](#Linker)
+### DoubleLinker.make(linker) ⇒ [<code>DoubleLinker</code>](#DoubleLinker)
 Make a new DoubleLinker from the data given if it is not already a valid Linker.
 
 **Kind**: static method of [<code>DoubleLinker</code>](#DoubleLinker)  
-**Methodof**: DoubleLinker  
 
-| Param | Type | Default |
-| --- | --- | --- |
-| linker | [<code>DoubleLinker</code>](#DoubleLinker) \| <code>\*</code> |  | 
-| [linkerClass] | [<code>DoubleLinker</code>](#DoubleLinker) | <code>DoubleLinker</code> | 
+| Param | Type |
+| --- | --- |
+| linker | [<code>DoubleLinker</code>](#DoubleLinker) \| <code>\*</code> | 
 
 <a name="DoubleLinker.fromArray"></a>
 
@@ -1395,7 +1211,6 @@ Make a new DoubleLinker from the data given if it is not already a valid Linker.
 Convert an array into DoubleLinker instances, return the head and tail DoubleLinkers.
 
 **Kind**: static method of [<code>DoubleLinker</code>](#DoubleLinker)  
-**Methodof**: DoubleLinker  
 
 | Param | Type | Default |
 | --- | --- | --- |
@@ -1405,16 +1220,14 @@ Convert an array into DoubleLinker instances, return the head and tail DoubleLin
 <a name="Arrayable"></a>
 
 ## Arrayable
-DoublyLinkedList represents a collection stored as a LinkedList with prev and next references.
+Arrayable represents a collection stored as an array.
 
 **Kind**: global class  
 
 * [Arrayable](#Arrayable)
-    * [new Arrayable(classType)](#new_Arrayable_new)
+    * [new Arrayable()](#new_Arrayable_new)
     * _instance_
-        * [.classType](#Arrayable+classType) ⇒ [<code>Arrayable</code>](#Arrayable)
-        * [.initialized](#Arrayable+initialized) ⇒ <code>boolean</code>
-        * [.innerList](#Arrayable+innerList) ⇒ <code>Array</code>
+        * [.list](#Arrayable+list) ⇒ <code>Array</code>
         * [.first](#Arrayable+first) ⇒ [<code>ArrayElement</code>](#ArrayElement)
         * [.last](#Arrayable+last) ⇒ [<code>ArrayElement</code>](#ArrayElement)
         * [.length](#Arrayable+length) ⇒ <code>number</code>
@@ -1427,33 +1240,16 @@ DoublyLinkedList represents a collection stored as a LinkedList with prev and ne
         * [.item(index)](#Arrayable+item) ⇒ [<code>ArrayElement</code>](#ArrayElement) \| <code>null</code>
         * [.forEach(callback, thisArg)](#Arrayable+forEach) ⇒ [<code>Arrayable</code>](#Arrayable)
     * _static_
-        * [.fromArray(values, elementClass, classType)](#Arrayable.fromArray) ⇒ [<code>Arrayable</code>](#Arrayable)
+        * [.fromArray(values, elementClass)](#Arrayable.fromArray) ⇒ [<code>Arrayable</code>](#Arrayable)
 
 <a name="new_Arrayable_new"></a>
 
-### new Arrayable(classType)
+### new Arrayable()
 Create the new Arrayable instance, configure the Arrayable class.
 
+<a name="Arrayable+list"></a>
 
-| Param | Type |
-| --- | --- |
-| classType | [<code>Arrayable</code>](#Arrayable) \| <code>Iterable</code> | 
-
-<a name="Arrayable+classType"></a>
-
-### arrayable.classType ⇒ [<code>Arrayable</code>](#Arrayable)
-Return the type of class used for Arrayable.
-
-**Kind**: instance property of [<code>Arrayable</code>](#Arrayable)  
-<a name="Arrayable+initialized"></a>
-
-### arrayable.initialized ⇒ <code>boolean</code>
-Detect if the inner list has been initialized.
-
-**Kind**: instance property of [<code>Arrayable</code>](#Arrayable)  
-<a name="Arrayable+innerList"></a>
-
-### arrayable.innerList ⇒ <code>Array</code>
+### arrayable.list ⇒ <code>Array</code>
 Retrieve a copy of the innerList used.
 
 **Kind**: instance property of [<code>Arrayable</code>](#Arrayable)  
@@ -1548,7 +1344,7 @@ Remove an element from this arrayable.
 <a name="Arrayable+item"></a>
 
 ### arrayable.item(index) ⇒ [<code>ArrayElement</code>](#ArrayElement) \| <code>null</code>
-Retrieve a DoubleLinker item from this list by numeric index, otherwise return null.
+Retrieve an ArrayElement item from this list by numeric index, otherwise return null.
 
 **Kind**: instance method of [<code>Arrayable</code>](#Arrayable)  
 
@@ -1565,22 +1361,20 @@ Be able to run forEach on this Arrayable to iterate over the elements.
 
 | Param | Type |
 | --- | --- |
-| callback | [<code>forEachCallback</code>](#forEachCallback) | 
+| callback | <code>forEachCallback</code> | 
 | thisArg | [<code>Arrayable</code>](#Arrayable) | 
 
 <a name="Arrayable.fromArray"></a>
 
-### Arrayable.fromArray(values, elementClass, classType) ⇒ [<code>Arrayable</code>](#Arrayable)
+### Arrayable.fromArray(values, elementClass) ⇒ [<code>Arrayable</code>](#Arrayable)
 Convert an array to an Arrayable.
 
 **Kind**: static method of [<code>Arrayable</code>](#Arrayable)  
-**Methodof**: Arrayable  
 
 | Param | Type |
 | --- | --- |
 | values | <code>Array</code> | 
 | elementClass | [<code>ArrayElement</code>](#ArrayElement) | 
-| classType | [<code>Arrayable</code>](#Arrayable) \| <code>Iterable</code> | 
 
 <a name="ArrayElement"></a>
 
@@ -1590,87 +1384,45 @@ Element represents a node in an Arrayable.
 **Kind**: global class  
 
 * [ArrayElement](#ArrayElement)
-    * [new ArrayElement([data], [elementClass])](#new_ArrayElement_new)
-    * _instance_
-        * [.classType](#ArrayElement+classType) ⇒ [<code>ArrayElement</code>](#ArrayElement)
-    * _static_
-        * [.make(element, [elementClass])](#ArrayElement.make) ⇒ [<code>ArrayElement</code>](#ArrayElement)
-        * [.fromArray([values], [elementClass])](#ArrayElement.fromArray) ⇒ <code>Object</code>
+    * [new ArrayElement([data])](#new_ArrayElement_new)
+    * [.make(element)](#ArrayElement.make) ⇒ [<code>ArrayElement</code>](#ArrayElement)
+    * [.fromArray([values])](#ArrayElement.fromArray) ⇒ <code>Object</code>
 
 <a name="new_ArrayElement_new"></a>
 
-### new ArrayElement([data], [elementClass])
+### new ArrayElement([data])
 Create the new Element instance, provide the data and optionally configure the type of Element.
 
 
 | Param | Type | Default |
 | --- | --- | --- |
 | [data] | <code>\*</code> | <code></code> | 
-| [elementClass] | [<code>ArrayElement</code>](#ArrayElement) | <code>Element</code> | 
 
-<a name="ArrayElement+classType"></a>
-
-### arrayElement.classType ⇒ [<code>ArrayElement</code>](#ArrayElement)
-Return the type of class used for Element.
-
-**Kind**: instance property of [<code>ArrayElement</code>](#ArrayElement)  
 <a name="ArrayElement.make"></a>
 
-### ArrayElement.make(element, [elementClass]) ⇒ [<code>ArrayElement</code>](#ArrayElement)
+### ArrayElement.make(element) ⇒ [<code>ArrayElement</code>](#ArrayElement)
 Make a new Element from the data given if it is not already a valid Element.
 
 **Kind**: static method of [<code>ArrayElement</code>](#ArrayElement)  
-**Methodof**: ArrayElement  
 
-| Param | Type | Default |
-| --- | --- | --- |
-| element | [<code>ArrayElement</code>](#ArrayElement) \| <code>\*</code> |  | 
-| [elementClass] | [<code>ArrayElement</code>](#ArrayElement) | <code>Element</code> | 
+| Param | Type |
+| --- | --- |
+| element | [<code>ArrayElement</code>](#ArrayElement) \| <code>\*</code> | 
 
 <a name="ArrayElement.fromArray"></a>
 
-### ArrayElement.fromArray([values], [elementClass]) ⇒ <code>Object</code>
+### ArrayElement.fromArray([values]) ⇒ <code>Object</code>
 Convert an array into Element instances, return the head and tail Elements.
 
 **Kind**: static method of [<code>ArrayElement</code>](#ArrayElement)  
-**Methodof**: ArrayElement  
 
 | Param | Type | Default |
 | --- | --- | --- |
 | [values] | <code>Array</code> | <code>[]</code> | 
-| [elementClass] | [<code>ArrayElement</code>](#ArrayElement) | <code>Element</code> | 
 
 <a name="recipes"></a>
 
-## recipes : <code>Object</code>
+## recipes
 List of class declarations that can be used to specify attributes for a style of object / class.
 
 **Kind**: global constant  
-<a name="completeResponse"></a>
-
-## completeResponse : <code>Object</code>
-Return results of the task.
-
-**Kind**: global typedef  
-**Properties**
-
-| Name | Type |
-| --- | --- |
-| success | <code>\*</code> | 
-| error | <code>\*</code> | 
-| context | <code>\*</code> | 
-
-<a name="forEachCallback"></a>
-
-## forEachCallback ⇒
-Run this function for each element in this arrayable.
-
-**Kind**: global typedef  
-**Returns**: void  
-
-| Param | Type |
-| --- | --- |
-| element | [<code>ArrayElement</code>](#ArrayElement) | 
-| index | <code>number</code> | 
-| thisArg | [<code>Arrayable</code>](#Arrayable) | 
-

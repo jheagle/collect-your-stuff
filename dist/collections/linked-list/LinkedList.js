@@ -5,32 +5,24 @@ Object.defineProperty(exports, '__esModule', {
 })
 exports.default = void 0
 var _Linker = _interopRequireDefault(require('./Linker'))
-var _Arrayable = _interopRequireDefault(require('../arrayable/Arrayable'))
+var _LinkerIterator = _interopRequireDefault(require('../../recipes/LinkerIterator'))
 function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
 /**
- * @file doubly linked list.
- * @author Joshua Heagle <joshuaheagle@gmail.com>
- * @version 1.0.0
- * @memberOf module:collect-your-stuff
- */
-
-/**
  * LinkedList represents a collection stored as a LinkedList with next references.
- * @extends Arrayable
  */
-class LinkedList extends _Arrayable.default {
+class LinkedList {
   /**
    * Create the new LinkedList instance, configure the Linker and List classes.
-   * @param {LinkedList|Iterable} listClass
    */
   constructor () {
-    const listClass = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : LinkedList
-    super(listClass)
+    this.classType = null
+    this.innerList = null
+    this.initialized = false
+    this.classType = LinkedList
   }
 
   /**
    * Initialize the inner list, should only run once.
-   * @method
    * @param {Linker|Array} initialList
    * @return {LinkedList}
    */
@@ -45,8 +37,16 @@ class LinkedList extends _Arrayable.default {
   }
 
   /**
+   * Retrieve a copy of the innerList used.
+   * @returns {Linker}
+   */
+  get list () {
+    return this.innerList
+  }
+
+  /**
    * Retrieve the first Linker in the list.
-     * @returns {Linker}
+   * @returns {Linker}
    */
   get first () {
     return this.innerList
@@ -54,7 +54,7 @@ class LinkedList extends _Arrayable.default {
 
   /**
    * Retrieve the last Linker in the list.
-     * @returns {Linker}
+   * @returns {Linker}
    */
   get last () {
     let tail = this.innerList
@@ -68,7 +68,7 @@ class LinkedList extends _Arrayable.default {
 
   /**
    * Return the length of the list.
-     * @returns {number}
+   * @returns {number}
    */
   get length () {
     let current = this.first
@@ -82,7 +82,6 @@ class LinkedList extends _Arrayable.default {
 
   /**
    * Insert a new node (or data) after a node.
-   * @method
    * @param {Linker|*} node
    * @param {Linker|*} newNode
    * @returns {LinkedList}
@@ -98,7 +97,6 @@ class LinkedList extends _Arrayable.default {
 
   /**
    * Insert a new node (or data) before a node.
-   * @method
    * @param {Linker|*} node
    * @param {Linker|*} newNode
    * @returns {LinkedList}
@@ -125,15 +123,13 @@ class LinkedList extends _Arrayable.default {
 
   /**
    * Add a node (or data) after the given (or last) node in the list.
-   * @method
    * @param {Linker|*} node
    * @param {Linker} after
    * @returns {Linker}
    */
   append (node) {
     const after = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.last
-    this.insertAfter(after, node)
-    return this
+    return this.insertAfter(after, node)
   }
 
   /**
@@ -145,8 +141,7 @@ class LinkedList extends _Arrayable.default {
    */
   prepend (node) {
     const before = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.first
-    this.insertBefore(before, node)
-    return this
+    return this.insertBefore(before, node)
   }
 
   /**
@@ -175,7 +170,6 @@ class LinkedList extends _Arrayable.default {
 
   /**
    * Retrieve a Linker item from this list by numeric index, otherwise return null.
-   * @method
    * @param {number} index
    * @returns {Linker|null}
    */
@@ -204,13 +198,13 @@ class LinkedList extends _Arrayable.default {
   /**
    * Be able to run forEach on this LinkedList to iterate over the linkers.
    * @param {forEachCallback} callback
-   * @param {LinkedList|Arrayable} thisArg
+   * @param {LinkedList} thisArg
    * @returns {LinkedList}
    */
   forEach (callback) {
     const thisArg = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this
     let index = 0
-    let current = this.first
+    let current = thisArg.first
     while (current !== null) {
       callback(current, index, thisArg)
       current = current.next
@@ -221,36 +215,22 @@ class LinkedList extends _Arrayable.default {
 
   /**
    * Be able to iterate over this class.
-   * @method
    * @returns {Iterator}
    */
   [Symbol.iterator] () {
-    let current = this.first
-    return {
-      next: () => {
-        const result = {
-          value: current,
-          done: !current
-        }
-        current = current ? current.next : null
-        return result
-      }
-    }
+    return new _LinkerIterator.default(this.first)
   }
 }
-
 /**
  * Convert an array to a LinkedList.
- * @methodof LinkedList
  * @param {Array} values
  * @param {Linker} linkerClass
- * @param {LinkedList|Iterable} listClass
  * @returns {LinkedList}
  */
 LinkedList.fromArray = function () {
   const values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []
   const linkerClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _Linker.default
-  const listClass = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : LinkedList
-  return _Arrayable.default.fromArray(values, linkerClass, listClass)
+  const list = new LinkedList()
+  return list.initialize(linkerClass.fromArray(values).head)
 }
 var _default = exports.default = LinkedList

@@ -4,6 +4,7 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 })
 exports.default = void 0
+var _ArrayIterator = _interopRequireDefault(require('./ArrayIterator'))
 var _Runnable = _interopRequireDefault(require('./Runnable'))
 function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
 /**
@@ -15,9 +16,9 @@ function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { d
 
 /**
  * List of class declarations that can be used to specify attributes for a style of object / class.
- * @type {{Runnable: Runnable}}
  */
 const recipes = {
+  ArrayIterator: _ArrayIterator.default,
   Runnable: _Runnable.default
 }
 var _default = exports.default = recipes

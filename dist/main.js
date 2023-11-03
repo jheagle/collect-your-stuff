@@ -6,7 +6,7 @@ Object.defineProperty(exports, '__esModule', {
 exports.default = void 0
 require('core-js/stable')
 var _Arrayable = _interopRequireDefault(require('./collections/arrayable/Arrayable'))
-var _DoublyLinkedList = _interopRequireDefault(require('./collections/doubly-linked-llist/DoublyLinkedList'))
+var _DoublyLinkedList = _interopRequireDefault(require('./collections/./doubly-linked-list/DoublyLinkedList'))
 var _LinkedList = _interopRequireDefault(require('./collections/linked-list/LinkedList'))
 var _LinkedTreeList = _interopRequireDefault(require('./collections/linked-tree-list/LinkedTreeList'))
 var _Queue = _interopRequireDefault(require('./collections/queue/Queue'))
@@ -23,7 +23,6 @@ function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { d
 
 /**
  * All methods exported from this module are encapsulated within collect-your-stuff.
- * @typedef {module:collect-your-stuff} collectYourStuff
  */
 const collectYourStuff = {
   Arrayable: _Arrayable.default,
