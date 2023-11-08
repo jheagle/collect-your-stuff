@@ -1,24 +1,23 @@
 /**
  * @file doubly linked list.
  * @author Joshua Heagle <joshuaheagle@gmail.com>
- * @version 1.0.0
+ * @version 1.1.0
  * @memberOf module:collect-your-stuff
  */
 import DoubleLinker from './DoubleLinker'
-import LinkerIterator from '../../recipes/LinkerIterator'
 import IsArrayable, { forEachCallback } from '../../recipes/IsArrayable'
-import IsElement from '../../recipes/IsElement'
+import DoubleLinkerIterator from '../../recipes/DoubleLinkerIterator'
 
 /**
  * DoublyLinkedList represents a collection stored as a LinkedList with prev and next references.
  */
-class DoublyLinkedList implements IsArrayable<DoublyLinkedList>, Iterable<IsElement<DoubleLinker>> {
+class DoublyLinkedList implements IsArrayable<DoubleLinker>, Iterable<DoubleLinker> {
   public readonly classType: typeof DoublyLinkedList = null
-  public innerList: IsElement<DoubleLinker> = null
+  public innerList: DoubleLinker = null
   public initialized: boolean = false
 
   /**
-   * Create the new DoublyLinkedList instance, configure the Linker and List classes.
+   * Create the new DoublyLinkedList instance.
    */
   constructor () {
     this.classType = DoublyLinkedList
@@ -26,10 +25,10 @@ class DoublyLinkedList implements IsArrayable<DoublyLinkedList>, Iterable<IsElem
 
   /**
    * Initialize the inner list, should only run once.
-   * @param {DoubleLinker} initialList
+   * @param {DoubleLinker} initialList Give the list of double-linkers to start in this doubly linked-list.
    * @return {DoublyLinkedList}
    */
-  initialize (initialList: IsElement<DoubleLinker>): DoublyLinkedList {
+  initialize (initialList: DoubleLinker): DoublyLinkedList {
     if (this.initialized) {
       console.warn('Attempt to initialize LinkedList which is not empty.')
       return this
@@ -43,7 +42,7 @@ class DoublyLinkedList implements IsArrayable<DoublyLinkedList>, Iterable<IsElem
    * Retrieve a copy of the innerList used.
    * @returns {DoubleLinker}
    */
-  get list (): IsElement<DoubleLinker> {
+  get list (): DoubleLinker {
     return this.innerList
   }
 
@@ -51,7 +50,7 @@ class DoublyLinkedList implements IsArrayable<DoublyLinkedList>, Iterable<IsElem
    * Retrieve the first DoubleLinker in the list.
    * @returns {DoubleLinker}
    */
-  get first (): IsElement<DoubleLinker> {
+  get first (): DoubleLinker {
     return this.reset()
   }
 
@@ -59,8 +58,8 @@ class DoublyLinkedList implements IsArrayable<DoublyLinkedList>, Iterable<IsElem
    * Retrieve the last DoubleLinker in the list.
    * @returns {DoubleLinker}
    */
-  get last (): IsElement<DoubleLinker> {
-    let tail: IsElement<DoubleLinker> = this.innerList
+  get last (): DoubleLinker {
+    let tail: DoubleLinker = this.innerList
     let next: DoubleLinker = tail.next
     while (next !== null) {
       tail = next
@@ -74,7 +73,7 @@ class DoublyLinkedList implements IsArrayable<DoublyLinkedList>, Iterable<IsElem
    * @returns {number}
    */
   get length (): number {
-    let current: IsElement<DoubleLinker> = this.first
+    let current: DoubleLinker = this.first
     let length: number = 0
     while (current !== null) {
       ++length
@@ -85,11 +84,11 @@ class DoublyLinkedList implements IsArrayable<DoublyLinkedList>, Iterable<IsElem
 
   /**
    * Insert a new node (or data) after a node.
-   * @param {DoubleLinker|*} node
-   * @param {DoubleLinker|*} newNode
+   * @param {DoubleLinker|*} node The existing node as reference
+   * @param {DoubleLinker|*} newNode The new node to go after the existing node
    * @returns {DoublyLinkedList}
    */
-  insertAfter (node: IsElement<DoubleLinker>, newNode: DoubleLinker | any): DoublyLinkedList {
+  insertAfter (node: DoubleLinker, newNode: DoubleLinker | any): DoublyLinkedList {
     newNode = node.classType.make(newNode)
     // Ensure the next reference of this node is assigned to the new node
     newNode.next = node.next
@@ -107,11 +106,11 @@ class DoublyLinkedList implements IsArrayable<DoublyLinkedList>, Iterable<IsElem
 
   /**
    * Insert a new node (or data) before a node.
-   * @param {DoubleLinker|*} node
-   * @param {DoubleLinker|*} newNode
+   * @param {DoubleLinker|*} node The existing node as reference
+   * @param {DoubleLinker|*} newNode The new node to go before the existing node
    * @returns {DoublyLinkedList}
    */
-  insertBefore (node: IsElement<DoubleLinker>, newNode: DoubleLinker | any): DoublyLinkedList {
+  insertBefore (node: DoubleLinker, newNode: DoubleLinker | any): DoublyLinkedList {
     newNode = node.classType.make(newNode)
     // The new node will reference this prev node as prev
     newNode.prev = node.prev
@@ -129,28 +128,27 @@ class DoublyLinkedList implements IsArrayable<DoublyLinkedList>, Iterable<IsElem
 
   /**
    * Add a node (or data) after the given (or last) node in the list.
-   * @param {DoubleLinker|*} node
-   * @param {DoubleLinker} after
+   * @param {DoubleLinker|*} node The new node to add to the end of the list
+   * @param {DoubleLinker} after The existing last node
    * @returns {DoubleLinker}
    */
-  append (node: DoubleLinker | any, after: IsElement<DoubleLinker> = this.last): DoublyLinkedList {
+  append (node: DoubleLinker | any, after: DoubleLinker = this.last): DoublyLinkedList {
     return this.insertAfter(after, node)
   }
 
   /**
    * Add a node (or data) before the given (or first) node in the list.
-   * @method
-   * @param {DoubleLinker|*} node
-   * @param {DoubleLinker} before
+   * @param {DoubleLinker|*} node The new node to add to the start of the list
+   * @param {DoubleLinker} before The existing first node
    * @returns {DoubleLinker}
    */
-  prepend (node: DoubleLinker | any, before: IsElement<DoubleLinker> = this.first): DoublyLinkedList {
+  prepend (node: DoubleLinker | any, before: DoubleLinker = this.first): DoublyLinkedList {
     return this.insertBefore(before, node)
   }
 
   /**
    * Remove a linker from this linked list.
-   * @param {DoubleLinker} node
+   * @param {DoubleLinker} node The node we wish to remove (and it will be returned after removal)
    * @return {DoubleLinker}
    */
   remove (node: DoubleLinker): DoubleLinker {
@@ -171,9 +169,9 @@ class DoublyLinkedList implements IsArrayable<DoublyLinkedList>, Iterable<IsElem
    * Refresh all references and return head reference.
    * @return {DoubleLinker}
    */
-  reset (): IsElement<DoubleLinker> {
+  reset (): DoubleLinker {
     // Start at the pointer for the list
-    let pointer: IsElement<DoubleLinker> = this.innerList
+    let pointer: DoubleLinker = this.innerList
     let next: DoubleLinker = pointer.next
     // Follow references till the end
     while (next !== null) {
@@ -193,19 +191,19 @@ class DoublyLinkedList implements IsArrayable<DoublyLinkedList>, Iterable<IsElem
 
   /**
    * Retrieve a DoubleLinker item from this list by numeric index, otherwise return null.
-   * @param {number} index
+   * @param {number} index The integer number for retrieving a node by position.
    * @returns {DoubleLinker|null}
    */
-  item (index: number): IsElement<DoubleLinker> {
+  item (index: number): DoubleLinker {
     if (index >= 0) {
-      let current: IsElement<DoubleLinker> = this.first
+      let current: DoubleLinker = this.first
       let currentIndex: number = -1
       while ((++currentIndex) < index && current !== null) {
         current = current.next
       }
       return currentIndex === index ? current : null
     }
-    let current: IsElement<DoubleLinker> = this.last
+    let current: DoubleLinker = this.last
     let currentIndex: number = this.length
     const calculatedIndex: number = this.length + index
     if (calculatedIndex < 0) {
@@ -218,13 +216,13 @@ class DoublyLinkedList implements IsArrayable<DoublyLinkedList>, Iterable<IsElem
   }
 
   /**
-   * Be able to run forEach on this DoublyLinkedList ot iterate over the DoubleLinker Items.
-   * @param {forEachCallback} callback
-   * @param {DoublyLinkedList} thisArg
+   * Be able to run forEach on this DoublyLinkedList to iterate over the DoubleLinker Items.
+   * @param {forEachCallback} callback The function to call for-each double linker
+   * @param {DoublyLinkedList} thisArg Optional, 'this' reference
    */
   forEach (callback: forEachCallback, thisArg: DoublyLinkedList = this): DoublyLinkedList {
     let index: number = 0
-    let current: IsElement<DoubleLinker> = thisArg.first
+    let current: DoubleLinker = thisArg.first
     while (current !== null) {
       callback(current, index, thisArg)
       current = current.next
@@ -237,15 +235,15 @@ class DoublyLinkedList implements IsArrayable<DoublyLinkedList>, Iterable<IsElem
    * Be able to iterate over this class.
    * @returns {Iterator}
    */
-  [Symbol.iterator] (): Iterator<IsElement<DoubleLinker>> {
-    let current: IsElement<DoubleLinker> = this.first
-    return new LinkerIterator(current)
+  [Symbol.iterator] (): Iterator<DoubleLinker> {
+    let current: DoubleLinker = this.first
+    return new DoubleLinkerIterator(current)
   }
 
   /**
    * Convert an array into a DoublyLinkedList instance, return the new instance.
-   * @param {Array} [values=[]]
-   * @param {DoubleLinker} [linkerClass=DoubleLinker]
+   * @param {Array} [values=[]] An array of values which will be converted to linkers in this doubly-linked-list
+   * @param {DoubleLinker} [linkerClass=DoubleLinker] The class to use for each linker
    * @returns {DoublyLinkedList}
    */
   public static fromArray = (values: Array<any> = [], linkerClass: typeof DoubleLinker = DoubleLinker): DoublyLinkedList => {

@@ -5,32 +5,23 @@
  * @memberOf module:collect-your-stuff
  */
 import Stackable from './Stackable'
-import Arrayable from '../arrayable/Arrayable'
 import IsArrayable from '../../recipes/IsArrayable'
-import { completeResponse } from '../queue/Queueable'
-import IsElement from '../../recipes/IsElement'
+import LinkedList from '../linked-list/LinkedList'
+import IsLinker from '../../recipes/IsLinker'
+import { completeResponse } from '../../recipes/Runnable'
 
 /**
  * Store a collection of items which can only be inserted and removed from the top.
- * @see [Java Stack Interface]{@link http://www.cs.williams.edu/~freund/cs136-073/javadoc/structure5/structure5/Stack.html}
  */
 class Stack {
   public stackedList: IsArrayable<any>
 
   /**
    * Instantiate the state with the starter stacked list.
-   * @param {Iterable|Arrayable} stackedList
+   * @param {Iterable|LinkedList} stackedList
    */
   constructor (stackedList: IsArrayable<any>) {
     this.stackedList = stackedList
-  }
-
-  /**
-   * Add a stackable task to the top of the stack.
-   * @param {Stackable|*} stackable
-   */
-  add (stackable: Stackable | any) {
-    this.stackedList.append(stackable)
   }
 
   /**
@@ -42,27 +33,11 @@ class Stack {
   }
 
   /**
-   * Return a reference to the next stacked task.
+   * Take a look at the next stacked task
    * @return {Stackable}
    */
-  get (): IsElement<Stackable> {
-    return this.stackedList.last
-  }
-
-  /**
-   * Return a reference to the next stacked / first stacked task (alias for 'get()')
-   * @return {Stackable}
-   */
-  getFirst (): IsElement<Stackable> {
-    return this.get()
-  }
-
-  /**
-   * Take a look at the next stacked task (alias for 'get()')
-   * @return {Stackable}
-   */
-  peek (): IsElement<Stackable> {
-    return this.get()
+  top (): IsLinker {
+    return this.stackedList.first
   }
 
   /**
@@ -83,10 +58,10 @@ class Stack {
 
   /**
    * Push a stackable task to the top of the stack.
-   * @param {Stackable|*} stackable
+   * @param {Stackable|*} stackable Add a new stackable to the top of the stack
    */
   push (stackable: any) {
-    this.add(stackable)
+    this.stackedList.prepend(stackable)
   }
 
   /**
@@ -97,7 +72,7 @@ class Stack {
     if (this.empty()) {
       return null
     }
-    return this.stackedList.remove(this.stackedList.last)
+    return this.stackedList.remove(this.stackedList.first)
   }
 
   /**
@@ -110,14 +85,13 @@ class Stack {
 
   /**
    * Convert an array to a Stack.
-   * @methodof Stack
-   * @param {Array} values
-   * @param {Stackable} stackableClass
-   * @param {Stack|Iterable} listClass
+   * @param {Array} values An array of values which will be converted to stackables in this queue
+   * @param {Stackable} stackableClass The class to use for each stackable
+   * @param {Stack|Iterable} listClass The class to use to manage the stackables
    * @returns {Stack}
    */
-  public static fromArray = (values: Array<any> = [], stackableClass: typeof Stackable = Stackable, listClass: any = Arrayable): Stack => {
-    const list: IsArrayable<Arrayable> = new listClass(stackableClass)
+  public static fromArray = (values: Array<any> = [], stackableClass: typeof Stackable = Stackable, listClass: any = LinkedList): Stack => {
+    const list: IsArrayable<any> = new listClass(stackableClass)
     list.initialize(stackableClass.fromArray(values).head)
     return new Stack(list)
   }

@@ -10,7 +10,7 @@ function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { d
 /**
  * @file arrayable list.
  * @author Joshua Heagle <joshuaheagle@gmail.com>
- * @version 1.0.0
+ * @version 1.1.0
  * @memberOf module:collect-your-stuff
  */
 
@@ -22,7 +22,6 @@ class Arrayable {
    * Create the new Arrayable instance, configure the Arrayable class.
    */
   constructor () {
-    this.classType = null
     this.innerList = []
     this.initialized = false
     this.classType = Arrayable
@@ -31,7 +30,7 @@ class Arrayable {
 
   /**
    * Initialize the inner list, should only run once.
-   * @param {ArrayElement|Array} initialList
+   * @param {Array<ArrayElement>} initialList Give the array of elements to start in this Arrayable.
    * @return {Arrayable}
    */
   initialize (initialList) {
@@ -46,7 +45,7 @@ class Arrayable {
 
   /**
    * Retrieve a copy of the innerList used.
-   * @returns {Array}
+   * @returns {Array<ArrayElement>}
    */
   get list () {
     return this.innerList
@@ -78,8 +77,8 @@ class Arrayable {
 
   /**
    * Insert a new node (or data) after a node.
-   * @param {ArrayElement|*} node
-   * @param {ArrayElement|*} newNode
+   * @param {ArrayElement|*} node The existing node as reference
+   * @param {ArrayElement|*} newNode The new node to go after the existing node
    * @returns {Arrayable}
    */
   insertAfter (node, newNode) {
@@ -90,8 +89,8 @@ class Arrayable {
 
   /**
    * Insert a new node (or data) before a node.
-   * @param {ArrayElement|*} node
-   * @param {ArrayElement|*} newNode
+   * @param {ArrayElement|*} node The existing node as reference
+   * @param {ArrayElement|*} newNode The new node to go before the existing node
    * @returns {Arrayable}
    */
   insertBefore (node, newNode) {
@@ -102,8 +101,8 @@ class Arrayable {
 
   /**
    * Add a node (or data) after the given (or last) node in the list.
-   * @param {ArrayElement|*} node
-   * @param {ArrayElement} after
+   * @param {ArrayElement|*} node The new node to add to the end of the list
+   * @param {ArrayElement} after The existing last node
    * @returns {Arrayable}
    */
   append (node) {
@@ -113,8 +112,8 @@ class Arrayable {
 
   /**
    * Add a node (or data) before the given (or first) node in the list.
-   * @param {ArrayElement|*} node
-   * @param {ArrayElement} before
+   * @param {ArrayElement|*} node The new node to add to the start of the list
+   * @param {ArrayElement} before The existing first node
    * @returns {Arrayable}
    */
   prepend (node) {
@@ -124,7 +123,7 @@ class Arrayable {
 
   /**
    * Remove an element from this arrayable.
-   * @param {ArrayElement} node
+   * @param {ArrayElement} node The node we wish to remove (and it will be returned after removal)
    * @return {ArrayElement}
    */
   remove (node) {
@@ -135,7 +134,7 @@ class Arrayable {
 
   /**
    * Retrieve an ArrayElement item from this list by numeric index, otherwise return null.
-   * @param {number} index
+   * @param {number} index The integer number for retrieving a node by position.
    * @return {ArrayElement|null}
    */
   item (index) {
@@ -158,8 +157,8 @@ class Arrayable {
 
   /**
    * Be able to run forEach on this Arrayable to iterate over the elements.
-   * @param {forEachCallback} callback
-   * @param {Arrayable} thisArg
+   * @param {forEachCallback} callback The function to call for-each element
+   * @param {Arrayable} thisArg Optional, 'this' reference
    * @returns {Arrayable}
    */
   forEach (callback) {
@@ -181,8 +180,8 @@ class Arrayable {
 }
 /**
  * Convert an array to an Arrayable.
- * @param {Array} values
- * @param {ArrayElement} elementClass
+ * @param {Array} values An array of values which will be converted to elements in this arrayable
+ * @param {ArrayElement} elementClass The class to use for each element
  * @returns {Arrayable}
  */
 Arrayable.fromArray = function () {

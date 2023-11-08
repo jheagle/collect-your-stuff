@@ -1,13 +1,14 @@
-import IsArrayable from './IsArrayable'
-
 /**
- * Define the common attributes of an Element of a list.
+ * Define the common attributes of an Element in a list.
  */
-export default interface IsElement<T> {
-  classType: T | any
+export default interface IsElement {
+  /**
+   * Obnoxious typescript won't let me use typeof this class
+   * @property {IsElement} classType
+   */
+  classType: any
+  /**
+   * @property {*} data
+   */
   data: any
-  next?: T
-  prev?: T
-  parent?: IsElement<any> | null,
-  children?: IsArrayable<any> | null
 }

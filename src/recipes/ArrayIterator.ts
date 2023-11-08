@@ -1,19 +1,18 @@
-import ArrayElement from '../collections/arrayable/ArrayElement'
 import IsElement from './IsElement'
 
 /**
- * Class ArrayIterator returns the next value for Iterable classes.
+ * Class ArrayIterator returns the next value when using elements of array type list.
  */
-class ArrayIterator implements Iterator<IsElement<ArrayElement>> {
-  private readonly innerList: Array<IsElement<ArrayElement>>
+class ArrayIterator implements Iterator<IsElement> {
+  private readonly innerList: Array<IsElement>
   private index: number
 
-  constructor (innerList: Array<IsElement<ArrayElement>>, index = 0) {
+  constructor (innerList: Array<IsElement>, index = 0) {
     this.innerList = innerList
     this.index = index
   }
 
-  next (value?: any): IteratorResult<IsElement<ArrayElement>> {
+  next (value?: any): IteratorResult<IsElement> {
     if (this.index < this.innerList.length) {
       return { value: this.innerList[this.index++], done: false }
     }

@@ -5,12 +5,12 @@ Object.defineProperty(exports, '__esModule', {
 })
 exports.default = void 0
 var _TreeLinker = _interopRequireDefault(require('./TreeLinker'))
-var _LinkerIterator = _interopRequireDefault(require('../../recipes/LinkerIterator'))
+var _TreeLinkerIterator = _interopRequireDefault(require('../../recipes/TreeLinkerIterator'))
 function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
 /**
  * @file doubly linked tree list.
  * @author Joshua Heagle <joshuaheagle@gmail.com>
- * @version 1.0.0
+ * @version 1.1.0
  * @memberOf module:collect-your-stuff
  */
 
@@ -30,7 +30,7 @@ class LinkedTreeList {
 
   /**
    * Initialize the inner list, should only run once.
-   * @param {TreeLinker} initialList
+   * @param {TreeLinker} initialList Give the list of tree-linkers to start in this linked-tree-list.
    * @return {LinkedTreeList}
    */
   initialize (initialList) {
@@ -88,23 +88,6 @@ class LinkedTreeList {
   }
 
   /**
-   * Alias for getting the inner list
-   */
-  get children () {
-    return this.innerList
-  }
-
-  /**
-   * Set the inner list to new children
-   * @param {TreeLinker} children
-   */
-  set children (children) {
-    const parent = this.parent
-    this.innerList = children
-    this.parent = parent
-  }
-
-  /**
    * Get the parent of this tree list.
    * @return {TreeLinker}
    */
@@ -118,7 +101,7 @@ class LinkedTreeList {
 
   /**
    * Set the parent of this tree list
-   * @param {TreeLinker} parent
+   * @param {TreeLinker} parent The new node to use as the parent for this group of children
    */
   set parent (parent) {
     let current = this.first
@@ -137,6 +120,9 @@ class LinkedTreeList {
    */
   get rootParent () {
     let current = this.first
+    if (!current) {
+      return null
+    }
     let parent = this.first.parent
     while (parent !== null) {
       current = parent
@@ -147,8 +133,8 @@ class LinkedTreeList {
 
   /**
    * Set the children on a parent item.
-   * @param {TreeLinker} item
-   * @param {LinkedTreeList} children
+   * @param {TreeLinker} item The TreeLinker node that will be the parent of the children
+   * @param {LinkedTreeList} children The LinkedTreeList which has the child nodes to use
    */
   setChildren (item) {
     const children = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null
@@ -160,8 +146,8 @@ class LinkedTreeList {
 
   /**
    * Insert a new node (or data) after a node.
-   * @param {TreeLinker|*} node
-   * @param {TreeLinker|*} newNode
+   * @param {TreeLinker|*} node The existing node as reference
+   * @param {TreeLinker|*} newNode The new node to go after the existing node
    * @returns {LinkedTreeList}
    */
   insertAfter (node, newNode) {
@@ -182,8 +168,8 @@ class LinkedTreeList {
 
   /**
    * Insert a new node (or data) before a node.
-   * @param {TreeLinker|*} node
-   * @param {TreeLinker|*} newNode
+   * @param {TreeLinker|*} node The existing node as reference
+   * @param {TreeLinker|*} newNode The new node to go before the existing node
    * @returns {LinkedTreeList}
    */
   insertBefore (node, newNode) {
@@ -204,8 +190,8 @@ class LinkedTreeList {
 
   /**
    * Add a node (or data) after the given (or last) node in the list.
-   * @param {TreeLinker|*} node
-   * @param {TreeLinker} after
+   * @param {TreeLinker|*} node The new node to add to the end of the list
+   * @param {TreeLinker} after The existing last node
    * @returns {TreeLinker}
    */
   append (node) {
@@ -215,9 +201,8 @@ class LinkedTreeList {
 
   /**
    * Add a node (or data) before the given (or first) node in the list.
-   * @method
-   * @param {TreeLinker|*} node
-   * @param {TreeLinker} before
+   * @param {TreeLinker|*} node The new node to add to the start of the list
+   * @param {TreeLinker} before The existing first node
    * @returns {TreeLinker}
    */
   prepend (node) {
@@ -227,7 +212,7 @@ class LinkedTreeList {
 
   /**
    * Remove a linker from this linked list.
-   * @param {TreeLinker} node
+   * @param {TreeLinker} node The node we wish to remove (and it will be returned after removal)
    * @return {TreeLinker}
    */
   remove (node) {
@@ -266,18 +251,19 @@ class LinkedTreeList {
       pointer = prev
       prev = pointer.prev
     }
-    // All the live references should have been found and we are pointing to the true head
+    // All the live references should have been found, and we are pointing to the true head
     this.innerList = pointer
     return pointer
   }
 
   /**
    * Retrieve a TreeLinker item from this list by numeric index, otherwise return null.
-   * @param {number} index
+   * @param {number} index The integer number for retrieving a node by position.
    * @returns {TreeLinker|null}
    */
   item (index) {
     if (index >= 0) {
+      // For a positive index, start from the beginning of the list until the current item counter equals our index
       let current = this.first
       let currentIndex = -1
       while (++currentIndex < index && current !== null) {
@@ -285,6 +271,7 @@ class LinkedTreeList {
       }
       return currentIndex === index ? current : null
     }
+    // For a negative index, get the delta of index and length, then go backwards until we reach that delta
     let current = this.last
     let currentIndex = this.length
     const calculatedIndex = this.length + index
@@ -298,9 +285,9 @@ class LinkedTreeList {
   }
 
   /**
-   * Be able to run forEach on this LinkedTreeList ot iterate over the TreeLinker Items.
-   * @param {forEachCallback} callback
-   * @param {LinkedTreeList} thisArg
+   * Be able to run forEach on this LinkedTreeList to iterate over the TreeLinker Items.
+   * @param {forEachCallback} callback The function to call for-each tree node
+   * @param {LinkedTreeList} thisArg Optional, 'this' reference
    */
   forEach (callback) {
     const thisArg = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this
@@ -319,14 +306,14 @@ class LinkedTreeList {
    * @returns {Iterator}
    */
   [Symbol.iterator] () {
-    const current = this.first
-    return new _LinkerIterator.default(current)
+    const root = this.rootParent
+    return new _TreeLinkerIterator.default(root)
   }
 }
 /**
  * Convert an array into a LinkedTreeList instance, return the new instance.
- * @param {Array} [values=[]]
- * @param {TreeLinker} [linkerClass=TreeLinker]
+ * @param {Array} [values=[]] An array of values which will be converted to nodes in this tree-list
+ * @param {TreeLinker} [linkerClass=TreeLinker] The class to use for each node
  * @returns {LinkedTreeList}
  */
 LinkedTreeList.fromArray = function () {

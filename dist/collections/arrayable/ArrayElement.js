@@ -13,7 +13,7 @@ require('core-js/modules/esnext.iterator.reduce.js')
 class ArrayElement {
   /**
    * Create the new Element instance, provide the data and optionally configure the type of Element.
-   * @param {*} [data=null]
+   * @param {*} [data=null] The data to be stored in this element.
    */
   constructor () {
     const data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null
@@ -24,7 +24,7 @@ class ArrayElement {
 }
 /**
  * Make a new Element from the data given if it is not already a valid Element.
- * @param {ArrayElement|*} element
+ * @param {ArrayElement|*} element Return a valid ArrayElement instance from given data, or even an already valid one.
  * @return {ArrayElement}
  */
 ArrayElement.make = element => {
@@ -41,7 +41,7 @@ ArrayElement.make = element => {
 }
 /**
  * Convert an array into Element instances, return the head and tail Elements.
- * @param {Array} [values=[]]
+ * @param {Array<IsElement>} [values=[]] Provide an array of data that will be converted to array of elements.
  * @returns {{head: ArrayElement[], tail: ArrayElement}}
  */
 ArrayElement.fromArray = function () {

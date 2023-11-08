@@ -1,22 +1,22 @@
 /**
  * @file linked list item.
  * @author Joshua Heagle <joshuaheagle@gmail.com>
- * @version 1.0.0
+ * @version 1.1.0
  * @memberOf module:collect-your-stuff
  */
-import IsElement from '../../recipes/IsElement';
+import IsLinker from '../../recipes/IsLinker';
 /**
  * Linker represents a node in a LinkedList.
  */
-declare class Linker implements IsElement<Linker> {
+declare class Linker implements IsLinker {
     readonly classType: typeof Linker;
     data: any;
     next: Linker | null;
     /**
-     * Create the new Linker instance, provide the data and optionally configure the type of Linker.
+     * Create the new Linker instance, provide the data and optionally give the next Linker.
      * @param {Object} [nodeData={}]
-     * @param {*} [nodeData.data=null]
-     * @param {Linker|null} [nodeData.next=null]
+     * @param {*} [nodeData.data=null] The data to be stored in this linker
+     * @param {Linker|null} [nodeData.next=null] The reference to the next linker if any
      */
     constructor({ data, next }?: {
         data?: any;
@@ -24,13 +24,13 @@ declare class Linker implements IsElement<Linker> {
     });
     /**
      * Make a new Linker from the data given if it is not already a valid Linker.
-     * @param {Linker|*} linker
+     * @param {Linker|*} linker Return a valid Linker instance from given data, or even an already valid one.
      * @return {Linker}
      */
-    static make: (linker: Linker | any) => IsElement<Linker>;
+    static make: (linker: Linker | any) => IsLinker;
     /**
      * Convert an array into Linker instances, return the head and tail Linkers.
-     * @param {Array} [values=[]]
+     * @param {Array} [values=[]] Provide an array of data that will be converted to a chain of linkers.
      * @returns {{head: Linker, tail: Linker}}
      */
     static fromArray: (values: Array<any>) => {

@@ -5,7 +5,7 @@ Object.defineProperty(exports, '__esModule', {
 })
 exports.default = void 0
 /**
- * Class ArrayIterator returns the next value for Iterable classes.
+ * Class ArrayIterator returns the next value when using elements of array type list.
  */
 class ArrayIterator {
   constructor (innerList) {

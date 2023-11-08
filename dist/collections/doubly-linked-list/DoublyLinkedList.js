@@ -5,12 +5,12 @@ Object.defineProperty(exports, '__esModule', {
 })
 exports.default = void 0
 var _DoubleLinker = _interopRequireDefault(require('./DoubleLinker'))
-var _LinkerIterator = _interopRequireDefault(require('../../recipes/LinkerIterator'))
+var _DoubleLinkerIterator = _interopRequireDefault(require('../../recipes/DoubleLinkerIterator'))
 function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
 /**
  * @file doubly linked list.
  * @author Joshua Heagle <joshuaheagle@gmail.com>
- * @version 1.0.0
+ * @version 1.1.0
  * @memberOf module:collect-your-stuff
  */
 
@@ -19,7 +19,7 @@ function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { d
  */
 class DoublyLinkedList {
   /**
-   * Create the new DoublyLinkedList instance, configure the Linker and List classes.
+   * Create the new DoublyLinkedList instance.
    */
   constructor () {
     this.classType = null
@@ -30,7 +30,7 @@ class DoublyLinkedList {
 
   /**
    * Initialize the inner list, should only run once.
-   * @param {DoubleLinker} initialList
+   * @param {DoubleLinker} initialList Give the list of double-linkers to start in this doubly linked-list.
    * @return {DoublyLinkedList}
    */
   initialize (initialList) {
@@ -89,8 +89,8 @@ class DoublyLinkedList {
 
   /**
    * Insert a new node (or data) after a node.
-   * @param {DoubleLinker|*} node
-   * @param {DoubleLinker|*} newNode
+   * @param {DoubleLinker|*} node The existing node as reference
+   * @param {DoubleLinker|*} newNode The new node to go after the existing node
    * @returns {DoublyLinkedList}
    */
   insertAfter (node, newNode) {
@@ -111,8 +111,8 @@ class DoublyLinkedList {
 
   /**
    * Insert a new node (or data) before a node.
-   * @param {DoubleLinker|*} node
-   * @param {DoubleLinker|*} newNode
+   * @param {DoubleLinker|*} node The existing node as reference
+   * @param {DoubleLinker|*} newNode The new node to go before the existing node
    * @returns {DoublyLinkedList}
    */
   insertBefore (node, newNode) {
@@ -133,8 +133,8 @@ class DoublyLinkedList {
 
   /**
    * Add a node (or data) after the given (or last) node in the list.
-   * @param {DoubleLinker|*} node
-   * @param {DoubleLinker} after
+   * @param {DoubleLinker|*} node The new node to add to the end of the list
+   * @param {DoubleLinker} after The existing last node
    * @returns {DoubleLinker}
    */
   append (node) {
@@ -144,9 +144,8 @@ class DoublyLinkedList {
 
   /**
    * Add a node (or data) before the given (or first) node in the list.
-   * @method
-   * @param {DoubleLinker|*} node
-   * @param {DoubleLinker} before
+   * @param {DoubleLinker|*} node The new node to add to the start of the list
+   * @param {DoubleLinker} before The existing first node
    * @returns {DoubleLinker}
    */
   prepend (node) {
@@ -156,7 +155,7 @@ class DoublyLinkedList {
 
   /**
    * Remove a linker from this linked list.
-   * @param {DoubleLinker} node
+   * @param {DoubleLinker} node The node we wish to remove (and it will be returned after removal)
    * @return {DoubleLinker}
    */
   remove (node) {
@@ -199,7 +198,7 @@ class DoublyLinkedList {
 
   /**
    * Retrieve a DoubleLinker item from this list by numeric index, otherwise return null.
-   * @param {number} index
+   * @param {number} index The integer number for retrieving a node by position.
    * @returns {DoubleLinker|null}
    */
   item (index) {
@@ -224,9 +223,9 @@ class DoublyLinkedList {
   }
 
   /**
-   * Be able to run forEach on this DoublyLinkedList ot iterate over the DoubleLinker Items.
-   * @param {forEachCallback} callback
-   * @param {DoublyLinkedList} thisArg
+   * Be able to run forEach on this DoublyLinkedList to iterate over the DoubleLinker Items.
+   * @param {forEachCallback} callback The function to call for-each double linker
+   * @param {DoublyLinkedList} thisArg Optional, 'this' reference
    */
   forEach (callback) {
     const thisArg = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this
@@ -246,13 +245,13 @@ class DoublyLinkedList {
    */
   [Symbol.iterator] () {
     const current = this.first
-    return new _LinkerIterator.default(current)
+    return new _DoubleLinkerIterator.default(current)
   }
 }
 /**
  * Convert an array into a DoublyLinkedList instance, return the new instance.
- * @param {Array} [values=[]]
- * @param {DoubleLinker} [linkerClass=DoubleLinker]
+ * @param {Array} [values=[]] An array of values which will be converted to linkers in this doubly-linked-list
+ * @param {DoubleLinker} [linkerClass=DoubleLinker] The class to use for each linker
  * @returns {DoublyLinkedList}
  */
 DoublyLinkedList.fromArray = function () {

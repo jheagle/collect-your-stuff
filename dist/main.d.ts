@@ -13,6 +13,14 @@ import LinkedTreeList from './collections/linked-tree-list/LinkedTreeList';
 import Queue from './collections/queue/Queue';
 import Stack from './collections/stack/Stack';
 /**
+ * TODO:
+ * 1. Remove extra functions from queue and stack, we don't need the alias, just use pop / push for stack and enqueue / dequeue for queue
+ * 2. Use linked list for both stack an queue
+ * 3. Create binary tree. Use the tree, but it has a limit of only two children per parent, and when adding / removing sort is applied. Add sort function in fromArray
+ * 4. Create a heap (both min and max heap variants) which is similar to binary tree in structure, but tree having its min / max value as root. and it must insert on the left-most lowest level, and removes from root. Be able to easily swap nodes to ensure min / max ordering.
+ * 5. Create a graph type which can have directional and undirectional variants for linking nodes
+ */
+/**
  * All methods exported from this module are encapsulated within collect-your-stuff.
  */
 declare const collectYourStuff: {
@@ -25,6 +33,10 @@ declare const collectYourStuff: {
     recipes: {
         ArrayIterator: typeof import("./recipes/ArrayIterator").default;
         Runnable: typeof import("./recipes/Runnable").default;
+    };
+    services: {
+        parseTree: (tree: import("./recipes/IsTree").default, callback: import("./recipes/IsArrayable").forEachCallback) => import("./recipes/IsTree").default;
+        parseTreeNext: (treeNode: import("./recipes/IsTreeNode").default) => import("./recipes/IsTreeNode").default;
     };
 };
 export default collectYourStuff;

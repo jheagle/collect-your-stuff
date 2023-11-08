@@ -10,29 +10,20 @@ function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { d
 /**
  * @file queue
  * @author Joshua Heagle <joshuaheagle@gmail.com>
- * @version 1.0.0
+ * @version 1.1.0
  * @memberOf module:collect-your-stuff
  */
 
 /**
  * Maintain a series of queued items.
- * @see [Java Queue Interface]{@link http://www.cs.williams.edu/~freund/cs136-073/javadoc/structure5/structure5/Queue.html}
  */
 class Queue {
   /**
    * Instantiate the queue with the given queue list.
-   * @param {Iterable|LinkedList} queuedList
+   * @param {Iterable|LinkedList} queuedList Give the list of queueables to start in this queue.
    */
   constructor (queuedList) {
     this.queuedList = queuedList
-  }
-
-  /**
-   * Add a queued task to the end of the queue
-   * @param {Queueable|*} queueable
-   */
-  add (queueable) {
-    this.queuedList.append(queueable)
   }
 
   /**
@@ -82,35 +73,19 @@ class Queue {
   }
 
   /**
-   * Add a queued task to the end of the queue (alias for 'add()')
-   * @param {Queueable} queueable
+   * Add a queued task to the end of the queue
+   * @param {Queueable} queueable Add a new queueable to the end of the queue
    */
   enqueue (queueable) {
-    this.add(queueable)
+    this.queuedList.append(queueable)
   }
 
   /**
-   * Return a reference to the next queued task.
-   * @return {Queueable}
-   */
-  get () {
-    return this.queuedList.first
-  }
-
-  /**
-   * Return a reference to the next queued / first queued task (alias for 'get()')
-   * @return {Queueable}
-   */
-  getFirst () {
-    return this.get()
-  }
-
-  /**
-   * Take a look at the next queued task (alias for 'get()')
+   * Take a look at the next queued task
    * @return {Queueable}
    */
   peek () {
-    return this.get()
+    return this.queuedList.first
   }
 
   /**
@@ -134,10 +109,9 @@ class Queue {
 }
 /**
  * Convert an array to a Queue.
- * @methodof Queue
- * @param {Array} values
- * @param {Queueable} queueableClass
- * @param {Queue|Iterable} listClass
+ * @param {Array} values An array of values which will be converted to queueables in this queue
+ * @param {Queueable} queueableClass The class to use for each queueable
+ * @param {Queue|Iterable} listClass The class to use to manage the queueables
  * @returns {Queue}
  */
 Queue.fromArray = function () {

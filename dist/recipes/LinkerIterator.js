@@ -5,7 +5,7 @@ Object.defineProperty(exports, '__esModule', {
 })
 exports.default = void 0
 /**
- * Class LinkerIterator returns the next value for Iterable classes.
+ * Class LinkerIterator returns the next value when using linkers of linked type lists.
  */
 class LinkerIterator {
   constructor (current) {

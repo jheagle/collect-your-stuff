@@ -14,8 +14,9 @@ class Queueable {
   /**
    * Create a queueable item that can be used in a queue.
    * @param {Object} [queueableData={}]
-   * @param {*} [queueableData.task=null]
-   * @param {boolean|Function} [queueableData.ready=false]
+   * @param {*} [queueableData.task=null] The data to be stored in this queueable
+   * @param {Queueable|null} [queueableData.next=null] The reference to the next queueable if any
+   * @param {boolean|Function} [queueableData.ready=false] Indicate if the queueable is ready to run
    */
   constructor () {
     const {
@@ -60,9 +61,9 @@ class Queueable {
   /**
    * Set this queueable as completed.
    * @param {Object} completeResponse
-   * @param {*} [completeResponse.success=true]
-   * @param {*} [completeResponse.error=false]
-   * @param {*} [completeResponse.context=null]
+   * @param {*} [completeResponse.success=true] Indicate when the task failed (use false) or give a success message
+   * @param {*} [completeResponse.error=false] Indicate a task was error-free (use false) or give an error message
+   * @param {*} [completeResponse.context=null] Provide additional data in the response
    * @return {completeResponse}
    */
   markCompleted () {
@@ -86,6 +87,7 @@ class Queueable {
    */
   run () {
     if (!this.isReady) {
+      // Not yet ready, return with errors
       return {
         success: false,
         error: 'Task is not ready',
@@ -93,6 +95,7 @@ class Queueable {
       }
     }
     if (this.running) {
+      // Already running, return error since we cannot run again
       return {
         success: false,
         error: 'Queued task is already running, possible missing \'complete\' callback',
@@ -100,18 +103,18 @@ class Queueable {
       }
     }
     this.running = true
+    // Wrap the task in the markCompleted function, so we can set flags and format the response
     return this.task(this.markCompleted.bind(this))
   }
 }
 /**
  * Make a new Queueable from the data given if it is not already a valid Queueable.
- * @methodof Queueable
- * @param {Queueable|*} queueable
+ * @param {Queueable|*} queueable Return a valid Queueable instance from given data, or even an already valid one.
  * @return {Queueable}
  */
 Queueable.make = queueable => {
   if (typeof queueable !== 'object') {
-    // It is not an object, so instantiate the Queueable with element as the data
+    // It is not an object, so instantiate the Queueable with an element as the data
     return new Queueable({
       task: queueable
     })
@@ -130,7 +133,7 @@ Queueable.make = queueable => {
 }
 /**
  * Convert an array into Queueable instances, return the head and tail Queueables.
- * @param {Array} values
+ * @param {Array} values Provide an array of data that will be converted to a chain of queueable linkers.
  * @returns {{head: Queueable, tail: Queueable}}
  */
 Queueable.fromArray = values => values.reduce((references, queueable) => {

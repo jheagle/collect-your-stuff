@@ -13,14 +13,20 @@ Data allocation and manipulation.
 ## Classes
 
 <dl>
+<dt><a href="#TreeLinkerIterator">TreeLinkerIterator</a></dt>
+<dd><p>Class TreeLinkerIterator returns the next value taking a left-first approach down a tree.</p>
+</dd>
 <dt><a href="#Runnable">Runnable</a></dt>
 <dd><p>Identify a class that can be run.</p>
 </dd>
 <dt><a href="#LinkerIterator">LinkerIterator</a></dt>
-<dd><p>Class LinkerIterator returns the next value for Iterable classes.</p>
+<dd><p>Class LinkerIterator returns the next value when using linkers of linked type lists.</p>
+</dd>
+<dt><a href="#DoubleLinkerIterator">DoubleLinkerIterator</a></dt>
+<dd><p>Class DoubleLinkerIterator returns the next value when using linkers of linked type lists.</p>
 </dd>
 <dt><a href="#ArrayIterator">ArrayIterator</a></dt>
-<dd><p>Class ArrayIterator returns the next value for Iterable classes.</p>
+<dd><p>Class ArrayIterator returns the next value when using elements of array type list.</p>
 </dd>
 <dt><a href="#Stackable">Stackable</a></dt>
 <dd><p>Stackable represents a runnable entry in stack.</p>
@@ -35,7 +41,7 @@ Data allocation and manipulation.
 <dd><p>Maintain a series of queued items.</p>
 </dd>
 <dt><a href="#TreeLinker">TreeLinker</a></dt>
-<dd><p>TreeLinker represents a node in a LinkedTreeList.</p>
+<dd><p>TreeLinker represents a node in a LinkedTreeList having a parent (or root) and child nodes.</p>
 </dd>
 <dt><a href="#LinkedTreeList">LinkedTreeList</a></dt>
 <dd><p>LinkedTreeList represents a collection stored with a root and spreading in branching (tree) formation.</p>
@@ -50,7 +56,7 @@ Data allocation and manipulation.
 <dd><p>DoublyLinkedList represents a collection stored as a LinkedList with prev and next references.</p>
 </dd>
 <dt><a href="#DoubleLinker">DoubleLinker</a></dt>
-<dd><p>DoubleLinker represents a node in a DoublyLinkedList.</p>
+<dd><p>DoubleLinker represents a node in a DoublyLinkedList which is chained by next and prev.</p>
 </dd>
 <dt><a href="#Arrayable">Arrayable</a></dt>
 <dd><p>Arrayable represents a collection stored as an array.</p>
@@ -63,8 +69,31 @@ Data allocation and manipulation.
 ## Constants
 
 <dl>
+<dt><a href="#services">services</a></dt>
+<dd><p>List helpful functions when dealing with collections.</p>
+</dd>
 <dt><a href="#recipes">recipes</a></dt>
 <dd><p>List of class declarations that can be used to specify attributes for a style of object / class.</p>
+</dd>
+</dl>
+
+## Functions
+
+<dl>
+<dt><a href="#parseTreeNext">parseTreeNext(treeNode)</a> ⇒ <code>IsTreeNode</code> | <code>null</code></dt>
+<dd><p>Figure this out</p>
+<ol>
+<li>Start at root (get root parent)</li>
+<li>Get first child (repeat until no children)</li>
+<li>Check next child</li>
+<li>Repeat 2</li>
+<li>Repeat 3</li>
+<li>If no next child, return to parent and repeat 3</li>
+<li>Stop at root (next is null and parent is null</li>
+</ol>
+</dd>
+<dt><a href="#parseTree">parseTree(tree, callback)</a> ⇒ <code>IsArrayable.&lt;IsTreeNode&gt;</code></dt>
+<dd><p>Loop over all the nodes in a tree starting from left and apply a callback for each</p>
 </dd>
 </dl>
 
@@ -81,6 +110,12 @@ All of the collections available.
 All methods exported from this module are encapsulated within collect-your-stuff.
 
 **Kind**: inner constant of [<code>collect-your-stuff</code>](#module_collect-your-stuff)  
+<a name="TreeLinkerIterator"></a>
+
+## TreeLinkerIterator
+Class TreeLinkerIterator returns the next value taking a left-first approach down a tree.
+
+**Kind**: global class  
 <a name="Runnable"></a>
 
 ## Runnable
@@ -132,13 +167,19 @@ Check if a given thing is Runnable
 <a name="LinkerIterator"></a>
 
 ## LinkerIterator
-Class LinkerIterator returns the next value for Iterable classes.
+Class LinkerIterator returns the next value when using linkers of linked type lists.
+
+**Kind**: global class  
+<a name="DoubleLinkerIterator"></a>
+
+## DoubleLinkerIterator
+Class DoubleLinkerIterator returns the next value when using linkers of linked type lists.
 
 **Kind**: global class  
 <a name="ArrayIterator"></a>
 
 ## ArrayIterator
-Class ArrayIterator returns the next value for Iterable classes.
+Class ArrayIterator returns the next value when using elements of array type list.
 
 **Kind**: global class  
 <a name="Stackable"></a>
@@ -149,7 +190,7 @@ Stackable represents a runnable entry in stack.
 **Kind**: global class  
 
 * [Stackable](#Stackable)
-    * [new Stackable([stack])](#new_Stackable_new)
+    * [new Stackable([stackData])](#new_Stackable_new)
     * _instance_
         * [.task](#Stackable+task) ⇒ <code>\*</code>
         * [.run()](#Stackable+run) ⇒ <code>\*</code>
@@ -159,13 +200,16 @@ Stackable represents a runnable entry in stack.
 
 <a name="new_Stackable_new"></a>
 
-### new Stackable([stack])
-Instantiate the Stackable which is used in a stack.
+### new Stackable([stackData])
+Create a stackable item that can be used in a stack.
 
 
-| Param | Type | Default |
-| --- | --- | --- |
-| [stack] | <code>\*</code> | <code></code> | 
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [stackData] | <code>Object</code> | <code>{}</code> |  |
+| [stackData.task] | <code>\*</code> | <code></code> | The data to be stored in this stackable |
+| [stackData.next] | [<code>Stackable</code>](#Stackable) \| <code>null</code> | <code></code> | The reference to the next stackable if any |
+| [stackData.ready] | <code>boolean</code> \| <code>function</code> | <code>false</code> | Indicate if the stackable is ready to run |
 
 <a name="Stackable+task"></a>
 
@@ -185,11 +229,10 @@ Run the stacked task.
 Make a new Stackable from the data given if it is not already a valid Stackable.
 
 **Kind**: static method of [<code>Stackable</code>](#Stackable)  
-**Methodof**: Stackable  
 
-| Param | Type |
-| --- | --- |
-| stackable | [<code>Stackable</code>](#Stackable) \| <code>\*</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| stackable | [<code>Stackable</code>](#Stackable) \| <code>\*</code> | Return a valid Stackable instance from given data, or even an already valid one. |
 
 <a name="Stackable.fromArray"></a>
 
@@ -198,9 +241,9 @@ Convert an array into Stackable instances, return the head and tail Stackables.
 
 **Kind**: static method of [<code>Stackable</code>](#Stackable)  
 
-| Param | Type | Default |
-| --- | --- | --- |
-| [values] | <code>Array</code> | <code>[]</code> | 
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [values] | <code>Array</code> | <code>[]</code> | Provide an array of data that will be converted to a chain of stackable linkers. |
 
 <a name="Stack"></a>
 
@@ -208,16 +251,12 @@ Convert an array into Stackable instances, return the head and tail Stackables.
 Store a collection of items which can only be inserted and removed from the top.
 
 **Kind**: global class  
-**See**: [Java Stack Interface](http://www.cs.williams.edu/~freund/cs136-073/javadoc/structure5/structure5/Stack.html)  
 
 * [Stack](#Stack)
     * [new Stack(stackedList)](#new_Stack_new)
     * _instance_
-        * [.add(stackable)](#Stack+add)
         * [.empty()](#Stack+empty) ⇒ <code>boolean</code>
-        * [.get()](#Stack+get) ⇒ [<code>Stackable</code>](#Stackable)
-        * [.getFirst()](#Stack+getFirst) ⇒ [<code>Stackable</code>](#Stackable)
-        * [.peek()](#Stack+peek) ⇒ [<code>Stackable</code>](#Stackable)
+        * [.top()](#Stack+top) ⇒ [<code>Stackable</code>](#Stackable)
         * [.pop()](#Stack+pop) ⇒ [<code>Stackable</code>](#Stackable) \| <code>null</code>
         * [.push(stackable)](#Stack+push)
         * [.remove()](#Stack+remove) ⇒ [<code>Stackable</code>](#Stackable) \| <code>null</code>
@@ -233,18 +272,7 @@ Instantiate the state with the starter stacked list.
 
 | Param | Type |
 | --- | --- |
-| stackedList | <code>Iterable</code> \| [<code>Arrayable</code>](#Arrayable) | 
-
-<a name="Stack+add"></a>
-
-### stack.add(stackable)
-Add a stackable task to the top of the stack.
-
-**Kind**: instance method of [<code>Stack</code>](#Stack)  
-
-| Param | Type |
-| --- | --- |
-| stackable | [<code>Stackable</code>](#Stackable) \| <code>\*</code> | 
+| stackedList | <code>Iterable</code> \| [<code>LinkedList</code>](#LinkedList) | 
 
 <a name="Stack+empty"></a>
 
@@ -252,22 +280,10 @@ Add a stackable task to the top of the stack.
 Return true if the stack is empty (there are no tasks in the stacked list)
 
 **Kind**: instance method of [<code>Stack</code>](#Stack)  
-<a name="Stack+get"></a>
+<a name="Stack+top"></a>
 
-### stack.get() ⇒ [<code>Stackable</code>](#Stackable)
-Return a reference to the next stacked task.
-
-**Kind**: instance method of [<code>Stack</code>](#Stack)  
-<a name="Stack+getFirst"></a>
-
-### stack.getFirst() ⇒ [<code>Stackable</code>](#Stackable)
-Return a reference to the next stacked / first stacked task (alias for 'get()')
-
-**Kind**: instance method of [<code>Stack</code>](#Stack)  
-<a name="Stack+peek"></a>
-
-### stack.peek() ⇒ [<code>Stackable</code>](#Stackable)
-Take a look at the next stacked task (alias for 'get()')
+### stack.top() ⇒ [<code>Stackable</code>](#Stackable)
+Take a look at the next stacked task
 
 **Kind**: instance method of [<code>Stack</code>](#Stack)  
 <a name="Stack+pop"></a>
@@ -283,9 +299,9 @@ Push a stackable task to the top of the stack.
 
 **Kind**: instance method of [<code>Stack</code>](#Stack)  
 
-| Param | Type |
-| --- | --- |
-| stackable | [<code>Stackable</code>](#Stackable) \| <code>\*</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| stackable | [<code>Stackable</code>](#Stackable) \| <code>\*</code> | Add a new stackable to the top of the stack |
 
 <a name="Stack+remove"></a>
 
@@ -305,13 +321,12 @@ Get the size of the current stack.
 Convert an array to a Stack.
 
 **Kind**: static method of [<code>Stack</code>](#Stack)  
-**Methodof**: Stack  
 
-| Param | Type |
-| --- | --- |
-| values | <code>Array</code> | 
-| stackableClass | [<code>Stackable</code>](#Stackable) | 
-| listClass | [<code>Stack</code>](#Stack) \| <code>Iterable</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| values | <code>Array</code> | An array of values which will be converted to stackables in this queue |
+| stackableClass | [<code>Stackable</code>](#Stackable) | The class to use for each stackable |
+| listClass | [<code>Stack</code>](#Stack) \| <code>Iterable</code> | The class to use to manage the stackables |
 
 <a name="Queueable"></a>
 
@@ -337,11 +352,12 @@ Queueable represents a runnable entry in a queue.
 Create a queueable item that can be used in a queue.
 
 
-| Param | Type | Default |
-| --- | --- | --- |
-| [queueableData] | <code>Object</code> | <code>{}</code> | 
-| [queueableData.task] | <code>\*</code> | <code></code> | 
-| [queueableData.ready] | <code>boolean</code> \| <code>function</code> | <code>false</code> | 
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [queueableData] | <code>Object</code> | <code>{}</code> |  |
+| [queueableData.task] | <code>\*</code> | <code></code> | The data to be stored in this queueable |
+| [queueableData.next] | [<code>Queueable</code>](#Queueable) \| <code>null</code> | <code></code> | The reference to the next queueable if any |
+| [queueableData.ready] | <code>boolean</code> \| <code>function</code> | <code>false</code> | Indicate if the queueable is ready to run |
 
 <a name="Queueable+isReady"></a>
 
@@ -362,12 +378,12 @@ Set this queueable as completed.
 
 **Kind**: instance method of [<code>Queueable</code>](#Queueable)  
 
-| Param | Type | Default |
-| --- | --- | --- |
-| completeResponse | <code>Object</code> |  | 
-| [completeResponse.success] | <code>\*</code> | <code>true</code> | 
-| [completeResponse.error] | <code>\*</code> | <code>false</code> | 
-| [completeResponse.context] | <code>\*</code> | <code></code> | 
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| completeResponse | <code>Object</code> |  |  |
+| [completeResponse.success] | <code>\*</code> | <code>true</code> | Indicate when the task failed (use false) or give a success message |
+| [completeResponse.error] | <code>\*</code> | <code>false</code> | Indicate a task was error-free (use false) or give an error message |
+| [completeResponse.context] | <code>\*</code> | <code></code> | Provide additional data in the response |
 
 <a name="Queueable+run"></a>
 
@@ -381,11 +397,10 @@ Intend to run the queued task when it is ready. If ready, mark this task as runn
 Make a new Queueable from the data given if it is not already a valid Queueable.
 
 **Kind**: static method of [<code>Queueable</code>](#Queueable)  
-**Methodof**: Queueable  
 
-| Param | Type |
-| --- | --- |
-| queueable | [<code>Queueable</code>](#Queueable) \| <code>\*</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| queueable | [<code>Queueable</code>](#Queueable) \| <code>\*</code> | Return a valid Queueable instance from given data, or even an already valid one. |
 
 <a name="Queueable.fromArray"></a>
 
@@ -394,9 +409,9 @@ Convert an array into Queueable instances, return the head and tail Queueables.
 
 **Kind**: static method of [<code>Queueable</code>](#Queueable)  
 
-| Param | Type |
-| --- | --- |
-| values | <code>Array</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| values | <code>Array</code> | Provide an array of data that will be converted to a chain of queueable linkers. |
 
 <a name="Queue"></a>
 
@@ -404,17 +419,13 @@ Convert an array into Queueable instances, return the head and tail Queueables.
 Maintain a series of queued items.
 
 **Kind**: global class  
-**See**: [Java Queue Interface](http://www.cs.williams.edu/~freund/cs136-073/javadoc/structure5/structure5/Queue.html)  
 
 * [Queue](#Queue)
     * [new Queue(queuedList)](#new_Queue_new)
     * _instance_
-        * [.add(queueable)](#Queue+add)
         * [.dequeue()](#Queue+dequeue) ⇒ <code>completeResponse</code> \| <code>\*</code>
         * [.empty()](#Queue+empty) ⇒ <code>boolean</code>
         * [.enqueue(queueable)](#Queue+enqueue)
-        * [.get()](#Queue+get) ⇒ [<code>Queueable</code>](#Queueable)
-        * [.getFirst()](#Queue+getFirst) ⇒ [<code>Queueable</code>](#Queueable)
         * [.peek()](#Queue+peek) ⇒ [<code>Queueable</code>](#Queueable)
         * [.remove()](#Queue+remove) ⇒ [<code>Queueable</code>](#Queueable) \| <code>null</code>
         * [.size()](#Queue+size) ⇒ <code>number</code>
@@ -427,20 +438,9 @@ Maintain a series of queued items.
 Instantiate the queue with the given queue list.
 
 
-| Param | Type |
-| --- | --- |
-| queuedList | <code>Iterable</code> \| [<code>LinkedList</code>](#LinkedList) | 
-
-<a name="Queue+add"></a>
-
-### queue.add(queueable)
-Add a queued task to the end of the queue
-
-**Kind**: instance method of [<code>Queue</code>](#Queue)  
-
-| Param | Type |
-| --- | --- |
-| queueable | [<code>Queueable</code>](#Queueable) \| <code>\*</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| queuedList | <code>Iterable</code> \| [<code>LinkedList</code>](#LinkedList) | Give the list of queueables to start in this queue. |
 
 <a name="Queue+dequeue"></a>
 
@@ -457,30 +457,18 @@ Return true if the queue is empty (there are no tasks in the queue list)
 <a name="Queue+enqueue"></a>
 
 ### queue.enqueue(queueable)
-Add a queued task to the end of the queue (alias for 'add()')
+Add a queued task to the end of the queue
 
 **Kind**: instance method of [<code>Queue</code>](#Queue)  
 
-| Param | Type |
-| --- | --- |
-| queueable | [<code>Queueable</code>](#Queueable) | 
+| Param | Type | Description |
+| --- | --- | --- |
+| queueable | [<code>Queueable</code>](#Queueable) | Add a new queueable to the end of the queue |
 
-<a name="Queue+get"></a>
-
-### queue.get() ⇒ [<code>Queueable</code>](#Queueable)
-Return a reference to the next queued task.
-
-**Kind**: instance method of [<code>Queue</code>](#Queue)  
-<a name="Queue+getFirst"></a>
-
-### queue.getFirst() ⇒ [<code>Queueable</code>](#Queueable)
-Return a reference to the next queued / first queued task (alias for 'get()')
-
-**Kind**: instance method of [<code>Queue</code>](#Queue)  
 <a name="Queue+peek"></a>
 
 ### queue.peek() ⇒ [<code>Queueable</code>](#Queueable)
-Take a look at the next queued task (alias for 'get()')
+Take a look at the next queued task
 
 **Kind**: instance method of [<code>Queue</code>](#Queue)  
 <a name="Queue+remove"></a>
@@ -501,54 +489,53 @@ Get the length of the current queue.
 Convert an array to a Queue.
 
 **Kind**: static method of [<code>Queue</code>](#Queue)  
-**Methodof**: Queue  
 
-| Param | Type |
-| --- | --- |
-| values | <code>Array</code> | 
-| queueableClass | [<code>Queueable</code>](#Queueable) | 
-| listClass | [<code>Queue</code>](#Queue) \| <code>Iterable</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| values | <code>Array</code> | An array of values which will be converted to queueables in this queue |
+| queueableClass | [<code>Queueable</code>](#Queueable) | The class to use for each queueable |
+| listClass | [<code>Queue</code>](#Queue) \| <code>Iterable</code> | The class to use to manage the queueables |
 
 <a name="TreeLinker"></a>
 
 ## TreeLinker
-TreeLinker represents a node in a LinkedTreeList.
+TreeLinker represents a node in a LinkedTreeList having a parent (or root) and child nodes.
 
 **Kind**: global class  
 
 * [TreeLinker](#TreeLinker)
     * [new TreeLinker([settings])](#new_TreeLinker_new)
     * _instance_
-        * [.childrenFromArray(children)](#TreeLinker+childrenFromArray) ⇒ [<code>DoubleLinker</code>](#DoubleLinker) \| <code>null</code>
+        * [.childrenFromArray(children)](#TreeLinker+childrenFromArray) ⇒ [<code>LinkedTreeList</code>](#LinkedTreeList) \| <code>null</code>
     * _static_
         * [.make(linker)](#TreeLinker.make) ⇒ [<code>TreeLinker</code>](#TreeLinker)
-        * [.fromArray([values], [linkerClass])](#TreeLinker.fromArray) ⇒ <code>Object</code>
+        * [.fromArray([values])](#TreeLinker.fromArray) ⇒ <code>Object</code>
 
 <a name="new_TreeLinker_new"></a>
 
 ### new TreeLinker([settings])
-Create the new TreeLinker instance, provide the data and optionally configure the type of Linker.
+Create the new TreeLinker instance, provide the data and optionally set references for next, prev, parent, or children.
 
 
-| Param | Type | Default |
-| --- | --- | --- |
-| [settings] | <code>Object</code> | <code>{}</code> | 
-| [settings.data] | <code>\*</code> | <code></code> | 
-| [settings.prev] | [<code>TreeLinker</code>](#TreeLinker) | <code></code> | 
-| [settings.next] | [<code>TreeLinker</code>](#TreeLinker) | <code></code> | 
-| [settings.children] | [<code>LinkedTreeList</code>](#LinkedTreeList) | <code></code> | 
-| [settings.parent] | [<code>TreeLinker</code>](#TreeLinker) | <code></code> | 
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [settings] | <code>Object</code> | <code>{}</code> |  |
+| [settings.data] | <code>\*</code> | <code></code> | The data to be stored in this tree node |
+| [settings.next] | [<code>TreeLinker</code>](#TreeLinker) | <code></code> | The reference to the next linker if any |
+| [settings.prev] | [<code>TreeLinker</code>](#TreeLinker) | <code></code> | The reference to the previous linker if any |
+| [settings.children] | [<code>LinkedTreeList</code>](#LinkedTreeList) | <code></code> | The references to child linkers if any |
+| [settings.parent] | [<code>TreeLinker</code>](#TreeLinker) | <code></code> | The reference to a parent linker if any |
 
 <a name="TreeLinker+childrenFromArray"></a>
 
-### treeLinker.childrenFromArray(children) ⇒ [<code>DoubleLinker</code>](#DoubleLinker) \| <code>null</code>
+### treeLinker.childrenFromArray(children) ⇒ [<code>LinkedTreeList</code>](#LinkedTreeList) \| <code>null</code>
 Create the children for this tree from an array.
 
 **Kind**: instance method of [<code>TreeLinker</code>](#TreeLinker)  
 
-| Param | Type |
-| --- | --- |
-| children | <code>Array</code> \| <code>null</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| children | <code>Array</code> \| <code>null</code> | Provide an array of data / linker references to be children of this tree node. |
 
 <a name="TreeLinker.make"></a>
 
@@ -557,22 +544,20 @@ Make a new DoubleLinker from the data given if it is not already a valid Linker.
 
 **Kind**: static method of [<code>TreeLinker</code>](#TreeLinker)  
 
-| Param | Type |
-| --- | --- |
-| linker | [<code>TreeLinker</code>](#TreeLinker) \| <code>\*</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| linker | [<code>TreeLinker</code>](#TreeLinker) \| <code>\*</code> | Return a valid TreeLinker instance from given data, or even an already valid one. |
 
 <a name="TreeLinker.fromArray"></a>
 
-### TreeLinker.fromArray([values], [linkerClass]) ⇒ <code>Object</code>
+### TreeLinker.fromArray([values]) ⇒ <code>Object</code>
 Convert an array into DoubleLinker instances, return the head and tail DoubleLinkers.
 
 **Kind**: static method of [<code>TreeLinker</code>](#TreeLinker)  
-**Methodof**: TreeLinker  
 
-| Param | Type | Default |
-| --- | --- | --- |
-| [values] | <code>Array</code> | <code>[]</code> | 
-| [linkerClass] | [<code>TreeLinker</code>](#TreeLinker) | <code>TreeLinker</code> | 
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [values] | <code>Array</code> | <code>[]</code> | Provide an array of data that will be converted to a chain of tree-linkers. |
 
 <a name="LinkedTreeList"></a>
 
@@ -588,8 +573,6 @@ LinkedTreeList represents a collection stored with a root and spreading in branc
         * [.first](#LinkedTreeList+first) ⇒ [<code>TreeLinker</code>](#TreeLinker)
         * [.last](#LinkedTreeList+last) ⇒ [<code>TreeLinker</code>](#TreeLinker)
         * [.length](#LinkedTreeList+length) ⇒ <code>number</code>
-        * [.children](#LinkedTreeList+children)
-        * [.children](#LinkedTreeList+children)
         * [.parent](#LinkedTreeList+parent) ⇒ [<code>TreeLinker</code>](#TreeLinker)
         * [.parent](#LinkedTreeList+parent)
         * [.rootParent](#LinkedTreeList+rootParent) ⇒ [<code>TreeLinker</code>](#TreeLinker)
@@ -635,23 +618,6 @@ Retrieve the last TreeLinker in the list.
 Return the length of the list.
 
 **Kind**: instance property of [<code>LinkedTreeList</code>](#LinkedTreeList)  
-<a name="LinkedTreeList+children"></a>
-
-### linkedTreeList.children
-Alias for getting the inner list
-
-**Kind**: instance property of [<code>LinkedTreeList</code>](#LinkedTreeList)  
-<a name="LinkedTreeList+children"></a>
-
-### linkedTreeList.children
-Set the inner list to new children
-
-**Kind**: instance property of [<code>LinkedTreeList</code>](#LinkedTreeList)  
-
-| Param | Type |
-| --- | --- |
-| children | [<code>TreeLinker</code>](#TreeLinker) | 
-
 <a name="LinkedTreeList+parent"></a>
 
 ### linkedTreeList.parent ⇒ [<code>TreeLinker</code>](#TreeLinker)
@@ -665,9 +631,9 @@ Set the parent of this tree list
 
 **Kind**: instance property of [<code>LinkedTreeList</code>](#LinkedTreeList)  
 
-| Param | Type |
-| --- | --- |
-| parent | [<code>TreeLinker</code>](#TreeLinker) | 
+| Param | Type | Description |
+| --- | --- | --- |
+| parent | [<code>TreeLinker</code>](#TreeLinker) | The new node to use as the parent for this group of children |
 
 <a name="LinkedTreeList+rootParent"></a>
 
@@ -682,9 +648,9 @@ Initialize the inner list, should only run once.
 
 **Kind**: instance method of [<code>LinkedTreeList</code>](#LinkedTreeList)  
 
-| Param | Type |
-| --- | --- |
-| initialList | [<code>TreeLinker</code>](#TreeLinker) | 
+| Param | Type | Description |
+| --- | --- | --- |
+| initialList | [<code>TreeLinker</code>](#TreeLinker) | Give the list of tree-linkers to start in this linked-tree-list. |
 
 <a name="LinkedTreeList+setChildren"></a>
 
@@ -693,10 +659,10 @@ Set the children on a parent item.
 
 **Kind**: instance method of [<code>LinkedTreeList</code>](#LinkedTreeList)  
 
-| Param | Type |
-| --- | --- |
-| item | [<code>TreeLinker</code>](#TreeLinker) | 
-| children | [<code>LinkedTreeList</code>](#LinkedTreeList) | 
+| Param | Type | Description |
+| --- | --- | --- |
+| item | [<code>TreeLinker</code>](#TreeLinker) | The TreeLinker node that will be the parent of the children |
+| children | [<code>LinkedTreeList</code>](#LinkedTreeList) | The LinkedTreeList which has the child nodes to use |
 
 <a name="LinkedTreeList+insertAfter"></a>
 
@@ -705,10 +671,10 @@ Insert a new node (or data) after a node.
 
 **Kind**: instance method of [<code>LinkedTreeList</code>](#LinkedTreeList)  
 
-| Param | Type |
-| --- | --- |
-| node | [<code>TreeLinker</code>](#TreeLinker) \| <code>\*</code> | 
-| newNode | [<code>TreeLinker</code>](#TreeLinker) \| <code>\*</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| node | [<code>TreeLinker</code>](#TreeLinker) \| <code>\*</code> | The existing node as reference |
+| newNode | [<code>TreeLinker</code>](#TreeLinker) \| <code>\*</code> | The new node to go after the existing node |
 
 <a name="LinkedTreeList+insertBefore"></a>
 
@@ -717,10 +683,10 @@ Insert a new node (or data) before a node.
 
 **Kind**: instance method of [<code>LinkedTreeList</code>](#LinkedTreeList)  
 
-| Param | Type |
-| --- | --- |
-| node | [<code>TreeLinker</code>](#TreeLinker) \| <code>\*</code> | 
-| newNode | [<code>TreeLinker</code>](#TreeLinker) \| <code>\*</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| node | [<code>TreeLinker</code>](#TreeLinker) \| <code>\*</code> | The existing node as reference |
+| newNode | [<code>TreeLinker</code>](#TreeLinker) \| <code>\*</code> | The new node to go before the existing node |
 
 <a name="LinkedTreeList+append"></a>
 
@@ -729,10 +695,10 @@ Add a node (or data) after the given (or last) node in the list.
 
 **Kind**: instance method of [<code>LinkedTreeList</code>](#LinkedTreeList)  
 
-| Param | Type |
-| --- | --- |
-| node | [<code>TreeLinker</code>](#TreeLinker) \| <code>\*</code> | 
-| after | [<code>TreeLinker</code>](#TreeLinker) | 
+| Param | Type | Description |
+| --- | --- | --- |
+| node | [<code>TreeLinker</code>](#TreeLinker) \| <code>\*</code> | The new node to add to the end of the list |
+| after | [<code>TreeLinker</code>](#TreeLinker) | The existing last node |
 
 <a name="LinkedTreeList+prepend"></a>
 
@@ -741,10 +707,10 @@ Add a node (or data) before the given (or first) node in the list.
 
 **Kind**: instance method of [<code>LinkedTreeList</code>](#LinkedTreeList)  
 
-| Param | Type |
-| --- | --- |
-| node | [<code>TreeLinker</code>](#TreeLinker) \| <code>\*</code> | 
-| before | [<code>TreeLinker</code>](#TreeLinker) | 
+| Param | Type | Description |
+| --- | --- | --- |
+| node | [<code>TreeLinker</code>](#TreeLinker) \| <code>\*</code> | The new node to add to the start of the list |
+| before | [<code>TreeLinker</code>](#TreeLinker) | The existing first node |
 
 <a name="LinkedTreeList+remove"></a>
 
@@ -753,9 +719,9 @@ Remove a linker from this linked list.
 
 **Kind**: instance method of [<code>LinkedTreeList</code>](#LinkedTreeList)  
 
-| Param | Type |
-| --- | --- |
-| node | [<code>TreeLinker</code>](#TreeLinker) | 
+| Param | Type | Description |
+| --- | --- | --- |
+| node | [<code>TreeLinker</code>](#TreeLinker) | The node we wish to remove (and it will be returned after removal) |
 
 <a name="LinkedTreeList+reset"></a>
 
@@ -770,21 +736,21 @@ Retrieve a TreeLinker item from this list by numeric index, otherwise return nul
 
 **Kind**: instance method of [<code>LinkedTreeList</code>](#LinkedTreeList)  
 
-| Param | Type |
-| --- | --- |
-| index | <code>number</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| index | <code>number</code> | The integer number for retrieving a node by position. |
 
 <a name="LinkedTreeList+forEach"></a>
 
 ### linkedTreeList.forEach(callback, thisArg)
-Be able to run forEach on this LinkedTreeList ot iterate over the TreeLinker Items.
+Be able to run forEach on this LinkedTreeList to iterate over the TreeLinker Items.
 
 **Kind**: instance method of [<code>LinkedTreeList</code>](#LinkedTreeList)  
 
-| Param | Type |
-| --- | --- |
-| callback | <code>forEachCallback</code> | 
-| thisArg | [<code>LinkedTreeList</code>](#LinkedTreeList) | 
+| Param | Type | Description |
+| --- | --- | --- |
+| callback | <code>forEachCallback</code> | The function to call for-each tree node |
+| thisArg | [<code>LinkedTreeList</code>](#LinkedTreeList) | Optional, 'this' reference |
 
 <a name="LinkedTreeList.fromArray"></a>
 
@@ -793,10 +759,10 @@ Convert an array into a LinkedTreeList instance, return the new instance.
 
 **Kind**: static method of [<code>LinkedTreeList</code>](#LinkedTreeList)  
 
-| Param | Type | Default |
-| --- | --- | --- |
-| [values] | <code>Array</code> | <code>[]</code> | 
-| [linkerClass] | [<code>TreeLinker</code>](#TreeLinker) | <code>TreeLinker</code> | 
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [values] | <code>Array</code> | <code>[]</code> | An array of values which will be converted to nodes in this tree-list |
+| [linkerClass] | [<code>TreeLinker</code>](#TreeLinker) | <code>TreeLinker</code> | The class to use for each node |
 
 <a name="Linker"></a>
 
@@ -813,14 +779,14 @@ Linker represents a node in a LinkedList.
 <a name="new_Linker_new"></a>
 
 ### new Linker([nodeData])
-Create the new Linker instance, provide the data and optionally configure the type of Linker.
+Create the new Linker instance, provide the data and optionally give the next Linker.
 
 
-| Param | Type | Default |
-| --- | --- | --- |
-| [nodeData] | <code>Object</code> | <code>{}</code> | 
-| [nodeData.data] | <code>\*</code> | <code></code> | 
-| [nodeData.next] | [<code>Linker</code>](#Linker) \| <code>null</code> | <code></code> | 
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [nodeData] | <code>Object</code> | <code>{}</code> |  |
+| [nodeData.data] | <code>\*</code> | <code></code> | The data to be stored in this linker |
+| [nodeData.next] | [<code>Linker</code>](#Linker) \| <code>null</code> | <code></code> | The reference to the next linker if any |
 
 <a name="Linker.make"></a>
 
@@ -829,9 +795,9 @@ Make a new Linker from the data given if it is not already a valid Linker.
 
 **Kind**: static method of [<code>Linker</code>](#Linker)  
 
-| Param | Type |
-| --- | --- |
-| linker | [<code>Linker</code>](#Linker) \| <code>\*</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| linker | [<code>Linker</code>](#Linker) \| <code>\*</code> | Return a valid Linker instance from given data, or even an already valid one. |
 
 <a name="Linker.fromArray"></a>
 
@@ -840,9 +806,9 @@ Convert an array into Linker instances, return the head and tail Linkers.
 
 **Kind**: static method of [<code>Linker</code>](#Linker)  
 
-| Param | Type | Default |
-| --- | --- | --- |
-| [values] | <code>Array</code> | <code>[]</code> | 
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [values] | <code>Array</code> | <code>[]</code> | Provide an array of data that will be converted to a chain of linkers. |
 
 <a name="LinkedList"></a>
 
@@ -872,7 +838,7 @@ LinkedList represents a collection stored as a LinkedList with next references.
 <a name="new_LinkedList_new"></a>
 
 ### new LinkedList()
-Create the new LinkedList instance, configure the Linker and List classes.
+Create the new LinkedList instance.
 
 <a name="LinkedList+list"></a>
 
@@ -905,9 +871,9 @@ Initialize the inner list, should only run once.
 
 **Kind**: instance method of [<code>LinkedList</code>](#LinkedList)  
 
-| Param | Type |
-| --- | --- |
-| initialList | [<code>Linker</code>](#Linker) \| <code>Array</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| initialList | [<code>Linker</code>](#Linker) \| <code>Array</code> | Give the list of linkers to start in this linked-list. |
 
 <a name="LinkedList+insertAfter"></a>
 
@@ -916,10 +882,10 @@ Insert a new node (or data) after a node.
 
 **Kind**: instance method of [<code>LinkedList</code>](#LinkedList)  
 
-| Param | Type |
-| --- | --- |
-| node | [<code>Linker</code>](#Linker) \| <code>\*</code> | 
-| newNode | [<code>Linker</code>](#Linker) \| <code>\*</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| node | [<code>Linker</code>](#Linker) \| <code>\*</code> | The existing node as reference |
+| newNode | [<code>Linker</code>](#Linker) \| <code>\*</code> | The new node to go after the existing node |
 
 <a name="LinkedList+insertBefore"></a>
 
@@ -928,10 +894,10 @@ Insert a new node (or data) before a node.
 
 **Kind**: instance method of [<code>LinkedList</code>](#LinkedList)  
 
-| Param | Type |
-| --- | --- |
-| node | [<code>Linker</code>](#Linker) \| <code>\*</code> | 
-| newNode | [<code>Linker</code>](#Linker) \| <code>\*</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| node | [<code>Linker</code>](#Linker) \| <code>\*</code> | The existing node as reference |
+| newNode | [<code>Linker</code>](#Linker) \| <code>\*</code> | The new node to go before the existing node |
 
 <a name="LinkedList+append"></a>
 
@@ -940,10 +906,10 @@ Add a node (or data) after the given (or last) node in the list.
 
 **Kind**: instance method of [<code>LinkedList</code>](#LinkedList)  
 
-| Param | Type |
-| --- | --- |
-| node | [<code>Linker</code>](#Linker) \| <code>\*</code> | 
-| after | [<code>Linker</code>](#Linker) | 
+| Param | Type | Description |
+| --- | --- | --- |
+| node | [<code>Linker</code>](#Linker) \| <code>\*</code> | The new node to add to the end of the list |
+| after | [<code>Linker</code>](#Linker) | The existing last node |
 
 <a name="LinkedList+prepend"></a>
 
@@ -952,10 +918,10 @@ Add a node (or data) before the given (or first) node in the list.
 
 **Kind**: instance method of [<code>LinkedList</code>](#LinkedList)  
 
-| Param | Type |
-| --- | --- |
-| node | [<code>Linker</code>](#Linker) \| <code>\*</code> | 
-| before | [<code>Linker</code>](#Linker) | 
+| Param | Type | Description |
+| --- | --- | --- |
+| node | [<code>Linker</code>](#Linker) \| <code>\*</code> | The new node to add to the start of the list |
+| before | [<code>Linker</code>](#Linker) | The existing first node |
 
 <a name="LinkedList+remove"></a>
 
@@ -964,9 +930,9 @@ Remove a linker from this linked list.
 
 **Kind**: instance method of [<code>LinkedList</code>](#LinkedList)  
 
-| Param | Type |
-| --- | --- |
-| node | [<code>Linker</code>](#Linker) | 
+| Param | Type | Description |
+| --- | --- | --- |
+| node | [<code>Linker</code>](#Linker) | The node we wish to remove (and it will be returned after removal) |
 
 <a name="LinkedList+item"></a>
 
@@ -975,9 +941,9 @@ Retrieve a Linker item from this list by numeric index, otherwise return null.
 
 **Kind**: instance method of [<code>LinkedList</code>](#LinkedList)  
 
-| Param | Type |
-| --- | --- |
-| index | <code>number</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| index | <code>number</code> | The integer number for retrieving a node by position. |
 
 <a name="LinkedList+forEach"></a>
 
@@ -986,10 +952,10 @@ Be able to run forEach on this LinkedList to iterate over the linkers.
 
 **Kind**: instance method of [<code>LinkedList</code>](#LinkedList)  
 
-| Param | Type |
-| --- | --- |
-| callback | <code>forEachCallback</code> | 
-| thisArg | [<code>LinkedList</code>](#LinkedList) | 
+| Param | Type | Description |
+| --- | --- | --- |
+| callback | <code>forEachCallback</code> | The function to call for-each linker |
+| thisArg | [<code>LinkedList</code>](#LinkedList) | Optional, 'this' reference |
 
 <a name="LinkedList.fromArray"></a>
 
@@ -998,10 +964,10 @@ Convert an array to a LinkedList.
 
 **Kind**: static method of [<code>LinkedList</code>](#LinkedList)  
 
-| Param | Type |
-| --- | --- |
-| values | <code>Array</code> | 
-| linkerClass | [<code>Linker</code>](#Linker) | 
+| Param | Type | Description |
+| --- | --- | --- |
+| values | <code>Array</code> | An array of values which will be converted to linkers in this linked-list |
+| linkerClass | [<code>Linker</code>](#Linker) | The class to use for each linker |
 
 <a name="DoublyLinkedList"></a>
 
@@ -1032,7 +998,7 @@ DoublyLinkedList represents a collection stored as a LinkedList with prev and ne
 <a name="new_DoublyLinkedList_new"></a>
 
 ### new DoublyLinkedList()
-Create the new DoublyLinkedList instance, configure the Linker and List classes.
+Create the new DoublyLinkedList instance.
 
 <a name="DoublyLinkedList+list"></a>
 
@@ -1065,9 +1031,9 @@ Initialize the inner list, should only run once.
 
 **Kind**: instance method of [<code>DoublyLinkedList</code>](#DoublyLinkedList)  
 
-| Param | Type |
-| --- | --- |
-| initialList | [<code>DoubleLinker</code>](#DoubleLinker) | 
+| Param | Type | Description |
+| --- | --- | --- |
+| initialList | [<code>DoubleLinker</code>](#DoubleLinker) | Give the list of double-linkers to start in this doubly linked-list. |
 
 <a name="DoublyLinkedList+insertAfter"></a>
 
@@ -1076,10 +1042,10 @@ Insert a new node (or data) after a node.
 
 **Kind**: instance method of [<code>DoublyLinkedList</code>](#DoublyLinkedList)  
 
-| Param | Type |
-| --- | --- |
-| node | [<code>DoubleLinker</code>](#DoubleLinker) \| <code>\*</code> | 
-| newNode | [<code>DoubleLinker</code>](#DoubleLinker) \| <code>\*</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| node | [<code>DoubleLinker</code>](#DoubleLinker) \| <code>\*</code> | The existing node as reference |
+| newNode | [<code>DoubleLinker</code>](#DoubleLinker) \| <code>\*</code> | The new node to go after the existing node |
 
 <a name="DoublyLinkedList+insertBefore"></a>
 
@@ -1088,10 +1054,10 @@ Insert a new node (or data) before a node.
 
 **Kind**: instance method of [<code>DoublyLinkedList</code>](#DoublyLinkedList)  
 
-| Param | Type |
-| --- | --- |
-| node | [<code>DoubleLinker</code>](#DoubleLinker) \| <code>\*</code> | 
-| newNode | [<code>DoubleLinker</code>](#DoubleLinker) \| <code>\*</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| node | [<code>DoubleLinker</code>](#DoubleLinker) \| <code>\*</code> | The existing node as reference |
+| newNode | [<code>DoubleLinker</code>](#DoubleLinker) \| <code>\*</code> | The new node to go before the existing node |
 
 <a name="DoublyLinkedList+append"></a>
 
@@ -1100,10 +1066,10 @@ Add a node (or data) after the given (or last) node in the list.
 
 **Kind**: instance method of [<code>DoublyLinkedList</code>](#DoublyLinkedList)  
 
-| Param | Type |
-| --- | --- |
-| node | [<code>DoubleLinker</code>](#DoubleLinker) \| <code>\*</code> | 
-| after | [<code>DoubleLinker</code>](#DoubleLinker) | 
+| Param | Type | Description |
+| --- | --- | --- |
+| node | [<code>DoubleLinker</code>](#DoubleLinker) \| <code>\*</code> | The new node to add to the end of the list |
+| after | [<code>DoubleLinker</code>](#DoubleLinker) | The existing last node |
 
 <a name="DoublyLinkedList+prepend"></a>
 
@@ -1112,10 +1078,10 @@ Add a node (or data) before the given (or first) node in the list.
 
 **Kind**: instance method of [<code>DoublyLinkedList</code>](#DoublyLinkedList)  
 
-| Param | Type |
-| --- | --- |
-| node | [<code>DoubleLinker</code>](#DoubleLinker) \| <code>\*</code> | 
-| before | [<code>DoubleLinker</code>](#DoubleLinker) | 
+| Param | Type | Description |
+| --- | --- | --- |
+| node | [<code>DoubleLinker</code>](#DoubleLinker) \| <code>\*</code> | The new node to add to the start of the list |
+| before | [<code>DoubleLinker</code>](#DoubleLinker) | The existing first node |
 
 <a name="DoublyLinkedList+remove"></a>
 
@@ -1124,9 +1090,9 @@ Remove a linker from this linked list.
 
 **Kind**: instance method of [<code>DoublyLinkedList</code>](#DoublyLinkedList)  
 
-| Param | Type |
-| --- | --- |
-| node | [<code>DoubleLinker</code>](#DoubleLinker) | 
+| Param | Type | Description |
+| --- | --- | --- |
+| node | [<code>DoubleLinker</code>](#DoubleLinker) | The node we wish to remove (and it will be returned after removal) |
 
 <a name="DoublyLinkedList+reset"></a>
 
@@ -1141,21 +1107,21 @@ Retrieve a DoubleLinker item from this list by numeric index, otherwise return n
 
 **Kind**: instance method of [<code>DoublyLinkedList</code>](#DoublyLinkedList)  
 
-| Param | Type |
-| --- | --- |
-| index | <code>number</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| index | <code>number</code> | The integer number for retrieving a node by position. |
 
 <a name="DoublyLinkedList+forEach"></a>
 
 ### doublyLinkedList.forEach(callback, thisArg)
-Be able to run forEach on this DoublyLinkedList ot iterate over the DoubleLinker Items.
+Be able to run forEach on this DoublyLinkedList to iterate over the DoubleLinker Items.
 
 **Kind**: instance method of [<code>DoublyLinkedList</code>](#DoublyLinkedList)  
 
-| Param | Type |
-| --- | --- |
-| callback | <code>forEachCallback</code> | 
-| thisArg | [<code>DoublyLinkedList</code>](#DoublyLinkedList) | 
+| Param | Type | Description |
+| --- | --- | --- |
+| callback | <code>forEachCallback</code> | The function to call for-each double linker |
+| thisArg | [<code>DoublyLinkedList</code>](#DoublyLinkedList) | Optional, 'this' reference |
 
 <a name="DoublyLinkedList.fromArray"></a>
 
@@ -1164,35 +1130,35 @@ Convert an array into a DoublyLinkedList instance, return the new instance.
 
 **Kind**: static method of [<code>DoublyLinkedList</code>](#DoublyLinkedList)  
 
-| Param | Type | Default |
-| --- | --- | --- |
-| [values] | <code>Array</code> | <code>[]</code> | 
-| [linkerClass] | [<code>DoubleLinker</code>](#DoubleLinker) | <code>DoubleLinker</code> | 
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [values] | <code>Array</code> | <code>[]</code> | An array of values which will be converted to linkers in this doubly-linked-list |
+| [linkerClass] | [<code>DoubleLinker</code>](#DoubleLinker) | <code>DoubleLinker</code> | The class to use for each linker |
 
 <a name="DoubleLinker"></a>
 
 ## DoubleLinker
-DoubleLinker represents a node in a DoublyLinkedList.
+DoubleLinker represents a node in a DoublyLinkedList which is chained by next and prev.
 
 **Kind**: global class  
 
 * [DoubleLinker](#DoubleLinker)
     * [new DoubleLinker([nodeData])](#new_DoubleLinker_new)
     * [.make(linker)](#DoubleLinker.make) ⇒ [<code>DoubleLinker</code>](#DoubleLinker)
-    * [.fromArray([values], [linkerClass])](#DoubleLinker.fromArray) ⇒ <code>Object</code>
+    * [.fromArray([values])](#DoubleLinker.fromArray) ⇒ <code>Object</code>
 
 <a name="new_DoubleLinker_new"></a>
 
 ### new DoubleLinker([nodeData])
-Create the new DoubleLinker instance, provide the data and optionally configure the type of Linker.
+Create the new DoubleLinker instance, provide the data and optionally the next and prev references.
 
 
-| Param | Type | Default |
-| --- | --- | --- |
-| [nodeData] | <code>Object</code> | <code>{}</code> | 
-| [nodeData.data] | <code>\*</code> | <code></code> | 
-| [nodeData.prev] | [<code>DoubleLinker</code>](#DoubleLinker) \| <code>null</code> | <code></code> | 
-| [nodeData.next] | [<code>DoubleLinker</code>](#DoubleLinker) \| <code>null</code> | <code></code> | 
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [nodeData] | <code>Object</code> | <code>{}</code> |  |
+| [nodeData.data] | <code>\*</code> | <code></code> | The data to be stored in this linker |
+| [nodeData.next] | [<code>DoubleLinker</code>](#DoubleLinker) \| <code>null</code> | <code></code> | The reference to the next linker if any |
+| [nodeData.prev] | [<code>DoubleLinker</code>](#DoubleLinker) \| <code>null</code> | <code></code> | The reference to the previous linker if any |
 
 <a name="DoubleLinker.make"></a>
 
@@ -1201,21 +1167,20 @@ Make a new DoubleLinker from the data given if it is not already a valid Linker.
 
 **Kind**: static method of [<code>DoubleLinker</code>](#DoubleLinker)  
 
-| Param | Type |
-| --- | --- |
-| linker | [<code>DoubleLinker</code>](#DoubleLinker) \| <code>\*</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| linker | [<code>DoubleLinker</code>](#DoubleLinker) \| <code>\*</code> | Return a valid Linker instance from given data, or even an already valid one. |
 
 <a name="DoubleLinker.fromArray"></a>
 
-### DoubleLinker.fromArray([values], [linkerClass]) ⇒ <code>Object</code>
+### DoubleLinker.fromArray([values]) ⇒ <code>Object</code>
 Convert an array into DoubleLinker instances, return the head and tail DoubleLinkers.
 
 **Kind**: static method of [<code>DoubleLinker</code>](#DoubleLinker)  
 
-| Param | Type | Default |
-| --- | --- | --- |
-| [values] | <code>Array</code> | <code>[]</code> | 
-| [linkerClass] | [<code>DoubleLinker</code>](#DoubleLinker) | <code>DoubleLinker</code> | 
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [values] | <code>Array</code> | <code>[]</code> | Provide an array of data that will be converted to a chain of linkers. |
 
 <a name="Arrayable"></a>
 
@@ -1227,7 +1192,7 @@ Arrayable represents a collection stored as an array.
 * [Arrayable](#Arrayable)
     * [new Arrayable()](#new_Arrayable_new)
     * _instance_
-        * [.list](#Arrayable+list) ⇒ <code>Array</code>
+        * [.list](#Arrayable+list) ⇒ [<code>Array.&lt;ArrayElement&gt;</code>](#ArrayElement)
         * [.first](#Arrayable+first) ⇒ [<code>ArrayElement</code>](#ArrayElement)
         * [.last](#Arrayable+last) ⇒ [<code>ArrayElement</code>](#ArrayElement)
         * [.length](#Arrayable+length) ⇒ <code>number</code>
@@ -1249,7 +1214,7 @@ Create the new Arrayable instance, configure the Arrayable class.
 
 <a name="Arrayable+list"></a>
 
-### arrayable.list ⇒ <code>Array</code>
+### arrayable.list ⇒ [<code>Array.&lt;ArrayElement&gt;</code>](#ArrayElement)
 Retrieve a copy of the innerList used.
 
 **Kind**: instance property of [<code>Arrayable</code>](#Arrayable)  
@@ -1278,9 +1243,9 @@ Initialize the inner list, should only run once.
 
 **Kind**: instance method of [<code>Arrayable</code>](#Arrayable)  
 
-| Param | Type |
-| --- | --- |
-| initialList | [<code>ArrayElement</code>](#ArrayElement) \| <code>Array</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| initialList | [<code>Array.&lt;ArrayElement&gt;</code>](#ArrayElement) | Give the array of elements to start in this Arrayable. |
 
 <a name="Arrayable+insertAfter"></a>
 
@@ -1289,10 +1254,10 @@ Insert a new node (or data) after a node.
 
 **Kind**: instance method of [<code>Arrayable</code>](#Arrayable)  
 
-| Param | Type |
-| --- | --- |
-| node | [<code>ArrayElement</code>](#ArrayElement) \| <code>\*</code> | 
-| newNode | [<code>ArrayElement</code>](#ArrayElement) \| <code>\*</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| node | [<code>ArrayElement</code>](#ArrayElement) \| <code>\*</code> | The existing node as reference |
+| newNode | [<code>ArrayElement</code>](#ArrayElement) \| <code>\*</code> | The new node to go after the existing node |
 
 <a name="Arrayable+insertBefore"></a>
 
@@ -1301,10 +1266,10 @@ Insert a new node (or data) before a node.
 
 **Kind**: instance method of [<code>Arrayable</code>](#Arrayable)  
 
-| Param | Type |
-| --- | --- |
-| node | [<code>ArrayElement</code>](#ArrayElement) \| <code>\*</code> | 
-| newNode | [<code>ArrayElement</code>](#ArrayElement) \| <code>\*</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| node | [<code>ArrayElement</code>](#ArrayElement) \| <code>\*</code> | The existing node as reference |
+| newNode | [<code>ArrayElement</code>](#ArrayElement) \| <code>\*</code> | The new node to go before the existing node |
 
 <a name="Arrayable+append"></a>
 
@@ -1313,10 +1278,10 @@ Add a node (or data) after the given (or last) node in the list.
 
 **Kind**: instance method of [<code>Arrayable</code>](#Arrayable)  
 
-| Param | Type |
-| --- | --- |
-| node | [<code>ArrayElement</code>](#ArrayElement) \| <code>\*</code> | 
-| after | [<code>ArrayElement</code>](#ArrayElement) | 
+| Param | Type | Description |
+| --- | --- | --- |
+| node | [<code>ArrayElement</code>](#ArrayElement) \| <code>\*</code> | The new node to add to the end of the list |
+| after | [<code>ArrayElement</code>](#ArrayElement) | The existing last node |
 
 <a name="Arrayable+prepend"></a>
 
@@ -1325,10 +1290,10 @@ Add a node (or data) before the given (or first) node in the list.
 
 **Kind**: instance method of [<code>Arrayable</code>](#Arrayable)  
 
-| Param | Type |
-| --- | --- |
-| node | [<code>ArrayElement</code>](#ArrayElement) \| <code>\*</code> | 
-| before | [<code>ArrayElement</code>](#ArrayElement) | 
+| Param | Type | Description |
+| --- | --- | --- |
+| node | [<code>ArrayElement</code>](#ArrayElement) \| <code>\*</code> | The new node to add to the start of the list |
+| before | [<code>ArrayElement</code>](#ArrayElement) | The existing first node |
 
 <a name="Arrayable+remove"></a>
 
@@ -1337,9 +1302,9 @@ Remove an element from this arrayable.
 
 **Kind**: instance method of [<code>Arrayable</code>](#Arrayable)  
 
-| Param | Type |
-| --- | --- |
-| node | [<code>ArrayElement</code>](#ArrayElement) | 
+| Param | Type | Description |
+| --- | --- | --- |
+| node | [<code>ArrayElement</code>](#ArrayElement) | The node we wish to remove (and it will be returned after removal) |
 
 <a name="Arrayable+item"></a>
 
@@ -1348,9 +1313,9 @@ Retrieve an ArrayElement item from this list by numeric index, otherwise return 
 
 **Kind**: instance method of [<code>Arrayable</code>](#Arrayable)  
 
-| Param | Type |
-| --- | --- |
-| index | <code>number</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| index | <code>number</code> | The integer number for retrieving a node by position. |
 
 <a name="Arrayable+forEach"></a>
 
@@ -1359,10 +1324,10 @@ Be able to run forEach on this Arrayable to iterate over the elements.
 
 **Kind**: instance method of [<code>Arrayable</code>](#Arrayable)  
 
-| Param | Type |
-| --- | --- |
-| callback | <code>forEachCallback</code> | 
-| thisArg | [<code>Arrayable</code>](#Arrayable) | 
+| Param | Type | Description |
+| --- | --- | --- |
+| callback | <code>forEachCallback</code> | The function to call for-each element |
+| thisArg | [<code>Arrayable</code>](#Arrayable) | Optional, 'this' reference |
 
 <a name="Arrayable.fromArray"></a>
 
@@ -1371,10 +1336,10 @@ Convert an array to an Arrayable.
 
 **Kind**: static method of [<code>Arrayable</code>](#Arrayable)  
 
-| Param | Type |
-| --- | --- |
-| values | <code>Array</code> | 
-| elementClass | [<code>ArrayElement</code>](#ArrayElement) | 
+| Param | Type | Description |
+| --- | --- | --- |
+| values | <code>Array</code> | An array of values which will be converted to elements in this arrayable |
+| elementClass | [<code>ArrayElement</code>](#ArrayElement) | The class to use for each element |
 
 <a name="ArrayElement"></a>
 
@@ -1394,9 +1359,9 @@ Element represents a node in an Arrayable.
 Create the new Element instance, provide the data and optionally configure the type of Element.
 
 
-| Param | Type | Default |
-| --- | --- | --- |
-| [data] | <code>\*</code> | <code></code> | 
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [data] | <code>\*</code> | <code></code> | The data to be stored in this element. |
 
 <a name="ArrayElement.make"></a>
 
@@ -1405,9 +1370,9 @@ Make a new Element from the data given if it is not already a valid Element.
 
 **Kind**: static method of [<code>ArrayElement</code>](#ArrayElement)  
 
-| Param | Type |
-| --- | --- |
-| element | [<code>ArrayElement</code>](#ArrayElement) \| <code>\*</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| element | [<code>ArrayElement</code>](#ArrayElement) \| <code>\*</code> | Return a valid ArrayElement instance from given data, or even an already valid one. |
 
 <a name="ArrayElement.fromArray"></a>
 
@@ -1416,13 +1381,49 @@ Convert an array into Element instances, return the head and tail Elements.
 
 **Kind**: static method of [<code>ArrayElement</code>](#ArrayElement)  
 
-| Param | Type | Default |
-| --- | --- | --- |
-| [values] | <code>Array</code> | <code>[]</code> | 
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [values] | <code>Array.&lt;IsElement&gt;</code> | <code>[]</code> | Provide an array of data that will be converted to array of elements. |
 
+<a name="services"></a>
+
+## services
+List helpful functions when dealing with collections.
+
+**Kind**: global constant  
 <a name="recipes"></a>
 
 ## recipes
 List of class declarations that can be used to specify attributes for a style of object / class.
 
 **Kind**: global constant  
+<a name="parseTreeNext"></a>
+
+## parseTreeNext(treeNode) ⇒ <code>IsTreeNode</code> \| <code>null</code>
+Figure this out
+1. Start at root (get root parent)
+2. Get first child (repeat until no children)
+3. Check next child
+4. Repeat 2
+5. Repeat 3
+6. If no next child, return to parent and repeat 3
+7. Stop at root (next is null and parent is null
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| treeNode | <code>IsTreeNode</code> | Provide a node in a tree and get the next node (left-first approach) |
+
+<a name="parseTree"></a>
+
+## parseTree(tree, callback) ⇒ <code>IsArrayable.&lt;IsTreeNode&gt;</code>
+Loop over all the nodes in a tree starting from left and apply a callback for each
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| tree | <code>IsArrayable.&lt;IsTreeNode&gt;</code> | 
+| callback | <code>forEachCallback</code> | 
+

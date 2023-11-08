@@ -5,7 +5,7 @@ Object.defineProperty(exports, '__esModule', {
 })
 exports.default = void 0
 var _Stackable = _interopRequireDefault(require('./Stackable'))
-var _Arrayable = _interopRequireDefault(require('../arrayable/Arrayable'))
+var _LinkedList = _interopRequireDefault(require('../linked-list/LinkedList'))
 function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
 /**
  * @file stack.
@@ -16,23 +16,14 @@ function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { d
 
 /**
  * Store a collection of items which can only be inserted and removed from the top.
- * @see [Java Stack Interface]{@link http://www.cs.williams.edu/~freund/cs136-073/javadoc/structure5/structure5/Stack.html}
  */
 class Stack {
   /**
    * Instantiate the state with the starter stacked list.
-   * @param {Iterable|Arrayable} stackedList
+   * @param {Iterable|LinkedList} stackedList
    */
   constructor (stackedList) {
     this.stackedList = stackedList
-  }
-
-  /**
-   * Add a stackable task to the top of the stack.
-   * @param {Stackable|*} stackable
-   */
-  add (stackable) {
-    this.stackedList.append(stackable)
   }
 
   /**
@@ -44,27 +35,11 @@ class Stack {
   }
 
   /**
-   * Return a reference to the next stacked task.
+   * Take a look at the next stacked task
    * @return {Stackable}
    */
-  get () {
-    return this.stackedList.last
-  }
-
-  /**
-   * Return a reference to the next stacked / first stacked task (alias for 'get()')
-   * @return {Stackable}
-   */
-  getFirst () {
-    return this.get()
-  }
-
-  /**
-   * Take a look at the next stacked task (alias for 'get()')
-   * @return {Stackable}
-   */
-  peek () {
-    return this.get()
+  top () {
+    return this.stackedList.first
   }
 
   /**
@@ -85,10 +60,10 @@ class Stack {
 
   /**
    * Push a stackable task to the top of the stack.
-   * @param {Stackable|*} stackable
+   * @param {Stackable|*} stackable Add a new stackable to the top of the stack
    */
   push (stackable) {
-    this.add(stackable)
+    this.stackedList.prepend(stackable)
   }
 
   /**
@@ -99,7 +74,7 @@ class Stack {
     if (this.empty()) {
       return null
     }
-    return this.stackedList.remove(this.stackedList.last)
+    return this.stackedList.remove(this.stackedList.first)
   }
 
   /**
@@ -112,16 +87,15 @@ class Stack {
 }
 /**
  * Convert an array to a Stack.
- * @methodof Stack
- * @param {Array} values
- * @param {Stackable} stackableClass
- * @param {Stack|Iterable} listClass
+ * @param {Array} values An array of values which will be converted to stackables in this queue
+ * @param {Stackable} stackableClass The class to use for each stackable
+ * @param {Stack|Iterable} listClass The class to use to manage the stackables
  * @returns {Stack}
  */
 Stack.fromArray = function () {
   const values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []
   const stackableClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _Stackable.default
-  const listClass = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : _Arrayable.default
+  const listClass = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : _LinkedList.default
   const list = new listClass(stackableClass)
   list.initialize(stackableClass.fromArray(values).head)
   return new Stack(list)

@@ -6,6 +6,16 @@
  */
 
 /**
+ * Return results of the task.
+ * @typedef {Object} completeResponse
+ * @property {*} success
+ * @property {*} error
+ * @property {*} context
+ */
+
+export type completeResponse = { success: boolean | any, error: boolean | any, context: any }
+
+/**
  * Specify a type of class that is Runnable.
  */
 export interface IsRunnable {
@@ -13,7 +23,7 @@ export interface IsRunnable {
 
   get task (): Function
 
-  run (): any
+  run (): completeResponse | any
 }
 
 /**
@@ -45,7 +55,7 @@ export default class Runnable implements IsRunnable {
    * Run the runnable task.
    * @return {*}
    */
-  public run (): any {
+  public run (): completeResponse | any {
     return this.task()
   }
 

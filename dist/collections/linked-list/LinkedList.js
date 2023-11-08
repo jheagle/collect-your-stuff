@@ -12,7 +12,7 @@ function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { d
  */
 class LinkedList {
   /**
-   * Create the new LinkedList instance, configure the Linker and List classes.
+   * Create the new LinkedList instance.
    */
   constructor () {
     this.classType = null
@@ -23,7 +23,7 @@ class LinkedList {
 
   /**
    * Initialize the inner list, should only run once.
-   * @param {Linker|Array} initialList
+   * @param {Linker|Array} initialList Give the list of linkers to start in this linked-list.
    * @return {LinkedList}
    */
   initialize (initialList) {
@@ -82,8 +82,8 @@ class LinkedList {
 
   /**
    * Insert a new node (or data) after a node.
-   * @param {Linker|*} node
-   * @param {Linker|*} newNode
+   * @param {Linker|*} node The existing node as reference
+   * @param {Linker|*} newNode The new node to go after the existing node
    * @returns {LinkedList}
    */
   insertAfter (node, newNode) {
@@ -97,8 +97,8 @@ class LinkedList {
 
   /**
    * Insert a new node (or data) before a node.
-   * @param {Linker|*} node
-   * @param {Linker|*} newNode
+   * @param {Linker|*} node The existing node as reference
+   * @param {Linker|*} newNode The new node to go before the existing node
    * @returns {LinkedList}
    */
   insertBefore (node, newNode) {
@@ -123,8 +123,8 @@ class LinkedList {
 
   /**
    * Add a node (or data) after the given (or last) node in the list.
-   * @param {Linker|*} node
-   * @param {Linker} after
+   * @param {Linker|*} node The new node to add to the end of the list
+   * @param {Linker} after The existing last node
    * @returns {Linker}
    */
   append (node) {
@@ -134,9 +134,8 @@ class LinkedList {
 
   /**
    * Add a node (or data) before the given (or first) node in the list.
-   * @method
-   * @param {Linker|*} node
-   * @param {Linker} before
+   * @param {Linker|*} node The new node to add to the start of the list
+   * @param {Linker} before The existing first node
    * @returns {Linker}
    */
   prepend (node) {
@@ -146,8 +145,7 @@ class LinkedList {
 
   /**
    * Remove a linker from this linked list.
-   * @method
-   * @param {Linker} node
+   * @param {Linker} node The node we wish to remove (and it will be returned after removal)
    * @return {Linker}
    */
   remove (node) {
@@ -170,7 +168,7 @@ class LinkedList {
 
   /**
    * Retrieve a Linker item from this list by numeric index, otherwise return null.
-   * @param {number} index
+   * @param {number} index The integer number for retrieving a node by position.
    * @returns {Linker|null}
    */
   item (index) {
@@ -197,8 +195,8 @@ class LinkedList {
 
   /**
    * Be able to run forEach on this LinkedList to iterate over the linkers.
-   * @param {forEachCallback} callback
-   * @param {LinkedList} thisArg
+   * @param {forEachCallback} callback The function to call for-each linker
+   * @param {LinkedList} thisArg Optional, 'this' reference
    * @returns {LinkedList}
    */
   forEach (callback) {
@@ -223,8 +221,8 @@ class LinkedList {
 }
 /**
  * Convert an array to a LinkedList.
- * @param {Array} values
- * @param {Linker} linkerClass
+ * @param {Array} values An array of values which will be converted to linkers in this linked-list
+ * @param {Linker} linkerClass The class to use for each linker
  * @returns {LinkedList}
  */
 LinkedList.fromArray = function () {
