@@ -6,13 +6,11 @@ Object.defineProperty(exports, '__esModule', {
 exports.default = void 0
 require('core-js/modules/esnext.async-iterator.map.js')
 require('core-js/modules/esnext.iterator.map.js')
-require('core-js/modules/esnext.async-iterator.reduce.js')
-require('core-js/modules/esnext.iterator.constructor.js')
-require('core-js/modules/esnext.iterator.reduce.js')
-var _LinkedTreeList = _interopRequireDefault(require('./LinkedTreeList'))
+var _DoubleLinker = _interopRequireDefault(require('../doubly-linked-list/DoubleLinker'))
 function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
 /**
  * TreeLinker represents a node in a LinkedTreeList having a parent (or root) and child nodes.
+ * @extends DoubleLinker
  */
 class TreeLinker {
   /**
@@ -32,12 +30,12 @@ class TreeLinker {
       children = null,
       parent = null
     } = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {}
+    this.classType = TreeLinker
     this.data = null
     this.next = null
     this.prev = null
     this.parent = null
     this.children = null
-    this.classType = TreeLinker
     this.data = data
     this.next = next
     this.prev = prev
@@ -48,67 +46,40 @@ class TreeLinker {
   /**
    * Create the children for this tree from an array.
    * @param {Array|null} children Provide an array of data / linker references to be children of this tree node.
+   * @param {IsTree} classType Provide the type of IsElement to use.
    * @return {LinkedTreeList|null}
    */
   childrenFromArray () {
     const children = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null
+    const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : TreeLinker
     if (children === null) {
       return null
     }
     // Creates a linked-tree-list to store the children.
-    return _LinkedTreeList.default.fromArray(children.map(child => Object.assign({}, child, {
+    return classType.fromArray(children.map(child => Object.assign({}, child, {
       parent: this
-    })), TreeLinker)
+    })), classType)
   }
 }
 /**
  * Make a new DoubleLinker from the data given if it is not already a valid Linker.
  * @param {TreeLinker|*} linker Return a valid TreeLinker instance from given data, or even an already valid one.
+ * @param {IsTreeNode} [classType=TreeLinker] Provide the type of IsTreeNode to use.
  * @return {TreeLinker}
  */
-TreeLinker.make = linker => {
-  if (typeof linker !== 'object') {
-    // It is not an object, so instantiate the DoubleLinker with element as the data
-    return new TreeLinker({
-      data: linker
-    })
-  }
-  if (linker.classType) {
-    // Already valid DoubleLinker, return as-is
-    return linker
-  }
-  if (!linker.data) {
-    linker = {
-      data: linker
-    }
-  }
-  // Create the new node as the configured #classType
-  return new TreeLinker(linker)
+TreeLinker.make = function (linker) {
+  const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : TreeLinker
+  return _DoubleLinker.default.make(linker, classType)
 }
 /**
  * Convert an array into DoubleLinker instances, return the head and tail DoubleLinkers.
  * @param {Array} [values=[]] Provide an array of data that will be converted to a chain of tree-linkers.
+ * @param {IsTreeNode} [classType=TreeLinker] Provide the type of IsTreeNode to use.
  * @returns {{head: TreeLinker, tail: TreeLinker}}
  */
 TreeLinker.fromArray = function () {
   const values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []
-  return values.reduce((references, linker) => {
-    const newLinker = TreeLinker.make(linker)
-    if (references.head === null) {
-      // Initialize the head and tail with the new node
-      return {
-        head: newLinker,
-        tail: newLinker
-      }
-    }
-    newLinker.prev = references.tail
-    // Only update the tail once head has been set, tail is always the most recent node
-    references.tail.next = newLinker
-    references.tail = newLinker
-    return references
-  }, {
-    head: null,
-    tail: null
-  })
+  const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : TreeLinker
+  return _DoubleLinker.default.fromArray(values, classType)
 }
 var _default = exports.default = TreeLinker

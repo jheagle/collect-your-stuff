@@ -20,7 +20,7 @@ class Stack {
    * Instantiate the state with the starter stacked list.
    * @param {Iterable|LinkedList} stackedList
    */
-  constructor (stackedList: IsArrayable<any>) {
+  public constructor (stackedList: IsArrayable<any>) {
     this.stackedList = stackedList
   }
 
@@ -28,7 +28,7 @@ class Stack {
    * Return true if the stack is empty (there are no tasks in the stacked list)
    * @return {boolean}
    */
-  empty (): boolean {
+  public empty (): boolean {
     return this.size() <= 0
   }
 
@@ -36,7 +36,7 @@ class Stack {
    * Take a look at the next stacked task
    * @return {Stackable}
    */
-  top (): IsLinker {
+  public top (): IsLinker {
     return this.stackedList.first
   }
 
@@ -44,7 +44,7 @@ class Stack {
    * Remove the next stacked task and return it.
    * @return {Stackable|null}
    */
-  pop (): Stackable | completeResponse | null {
+  public pop (): Stackable | completeResponse | null {
     const next = this.remove()
     if (!next) {
       return {
@@ -60,7 +60,7 @@ class Stack {
    * Push a stackable task to the top of the stack.
    * @param {Stackable|*} stackable Add a new stackable to the top of the stack
    */
-  push (stackable: any) {
+  public push (stackable: any) {
     this.stackedList.prepend(stackable)
   }
 
@@ -68,7 +68,7 @@ class Stack {
    * Remove the next stacked task and return it.
    * @return {Stackable|null}
    */
-  remove (): Stackable | null {
+  public remove (): Stackable | null {
     if (this.empty()) {
       return null
     }
@@ -79,7 +79,7 @@ class Stack {
    * Get the size of the current stack.
    * @return {number}
    */
-  size (): number {
+  public size (): number {
     return this.stackedList.length
   }
 
@@ -92,7 +92,7 @@ class Stack {
    */
   public static fromArray = (values: Array<any> = [], stackableClass: typeof Stackable = Stackable, listClass: any = LinkedList): Stack => {
     const list: IsArrayable<any> = new listClass(stackableClass)
-    list.initialize(stackableClass.fromArray(values).head)
+    list.initialize(stackableClass.fromArray(values, stackableClass).head)
     return new Stack(list)
   }
 }

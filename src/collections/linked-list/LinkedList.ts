@@ -8,9 +8,11 @@ import IsArrayable, { forEachCallback } from '../../recipes/IsArrayable'
 import IsLinker from '../../recipes/IsLinker'
 import Linker from './Linker'
 import LinkerIterator from '../../recipes/LinkerIterator'
+import Arrayable from '../arrayable/Arrayable'
 
 /**
  * LinkedList represents a collection stored as a LinkedList with next references.
+ * @extends Arrayable
  */
 class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
   public readonly classType: typeof LinkedList = null
@@ -20,7 +22,7 @@ class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
   /**
    * Create the new LinkedList instance.
    */
-  constructor () {
+  public constructor () {
     this.classType = LinkedList
   }
 
@@ -29,21 +31,15 @@ class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
    * @param {Linker|Array} initialList Give the list of linkers to start in this linked-list.
    * @return {LinkedList}
    */
-  initialize (initialList: Linker): LinkedList {
-    if (this.initialized) {
-      console.warn('Attempt to initialize LinkedList which is not empty.')
-      return this
-    }
-    this.initialized = true
-    this.innerList = initialList
-    return this
+  public initialize (initialList: Linker): LinkedList {
+    return Arrayable.prototype.initialize.call(this, initialList)
   }
 
   /**
    * Retrieve a copy of the innerList used.
    * @returns {Linker}
    */
-  get list (): IsLinker {
+  public get list (): IsLinker {
     return this.innerList
   }
 
@@ -51,7 +47,7 @@ class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
    * Retrieve the first Linker in the list.
    * @returns {Linker}
    */
-  get first (): Linker {
+  public get first (): Linker {
     return this.innerList
   }
 
@@ -59,7 +55,7 @@ class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
    * Retrieve the last Linker in the list.
    * @returns {Linker}
    */
-  get last (): Linker {
+  public get last (): Linker {
     let tail = this.innerList
     let next = tail.next
     while (next !== null) {
@@ -73,7 +69,7 @@ class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
    * Return the length of the list.
    * @returns {number}
    */
-  get length (): number {
+  public get length (): number {
     let current: IsLinker = this.first
     let length: number = 0
     while (current !== null) {
@@ -89,7 +85,7 @@ class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
    * @param {Linker|*} newNode The new node to go after the existing node
    * @returns {LinkedList}
    */
-  insertAfter (node: IsLinker, newNode: Linker | any): LinkedList {
+  public insertAfter (node: IsLinker, newNode: Linker | any): LinkedList {
     newNode = node.classType.make(newNode)
     // Ensure the next reference of this node is assigned to the new node
     newNode.next = node.next
@@ -104,7 +100,7 @@ class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
    * @param {Linker|*} newNode The new node to go before the existing node
    * @returns {LinkedList}
    */
-  insertBefore (node: IsLinker, newNode: Linker | any): LinkedList {
+  public insertBefore (node: IsLinker, newNode: Linker | any): LinkedList {
     newNode = node.classType.make(newNode)
     let prevNode = null
     let currentNode: IsLinker = this.first
@@ -130,7 +126,7 @@ class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
    * @param {Linker} after The existing last node
    * @returns {Linker}
    */
-  append (node: Linker | any, after: IsLinker = this.last): LinkedList {
+  public append (node: Linker | any, after: IsLinker = this.last): LinkedList {
     return this.insertAfter(after, node)
   }
 
@@ -140,7 +136,7 @@ class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
    * @param {Linker} before The existing first node
    * @returns {Linker}
    */
-  prepend (node: Linker | any, before: IsLinker = this.first): LinkedList {
+  public prepend (node: Linker | any, before: IsLinker = this.first): LinkedList {
     return this.insertBefore(before, node)
   }
 
@@ -149,7 +145,7 @@ class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
    * @param {Linker} node The node we wish to remove (and it will be returned after removal)
    * @return {Linker}
    */
-  remove (node: Linker): Linker {
+  public remove (node: Linker): Linker {
     let prevNode = null
     let currentNode: IsLinker = this.first
     while (currentNode !== node) {
@@ -172,7 +168,7 @@ class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
    * @param {number} index The integer number for retrieving a node by position.
    * @returns {Linker|null}
    */
-  item (index: number): Linker | null {
+  public item (index: number): Linker | null {
     if (index >= 0) {
       let current: Linker = this.first
       let currentIndex: number = -1
@@ -200,7 +196,7 @@ class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
    * @param {LinkedList} thisArg Optional, 'this' reference
    * @returns {LinkedList}
    */
-  forEach (callback: forEachCallback, thisArg: LinkedList = this): LinkedList {
+  public forEach (callback: forEachCallback, thisArg: LinkedList = this): LinkedList {
     let index: number = 0
     let current: IsLinker = thisArg.first
     while (current !== null) {
@@ -222,11 +218,12 @@ class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
   /**
    * Convert an array to a LinkedList.
    * @param {Array} values An array of values which will be converted to linkers in this linked-list
-   * @param {Linker} linkerClass The class to use for each linker
+   * @param {IsLinker} linkerClass The class to use for each linker
+   * @param {IsArrayable<Linker>} [classType=LinkedList] Provide the type of IsArrayable to use.
    * @returns {LinkedList}
    */
-  public static fromArray = (values: Array<any> = [], linkerClass: typeof Linker = Linker): IsArrayable<Linker> => {
-    const list = new LinkedList()
+  public static fromArray = (values: Array<any> = [], linkerClass: typeof Linker = Linker, classType: any = LinkedList): IsArrayable<IsLinker> | any => {
+    const list: IsArrayable<IsLinker> = new classType()
     return list.initialize(linkerClass.fromArray(values).head)
   }
 }

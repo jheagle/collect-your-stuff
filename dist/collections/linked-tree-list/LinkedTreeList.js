@@ -6,6 +6,7 @@ Object.defineProperty(exports, '__esModule', {
 exports.default = void 0
 var _TreeLinker = _interopRequireDefault(require('./TreeLinker'))
 var _TreeLinkerIterator = _interopRequireDefault(require('../../recipes/TreeLinkerIterator'))
+var _DoublyLinkedList = _interopRequireDefault(require('../doubly-linked-list/DoublyLinkedList'))
 function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
 /**
  * @file doubly linked tree list.
@@ -16,16 +17,16 @@ function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { d
 
 /**
  * LinkedTreeList represents a collection stored with a root and spreading in branching (tree) formation.
+ * @extends DoublyLinkedList
  */
 class LinkedTreeList {
   /**
    * Create the new LinkedTreeList instance, configure the list class.
    */
   constructor () {
-    this.classType = null
+    this.classType = LinkedTreeList
     this.innerList = null
     this.initialized = false
-    this.classType = LinkedTreeList
   }
 
   /**
@@ -35,7 +36,7 @@ class LinkedTreeList {
    */
   initialize (initialList) {
     if (this.initialized) {
-      console.warn('Attempt to initialize LinkedList which is not empty.')
+      console.warn('Attempt to initialize LinkedTreeList which is not empty.')
       return this
     }
     this.initialized = true
@@ -151,19 +152,7 @@ class LinkedTreeList {
    * @returns {LinkedTreeList}
    */
   insertAfter (node, newNode) {
-    newNode = node.classType.make(newNode)
-    // Ensure the next reference of this node is assigned to the new node
-    newNode.next = node.next
-    // Ensure this node is assigned as the prev reference of the new node
-    newNode.prev = node
-    // Then set this node's next reference to the new node
-    node.next = newNode
-    if (newNode.next) {
-      // Update the next reference to ensure circular reference for prev points to the new node
-      newNode.next.prev = newNode
-    }
-    this.reset()
-    return this
+    return _DoublyLinkedList.default.prototype.insertAfter.call(this, node, newNode)
   }
 
   /**
@@ -314,12 +303,14 @@ class LinkedTreeList {
  * Convert an array into a LinkedTreeList instance, return the new instance.
  * @param {Array} [values=[]] An array of values which will be converted to nodes in this tree-list
  * @param {TreeLinker} [linkerClass=TreeLinker] The class to use for each node
+ * @param {IsArrayable<TreeLinker>} [classType=LinkedTreeList] Provide the type of IsArrayable to use.
  * @returns {LinkedTreeList}
  */
 LinkedTreeList.fromArray = function () {
   const values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []
   const linkerClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _TreeLinker.default
-  const list = new LinkedTreeList()
+  const classType = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : LinkedTreeList
+  const list = new classType()
   return list.initialize(linkerClass.fromArray(values).head)
 }
 var _default = exports.default = LinkedTreeList

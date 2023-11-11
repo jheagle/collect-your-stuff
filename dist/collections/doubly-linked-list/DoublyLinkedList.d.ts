@@ -6,8 +6,10 @@
  */
 import DoubleLinker from './DoubleLinker';
 import IsArrayable, { forEachCallback } from '../../recipes/IsArrayable';
+import IsDoubleLinker from '../../recipes/IsDoubleLinker';
 /**
  * DoublyLinkedList represents a collection stored as a LinkedList with prev and next references.
+ * @extends LinkedList
  */
 declare class DoublyLinkedList implements IsArrayable<DoubleLinker>, Iterable<DoubleLinker> {
     readonly classType: typeof DoublyLinkedList;
@@ -102,9 +104,10 @@ declare class DoublyLinkedList implements IsArrayable<DoubleLinker>, Iterable<Do
     /**
      * Convert an array into a DoublyLinkedList instance, return the new instance.
      * @param {Array} [values=[]] An array of values which will be converted to linkers in this doubly-linked-list
-     * @param {DoubleLinker} [linkerClass=DoubleLinker] The class to use for each linker
+     * @param {IsDoubleLinker} [linkerClass=DoubleLinker] The class to use for each linker
+     * @param {IsArrayable<IsDoubleLinker>} [classType=LinkedList] Provide the type of IsArrayable to use.
      * @returns {DoublyLinkedList}
      */
-    static fromArray: (values?: Array<any>, linkerClass?: typeof DoubleLinker) => DoublyLinkedList;
+    static fromArray: (values?: Array<any>, linkerClass?: typeof DoubleLinker, classType?: any) => IsArrayable<IsDoubleLinker> | any;
 }
 export default DoublyLinkedList;

@@ -7,8 +7,11 @@ exports.default = void 0
 require('core-js/modules/esnext.async-iterator.reduce.js')
 require('core-js/modules/esnext.iterator.constructor.js')
 require('core-js/modules/esnext.iterator.reduce.js')
+var _Linker = _interopRequireDefault(require('../linked-list/Linker'))
+function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
 /**
  * DoubleLinker represents a node in a DoublyLinkedList which is chained by next and prev.
+ * @extends Linker
  */
 class DoubleLinker {
   /**
@@ -24,10 +27,10 @@ class DoubleLinker {
       next = null,
       prev = null
     } = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {}
+    this.classType = DoubleLinker
     this.data = null
     this.next = null
     this.prev = null
-    this.classType = DoubleLinker
     this.data = data
     this.next = next
     this.prev = prev
@@ -36,36 +39,24 @@ class DoubleLinker {
 /**
  * Make a new DoubleLinker from the data given if it is not already a valid Linker.
  * @param {DoubleLinker|*} linker Return a valid Linker instance from given data, or even an already valid one.
+ * @param {IsDoubleLinker} [classType=DoubleLinker] Provide the type of IsDoubleLinker to use.
  * @return {DoubleLinker}
  */
-DoubleLinker.make = linker => {
-  if (typeof linker !== 'object') {
-    // It is not an object, so instantiate the DoubleLinker with element as the data
-    return new DoubleLinker({
-      data: linker
-    })
-  }
-  if (linker.classType) {
-    // Already valid DoubleLinker, return as-is
-    return linker
-  }
-  if (!linker.data) {
-    linker = {
-      data: linker
-    }
-  }
-  // Create the new node as the configured #classType
-  return new DoubleLinker(linker)
+DoubleLinker.make = function (linker) {
+  const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : DoubleLinker
+  return _Linker.default.make(linker, classType)
 }
 /**
  * Convert an array into DoubleLinker instances, return the head and tail DoubleLinkers.
  * @param {Array} [values=[]] Provide an array of data that will be converted to a chain of linkers.
+ * @param {IsDoubleLinker} [classType=DoubleLinker] Provide the type of IsDoubleLinker to use.
  * @returns {{head: DoubleLinker, tail: DoubleLinker}}
  */
 DoubleLinker.fromArray = function () {
   const values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []
+  const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : DoubleLinker
   return values.reduce((references, linker) => {
-    const newLinker = DoubleLinker.make(linker)
+    const newLinker = classType.make(linker, classType)
     if (references.head === null) {
       // Initialize the head and tail with the new node
       return {

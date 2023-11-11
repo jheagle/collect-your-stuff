@@ -6,6 +6,7 @@ Object.defineProperty(exports, '__esModule', {
 exports.default = void 0
 var _DoubleLinker = _interopRequireDefault(require('./DoubleLinker'))
 var _DoubleLinkerIterator = _interopRequireDefault(require('../../recipes/DoubleLinkerIterator'))
+var _LinkedList = _interopRequireDefault(require('../linked-list/LinkedList'))
 function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
 /**
  * @file doubly linked list.
@@ -16,16 +17,16 @@ function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { d
 
 /**
  * DoublyLinkedList represents a collection stored as a LinkedList with prev and next references.
+ * @extends LinkedList
  */
 class DoublyLinkedList {
   /**
    * Create the new DoublyLinkedList instance.
    */
   constructor () {
-    this.classType = null
+    this.classType = DoublyLinkedList
     this.innerList = null
     this.initialized = false
-    this.classType = DoublyLinkedList
   }
 
   /**
@@ -34,13 +35,7 @@ class DoublyLinkedList {
    * @return {DoublyLinkedList}
    */
   initialize (initialList) {
-    if (this.initialized) {
-      console.warn('Attempt to initialize LinkedList which is not empty.')
-      return this
-    }
-    this.initialized = true
-    this.innerList = initialList
-    return this
+    return _LinkedList.default.prototype.initialize.call(this, initialList)
   }
 
   /**
@@ -191,7 +186,7 @@ class DoublyLinkedList {
       pointer = prev
       prev = pointer.prev
     }
-    // All the live references should have been found and we are pointing to the true head
+    // All the live references should have been found, and we are pointing to the true head
     this.innerList = pointer
     return pointer
   }
@@ -229,14 +224,7 @@ class DoublyLinkedList {
    */
   forEach (callback) {
     const thisArg = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this
-    let index = 0
-    let current = thisArg.first
-    while (current !== null) {
-      callback(current, index, thisArg)
-      current = current.next
-      ++index
-    }
-    return thisArg
+    return _LinkedList.default.prototype.forEach.call(this, callback, thisArg)
   }
 
   /**
@@ -251,13 +239,14 @@ class DoublyLinkedList {
 /**
  * Convert an array into a DoublyLinkedList instance, return the new instance.
  * @param {Array} [values=[]] An array of values which will be converted to linkers in this doubly-linked-list
- * @param {DoubleLinker} [linkerClass=DoubleLinker] The class to use for each linker
+ * @param {IsDoubleLinker} [linkerClass=DoubleLinker] The class to use for each linker
+ * @param {IsArrayable<IsDoubleLinker>} [classType=LinkedList] Provide the type of IsArrayable to use.
  * @returns {DoublyLinkedList}
  */
 DoublyLinkedList.fromArray = function () {
   const values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []
   const linkerClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _DoubleLinker.default
-  const list = new DoublyLinkedList()
-  return list.initialize(linkerClass.fromArray(values).head)
+  const classType = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : DoublyLinkedList
+  return _LinkedList.default.fromArray(values, linkerClass, classType)
 }
 var _default = exports.default = DoublyLinkedList

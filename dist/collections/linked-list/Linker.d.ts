@@ -7,6 +7,7 @@
 import IsLinker from '../../recipes/IsLinker';
 /**
  * Linker represents a node in a LinkedList.
+ * @extends ArrayElement
  */
 declare class Linker implements IsLinker {
     readonly classType: typeof Linker;
@@ -25,15 +26,17 @@ declare class Linker implements IsLinker {
     /**
      * Make a new Linker from the data given if it is not already a valid Linker.
      * @param {Linker|*} linker Return a valid Linker instance from given data, or even an already valid one.
+     * @param {IsLinker} [classType=Linker] Provide the type of IsLinker to use.
      * @return {Linker}
      */
-    static make: (linker: Linker | any) => IsLinker;
+    static make: (linker: Linker | any, classType?: any) => IsLinker | any;
     /**
      * Convert an array into Linker instances, return the head and tail Linkers.
      * @param {Array} [values=[]] Provide an array of data that will be converted to a chain of linkers.
+     * @param {IsLinker} [classType=Linker] Provide the type of IsLinker to use.
      * @returns {{head: Linker, tail: Linker}}
      */
-    static fromArray: (values: Array<any>) => {
+    static fromArray: (values: Array<any>, classType?: any) => {
         head: Linker;
         tail: Linker;
     };

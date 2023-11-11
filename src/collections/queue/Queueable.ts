@@ -6,9 +6,11 @@
  */
 import { completeResponse, IsRunnable } from '../../recipes/Runnable'
 import IsLinker from '../../recipes/IsLinker'
+import Linker from '../linked-list/Linker'
 
 /**
  * Queueable represents a runnable entry in a queue.
+ * @extends Linker
  */
 class Queueable implements IsLinker, IsRunnable {
   public readonly classType: typeof Queueable
@@ -25,7 +27,7 @@ class Queueable implements IsLinker, IsRunnable {
    * @param {Queueable|null} [queueableData.next=null] The reference to the next queueable if any
    * @param {boolean|Function} [queueableData.ready=false] Indicate if the queueable is ready to run
    */
-  constructor ({ task = null, next = null, ready = false }: {
+  public constructor ({ task = null, next = null, ready = false }: {
     task?: any;
     next?: Queueable | null;
     ready?: boolean
@@ -42,7 +44,7 @@ class Queueable implements IsLinker, IsRunnable {
    * Check ready state.
    * @return {boolean}
    */
-  get isReady (): boolean {
+  public get isReady (): boolean {
     return typeof this.ready === 'function' ? this.ready() : this.ready
   }
 
@@ -50,7 +52,7 @@ class Queueable implements IsLinker, IsRunnable {
    * Retrieve the data which should be formed as a task.
    * @return {*}
    */
-  get task (): any {
+  public get task (): any {
     if (typeof this.data === 'function') {
       return this.data
     }
@@ -65,7 +67,7 @@ class Queueable implements IsLinker, IsRunnable {
    * @param {*} [completeResponse.context=null] Provide additional data in the response
    * @return {completeResponse}
    */
-  markCompleted ({ success = true, error = false, context = null }: {
+  public markCompleted ({ success = true, error = false, context = null }: {
     success?: any;
     error?: any;
     context?: any
@@ -79,7 +81,7 @@ class Queueable implements IsLinker, IsRunnable {
    * Intend to run the queued task when it is ready. If ready, mark this task as running and run the task.
    * @return {completeResponse}
    */
-  run (): completeResponse {
+  public run (): completeResponse {
     if (!this.isReady) {
       // Not yet ready, return with errors
       return {
@@ -104,12 +106,13 @@ class Queueable implements IsLinker, IsRunnable {
   /**
    * Make a new Queueable from the data given if it is not already a valid Queueable.
    * @param {Queueable|*} queueable Return a valid Queueable instance from given data, or even an already valid one.
+   * @param {IsLinker} [classType=Queueable] Provide the type of IsLinker to use.
    * @return {Queueable}
    */
-  public static make = (queueable: Queueable | any): IsLinker => {
+  public static make = (queueable: Queueable | any, classType: any = Queueable): IsLinker => {
     if (typeof queueable !== 'object') {
       // It is not an object, so instantiate the Queueable with an element as the data
-      return new Queueable({ task: queueable })
+      return new classType({ task: queueable })
     }
     if (queueable.classType) {
       // Already valid Queueable, return as-is
@@ -119,17 +122,21 @@ class Queueable implements IsLinker, IsRunnable {
       queueable = { task: queueable }
     }
     // Create the new node as the configured #classType
-    return new Queueable(queueable)
+    return new classType(queueable)
   }
 
   /**
    * Convert an array into Queueable instances, return the head and tail Queueables.
    * @param {Array} values Provide an array of data that will be converted to a chain of queueable linkers.
+   * @param {IsLinker} [classType=Queueable] Provide the type of IsLinker to use.
    * @returns {{head: Queueable, tail: Queueable}}
    */
-  public static fromArray = (values: Array<any>): { head: Queueable; tail: Queueable; } => values.reduce(
+  public static fromArray = (values: Array<any>, classType: any = Queueable): {
+    head: Queueable;
+    tail: Queueable;
+  } => values.reduce(
     (references, queueable) => {
-      const newQueueable = Queueable.make(queueable)
+      const newQueueable = classType.make(queueable, classType)
       if (references.head === null) {
         // Initialize the head and tail with the new node
         return { head: newQueueable, tail: newQueueable }

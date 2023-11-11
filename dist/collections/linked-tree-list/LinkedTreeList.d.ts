@@ -7,12 +7,14 @@
 import TreeLinker from './TreeLinker';
 import { forEachCallback } from '../../recipes/IsArrayable';
 import IsTree from '../../recipes/IsTree';
+import IsTreeNode from '../../recipes/IsTreeNode';
 /**
  * LinkedTreeList represents a collection stored with a root and spreading in branching (tree) formation.
+ * @extends DoublyLinkedList
  */
 declare class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
     readonly classType: typeof LinkedTreeList;
-    innerList: TreeLinker;
+    innerList: IsTreeNode | any;
     initialized: boolean;
     /**
      * Create the new LinkedTreeList instance, configure the list class.
@@ -125,8 +127,9 @@ declare class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
      * Convert an array into a LinkedTreeList instance, return the new instance.
      * @param {Array} [values=[]] An array of values which will be converted to nodes in this tree-list
      * @param {TreeLinker} [linkerClass=TreeLinker] The class to use for each node
+     * @param {IsArrayable<TreeLinker>} [classType=LinkedTreeList] Provide the type of IsArrayable to use.
      * @returns {LinkedTreeList}
      */
-    static fromArray: (values?: Array<any>, linkerClass?: typeof TreeLinker) => LinkedTreeList;
+    static fromArray: (values?: Array<any>, linkerClass?: typeof TreeLinker, classType?: any) => IsTree | any;
 }
 export default LinkedTreeList;

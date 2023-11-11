@@ -7,6 +7,7 @@
 import IsDoubleLinker from '../../recipes/IsDoubleLinker';
 /**
  * DoubleLinker represents a node in a DoublyLinkedList which is chained by next and prev.
+ * @extends Linker
  */
 declare class DoubleLinker implements IsDoubleLinker {
     readonly classType: typeof DoubleLinker;
@@ -28,17 +29,19 @@ declare class DoubleLinker implements IsDoubleLinker {
     /**
      * Make a new DoubleLinker from the data given if it is not already a valid Linker.
      * @param {DoubleLinker|*} linker Return a valid Linker instance from given data, or even an already valid one.
+     * @param {IsDoubleLinker} [classType=DoubleLinker] Provide the type of IsDoubleLinker to use.
      * @return {DoubleLinker}
      */
-    static make: (linker: DoubleLinker | any) => IsDoubleLinker;
+    static make: (linker: DoubleLinker | any, classType?: any) => IsDoubleLinker | any;
     /**
      * Convert an array into DoubleLinker instances, return the head and tail DoubleLinkers.
      * @param {Array} [values=[]] Provide an array of data that will be converted to a chain of linkers.
+     * @param {IsDoubleLinker} [classType=DoubleLinker] Provide the type of IsDoubleLinker to use.
      * @returns {{head: DoubleLinker, tail: DoubleLinker}}
      */
-    static fromArray: (values?: Array<any>) => {
-        head: DoubleLinker;
-        tail: DoubleLinker;
+    static fromArray: (values?: Array<any>, classType?: any) => {
+        head: DoubleLinker | any;
+        tail: DoubleLinker | any;
     };
 }
 export default DoubleLinker;

@@ -22,9 +22,9 @@ class Arrayable {
    * Create the new Arrayable instance, configure the Arrayable class.
    */
   constructor () {
+    this.classType = Arrayable
     this.innerList = []
     this.initialized = false
-    this.classType = Arrayable
     this.initialized = false
   }
 
@@ -35,7 +35,7 @@ class Arrayable {
    */
   initialize (initialList) {
     if (this.initialized) {
-      console.warn('Attempt to initialize Arrayable which is not empty.')
+      console.warn('Attempt to initialize non-empty list.')
       return this
     }
     this.initialized = true
@@ -181,13 +181,15 @@ class Arrayable {
 /**
  * Convert an array to an Arrayable.
  * @param {Array} values An array of values which will be converted to elements in this arrayable
- * @param {ArrayElement} elementClass The class to use for each element
+ * @param {IsElement} [elementClass=ArrayElement] The class to use for each element
+ * @param {IsArrayable<ArrayElement>} [classType=Arrayable] Provide the type of IsArrayable to use.
  * @returns {Arrayable}
  */
 Arrayable.fromArray = function () {
   const values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []
   const elementClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _ArrayElement.default
-  const list = new Arrayable()
+  const classType = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : Arrayable
+  const list = new classType()
   return list.initialize(elementClass.fromArray(values).head)
 }
 var _default = exports.default = Arrayable

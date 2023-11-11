@@ -6,6 +6,7 @@
  */
 import ArrayElement from './ArrayElement';
 import IsArrayable, { forEachCallback } from '../../recipes/IsArrayable';
+import IsElement from '../../recipes/IsElement';
 /**
  * Arrayable represents a collection stored as an array.
  */
@@ -98,9 +99,10 @@ declare class Arrayable implements IsArrayable<ArrayElement>, Iterable<ArrayElem
     /**
      * Convert an array to an Arrayable.
      * @param {Array} values An array of values which will be converted to elements in this arrayable
-     * @param {ArrayElement} elementClass The class to use for each element
+     * @param {IsElement} [elementClass=ArrayElement] The class to use for each element
+     * @param {IsArrayable<ArrayElement>} [classType=Arrayable] Provide the type of IsArrayable to use.
      * @returns {Arrayable}
      */
-    static fromArray: (values?: Array<any>, elementClass?: typeof ArrayElement) => IsArrayable<ArrayElement>;
+    static fromArray: (values?: Array<any>, elementClass?: typeof ArrayElement, classType?: any) => IsArrayable<IsElement>;
 }
 export default Arrayable;

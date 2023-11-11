@@ -6,9 +6,11 @@
  */
 import { IsRunnable } from '../../recipes/Runnable'
 import IsLinker from '../../recipes/IsLinker'
+import Linker from '../linked-list/Linker'
 
 /**
  * Stackable represents a runnable entry in stack.
+ * @extends Linker
  */
 class Stackable implements IsLinker, IsRunnable {
   public readonly classType: typeof Stackable
@@ -22,7 +24,7 @@ class Stackable implements IsLinker, IsRunnable {
    * @param {Stackable|null} [stackData.next=null] The reference to the next stackable if any
    * @param {boolean|Function} [stackData.ready=false] Indicate if the stackable is ready to run
    */
-  constructor ({ task = null, next = null, ready = false }: {
+  public constructor ({ task = null, next = null, ready = false }: {
     task?: any;
     next?: Stackable | null;
     ready?: boolean
@@ -36,7 +38,7 @@ class Stackable implements IsLinker, IsRunnable {
    * Retrieve the data which should be formed as a task.
    * @return {*}
    */
-  get task (): any {
+  public get task (): any {
     if (typeof this.data === 'function') {
       return this.data
     }
@@ -47,19 +49,20 @@ class Stackable implements IsLinker, IsRunnable {
    * Run the stacked task.
    * @return {*}
    */
-  run (): any {
+  public run (): any {
     return this.task()
   }
 
   /**
    * Make a new Stackable from the data given if it is not already a valid Stackable.
    * @param {Stackable|*} stackable Return a valid Stackable instance from given data, or even an already valid one.
+   * @param {IsLinker} [classType=Stackable] Provide the type of IsLinker to use.
    * @return {Stackable}
    */
-  public static make = (stackable: Stackable | any): Stackable => {
+  public static make = (stackable: Stackable | any, classType: any = Stackable): Stackable => {
     if (typeof stackable !== 'object') {
       // It is not an object, so instantiate the Stackable with stackable as the data
-      return new Stackable({ task: stackable })
+      return new classType({ task: stackable })
     }
     if (stackable.classType) {
       // Already valid Stackable, return as-is
@@ -75,11 +78,15 @@ class Stackable implements IsLinker, IsRunnable {
   /**
    * Convert an array into Stackable instances, return the head and tail Stackables.
    * @param {Array} [values=[]] Provide an array of data that will be converted to a chain of stackable linkers.
+   * @param {IsLinker} [classType=Stackable] Provide the type of IsLinker to use.
    * @returns {{head: Stackable, tail: Stackable}}
    */
-  public static fromArray = (values: Array<any> = []): { head: Stackable; tail: Stackable } => values.reduce(
+  public static fromArray = (values: Array<any> = [], classType: any = Stackable): {
+    head: Stackable;
+    tail: Stackable
+  } => values.reduce(
     (references, queueable) => {
-      const newStackable = Stackable.make(queueable)
+      const newStackable = classType.make(queueable, classType)
       if (references.head === null) {
         // Initialize the head and tail with the new node
         return { head: newStackable, tail: newStackable }

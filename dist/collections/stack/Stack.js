@@ -97,7 +97,7 @@ Stack.fromArray = function () {
   const stackableClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _Stackable.default
   const listClass = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : _LinkedList.default
   const list = new listClass(stackableClass)
-  list.initialize(stackableClass.fromArray(values).head)
+  list.initialize(stackableClass.fromArray(values, stackableClass).head)
   return new Stack(list)
 }
 var _default = exports.default = Stack

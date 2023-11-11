@@ -7,20 +7,20 @@
 import ArrayElement from './ArrayElement'
 import ArrayIterator from '../../recipes/ArrayIterator'
 import IsArrayable, { forEachCallback } from '../../recipes/IsArrayable'
+import IsElement from '../../recipes/IsElement'
 
 /**
  * Arrayable represents a collection stored as an array.
  */
 class Arrayable implements IsArrayable<ArrayElement>, Iterable<ArrayElement> {
-  public readonly classType: typeof Arrayable
+  public readonly classType: typeof Arrayable = Arrayable
   public innerList: Array<ArrayElement> = []
   public initialized: boolean = false
 
   /**
    * Create the new Arrayable instance, configure the Arrayable class.
    */
-  constructor () {
-    this.classType = Arrayable
+  public constructor () {
     this.initialized = false
   }
 
@@ -31,7 +31,7 @@ class Arrayable implements IsArrayable<ArrayElement>, Iterable<ArrayElement> {
    */
   public initialize (initialList: Array<ArrayElement>): Arrayable {
     if (this.initialized) {
-      console.warn('Attempt to initialize Arrayable which is not empty.')
+      console.warn('Attempt to initialize non-empty list.')
       return this
     }
     this.initialized = true
@@ -43,7 +43,7 @@ class Arrayable implements IsArrayable<ArrayElement>, Iterable<ArrayElement> {
    * Retrieve a copy of the innerList used.
    * @returns {Array<ArrayElement>}
    */
-  get list (): Array<ArrayElement> {
+  public get list (): Array<ArrayElement> {
     return this.innerList
   }
 
@@ -51,7 +51,7 @@ class Arrayable implements IsArrayable<ArrayElement>, Iterable<ArrayElement> {
    * Retrieve the first Element from the Arrayable
    * @returns {ArrayElement}
    */
-  get first (): ArrayElement {
+  public get first (): ArrayElement {
     return this.innerList[0]
   }
 
@@ -59,7 +59,7 @@ class Arrayable implements IsArrayable<ArrayElement>, Iterable<ArrayElement> {
    * Retrieve the last Element from the Arrayable
    * @returns {ArrayElement}
    */
-  get last (): ArrayElement {
+  public get last (): ArrayElement {
     return this.innerList[this.length - 1]
   }
 
@@ -67,7 +67,7 @@ class Arrayable implements IsArrayable<ArrayElement>, Iterable<ArrayElement> {
    * Return the length of the list.
    * @returns {number}
    */
-  get length (): number {
+  public get length (): number {
     return this.innerList.length
   }
 
@@ -77,7 +77,7 @@ class Arrayable implements IsArrayable<ArrayElement>, Iterable<ArrayElement> {
    * @param {ArrayElement|*} newNode The new node to go after the existing node
    * @returns {Arrayable}
    */
-  insertAfter (node: ArrayElement, newNode: ArrayElement | any): Arrayable {
+  public insertAfter (node: ArrayElement, newNode: ArrayElement | any): Arrayable {
     const insertAt: number = this.innerList.indexOf(node)
     this.innerList.splice(insertAt + 1, 0, node.classType.make(newNode))
     return this
@@ -89,7 +89,7 @@ class Arrayable implements IsArrayable<ArrayElement>, Iterable<ArrayElement> {
    * @param {ArrayElement|*} newNode The new node to go before the existing node
    * @returns {Arrayable}
    */
-  insertBefore (node: ArrayElement, newNode: ArrayElement | any): Arrayable {
+  public insertBefore (node: ArrayElement, newNode: ArrayElement | any): Arrayable {
     const insertAt: number = this.innerList.indexOf(node)
     this.innerList.splice(insertAt, 0, node.classType.make(newNode))
     return this
@@ -101,7 +101,7 @@ class Arrayable implements IsArrayable<ArrayElement>, Iterable<ArrayElement> {
    * @param {ArrayElement} after The existing last node
    * @returns {Arrayable}
    */
-  append (node: ArrayElement | any, after: ArrayElement = this.last): Arrayable {
+  public append (node: ArrayElement | any, after: ArrayElement = this.last): Arrayable {
     return this.insertAfter(after, node)
   }
 
@@ -111,7 +111,7 @@ class Arrayable implements IsArrayable<ArrayElement>, Iterable<ArrayElement> {
    * @param {ArrayElement} before The existing first node
    * @returns {Arrayable}
    */
-  prepend (node: ArrayElement | any, before: ArrayElement = this.first): Arrayable {
+  public prepend (node: ArrayElement | any, before: ArrayElement = this.first): Arrayable {
     return this.insertBefore(before, node)
   }
 
@@ -120,7 +120,7 @@ class Arrayable implements IsArrayable<ArrayElement>, Iterable<ArrayElement> {
    * @param {ArrayElement} node The node we wish to remove (and it will be returned after removal)
    * @return {ArrayElement}
    */
-  remove (node: ArrayElement): ArrayElement {
+  public remove (node: ArrayElement): ArrayElement {
     const deleteAt = this.innerList.indexOf(node)
     this.innerList.splice(deleteAt, 1)
     return node
@@ -131,7 +131,7 @@ class Arrayable implements IsArrayable<ArrayElement>, Iterable<ArrayElement> {
    * @param {number} index The integer number for retrieving a node by position.
    * @return {ArrayElement|null}
    */
-  item (index: number): ArrayElement | null {
+  public item (index: number): ArrayElement | null {
     if (index >= this.length) {
       // index is beyond array limit
       return null
@@ -155,7 +155,7 @@ class Arrayable implements IsArrayable<ArrayElement>, Iterable<ArrayElement> {
    * @param {Arrayable} thisArg Optional, 'this' reference
    * @returns {Arrayable}
    */
-  forEach (callback: forEachCallback, thisArg: Arrayable = this): Arrayable {
+  public forEach (callback: forEachCallback, thisArg: Arrayable = this): Arrayable {
     for (let i = 0; i < thisArg.length; ++i) {
       callback(thisArg.item(i), i, thisArg)
     }
@@ -174,11 +174,12 @@ class Arrayable implements IsArrayable<ArrayElement>, Iterable<ArrayElement> {
   /**
    * Convert an array to an Arrayable.
    * @param {Array} values An array of values which will be converted to elements in this arrayable
-   * @param {ArrayElement} elementClass The class to use for each element
+   * @param {IsElement} [elementClass=ArrayElement] The class to use for each element
+   * @param {IsArrayable<ArrayElement>} [classType=Arrayable] Provide the type of IsArrayable to use.
    * @returns {Arrayable}
    */
-  public static fromArray = (values: Array<any> = [], elementClass: typeof ArrayElement = ArrayElement): IsArrayable<ArrayElement> => {
-    const list: Arrayable = new Arrayable()
+  public static fromArray = (values: Array<any> = [], elementClass: typeof ArrayElement = ArrayElement, classType: any = Arrayable): IsArrayable<IsElement> => {
+    const list: IsArrayable<IsElement> = new classType()
     return list.initialize(elementClass.fromArray(values).head)
   }
 }

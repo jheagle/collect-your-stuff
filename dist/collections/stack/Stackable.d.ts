@@ -8,6 +8,7 @@ import { IsRunnable } from '../../recipes/Runnable';
 import IsLinker from '../../recipes/IsLinker';
 /**
  * Stackable represents a runnable entry in stack.
+ * @extends Linker
  */
 declare class Stackable implements IsLinker, IsRunnable {
     readonly classType: typeof Stackable;
@@ -38,15 +39,17 @@ declare class Stackable implements IsLinker, IsRunnable {
     /**
      * Make a new Stackable from the data given if it is not already a valid Stackable.
      * @param {Stackable|*} stackable Return a valid Stackable instance from given data, or even an already valid one.
+     * @param {IsLinker} [classType=Stackable] Provide the type of IsLinker to use.
      * @return {Stackable}
      */
-    static make: (stackable: Stackable | any) => Stackable;
+    static make: (stackable: Stackable | any, classType?: any) => Stackable;
     /**
      * Convert an array into Stackable instances, return the head and tail Stackables.
      * @param {Array} [values=[]] Provide an array of data that will be converted to a chain of stackable linkers.
+     * @param {IsLinker} [classType=Stackable] Provide the type of IsLinker to use.
      * @returns {{head: Stackable, tail: Stackable}}
      */
-    static fromArray: (values?: Array<any>) => {
+    static fromArray: (values?: Array<any>, classType?: any) => {
         head: Stackable;
         tail: Stackable;
     };

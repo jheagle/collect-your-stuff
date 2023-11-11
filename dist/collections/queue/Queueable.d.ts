@@ -8,6 +8,7 @@ import { completeResponse, IsRunnable } from '../../recipes/Runnable';
 import IsLinker from '../../recipes/IsLinker';
 /**
  * Queueable represents a runnable entry in a queue.
+ * @extends Linker
  */
 declare class Queueable implements IsLinker, IsRunnable {
     readonly classType: typeof Queueable;
@@ -59,15 +60,17 @@ declare class Queueable implements IsLinker, IsRunnable {
     /**
      * Make a new Queueable from the data given if it is not already a valid Queueable.
      * @param {Queueable|*} queueable Return a valid Queueable instance from given data, or even an already valid one.
+     * @param {IsLinker} [classType=Queueable] Provide the type of IsLinker to use.
      * @return {Queueable}
      */
-    static make: (queueable: Queueable | any) => IsLinker;
+    static make: (queueable: Queueable | any, classType?: any) => IsLinker;
     /**
      * Convert an array into Queueable instances, return the head and tail Queueables.
      * @param {Array} values Provide an array of data that will be converted to a chain of queueable linkers.
+     * @param {IsLinker} [classType=Queueable] Provide the type of IsLinker to use.
      * @returns {{head: Queueable, tail: Queueable}}
      */
-    static fromArray: (values: Array<any>) => {
+    static fromArray: (values: Array<any>, classType?: any) => {
         head: Queueable;
         tail: Queueable;
     };

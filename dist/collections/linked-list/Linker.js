@@ -7,8 +7,11 @@ exports.default = void 0
 require('core-js/modules/esnext.async-iterator.reduce.js')
 require('core-js/modules/esnext.iterator.constructor.js')
 require('core-js/modules/esnext.iterator.reduce.js')
+var _ArrayElement = _interopRequireDefault(require('../arrayable/ArrayElement'))
+function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
 /**
  * Linker represents a node in a LinkedList.
+ * @extends ArrayElement
  */
 class Linker {
   /**
@@ -22,9 +25,9 @@ class Linker {
       data = null,
       next = null
     } = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {}
+    this.classType = Linker
     this.data = null
     this.next = null
-    this.classType = Linker
     this.data = data
     this.next = next
   }
@@ -32,12 +35,14 @@ class Linker {
 /**
  * Make a new Linker from the data given if it is not already a valid Linker.
  * @param {Linker|*} linker Return a valid Linker instance from given data, or even an already valid one.
+ * @param {IsLinker} [classType=Linker] Provide the type of IsLinker to use.
  * @return {Linker}
  */
-Linker.make = linker => {
+Linker.make = function (linker) {
+  const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Linker
   if (typeof linker !== 'object') {
     // It is not an object, so instantiate the Linker with element as the data
-    return new Linker({
+    return new classType({
       data: linker
     })
   }
@@ -51,28 +56,32 @@ Linker.make = linker => {
     }
   }
   // Create the new node as the configured #classType
-  return new Linker(linker)
+  return _ArrayElement.default.make(linker, classType)
 }
 /**
  * Convert an array into Linker instances, return the head and tail Linkers.
  * @param {Array} [values=[]] Provide an array of data that will be converted to a chain of linkers.
+ * @param {IsLinker} [classType=Linker] Provide the type of IsLinker to use.
  * @returns {{head: Linker, tail: Linker}}
  */
-Linker.fromArray = values => values.reduce((references, linker) => {
-  const newLinker = Linker.make(linker)
-  if (references.head === null) {
-    // Initialize the head and tail with the new node
-    return {
-      head: newLinker,
-      tail: newLinker
+Linker.fromArray = function (values) {
+  const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Linker
+  return values.reduce((references, linker) => {
+    const newLinker = classType.make(linker, classType)
+    if (references.head === null) {
+      // Initialize the head and tail with the new node
+      return {
+        head: newLinker,
+        tail: newLinker
+      }
     }
-  }
-  // Only update the tail once head has been set, tail is always the most recent node
-  references.tail.next = newLinker
-  references.tail = newLinker
-  return references
-}, {
-  head: null,
-  tail: null
-})
+    // Only update the tail once head has been set, tail is always the most recent node
+    references.tail.next = newLinker
+    references.tail = newLinker
+    return references
+  }, {
+    head: null,
+    tail: null
+  })
+}
 var _default = exports.default = Linker

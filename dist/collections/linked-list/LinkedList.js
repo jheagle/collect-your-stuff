@@ -6,9 +6,11 @@ Object.defineProperty(exports, '__esModule', {
 exports.default = void 0
 var _Linker = _interopRequireDefault(require('./Linker'))
 var _LinkerIterator = _interopRequireDefault(require('../../recipes/LinkerIterator'))
+var _Arrayable = _interopRequireDefault(require('../arrayable/Arrayable'))
 function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
 /**
  * LinkedList represents a collection stored as a LinkedList with next references.
+ * @extends Arrayable
  */
 class LinkedList {
   /**
@@ -27,13 +29,7 @@ class LinkedList {
    * @return {LinkedList}
    */
   initialize (initialList) {
-    if (this.initialized) {
-      console.warn('Attempt to initialize LinkedList which is not empty.')
-      return this
-    }
-    this.initialized = true
-    this.innerList = initialList
-    return this
+    return _Arrayable.default.prototype.initialize.call(this, initialList)
   }
 
   /**
@@ -222,13 +218,15 @@ class LinkedList {
 /**
  * Convert an array to a LinkedList.
  * @param {Array} values An array of values which will be converted to linkers in this linked-list
- * @param {Linker} linkerClass The class to use for each linker
+ * @param {IsLinker} linkerClass The class to use for each linker
+ * @param {IsArrayable<Linker>} [classType=LinkedList] Provide the type of IsArrayable to use.
  * @returns {LinkedList}
  */
 LinkedList.fromArray = function () {
   const values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []
   const linkerClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _Linker.default
-  const list = new LinkedList()
+  const classType = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : LinkedList
+  const list = new classType()
   return list.initialize(linkerClass.fromArray(values).head)
 }
 var _default = exports.default = LinkedList

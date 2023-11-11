@@ -9,6 +9,7 @@ require('core-js/modules/esnext.iterator.constructor.js')
 require('core-js/modules/esnext.iterator.reduce.js')
 /**
  * Stackable represents a runnable entry in stack.
+ * @extends Linker
  */
 class Stackable {
   /**
@@ -53,12 +54,14 @@ class Stackable {
 /**
  * Make a new Stackable from the data given if it is not already a valid Stackable.
  * @param {Stackable|*} stackable Return a valid Stackable instance from given data, or even an already valid one.
+ * @param {IsLinker} [classType=Stackable] Provide the type of IsLinker to use.
  * @return {Stackable}
  */
-Stackable.make = stackable => {
+Stackable.make = function (stackable) {
+  const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Stackable
   if (typeof stackable !== 'object') {
     // It is not an object, so instantiate the Stackable with stackable as the data
-    return new Stackable({
+    return new classType({
       task: stackable
     })
   }
@@ -77,12 +80,14 @@ Stackable.make = stackable => {
 /**
  * Convert an array into Stackable instances, return the head and tail Stackables.
  * @param {Array} [values=[]] Provide an array of data that will be converted to a chain of stackable linkers.
+ * @param {IsLinker} [classType=Stackable] Provide the type of IsLinker to use.
  * @returns {{head: Stackable, tail: Stackable}}
  */
 Stackable.fromArray = function () {
   const values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []
+  const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Stackable
   return values.reduce((references, queueable) => {
-    const newStackable = Stackable.make(queueable)
+    const newStackable = classType.make(queueable, classType)
     if (references.head === null) {
       // Initialize the head and tail with the new node
       return {

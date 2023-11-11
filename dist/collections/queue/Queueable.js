@@ -9,6 +9,7 @@ require('core-js/modules/esnext.iterator.constructor.js')
 require('core-js/modules/esnext.iterator.reduce.js')
 /**
  * Queueable represents a runnable entry in a queue.
+ * @extends Linker
  */
 class Queueable {
   /**
@@ -110,12 +111,14 @@ class Queueable {
 /**
  * Make a new Queueable from the data given if it is not already a valid Queueable.
  * @param {Queueable|*} queueable Return a valid Queueable instance from given data, or even an already valid one.
+ * @param {IsLinker} [classType=Queueable] Provide the type of IsLinker to use.
  * @return {Queueable}
  */
-Queueable.make = queueable => {
+Queueable.make = function (queueable) {
+  const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Queueable
   if (typeof queueable !== 'object') {
     // It is not an object, so instantiate the Queueable with an element as the data
-    return new Queueable({
+    return new classType({
       task: queueable
     })
   }
@@ -129,28 +132,32 @@ Queueable.make = queueable => {
     }
   }
   // Create the new node as the configured #classType
-  return new Queueable(queueable)
+  return new classType(queueable)
 }
 /**
  * Convert an array into Queueable instances, return the head and tail Queueables.
  * @param {Array} values Provide an array of data that will be converted to a chain of queueable linkers.
+ * @param {IsLinker} [classType=Queueable] Provide the type of IsLinker to use.
  * @returns {{head: Queueable, tail: Queueable}}
  */
-Queueable.fromArray = values => values.reduce((references, queueable) => {
-  const newQueueable = Queueable.make(queueable)
-  if (references.head === null) {
-    // Initialize the head and tail with the new node
-    return {
-      head: newQueueable,
-      tail: newQueueable
+Queueable.fromArray = function (values) {
+  const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Queueable
+  return values.reduce((references, queueable) => {
+    const newQueueable = classType.make(queueable, classType)
+    if (references.head === null) {
+      // Initialize the head and tail with the new node
+      return {
+        head: newQueueable,
+        tail: newQueueable
+      }
     }
-  }
-  // Only update the tail once head has been set, tail is always the most recent node
-  references.tail.next = newQueueable
-  references.tail = newQueueable
-  return references
-}, {
-  head: null,
-  tail: null
-})
+    // Only update the tail once head has been set, tail is always the most recent node
+    references.tail.next = newQueueable
+    references.tail = newQueueable
+    return references
+  }, {
+    head: null,
+    tail: null
+  })
+}
 var _default = exports.default = Queueable

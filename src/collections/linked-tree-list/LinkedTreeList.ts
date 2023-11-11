@@ -8,20 +8,22 @@ import TreeLinker from './TreeLinker'
 import { forEachCallback } from '../../recipes/IsArrayable'
 import TreeLinkerIterator from '../../recipes/TreeLinkerIterator'
 import IsTree from '../../recipes/IsTree'
+import DoublyLinkedList from '../doubly-linked-list/DoublyLinkedList'
+import IsTreeNode from '../../recipes/IsTreeNode'
 
 /**
  * LinkedTreeList represents a collection stored with a root and spreading in branching (tree) formation.
+ * @extends DoublyLinkedList
  */
 class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
-  public readonly classType: typeof LinkedTreeList = null
-  public innerList: TreeLinker = null
+  public readonly classType: typeof LinkedTreeList = LinkedTreeList
+  public innerList: IsTreeNode | any = null
   public initialized: boolean = false
 
   /**
    * Create the new LinkedTreeList instance, configure the list class.
    */
-  constructor () {
-    this.classType = LinkedTreeList
+  public constructor () {
   }
 
   /**
@@ -29,9 +31,9 @@ class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
    * @param {TreeLinker} initialList Give the list of tree-linkers to start in this linked-tree-list.
    * @return {LinkedTreeList}
    */
-  initialize (initialList: TreeLinker): LinkedTreeList {
+  public initialize (initialList: TreeLinker): LinkedTreeList {
     if (this.initialized) {
-      console.warn('Attempt to initialize LinkedList which is not empty.')
+      console.warn('Attempt to initialize LinkedTreeList which is not empty.')
       return this
     }
     this.initialized = true
@@ -43,7 +45,7 @@ class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
    * Retrieve a copy of the innerList used.
    * @returns {TreeLinker}
    */
-  get list (): TreeLinker {
+  public get list (): TreeLinker {
     return this.innerList
   }
 
@@ -51,7 +53,7 @@ class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
    * Retrieve the first TreeLinker in the list.
    * @returns {TreeLinker}
    */
-  get first (): TreeLinker {
+  public get first (): TreeLinker {
     return this.reset()
   }
 
@@ -59,7 +61,7 @@ class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
    * Retrieve the last TreeLinker in the list.
    * @returns {TreeLinker}
    */
-  get last (): TreeLinker {
+  public get last (): TreeLinker {
     let tail: TreeLinker = this.innerList
     let next: TreeLinker = tail.next
     while (next !== null) {
@@ -73,7 +75,7 @@ class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
    * Return the length of the list.
    * @returns {number}
    */
-  get length (): number {
+  public get length (): number {
     let current: TreeLinker = this.first
     let length: number = 0
     while (current !== null) {
@@ -87,7 +89,7 @@ class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
    * Get the parent of this tree list.
    * @return {TreeLinker}
    */
-  get parent (): TreeLinker {
+  public get parent (): TreeLinker {
     const first = this.first
     if (first === null) {
       return null
@@ -99,7 +101,7 @@ class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
    * Set the parent of this tree list
    * @param {TreeLinker} parent The new node to use as the parent for this group of children
    */
-  set parent (parent: TreeLinker) {
+  public set parent (parent: TreeLinker) {
     let current: TreeLinker = this.first
     while (current !== null) {
       current.parent = parent
@@ -114,7 +116,7 @@ class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
    * Return the root parent of the entire tree.
    * @return {TreeLinker}
    */
-  get rootParent (): TreeLinker {
+  public get rootParent (): TreeLinker {
     let current: TreeLinker = this.first
     if (!current) {
       return null
@@ -132,7 +134,7 @@ class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
    * @param {TreeLinker} item The TreeLinker node that will be the parent of the children
    * @param {LinkedTreeList} children The LinkedTreeList which has the child nodes to use
    */
-  setChildren (item: TreeLinker, children: LinkedTreeList = null): void {
+  public setChildren (item: TreeLinker, children: LinkedTreeList = null): void {
     if (Array.from(this).indexOf(item) < 0) {
       console.error('item is not a child of this')
     }
@@ -145,20 +147,8 @@ class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
    * @param {TreeLinker|*} newNode The new node to go after the existing node
    * @returns {LinkedTreeList}
    */
-  insertAfter (node: TreeLinker, newNode: TreeLinker | any): LinkedTreeList {
-    newNode = node.classType.make(newNode)
-    // Ensure the next reference of this node is assigned to the new node
-    newNode.next = node.next
-    // Ensure this node is assigned as the prev reference of the new node
-    newNode.prev = node
-    // Then set this node's next reference to the new node
-    node.next = newNode
-    if (newNode.next) {
-      // Update the next reference to ensure circular reference for prev points to the new node
-      newNode.next.prev = newNode
-    }
-    this.reset()
-    return this
+  public insertAfter (node: TreeLinker, newNode: TreeLinker | any): LinkedTreeList {
+    return DoublyLinkedList.prototype.insertAfter.call(this, node, newNode)
   }
 
   /**
@@ -167,7 +157,7 @@ class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
    * @param {TreeLinker|*} newNode The new node to go before the existing node
    * @returns {LinkedTreeList}
    */
-  insertBefore (node: TreeLinker, newNode: TreeLinker | any): LinkedTreeList {
+  public insertBefore (node: TreeLinker, newNode: TreeLinker | any): LinkedTreeList {
     newNode = node.classType.make(newNode)
     // The new node will reference this prev node as prev
     newNode.prev = node.prev
@@ -189,7 +179,7 @@ class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
    * @param {TreeLinker} after The existing last node
    * @returns {TreeLinker}
    */
-  append (node: TreeLinker | any, after: TreeLinker = this.last): LinkedTreeList {
+  public append (node: TreeLinker | any, after: TreeLinker = this.last): LinkedTreeList {
     return this.insertAfter(after, node)
   }
 
@@ -199,7 +189,7 @@ class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
    * @param {TreeLinker} before The existing first node
    * @returns {TreeLinker}
    */
-  prepend (node: TreeLinker | any, before: TreeLinker = this.first): LinkedTreeList {
+  public prepend (node: TreeLinker | any, before: TreeLinker = this.first): LinkedTreeList {
     return this.insertBefore(before, node)
   }
 
@@ -208,7 +198,7 @@ class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
    * @param {TreeLinker} node The node we wish to remove (and it will be returned after removal)
    * @return {TreeLinker}
    */
-  remove (node: TreeLinker): TreeLinker {
+  public remove (node: TreeLinker): TreeLinker {
     if (node.prev) {
       // The previous node will reference this next node
       node.prev.next = node.next
@@ -226,7 +216,7 @@ class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
    * Refresh all references and return head reference.
    * @return {TreeLinker}
    */
-  reset (): TreeLinker {
+  public reset (): TreeLinker {
     // Start at the pointer for the list
     let pointer: TreeLinker = this.innerList
     if (pointer === null) {
@@ -254,7 +244,7 @@ class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
    * @param {number} index The integer number for retrieving a node by position.
    * @returns {TreeLinker|null}
    */
-  item (index: number): TreeLinker {
+  public item (index: number): TreeLinker {
     if (index >= 0) {
       // For a positive index, start from the beginning of the list until the current item counter equals our index
       let current: TreeLinker = this.first
@@ -282,7 +272,7 @@ class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
    * @param {forEachCallback} callback The function to call for-each tree node
    * @param {LinkedTreeList} thisArg Optional, 'this' reference
    */
-  forEach (callback: forEachCallback, thisArg: LinkedTreeList = this): LinkedTreeList {
+  public forEach (callback: forEachCallback, thisArg: LinkedTreeList = this): LinkedTreeList {
     let index: number = 0
     let current: TreeLinker = thisArg.first
     while (current !== null) {
@@ -298,7 +288,7 @@ class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
    * @returns {Iterator}
    */
   [Symbol.iterator] (): Iterator<TreeLinker> {
-    let root: TreeLinker = this.rootParent
+    let root: IsTreeNode = this.rootParent
     return new TreeLinkerIterator(root)
   }
 
@@ -306,10 +296,11 @@ class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
    * Convert an array into a LinkedTreeList instance, return the new instance.
    * @param {Array} [values=[]] An array of values which will be converted to nodes in this tree-list
    * @param {TreeLinker} [linkerClass=TreeLinker] The class to use for each node
+   * @param {IsArrayable<TreeLinker>} [classType=LinkedTreeList] Provide the type of IsArrayable to use.
    * @returns {LinkedTreeList}
    */
-  public static fromArray = (values: Array<any> = [], linkerClass: typeof TreeLinker = TreeLinker): LinkedTreeList => {
-    const list: LinkedTreeList = new LinkedTreeList()
+  public static fromArray = (values: Array<any> = [], linkerClass: typeof TreeLinker = TreeLinker, classType: any = LinkedTreeList): IsTree | any => {
+    const list: IsTree = new classType()
     return list.initialize(linkerClass.fromArray(values).head)
   }
 }

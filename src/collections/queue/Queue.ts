@@ -20,7 +20,7 @@ class Queue {
    * Instantiate the queue with the given queue list.
    * @param {Iterable|LinkedList} queuedList Give the list of queueables to start in this queue.
    */
-  constructor (queuedList: IsArrayable<any>) {
+  public constructor (queuedList: IsArrayable<any>) {
     this.queuedList = queuedList
   }
 
@@ -28,7 +28,7 @@ class Queue {
    * Take a queued task from the front of the queue and run it if ready.
    * @return {completeResponse|*}
    */
-  dequeue (): completeResponse | any {
+  public dequeue (): completeResponse | any {
     const next: Queueable = this.remove()
     if (!next) {
       return {
@@ -66,7 +66,7 @@ class Queue {
    * Return true if the queue is empty (there are no tasks in the queue list)
    * @return {boolean}
    */
-  empty (): boolean {
+  public empty (): boolean {
     return this.size() <= 0
   }
 
@@ -74,7 +74,7 @@ class Queue {
    * Add a queued task to the end of the queue
    * @param {Queueable} queueable Add a new queueable to the end of the queue
    */
-  enqueue (queueable: Queueable) {
+  public enqueue (queueable: Queueable) {
     this.queuedList.append(queueable)
   }
 
@@ -82,7 +82,7 @@ class Queue {
    * Take a look at the next queued task
    * @return {Queueable}
    */
-  peek (): IsLinker {
+  public peek (): IsLinker {
     return this.queuedList.first
   }
 
@@ -90,7 +90,7 @@ class Queue {
    * Remove the next queued item and return it.
    * @return {Queueable|null}
    */
-  remove (): Queueable | null {
+  public remove (): Queueable | null {
     if (this.empty()) {
       return null
     }
@@ -101,7 +101,7 @@ class Queue {
    * Get the length of the current queue.
    * @return {number}
    */
-  size (): number {
+  public size (): number {
     return this.queuedList.length
   }
 
@@ -114,7 +114,7 @@ class Queue {
    */
   public static fromArray = (values: Array<any> = [], queueableClass: typeof Queueable = Queueable, listClass: any = LinkedList): Queue => {
     const list: IsArrayable<any> = new listClass(queueableClass)
-    list.initialize(queueableClass.fromArray(values).head)
+    list.initialize(queueableClass.fromArray(values, queueableClass).head)
     return new Queue(list)
   }
 }

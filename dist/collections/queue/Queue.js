@@ -119,7 +119,7 @@ Queue.fromArray = function () {
   const queueableClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _Queueable.default
   const listClass = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : _LinkedList.default
   const list = new listClass(queueableClass)
-  list.initialize(queueableClass.fromArray(values).head)
+  list.initialize(queueableClass.fromArray(values, queueableClass).head)
   return new Queue(list)
 }
 var _default = exports.default = Queue

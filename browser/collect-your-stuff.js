@@ -19,37 +19,41 @@
    */
       constructor () {
         const data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null
-        this.data = null
         this.classType = ArrayElement
+        this.data = null
         this.data = data
       }
     }
     /**
  * Make a new Element from the data given if it is not already a valid Element.
  * @param {ArrayElement|*} element Return a valid ArrayElement instance from given data, or even an already valid one.
+ * @param {IsElement} [classType=ArrayElement] Provide the type of IsElement to use.
  * @return {ArrayElement}
  */
-    ArrayElement.make = element => {
+    ArrayElement.make = function (element) {
+      const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : ArrayElement
       if (typeof element !== 'object') {
         // It is not an object, so instantiate the Element with element as the data
-        return new ArrayElement(element)
+        return new classType(element)
       }
       if (element.classType) {
         // Already valid Element, return as-is
         return element
       }
       // Create the new node as the configured #classType
-      return new ArrayElement(element)
+      return new classType(element)
     }
     /**
  * Convert an array into Element instances, return the head and tail Elements.
  * @param {Array<IsElement>} [values=[]] Provide an array of data that will be converted to array of elements.
+ * @param {IsElement} [classType=ArrayElement] Provide the type of IsElement to use.
  * @returns {{head: ArrayElement[], tail: ArrayElement}}
  */
     ArrayElement.fromArray = function () {
       const values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []
+      const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : ArrayElement
       return values.reduce((references, element) => {
-        const newElement = ArrayElement.make(element)
+        const newElement = classType.make(element, classType)
         if (!references.head.length) {
           // Initialize the head and tail with the new node
           return {
@@ -93,9 +97,9 @@
    * Create the new Arrayable instance, configure the Arrayable class.
    */
       constructor () {
+        this.classType = Arrayable
         this.innerList = []
         this.initialized = false
-        this.classType = Arrayable
         this.initialized = false
       }
 
@@ -106,7 +110,7 @@
    */
       initialize (initialList) {
         if (this.initialized) {
-          console.warn('Attempt to initialize Arrayable which is not empty.')
+          console.warn('Attempt to initialize non-empty list.')
           return this
         }
         this.initialized = true
@@ -252,13 +256,15 @@
     /**
  * Convert an array to an Arrayable.
  * @param {Array} values An array of values which will be converted to elements in this arrayable
- * @param {ArrayElement} elementClass The class to use for each element
+ * @param {IsElement} [elementClass=ArrayElement] The class to use for each element
+ * @param {IsArrayable<ArrayElement>} [classType=Arrayable] Provide the type of IsArrayable to use.
  * @returns {Arrayable}
  */
     Arrayable.fromArray = function () {
       const values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []
       const elementClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _ArrayElement.default
-      const list = new Arrayable()
+      const classType = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : Arrayable
+      const list = new classType()
       return list.initialize(elementClass.fromArray(values).head)
     }
     var _default = exports.default = Arrayable
@@ -273,8 +279,11 @@
     require('core-js/modules/esnext.async-iterator.reduce.js')
     require('core-js/modules/esnext.iterator.constructor.js')
     require('core-js/modules/esnext.iterator.reduce.js')
+    var _Linker = _interopRequireDefault(require('../linked-list/Linker'))
+    function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
     /**
  * DoubleLinker represents a node in a DoublyLinkedList which is chained by next and prev.
+ * @extends Linker
  */
     class DoubleLinker {
       /**
@@ -290,10 +299,10 @@
           next = null,
           prev = null
         } = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {}
+        this.classType = DoubleLinker
         this.data = null
         this.next = null
         this.prev = null
-        this.classType = DoubleLinker
         this.data = data
         this.next = next
         this.prev = prev
@@ -302,36 +311,24 @@
     /**
  * Make a new DoubleLinker from the data given if it is not already a valid Linker.
  * @param {DoubleLinker|*} linker Return a valid Linker instance from given data, or even an already valid one.
+ * @param {IsDoubleLinker} [classType=DoubleLinker] Provide the type of IsDoubleLinker to use.
  * @return {DoubleLinker}
  */
-    DoubleLinker.make = linker => {
-      if (typeof linker !== 'object') {
-        // It is not an object, so instantiate the DoubleLinker with element as the data
-        return new DoubleLinker({
-          data: linker
-        })
-      }
-      if (linker.classType) {
-        // Already valid DoubleLinker, return as-is
-        return linker
-      }
-      if (!linker.data) {
-        linker = {
-          data: linker
-        }
-      }
-      // Create the new node as the configured #classType
-      return new DoubleLinker(linker)
+    DoubleLinker.make = function (linker) {
+      const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : DoubleLinker
+      return _Linker.default.make(linker, classType)
     }
     /**
  * Convert an array into DoubleLinker instances, return the head and tail DoubleLinkers.
  * @param {Array} [values=[]] Provide an array of data that will be converted to a chain of linkers.
+ * @param {IsDoubleLinker} [classType=DoubleLinker] Provide the type of IsDoubleLinker to use.
  * @returns {{head: DoubleLinker, tail: DoubleLinker}}
  */
     DoubleLinker.fromArray = function () {
       const values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []
+      const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : DoubleLinker
       return values.reduce((references, linker) => {
-        const newLinker = DoubleLinker.make(linker)
+        const newLinker = classType.make(linker, classType)
         if (references.head === null) {
           // Initialize the head and tail with the new node
           return {
@@ -350,7 +347,7 @@
       })
     }
     var _default = exports.default = DoubleLinker
-  }, { 'core-js/modules/esnext.async-iterator.reduce.js': 536, 'core-js/modules/esnext.iterator.constructor.js': 537, 'core-js/modules/esnext.iterator.reduce.js': 539 }],
+  }, { '../linked-list/Linker': 6, 'core-js/modules/esnext.async-iterator.reduce.js': 536, 'core-js/modules/esnext.iterator.constructor.js': 537, 'core-js/modules/esnext.iterator.reduce.js': 539 }],
   4: [function (require, module, exports) {
     'use strict'
 
@@ -360,6 +357,7 @@
     exports.default = void 0
     var _DoubleLinker = _interopRequireDefault(require('./DoubleLinker'))
     var _DoubleLinkerIterator = _interopRequireDefault(require('../../recipes/DoubleLinkerIterator'))
+    var _LinkedList = _interopRequireDefault(require('../linked-list/LinkedList'))
     function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
     /**
  * @file doubly linked list.
@@ -370,16 +368,16 @@
 
     /**
  * DoublyLinkedList represents a collection stored as a LinkedList with prev and next references.
+ * @extends LinkedList
  */
     class DoublyLinkedList {
       /**
    * Create the new DoublyLinkedList instance.
    */
       constructor () {
-        this.classType = null
+        this.classType = DoublyLinkedList
         this.innerList = null
         this.initialized = false
-        this.classType = DoublyLinkedList
       }
 
       /**
@@ -388,13 +386,7 @@
    * @return {DoublyLinkedList}
    */
       initialize (initialList) {
-        if (this.initialized) {
-          console.warn('Attempt to initialize LinkedList which is not empty.')
-          return this
-        }
-        this.initialized = true
-        this.innerList = initialList
-        return this
+        return _LinkedList.default.prototype.initialize.call(this, initialList)
       }
 
       /**
@@ -545,7 +537,7 @@
           pointer = prev
           prev = pointer.prev
         }
-        // All the live references should have been found and we are pointing to the true head
+        // All the live references should have been found, and we are pointing to the true head
         this.innerList = pointer
         return pointer
       }
@@ -583,14 +575,7 @@
    */
       forEach (callback) {
         const thisArg = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this
-        let index = 0
-        let current = thisArg.first
-        while (current !== null) {
-          callback(current, index, thisArg)
-          current = current.next
-          ++index
-        }
-        return thisArg
+        return _LinkedList.default.prototype.forEach.call(this, callback, thisArg)
       }
 
       /**
@@ -605,17 +590,18 @@
     /**
  * Convert an array into a DoublyLinkedList instance, return the new instance.
  * @param {Array} [values=[]] An array of values which will be converted to linkers in this doubly-linked-list
- * @param {DoubleLinker} [linkerClass=DoubleLinker] The class to use for each linker
+ * @param {IsDoubleLinker} [linkerClass=DoubleLinker] The class to use for each linker
+ * @param {IsArrayable<IsDoubleLinker>} [classType=LinkedList] Provide the type of IsArrayable to use.
  * @returns {DoublyLinkedList}
  */
     DoublyLinkedList.fromArray = function () {
       const values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []
       const linkerClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _DoubleLinker.default
-      const list = new DoublyLinkedList()
-      return list.initialize(linkerClass.fromArray(values).head)
+      const classType = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : DoublyLinkedList
+      return _LinkedList.default.fromArray(values, linkerClass, classType)
     }
     var _default = exports.default = DoublyLinkedList
-  }, { '../../recipes/DoubleLinkerIterator': 15, './DoubleLinker': 3 }],
+  }, { '../../recipes/DoubleLinkerIterator': 15, '../linked-list/LinkedList': 5, './DoubleLinker': 3 }],
   5: [function (require, module, exports) {
     'use strict'
 
@@ -625,9 +611,11 @@
     exports.default = void 0
     var _Linker = _interopRequireDefault(require('./Linker'))
     var _LinkerIterator = _interopRequireDefault(require('../../recipes/LinkerIterator'))
+    var _Arrayable = _interopRequireDefault(require('../arrayable/Arrayable'))
     function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
     /**
  * LinkedList represents a collection stored as a LinkedList with next references.
+ * @extends Arrayable
  */
     class LinkedList {
       /**
@@ -646,13 +634,7 @@
    * @return {LinkedList}
    */
       initialize (initialList) {
-        if (this.initialized) {
-          console.warn('Attempt to initialize LinkedList which is not empty.')
-          return this
-        }
-        this.initialized = true
-        this.innerList = initialList
-        return this
+        return _Arrayable.default.prototype.initialize.call(this, initialList)
       }
 
       /**
@@ -841,17 +823,19 @@
     /**
  * Convert an array to a LinkedList.
  * @param {Array} values An array of values which will be converted to linkers in this linked-list
- * @param {Linker} linkerClass The class to use for each linker
+ * @param {IsLinker} linkerClass The class to use for each linker
+ * @param {IsArrayable<Linker>} [classType=LinkedList] Provide the type of IsArrayable to use.
  * @returns {LinkedList}
  */
     LinkedList.fromArray = function () {
       const values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []
       const linkerClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _Linker.default
-      const list = new LinkedList()
+      const classType = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : LinkedList
+      const list = new classType()
       return list.initialize(linkerClass.fromArray(values).head)
     }
     var _default = exports.default = LinkedList
-  }, { '../../recipes/LinkerIterator': 16, './Linker': 6 }],
+  }, { '../../recipes/LinkerIterator': 16, '../arrayable/Arrayable': 2, './Linker': 6 }],
   6: [function (require, module, exports) {
     'use strict'
 
@@ -862,8 +846,11 @@
     require('core-js/modules/esnext.async-iterator.reduce.js')
     require('core-js/modules/esnext.iterator.constructor.js')
     require('core-js/modules/esnext.iterator.reduce.js')
+    var _ArrayElement = _interopRequireDefault(require('../arrayable/ArrayElement'))
+    function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
     /**
  * Linker represents a node in a LinkedList.
+ * @extends ArrayElement
  */
     class Linker {
       /**
@@ -877,9 +864,9 @@
           data = null,
           next = null
         } = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {}
+        this.classType = Linker
         this.data = null
         this.next = null
-        this.classType = Linker
         this.data = data
         this.next = next
       }
@@ -887,12 +874,14 @@
     /**
  * Make a new Linker from the data given if it is not already a valid Linker.
  * @param {Linker|*} linker Return a valid Linker instance from given data, or even an already valid one.
+ * @param {IsLinker} [classType=Linker] Provide the type of IsLinker to use.
  * @return {Linker}
  */
-    Linker.make = linker => {
+    Linker.make = function (linker) {
+      const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Linker
       if (typeof linker !== 'object') {
         // It is not an object, so instantiate the Linker with element as the data
-        return new Linker({
+        return new classType({
           data: linker
         })
       }
@@ -906,32 +895,36 @@
         }
       }
       // Create the new node as the configured #classType
-      return new Linker(linker)
+      return _ArrayElement.default.make(linker, classType)
     }
     /**
  * Convert an array into Linker instances, return the head and tail Linkers.
  * @param {Array} [values=[]] Provide an array of data that will be converted to a chain of linkers.
+ * @param {IsLinker} [classType=Linker] Provide the type of IsLinker to use.
  * @returns {{head: Linker, tail: Linker}}
  */
-    Linker.fromArray = values => values.reduce((references, linker) => {
-      const newLinker = Linker.make(linker)
-      if (references.head === null) {
-        // Initialize the head and tail with the new node
-        return {
-          head: newLinker,
-          tail: newLinker
+    Linker.fromArray = function (values) {
+      const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Linker
+      return values.reduce((references, linker) => {
+        const newLinker = classType.make(linker, classType)
+        if (references.head === null) {
+          // Initialize the head and tail with the new node
+          return {
+            head: newLinker,
+            tail: newLinker
+          }
         }
-      }
-      // Only update the tail once head has been set, tail is always the most recent node
-      references.tail.next = newLinker
-      references.tail = newLinker
-      return references
-    }, {
-      head: null,
-      tail: null
-    })
+        // Only update the tail once head has been set, tail is always the most recent node
+        references.tail.next = newLinker
+        references.tail = newLinker
+        return references
+      }, {
+        head: null,
+        tail: null
+      })
+    }
     var _default = exports.default = Linker
-  }, { 'core-js/modules/esnext.async-iterator.reduce.js': 536, 'core-js/modules/esnext.iterator.constructor.js': 537, 'core-js/modules/esnext.iterator.reduce.js': 539 }],
+  }, { '../arrayable/ArrayElement': 1, 'core-js/modules/esnext.async-iterator.reduce.js': 536, 'core-js/modules/esnext.iterator.constructor.js': 537, 'core-js/modules/esnext.iterator.reduce.js': 539 }],
   7: [function (require, module, exports) {
     'use strict'
 
@@ -941,6 +934,7 @@
     exports.default = void 0
     var _TreeLinker = _interopRequireDefault(require('./TreeLinker'))
     var _TreeLinkerIterator = _interopRequireDefault(require('../../recipes/TreeLinkerIterator'))
+    var _DoublyLinkedList = _interopRequireDefault(require('../doubly-linked-list/DoublyLinkedList'))
     function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
     /**
  * @file doubly linked tree list.
@@ -951,16 +945,16 @@
 
     /**
  * LinkedTreeList represents a collection stored with a root and spreading in branching (tree) formation.
+ * @extends DoublyLinkedList
  */
     class LinkedTreeList {
       /**
    * Create the new LinkedTreeList instance, configure the list class.
    */
       constructor () {
-        this.classType = null
+        this.classType = LinkedTreeList
         this.innerList = null
         this.initialized = false
-        this.classType = LinkedTreeList
       }
 
       /**
@@ -970,7 +964,7 @@
    */
       initialize (initialList) {
         if (this.initialized) {
-          console.warn('Attempt to initialize LinkedList which is not empty.')
+          console.warn('Attempt to initialize LinkedTreeList which is not empty.')
           return this
         }
         this.initialized = true
@@ -1086,19 +1080,7 @@
    * @returns {LinkedTreeList}
    */
       insertAfter (node, newNode) {
-        newNode = node.classType.make(newNode)
-        // Ensure the next reference of this node is assigned to the new node
-        newNode.next = node.next
-        // Ensure this node is assigned as the prev reference of the new node
-        newNode.prev = node
-        // Then set this node's next reference to the new node
-        node.next = newNode
-        if (newNode.next) {
-          // Update the next reference to ensure circular reference for prev points to the new node
-          newNode.next.prev = newNode
-        }
-        this.reset()
-        return this
+        return _DoublyLinkedList.default.prototype.insertAfter.call(this, node, newNode)
       }
 
       /**
@@ -1249,16 +1231,18 @@
  * Convert an array into a LinkedTreeList instance, return the new instance.
  * @param {Array} [values=[]] An array of values which will be converted to nodes in this tree-list
  * @param {TreeLinker} [linkerClass=TreeLinker] The class to use for each node
+ * @param {IsArrayable<TreeLinker>} [classType=LinkedTreeList] Provide the type of IsArrayable to use.
  * @returns {LinkedTreeList}
  */
     LinkedTreeList.fromArray = function () {
       const values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []
       const linkerClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _TreeLinker.default
-      const list = new LinkedTreeList()
+      const classType = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : LinkedTreeList
+      const list = new classType()
       return list.initialize(linkerClass.fromArray(values).head)
     }
     var _default = exports.default = LinkedTreeList
-  }, { '../../recipes/TreeLinkerIterator': 18, './TreeLinker': 8 }],
+  }, { '../../recipes/TreeLinkerIterator': 18, '../doubly-linked-list/DoublyLinkedList': 4, './TreeLinker': 8 }],
   8: [function (require, module, exports) {
     'use strict'
 
@@ -1268,13 +1252,11 @@
     exports.default = void 0
     require('core-js/modules/esnext.async-iterator.map.js')
     require('core-js/modules/esnext.iterator.map.js')
-    require('core-js/modules/esnext.async-iterator.reduce.js')
-    require('core-js/modules/esnext.iterator.constructor.js')
-    require('core-js/modules/esnext.iterator.reduce.js')
-    var _LinkedTreeList = _interopRequireDefault(require('./LinkedTreeList'))
+    var _DoubleLinker = _interopRequireDefault(require('../doubly-linked-list/DoubleLinker'))
     function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
     /**
  * TreeLinker represents a node in a LinkedTreeList having a parent (or root) and child nodes.
+ * @extends DoubleLinker
  */
     class TreeLinker {
       /**
@@ -1294,12 +1276,12 @@
           children = null,
           parent = null
         } = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {}
+        this.classType = TreeLinker
         this.data = null
         this.next = null
         this.prev = null
         this.parent = null
         this.children = null
-        this.classType = TreeLinker
         this.data = data
         this.next = next
         this.prev = prev
@@ -1310,71 +1292,44 @@
       /**
    * Create the children for this tree from an array.
    * @param {Array|null} children Provide an array of data / linker references to be children of this tree node.
+   * @param {IsTree} classType Provide the type of IsElement to use.
    * @return {LinkedTreeList|null}
    */
       childrenFromArray () {
         const children = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null
+        const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : TreeLinker
         if (children === null) {
           return null
         }
         // Creates a linked-tree-list to store the children.
-        return _LinkedTreeList.default.fromArray(children.map(child => Object.assign({}, child, {
+        return classType.fromArray(children.map(child => Object.assign({}, child, {
           parent: this
-        })), TreeLinker)
+        })), classType)
       }
     }
     /**
  * Make a new DoubleLinker from the data given if it is not already a valid Linker.
  * @param {TreeLinker|*} linker Return a valid TreeLinker instance from given data, or even an already valid one.
+ * @param {IsTreeNode} [classType=TreeLinker] Provide the type of IsTreeNode to use.
  * @return {TreeLinker}
  */
-    TreeLinker.make = linker => {
-      if (typeof linker !== 'object') {
-        // It is not an object, so instantiate the DoubleLinker with element as the data
-        return new TreeLinker({
-          data: linker
-        })
-      }
-      if (linker.classType) {
-        // Already valid DoubleLinker, return as-is
-        return linker
-      }
-      if (!linker.data) {
-        linker = {
-          data: linker
-        }
-      }
-      // Create the new node as the configured #classType
-      return new TreeLinker(linker)
+    TreeLinker.make = function (linker) {
+      const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : TreeLinker
+      return _DoubleLinker.default.make(linker, classType)
     }
     /**
  * Convert an array into DoubleLinker instances, return the head and tail DoubleLinkers.
  * @param {Array} [values=[]] Provide an array of data that will be converted to a chain of tree-linkers.
+ * @param {IsTreeNode} [classType=TreeLinker] Provide the type of IsTreeNode to use.
  * @returns {{head: TreeLinker, tail: TreeLinker}}
  */
     TreeLinker.fromArray = function () {
       const values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []
-      return values.reduce((references, linker) => {
-        const newLinker = TreeLinker.make(linker)
-        if (references.head === null) {
-          // Initialize the head and tail with the new node
-          return {
-            head: newLinker,
-            tail: newLinker
-          }
-        }
-        newLinker.prev = references.tail
-        // Only update the tail once head has been set, tail is always the most recent node
-        references.tail.next = newLinker
-        references.tail = newLinker
-        return references
-      }, {
-        head: null,
-        tail: null
-      })
+      const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : TreeLinker
+      return _DoubleLinker.default.fromArray(values, classType)
     }
     var _default = exports.default = TreeLinker
-  }, { './LinkedTreeList': 7, 'core-js/modules/esnext.async-iterator.map.js': 535, 'core-js/modules/esnext.async-iterator.reduce.js': 536, 'core-js/modules/esnext.iterator.constructor.js': 537, 'core-js/modules/esnext.iterator.map.js': 538, 'core-js/modules/esnext.iterator.reduce.js': 539 }],
+  }, { '../doubly-linked-list/DoubleLinker': 3, 'core-js/modules/esnext.async-iterator.map.js': 535, 'core-js/modules/esnext.iterator.map.js': 538 }],
   9: [function (require, module, exports) {
     'use strict'
 
@@ -1497,7 +1452,7 @@
       const queueableClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _Queueable.default
       const listClass = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : _LinkedList.default
       const list = new listClass(queueableClass)
-      list.initialize(queueableClass.fromArray(values).head)
+      list.initialize(queueableClass.fromArray(values, queueableClass).head)
       return new Queue(list)
     }
     var _default = exports.default = Queue
@@ -1514,6 +1469,7 @@
     require('core-js/modules/esnext.iterator.reduce.js')
     /**
  * Queueable represents a runnable entry in a queue.
+ * @extends Linker
  */
     class Queueable {
       /**
@@ -1615,12 +1571,14 @@
     /**
  * Make a new Queueable from the data given if it is not already a valid Queueable.
  * @param {Queueable|*} queueable Return a valid Queueable instance from given data, or even an already valid one.
+ * @param {IsLinker} [classType=Queueable] Provide the type of IsLinker to use.
  * @return {Queueable}
  */
-    Queueable.make = queueable => {
+    Queueable.make = function (queueable) {
+      const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Queueable
       if (typeof queueable !== 'object') {
         // It is not an object, so instantiate the Queueable with an element as the data
-        return new Queueable({
+        return new classType({
           task: queueable
         })
       }
@@ -1634,30 +1592,34 @@
         }
       }
       // Create the new node as the configured #classType
-      return new Queueable(queueable)
+      return new classType(queueable)
     }
     /**
  * Convert an array into Queueable instances, return the head and tail Queueables.
  * @param {Array} values Provide an array of data that will be converted to a chain of queueable linkers.
+ * @param {IsLinker} [classType=Queueable] Provide the type of IsLinker to use.
  * @returns {{head: Queueable, tail: Queueable}}
  */
-    Queueable.fromArray = values => values.reduce((references, queueable) => {
-      const newQueueable = Queueable.make(queueable)
-      if (references.head === null) {
-        // Initialize the head and tail with the new node
-        return {
-          head: newQueueable,
-          tail: newQueueable
+    Queueable.fromArray = function (values) {
+      const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Queueable
+      return values.reduce((references, queueable) => {
+        const newQueueable = classType.make(queueable, classType)
+        if (references.head === null) {
+          // Initialize the head and tail with the new node
+          return {
+            head: newQueueable,
+            tail: newQueueable
+          }
         }
-      }
-      // Only update the tail once head has been set, tail is always the most recent node
-      references.tail.next = newQueueable
-      references.tail = newQueueable
-      return references
-    }, {
-      head: null,
-      tail: null
-    })
+        // Only update the tail once head has been set, tail is always the most recent node
+        references.tail.next = newQueueable
+        references.tail = newQueueable
+        return references
+      }, {
+        head: null,
+        tail: null
+      })
+    }
     var _default = exports.default = Queueable
   }, { 'core-js/modules/esnext.async-iterator.reduce.js': 536, 'core-js/modules/esnext.iterator.constructor.js': 537, 'core-js/modules/esnext.iterator.reduce.js': 539 }],
   11: [function (require, module, exports) {
@@ -1760,7 +1722,7 @@
       const stackableClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _Stackable.default
       const listClass = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : _LinkedList.default
       const list = new listClass(stackableClass)
-      list.initialize(stackableClass.fromArray(values).head)
+      list.initialize(stackableClass.fromArray(values, stackableClass).head)
       return new Stack(list)
     }
     var _default = exports.default = Stack
@@ -1777,6 +1739,7 @@
     require('core-js/modules/esnext.iterator.reduce.js')
     /**
  * Stackable represents a runnable entry in stack.
+ * @extends Linker
  */
     class Stackable {
       /**
@@ -1821,12 +1784,14 @@
     /**
  * Make a new Stackable from the data given if it is not already a valid Stackable.
  * @param {Stackable|*} stackable Return a valid Stackable instance from given data, or even an already valid one.
+ * @param {IsLinker} [classType=Stackable] Provide the type of IsLinker to use.
  * @return {Stackable}
  */
-    Stackable.make = stackable => {
+    Stackable.make = function (stackable) {
+      const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Stackable
       if (typeof stackable !== 'object') {
         // It is not an object, so instantiate the Stackable with stackable as the data
-        return new Stackable({
+        return new classType({
           task: stackable
         })
       }
@@ -1845,12 +1810,14 @@
     /**
  * Convert an array into Stackable instances, return the head and tail Stackables.
  * @param {Array} [values=[]] Provide an array of data that will be converted to a chain of stackable linkers.
+ * @param {IsLinker} [classType=Stackable] Provide the type of IsLinker to use.
  * @returns {{head: Stackable, tail: Stackable}}
  */
     Stackable.fromArray = function () {
       const values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []
+      const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Stackable
       return values.reduce((references, queueable) => {
-        const newStackable = Stackable.make(queueable)
+        const newStackable = classType.make(queueable, classType)
         if (references.head === null) {
           // Initialize the head and tail with the new node
           return {
@@ -1896,11 +1863,9 @@
 
     /**
  * TODO:
- * 1. Remove extra functions from queue and stack, we don't need the alias, just use pop / push for stack and enqueue / dequeue for queue
- * 2. Use linked list for both stack an queue
- * 3. Create binary tree. Use the tree, but it has a limit of only two children per parent, and when adding / removing sort is applied. Add sort function in fromArray
- * 4. Create a heap (both min and max heap variants) which is similar to binary tree in structure, but tree having its min / max value as root. and it must insert on the left-most lowest level, and removes from root. Be able to easily swap nodes to ensure min / max ordering.
- * 5. Create a graph type which can have directional and undirectional variants for linking nodes
+ * 1. Create binary tree. Use the tree, but it has a limit of only two children per parent, and when adding / removing sort is applied. Add sort function in fromArray
+ * 2. Create a heap (both min and max heap variants) which is similar to binary tree in structure, but tree having its min / max value as root. and it must insert on the left-most lowest level, and removes from root. Be able to easily swap nodes to ensure min / max ordering.
+ * 3. Create a graph type which can have directional and undirectional variants for linking nodes
  */
     /**
  * All methods exported from this module are encapsulated within collect-your-stuff.
@@ -2168,7 +2133,7 @@
     })
     exports.default = void 0
     /**
- * Figure this out
+ * Be able to parse over every node in a tree.
  * 1. Start at root (get root parent)
  * 2. Get first child (repeat until no children)
  * 3. Check next child

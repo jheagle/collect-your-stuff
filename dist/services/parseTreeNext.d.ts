@@ -1,6 +1,6 @@
 import IsTreeNode from '../recipes/IsTreeNode';
 /**
- * Figure this out
+ * Be able to parse over every node in a tree.
  * 1. Start at root (get root parent)
  * 2. Get first child (repeat until no children)
  * 3. Check next child

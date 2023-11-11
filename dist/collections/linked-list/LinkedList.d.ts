@@ -9,6 +9,7 @@ import IsLinker from '../../recipes/IsLinker';
 import Linker from './Linker';
 /**
  * LinkedList represents a collection stored as a LinkedList with next references.
+ * @extends Arrayable
  */
 declare class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
     readonly classType: typeof LinkedList;
@@ -99,9 +100,10 @@ declare class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
     /**
      * Convert an array to a LinkedList.
      * @param {Array} values An array of values which will be converted to linkers in this linked-list
-     * @param {Linker} linkerClass The class to use for each linker
+     * @param {IsLinker} linkerClass The class to use for each linker
+     * @param {IsArrayable<Linker>} [classType=LinkedList] Provide the type of IsArrayable to use.
      * @returns {LinkedList}
      */
-    static fromArray: (values?: Array<any>, linkerClass?: typeof Linker) => IsArrayable<Linker>;
+    static fromArray: (values?: Array<any>, linkerClass?: typeof Linker, classType?: any) => IsArrayable<IsLinker> | any;
 }
 export default LinkedList;
