@@ -4,9 +4,8 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 })
 exports.default = void 0
-require('core-js/modules/esnext.async-iterator.reduce.js')
-require('core-js/modules/esnext.iterator.constructor.js')
-require('core-js/modules/esnext.iterator.reduce.js')
+var _Linker = _interopRequireDefault(require('../linked-list/Linker'))
+function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
 /**
  * Stackable represents a runnable entry in stack.
  * @extends Linker
@@ -86,22 +85,6 @@ Stackable.make = function (stackable) {
 Stackable.fromArray = function () {
   const values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []
   const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Stackable
-  return values.reduce((references, queueable) => {
-    const newStackable = classType.make(queueable, classType)
-    if (references.head === null) {
-      // Initialize the head and tail with the new node
-      return {
-        head: newStackable,
-        tail: newStackable
-      }
-    }
-    // Only update the tail once head has been set, tail is always the most recent node
-    references.tail.next = newStackable
-    references.tail = newStackable
-    return references
-  }, {
-    head: null,
-    tail: null
-  })
+  return _Linker.default.fromArray(values, classType)
 }
 var _default = exports.default = Stackable

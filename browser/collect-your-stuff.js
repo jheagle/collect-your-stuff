@@ -525,6 +525,9 @@
       reset () {
         // Start at the pointer for the list
         let pointer = this.innerList
+        if (pointer === null) {
+          return null
+        }
         let next = pointer.next
         // Follow references till the end
         while (next !== null) {
@@ -549,6 +552,7 @@
    */
       item (index) {
         if (index >= 0) {
+          // For a positive index, start from the beginning of the list until the current item counter equals our index
           let current = this.first
           let currentIndex = -1
           while (++currentIndex < index && current !== null) {
@@ -556,6 +560,7 @@
           }
           return currentIndex === index ? current : null
         }
+        // For a negative index, get the delta of index and length, then go backwards until we reach that delta
         let current = this.last
         let currentIndex = this.length
         const calculatedIndex = this.length + index
@@ -1090,19 +1095,7 @@
    * @returns {LinkedTreeList}
    */
       insertBefore (node, newNode) {
-        newNode = node.classType.make(newNode)
-        // The new node will reference this prev node as prev
-        newNode.prev = node.prev
-        // The new node will reference this node as next
-        newNode.next = node
-        // This prev will reference the new node
-        node.prev = newNode
-        if (newNode.prev) {
-          // Update the prev reference to ensure circular reference for next points to the new node
-          newNode.prev.next = newNode
-        }
-        this.reset()
-        return this
+        return _DoublyLinkedList.default.prototype.insertBefore.call(this, node, newNode)
       }
 
       /**
@@ -1113,7 +1106,7 @@
    */
       append (node) {
         const after = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.last
-        return this.insertAfter(after, node)
+        return _DoublyLinkedList.default.prototype.append.call(this, node, after)
       }
 
       /**
@@ -1124,7 +1117,7 @@
    */
       prepend (node) {
         const before = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.first
-        return this.insertBefore(before, node)
+        return _DoublyLinkedList.default.prototype.prepend.call(this, node, before)
       }
 
       /**
@@ -1133,17 +1126,7 @@
    * @return {TreeLinker}
    */
       remove (node) {
-        if (node.prev) {
-          // The previous node will reference this next node
-          node.prev.next = node.next
-        }
-        if (node.next) {
-          // The next node will reference this previous node
-          node.next.prev = node.prev
-        }
-        // Update head reference
-        this.reset()
-        return node
+        return _DoublyLinkedList.default.prototype.remove.call(this, node)
       }
 
       /**
@@ -1151,26 +1134,7 @@
    * @return {TreeLinker}
    */
       reset () {
-        // Start at the pointer for the list
-        let pointer = this.innerList
-        if (pointer === null) {
-          return null
-        }
-        let next = pointer.next
-        // Follow references till the end
-        while (next !== null) {
-          pointer = next
-          next = pointer.next
-        }
-        let prev = pointer.prev
-        // From final reference, follow references back to the beginning
-        while (prev !== null) {
-          pointer = prev
-          prev = pointer.prev
-        }
-        // All the live references should have been found, and we are pointing to the true head
-        this.innerList = pointer
-        return pointer
+        return _DoublyLinkedList.default.prototype.reset.call(this)
       }
 
       /**
@@ -1179,26 +1143,7 @@
    * @returns {TreeLinker|null}
    */
       item (index) {
-        if (index >= 0) {
-          // For a positive index, start from the beginning of the list until the current item counter equals our index
-          let current = this.first
-          let currentIndex = -1
-          while (++currentIndex < index && current !== null) {
-            current = current.next
-          }
-          return currentIndex === index ? current : null
-        }
-        // For a negative index, get the delta of index and length, then go backwards until we reach that delta
-        let current = this.last
-        let currentIndex = this.length
-        const calculatedIndex = this.length + index
-        if (calculatedIndex < 0) {
-          return null
-        }
-        while (--currentIndex > calculatedIndex && current !== null) {
-          current = current.prev
-        }
-        return currentIndex === calculatedIndex ? current : null
+        return _DoublyLinkedList.default.prototype.item.call(this, index)
       }
 
       /**
@@ -1464,9 +1409,8 @@
       value: true
     })
     exports.default = void 0
-    require('core-js/modules/esnext.async-iterator.reduce.js')
-    require('core-js/modules/esnext.iterator.constructor.js')
-    require('core-js/modules/esnext.iterator.reduce.js')
+    var _Linker = _interopRequireDefault(require('../linked-list/Linker'))
+    function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
     /**
  * Queueable represents a runnable entry in a queue.
  * @extends Linker
@@ -1602,26 +1546,10 @@
  */
     Queueable.fromArray = function (values) {
       const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Queueable
-      return values.reduce((references, queueable) => {
-        const newQueueable = classType.make(queueable, classType)
-        if (references.head === null) {
-          // Initialize the head and tail with the new node
-          return {
-            head: newQueueable,
-            tail: newQueueable
-          }
-        }
-        // Only update the tail once head has been set, tail is always the most recent node
-        references.tail.next = newQueueable
-        references.tail = newQueueable
-        return references
-      }, {
-        head: null,
-        tail: null
-      })
+      return _Linker.default.fromArray(values, classType)
     }
     var _default = exports.default = Queueable
-  }, { 'core-js/modules/esnext.async-iterator.reduce.js': 536, 'core-js/modules/esnext.iterator.constructor.js': 537, 'core-js/modules/esnext.iterator.reduce.js': 539 }],
+  }, { '../linked-list/Linker': 6 }],
   11: [function (require, module, exports) {
     'use strict'
 
@@ -1734,9 +1662,8 @@
       value: true
     })
     exports.default = void 0
-    require('core-js/modules/esnext.async-iterator.reduce.js')
-    require('core-js/modules/esnext.iterator.constructor.js')
-    require('core-js/modules/esnext.iterator.reduce.js')
+    var _Linker = _interopRequireDefault(require('../linked-list/Linker'))
+    function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
     /**
  * Stackable represents a runnable entry in stack.
  * @extends Linker
@@ -1816,26 +1743,10 @@
     Stackable.fromArray = function () {
       const values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []
       const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Stackable
-      return values.reduce((references, queueable) => {
-        const newStackable = classType.make(queueable, classType)
-        if (references.head === null) {
-          // Initialize the head and tail with the new node
-          return {
-            head: newStackable,
-            tail: newStackable
-          }
-        }
-        // Only update the tail once head has been set, tail is always the most recent node
-        references.tail.next = newStackable
-        references.tail = newStackable
-        return references
-      }, {
-        head: null,
-        tail: null
-      })
+      return _Linker.default.fromArray(values, classType)
     }
     var _default = exports.default = Stackable
-  }, { 'core-js/modules/esnext.async-iterator.reduce.js': 536, 'core-js/modules/esnext.iterator.constructor.js': 537, 'core-js/modules/esnext.iterator.reduce.js': 539 }],
+  }, { '../linked-list/Linker': 6 }],
   13: [function (require, module, exports) {
     'use strict'
 

@@ -132,22 +132,9 @@ class Queueable implements IsLinker, IsRunnable {
    * @returns {{head: Queueable, tail: Queueable}}
    */
   public static fromArray = (values: Array<any>, classType: any = Queueable): {
-    head: Queueable;
-    tail: Queueable;
-  } => values.reduce(
-    (references, queueable) => {
-      const newQueueable = classType.make(queueable, classType)
-      if (references.head === null) {
-        // Initialize the head and tail with the new node
-        return { head: newQueueable, tail: newQueueable }
-      }
-      // Only update the tail once head has been set, tail is always the most recent node
-      references.tail.next = newQueueable
-      references.tail = newQueueable
-      return references
-    },
-    { head: null, tail: null }
-  )
+    head: IsLinker;
+    tail: IsLinker;
+  } => Linker.fromArray(values, classType)
 }
 
 export default Queueable

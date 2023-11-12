@@ -174,6 +174,9 @@ class DoublyLinkedList {
   reset () {
     // Start at the pointer for the list
     let pointer = this.innerList
+    if (pointer === null) {
+      return null
+    }
     let next = pointer.next
     // Follow references till the end
     while (next !== null) {
@@ -198,6 +201,7 @@ class DoublyLinkedList {
    */
   item (index) {
     if (index >= 0) {
+      // For a positive index, start from the beginning of the list until the current item counter equals our index
       let current = this.first
       let currentIndex = -1
       while (++currentIndex < index && current !== null) {
@@ -205,6 +209,7 @@ class DoublyLinkedList {
       }
       return currentIndex === index ? current : null
     }
+    // For a negative index, get the delta of index and length, then go backwards until we reach that delta
     let current = this.last
     let currentIndex = this.length
     const calculatedIndex = this.length + index

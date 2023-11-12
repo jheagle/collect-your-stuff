@@ -4,9 +4,8 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 })
 exports.default = void 0
-require('core-js/modules/esnext.async-iterator.reduce.js')
-require('core-js/modules/esnext.iterator.constructor.js')
-require('core-js/modules/esnext.iterator.reduce.js')
+var _Linker = _interopRequireDefault(require('../linked-list/Linker'))
+function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
 /**
  * Queueable represents a runnable entry in a queue.
  * @extends Linker
@@ -142,22 +141,6 @@ Queueable.make = function (queueable) {
  */
 Queueable.fromArray = function (values) {
   const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Queueable
-  return values.reduce((references, queueable) => {
-    const newQueueable = classType.make(queueable, classType)
-    if (references.head === null) {
-      // Initialize the head and tail with the new node
-      return {
-        head: newQueueable,
-        tail: newQueueable
-      }
-    }
-    // Only update the tail once head has been set, tail is always the most recent node
-    references.tail.next = newQueueable
-    references.tail = newQueueable
-    return references
-  }, {
-    head: null,
-    tail: null
-  })
+  return _Linker.default.fromArray(values, classType)
 }
 var _default = exports.default = Queueable

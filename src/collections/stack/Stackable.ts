@@ -82,22 +82,9 @@ class Stackable implements IsLinker, IsRunnable {
    * @returns {{head: Stackable, tail: Stackable}}
    */
   public static fromArray = (values: Array<any> = [], classType: any = Stackable): {
-    head: Stackable;
-    tail: Stackable
-  } => values.reduce(
-    (references, queueable) => {
-      const newStackable = classType.make(queueable, classType)
-      if (references.head === null) {
-        // Initialize the head and tail with the new node
-        return { head: newStackable, tail: newStackable }
-      }
-      // Only update the tail once head has been set, tail is always the most recent node
-      references.tail.next = newStackable
-      references.tail = newStackable
-      return references
-    },
-    { head: null, tail: null }
-  )
+    head: IsLinker;
+    tail: IsLinker
+  } =>  Linker.fromArray(values, classType)
 }
 
 export default Stackable

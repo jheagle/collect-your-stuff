@@ -71,8 +71,8 @@ declare class Queueable implements IsLinker, IsRunnable {
      * @returns {{head: Queueable, tail: Queueable}}
      */
     static fromArray: (values: Array<any>, classType?: any) => {
-        head: Queueable;
-        tail: Queueable;
+        head: IsLinker;
+        tail: IsLinker;
     };
 }
 export default Queueable;

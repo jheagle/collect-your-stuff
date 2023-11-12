@@ -59,8 +59,8 @@ class Linker implements IsLinker {
    * @returns {{head: Linker, tail: Linker}}
    */
   public static fromArray = (values: Array<any>, classType: any = Linker): {
-    head: Linker;
-    tail: Linker;
+    head: IsLinker;
+    tail: IsLinker;
   } => values.reduce(
     (references, linker) => {
       const newLinker = classType.make(linker, classType)

@@ -50,8 +50,8 @@ declare class Stackable implements IsLinker, IsRunnable {
      * @returns {{head: Stackable, tail: Stackable}}
      */
     static fromArray: (values?: Array<any>, classType?: any) => {
-        head: Stackable;
-        tail: Stackable;
+        head: IsLinker;
+        tail: IsLinker;
     };
 }
 export default Stackable;

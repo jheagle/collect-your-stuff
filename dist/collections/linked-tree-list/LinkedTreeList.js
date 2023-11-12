@@ -162,19 +162,7 @@ class LinkedTreeList {
    * @returns {LinkedTreeList}
    */
   insertBefore (node, newNode) {
-    newNode = node.classType.make(newNode)
-    // The new node will reference this prev node as prev
-    newNode.prev = node.prev
-    // The new node will reference this node as next
-    newNode.next = node
-    // This prev will reference the new node
-    node.prev = newNode
-    if (newNode.prev) {
-      // Update the prev reference to ensure circular reference for next points to the new node
-      newNode.prev.next = newNode
-    }
-    this.reset()
-    return this
+    return _DoublyLinkedList.default.prototype.insertBefore.call(this, node, newNode)
   }
 
   /**
@@ -185,7 +173,7 @@ class LinkedTreeList {
    */
   append (node) {
     const after = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.last
-    return this.insertAfter(after, node)
+    return _DoublyLinkedList.default.prototype.append.call(this, node, after)
   }
 
   /**
@@ -196,7 +184,7 @@ class LinkedTreeList {
    */
   prepend (node) {
     const before = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.first
-    return this.insertBefore(before, node)
+    return _DoublyLinkedList.default.prototype.prepend.call(this, node, before)
   }
 
   /**
@@ -205,17 +193,7 @@ class LinkedTreeList {
    * @return {TreeLinker}
    */
   remove (node) {
-    if (node.prev) {
-      // The previous node will reference this next node
-      node.prev.next = node.next
-    }
-    if (node.next) {
-      // The next node will reference this previous node
-      node.next.prev = node.prev
-    }
-    // Update head reference
-    this.reset()
-    return node
+    return _DoublyLinkedList.default.prototype.remove.call(this, node)
   }
 
   /**
@@ -223,26 +201,7 @@ class LinkedTreeList {
    * @return {TreeLinker}
    */
   reset () {
-    // Start at the pointer for the list
-    let pointer = this.innerList
-    if (pointer === null) {
-      return null
-    }
-    let next = pointer.next
-    // Follow references till the end
-    while (next !== null) {
-      pointer = next
-      next = pointer.next
-    }
-    let prev = pointer.prev
-    // From final reference, follow references back to the beginning
-    while (prev !== null) {
-      pointer = prev
-      prev = pointer.prev
-    }
-    // All the live references should have been found, and we are pointing to the true head
-    this.innerList = pointer
-    return pointer
+    return _DoublyLinkedList.default.prototype.reset.call(this)
   }
 
   /**
@@ -251,26 +210,7 @@ class LinkedTreeList {
    * @returns {TreeLinker|null}
    */
   item (index) {
-    if (index >= 0) {
-      // For a positive index, start from the beginning of the list until the current item counter equals our index
-      let current = this.first
-      let currentIndex = -1
-      while (++currentIndex < index && current !== null) {
-        current = current.next
-      }
-      return currentIndex === index ? current : null
-    }
-    // For a negative index, get the delta of index and length, then go backwards until we reach that delta
-    let current = this.last
-    let currentIndex = this.length
-    const calculatedIndex = this.length + index
-    if (calculatedIndex < 0) {
-      return null
-    }
-    while (--currentIndex > calculatedIndex && current !== null) {
-      current = current.prev
-    }
-    return currentIndex === calculatedIndex ? current : null
+    return _DoublyLinkedList.default.prototype.item.call(this, index)
   }
 
   /**

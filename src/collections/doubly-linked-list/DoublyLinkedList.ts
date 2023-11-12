@@ -168,6 +168,9 @@ class DoublyLinkedList implements IsArrayable<DoubleLinker>, Iterable<DoubleLink
   public reset (): DoubleLinker {
     // Start at the pointer for the list
     let pointer: DoubleLinker = this.innerList
+    if (pointer === null) {
+      return null
+    }
     let next: DoubleLinker = pointer.next
     // Follow references till the end
     while (next !== null) {
@@ -192,6 +195,7 @@ class DoublyLinkedList implements IsArrayable<DoubleLinker>, Iterable<DoubleLink
    */
   public item (index: number): DoubleLinker {
     if (index >= 0) {
+      // For a positive index, start from the beginning of the list until the current item counter equals our index
       let current: DoubleLinker = this.first
       let currentIndex: number = -1
       while ((++currentIndex) < index && current !== null) {
@@ -199,6 +203,7 @@ class DoublyLinkedList implements IsArrayable<DoubleLinker>, Iterable<DoubleLink
       }
       return currentIndex === index ? current : null
     }
+    // For a negative index, get the delta of index and length, then go backwards until we reach that delta
     let current: DoubleLinker = this.last
     let currentIndex: number = this.length
     const calculatedIndex: number = this.length + index

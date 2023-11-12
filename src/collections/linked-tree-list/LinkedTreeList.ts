@@ -158,19 +158,7 @@ class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
    * @returns {LinkedTreeList}
    */
   public insertBefore (node: TreeLinker, newNode: TreeLinker | any): LinkedTreeList {
-    newNode = node.classType.make(newNode)
-    // The new node will reference this prev node as prev
-    newNode.prev = node.prev
-    // The new node will reference this node as next
-    newNode.next = node
-    // This prev will reference the new node
-    node.prev = newNode
-    if (newNode.prev) {
-      // Update the prev reference to ensure circular reference for next points to the new node
-      newNode.prev.next = newNode
-    }
-    this.reset()
-    return this
+    return DoublyLinkedList.prototype.insertBefore.call(this, node, newNode)
   }
 
   /**
@@ -180,7 +168,7 @@ class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
    * @returns {TreeLinker}
    */
   public append (node: TreeLinker | any, after: TreeLinker = this.last): LinkedTreeList {
-    return this.insertAfter(after, node)
+    return DoublyLinkedList.prototype.append.call(this, node, after)
   }
 
   /**
@@ -190,7 +178,7 @@ class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
    * @returns {TreeLinker}
    */
   public prepend (node: TreeLinker | any, before: TreeLinker = this.first): LinkedTreeList {
-    return this.insertBefore(before, node)
+    return DoublyLinkedList.prototype.prepend.call(this, node, before)
   }
 
   /**
@@ -199,17 +187,7 @@ class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
    * @return {TreeLinker}
    */
   public remove (node: TreeLinker): TreeLinker {
-    if (node.prev) {
-      // The previous node will reference this next node
-      node.prev.next = node.next
-    }
-    if (node.next) {
-      // The next node will reference this previous node
-      node.next.prev = node.prev
-    }
-    // Update head reference
-    this.reset()
-    return node
+    return DoublyLinkedList.prototype.remove.call(this, node)
   }
 
   /**
@@ -217,26 +195,7 @@ class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
    * @return {TreeLinker}
    */
   public reset (): TreeLinker {
-    // Start at the pointer for the list
-    let pointer: TreeLinker = this.innerList
-    if (pointer === null) {
-      return null
-    }
-    let next: TreeLinker = pointer.next
-    // Follow references till the end
-    while (next !== null) {
-      pointer = next
-      next = pointer.next
-    }
-    let prev: TreeLinker = pointer.prev
-    // From final reference, follow references back to the beginning
-    while (prev !== null) {
-      pointer = prev
-      prev = pointer.prev
-    }
-    // All the live references should have been found, and we are pointing to the true head
-    this.innerList = pointer
-    return pointer
+    return DoublyLinkedList.prototype.reset.call(this)
   }
 
   /**
@@ -245,26 +204,7 @@ class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
    * @returns {TreeLinker|null}
    */
   public item (index: number): TreeLinker {
-    if (index >= 0) {
-      // For a positive index, start from the beginning of the list until the current item counter equals our index
-      let current: TreeLinker = this.first
-      let currentIndex: number = -1
-      while ((++currentIndex) < index && current !== null) {
-        current = current.next
-      }
-      return currentIndex === index ? current : null
-    }
-    // For a negative index, get the delta of index and length, then go backwards until we reach that delta
-    let current: TreeLinker = this.last
-    let currentIndex: number = this.length
-    const calculatedIndex: number = this.length + index
-    if (calculatedIndex < 0) {
-      return null
-    }
-    while ((--currentIndex) > calculatedIndex && current !== null) {
-      current = current.prev
-    }
-    return currentIndex === calculatedIndex ? current : null
+    return DoublyLinkedList.prototype.item.call(this, index)
   }
 
   /**

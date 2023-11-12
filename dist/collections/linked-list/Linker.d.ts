@@ -37,8 +37,8 @@ declare class Linker implements IsLinker {
      * @returns {{head: Linker, tail: Linker}}
      */
     static fromArray: (values: Array<any>, classType?: any) => {
-        head: Linker;
-        tail: Linker;
+        head: IsLinker;
+        tail: IsLinker;
     };
 }
 export default Linker;
