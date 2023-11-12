@@ -11,19 +11,19 @@ describe('Stack', () => {
   test('peek returns tail of list', () => {
     const arrayData = ['one', 'two', 'three', 'four']
     const someStack = Stack.fromArray(arrayData)
-    expect(someStack.peek().data).toBe(arrayData[3])
+    expect(someStack.top().data).toBe(arrayData[0])
     // Size didn't change
     expect(someStack.size()).toBe(4)
   })
 
   test('can add to the stack', () => {
-    const someStack = Stack.fromArray(['one', 'two', 'three', 'four'])
-    someStack.add('five')
+    const someStack = Stack.fromArray(['two', 'three', 'four', 'five'])
+    someStack.push('one')
     expect(someStack.size()).toBe(5)
-    expect(someStack.stackedList.last.data).toBe('five')
-    someStack.add('six')
+    expect(someStack.stackedList.first.data).toBe('one')
+    someStack.push('zero')
     expect(someStack.size()).toBe(6)
-    expect(someStack.stackedList.last.data).toBe('six')
+    expect(someStack.stackedList.first.data).toBe('zero')
   })
 
   test('can remove from the stack', () => {
@@ -47,11 +47,11 @@ describe('Stack', () => {
     const someStack = Stack.fromArray(['one', 'two', 'three', 'four'])
     expect(someStack.size()).toBe(4)
     const result = someStack.pop()
-    expect(result).toBe('four')
+    expect(result).toBe('one')
     // Reduced stack size
     expect(someStack.size()).toBe(3)
-    expect(someStack.getFirst().data).toBe('three')
-    expect(someStack.stackedList.last.data).toBe('three')
+    expect(someStack.top().data).toBe('two')
+    expect(someStack.stackedList.first.data).toBe('two')
   })
 
   test('returns assigned stack task', () => {
@@ -60,7 +60,7 @@ describe('Stack', () => {
     expect(someStack.size()).toBe(4)
     taskData.forEach((data, i) => {
       const result = someStack.pop()
-      expect(result).toBe(taskData[taskData.length - 1 - i])
+      expect(result).toBe(taskData[i])
     })
     expect(someStack.size()).toBe(0)
   })

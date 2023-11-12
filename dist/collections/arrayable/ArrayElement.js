@@ -1,95 +1,71 @@
-"use strict";
+'use strict'
 
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
   value: true
-});
-exports.default = void 0;
-require("core-js/modules/esnext.async-iterator.reduce.js");
-require("core-js/modules/esnext.iterator.constructor.js");
-require("core-js/modules/esnext.iterator.reduce.js");
-/**
- * @file linked list item.
- * @author Joshua Heagle <joshuaheagle@gmail.com>
- * @version 1.0.0
- * @memberOf module:collect-your-stuff
- */
-
+})
+exports.default = void 0
+require('core-js/modules/esnext.async-iterator.reduce.js')
+require('core-js/modules/esnext.iterator.constructor.js')
+require('core-js/modules/esnext.iterator.reduce.js')
 /**
  * Element represents a node in an Arrayable.
  */
 class ArrayElement {
-  data = null;
-  classType;
-
   /**
    * Create the new Element instance, provide the data and optionally configure the type of Element.
-   * @param {*} [data=null]
-   * @param {ArrayElement} [elementClass=Element]
+   * @param {*} [data=null] The data to be stored in this element.
    */
-  constructor() {
-    let data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-    let elementClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : ArrayElement;
-    this.classType = elementClass;
-    this.data = data;
-  }
-
-  /**
-   * Return the type of class used for Element.
-   
-   * @return {ArrayElement}
-   */
-  get classType() {
-    return this.classType;
+  constructor () {
+    const data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null
+    this.classType = ArrayElement
+    this.data = null
+    this.data = data
   }
 }
-
 /**
  * Make a new Element from the data given if it is not already a valid Element.
- * @methodof ArrayElement
- * @param {ArrayElement|*} element
- * @param {ArrayElement} [elementClass=Element]
+ * @param {ArrayElement|*} element Return a valid ArrayElement instance from given data, or even an already valid one.
+ * @param {IsElement} [classType=ArrayElement] Provide the type of IsElement to use.
  * @return {ArrayElement}
  */
 ArrayElement.make = function (element) {
-  let elementClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : ArrayElement;
+  const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : ArrayElement
   if (typeof element !== 'object') {
     // It is not an object, so instantiate the Element with element as the data
-    return new elementClass(element);
+    return new classType(element)
   }
   if (element.classType) {
     // Already valid Element, return as-is
-    return element;
+    return element
   }
   // Create the new node as the configured #classType
-  return new elementClass(element, elementClass);
-};
-
+  return new classType(element)
+}
 /**
  * Convert an array into Element instances, return the head and tail Elements.
- * @methodof ArrayElement
- * @param {Array} [values=[]]
- * @param {ArrayElement} [elementClass=Element]
- * @returns {{head: ArrayElement, tail: ArrayElement}}
+ * @param {Array<IsElement>} [values=[]] Provide an array of data that will be converted to array of elements.
+ * @param {IsElement} [classType=ArrayElement] Provide the type of IsElement to use.
+ * @returns {{head: ArrayElement[], tail: ArrayElement}}
  */
 ArrayElement.fromArray = function () {
-  let values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-  let elementClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : ArrayElement;
+  const values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []
+  const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : ArrayElement
   return values.reduce((references, element) => {
-    const newElement = elementClass.make(element);
+    const newElement = classType.make(element, classType)
     if (!references.head.length) {
       // Initialize the head and tail with the new node
       return {
         head: [newElement],
         tail: newElement
-      };
+      }
     }
     // Only update the tail once head has been set, tail is always the most recent node
-    references.head.push(newElement);
-    references.tail = newElement;
-    return references;
+    references.head.push(newElement)
+    references.tail = newElement
+    return references
   }, {
     head: [],
     tail: null
-  });
-};
-var _default = exports.default = ArrayElement;
+  })
+}
+var _default = exports.default = ArrayElement

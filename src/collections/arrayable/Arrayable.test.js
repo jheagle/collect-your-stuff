@@ -42,7 +42,7 @@ describe('Arrayable', () => {
 
   test('can append to the array', () => {
     const someArray = Arrayable.fromArray(['one', 'two', 'three', 'four'])
-    const ElementClass = someArray.classType
+    const ElementClass = someArray.first.classType
     const newNode = new ElementClass('five')
     let updatedArrayable = someArray.append(newNode)
     expect(someArray.length).toBe(5)
@@ -56,7 +56,7 @@ describe('Arrayable', () => {
 
   test('can prepend to the array', () => {
     const someArray = Arrayable.fromArray(['one', 'two', 'three', 'four'])
-    const ElementClass = someArray.classType
+    const ElementClass = someArray.first.classType
     const newNode = new ElementClass('zero')
     let updatedArrayable = someArray.prepend(newNode)
     expect(someArray.length).toBe(5)

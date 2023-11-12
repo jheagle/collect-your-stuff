@@ -18,10 +18,10 @@ describe('Queue', () => {
 
   test('can add to the queue', () => {
     const someQueue = Queue.fromArray(['one', 'two', 'three', 'four'])
-    someQueue.add('five')
+    someQueue.enqueue('five')
     expect(someQueue.size()).toBe(5)
     expect(someQueue.queuedList.last.data).toBe('five')
-    someQueue.add('six')
+    someQueue.enqueue('six')
     expect(someQueue.size()).toBe(6)
     expect(someQueue.queuedList.last.data).toBe('six')
   })
@@ -58,7 +58,7 @@ describe('Queue', () => {
   test('bails when there is a task still running', () => {
     const someQueue = Queue.fromArray(['one', 'two', 'three', 'four'])
     expect(someQueue.size()).toBe(4)
-    someQueue.getFirst().running = true
+    someQueue.peek().running = true
     const result = someQueue.dequeue()
     expect(someQueue.size()).toBe(3)
     expect(result.success).toBeFalsy()
@@ -69,12 +69,12 @@ describe('Queue', () => {
   test('returns assigned queue data', () => {
     const someQueue = Queue.fromArray(['one', 'two', 'three', 'four'])
     expect(someQueue.size()).toBe(4)
-    someQueue.getFirst().ready = true
+    someQueue.peek().ready = true
     const result = someQueue.dequeue()
     expect(result).toBe('one')
     // Still 4, first got pushed to end
     expect(someQueue.size()).toBe(4)
-    expect(someQueue.getFirst().data).toBe('two')
+    expect(someQueue.peek().data).toBe('two')
     expect(someQueue.queuedList.last.data).toBe('one')
     expect(someQueue.queuedList.last.complete).toBeTruthy()
   })
@@ -87,7 +87,7 @@ describe('Queue', () => {
       )
     const someQueue = Queue.fromArray(willRunTasks)
     expect(someQueue.size()).toBe(4)
-    someQueue.getFirst().ready = true
+    someQueue.peek().ready = true
     taskData.forEach(data => {
       const result = someQueue.dequeue()
       expect(result.success).toBeTruthy()
@@ -108,7 +108,7 @@ describe('Queue', () => {
     expect(result.context.data).toBe('one')
     // Still 4, first got pushed to end
     expect(someQueue.size()).toBe(4)
-    expect(someQueue.getFirst().data).toBe('two')
+    expect(someQueue.peek().data).toBe('two')
     expect(someQueue.queuedList.last.data).toBe('one')
   })
 })

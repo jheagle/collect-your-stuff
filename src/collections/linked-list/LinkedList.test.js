@@ -82,7 +82,7 @@ describe('LinkedList', () => {
 
   test('can append to the array', () => {
     const someList = LinkedList.fromArray(['one', 'two', 'three', 'four'])
-    const LinkerClass = someList.classType
+    const LinkerClass = someList.first.classType
     const newNode = new LinkerClass({ data: 'five' })
     someList.append(newNode)
     expect(someList.length).toBe(5)
@@ -94,7 +94,7 @@ describe('LinkedList', () => {
 
   test('can prepend to the array', () => {
     const someList = LinkedList.fromArray(['one', 'two', 'three', 'four'])
-    const LinkerClass = someList.classType
+    const LinkerClass = someList.first.classType
     const newNode = new LinkerClass({ data: 'zero' })
     someList.prepend(newNode)
     expect(someList.length).toBe(5)

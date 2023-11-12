@@ -1,4 +1,5 @@
 import LinkedTreeList from './LinkedTreeList'
+import TreeLinker from './TreeLinker'
 
 describe('LinkedTreeList', () => {
   test('can store linkers', () => {
@@ -82,8 +83,7 @@ describe('LinkedTreeList', () => {
 
   test('can append to the array', () => {
     const someList = LinkedTreeList.fromArray(['one', 'two', 'three', 'four'])
-    const LinkerClass = someList.classType
-    const newNode = new LinkerClass({ data: 'five' })
+    const newNode = new TreeLinker({ data: 'five' })
     someList.append(newNode)
     expect(someList.length).toBe(5)
     expect(someList.last.data).toBe('five')
@@ -94,8 +94,7 @@ describe('LinkedTreeList', () => {
 
   test('can prepend to the array', () => {
     const someList = LinkedTreeList.fromArray(['one', 'two', 'three', 'four'])
-    const LinkerClass = someList.classType
-    const newNode = new LinkerClass({ data: 'zero' })
+    const newNode = new TreeLinker({ data: 'zero' })
     someList.prepend(newNode)
     expect(someList.length).toBe(5)
     expect(someList.first.data).toBe('zero')
@@ -129,19 +128,19 @@ describe('LinkedTreeList', () => {
     const childData = ['two', 'three', 'four', 'five']
     const childList = LinkedTreeList.fromArray(childData)
     childList.parent = parentList.first
-    const firstItem = childList.first
-    expect(firstItem.data).toBe(childData[0])
-    expect(firstItem.parent.data).toBe(parentData[0])
-    expect(firstItem.parent.children.first.data).toBe(childData[0])
-    expect(firstItem.next.data).toBe(childData[1])
-    expect(firstItem.next.parent.data).toBe(parentData[0])
-    expect(firstItem.next.parent.children.item(1).data).toBe(childData[1])
-    expect(firstItem.next.next.data).toBe(childData[2])
-    expect(firstItem.next.next.parent.data).toBe(parentData[0])
-    expect(firstItem.next.next.parent.children.item(2).data).toBe(childData[2])
-    expect(firstItem.next.next.next.data).toBe(childData[3])
-    expect(firstItem.next.next.next.parent.data).toBe(parentData[0])
-    expect(firstItem.next.next.next.parent.children.last.data).toBe(childData[3])
+    const firstItem = parentList.first
+    expect(firstItem.data).toBe(parentData[0])
+    expect(firstItem.children.first.data).toBe(childData[0])
+    expect(firstItem.children.parent.children.first.data).toBe(childData[0])
+    expect(firstItem.children.item(1).data).toBe(childData[1])
+    expect(firstItem.children.item(2).parent.data).toBe(parentData[0])
+    expect(firstItem.children.item(2).parent.children.item(1).data).toBe(childData[1])
+    expect(firstItem.children.item(2).data).toBe(childData[2])
+    expect(firstItem.children.item(2).parent.data).toBe(parentData[0])
+    expect(firstItem.children.item(2).parent.children.item(2).data).toBe(childData[2])
+    expect(firstItem.children.item(3).data).toBe(childData[3])
+    expect(firstItem.children.item(3).parent.data).toBe(parentData[0])
+    expect(firstItem.children.item(3).parent.children.last.data).toBe(childData[3])
   })
 
   test('can set the children for a specified item', () => {

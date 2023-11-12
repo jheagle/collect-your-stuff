@@ -4,30 +4,31 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 })
 exports.default = void 0
-var _ArrayElement = _interopRequireDefault(require('../arrayable/ArrayElement'))
+var _Linker = _interopRequireDefault(require('../linked-list/Linker'))
 function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
 /**
- * @file stack.
- * @author Joshua Heagle <joshuaheagle@gmail.com>
- * @version 1.0.0
- * @memberOf module:collect-your-stuff
- */
-
-/**
  * Stackable represents a runnable entry in stack.
- * @extends ArrayElement
- * @extends Runnable
+ * @extends Linker
  */
-class Stackable extends _ArrayElement.default {
+class Stackable {
   /**
-   * Instantiate the Stackable which is used in a stack.
-   * @param {*} [stack=null]
-   * @param stackableClass
+   * Create a stackable item that can be used in a stack.
+   * @param {Object} [stackData={}]
+   * @param {*} [stackData.task=null] The data to be stored in this stackable
+   * @param {Stackable|null} [stackData.next=null] The reference to the next stackable if any
+   * @param {boolean|Function} [stackData.ready=false] Indicate if the stackable is ready to run
    */
   constructor () {
-    const stack = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null
-    const stackableClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Stackable
-    super(stack, stackableClass)
+    const {
+      task = null,
+      next = null,
+      ready = false
+    } = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {}
+    this.data = null
+    this.next = null
+    this.classType = Stackable
+    this.data = task
+    this.next = next
   }
 
   /**
@@ -49,37 +50,41 @@ class Stackable extends _ArrayElement.default {
     return this.task()
   }
 }
-
 /**
  * Make a new Stackable from the data given if it is not already a valid Stackable.
- * @methodof Stackable
- * @param {Stackable|*} stackable
- * @param {Stackable} [stackableClass=Stackable]
+ * @param {Stackable|*} stackable Return a valid Stackable instance from given data, or even an already valid one.
+ * @param {IsLinker} [classType=Stackable] Provide the type of IsLinker to use.
  * @return {Stackable}
  */
 Stackable.make = function (stackable) {
-  const stackableClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Stackable
+  const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Stackable
   if (typeof stackable !== 'object') {
     // It is not an object, so instantiate the Stackable with stackable as the data
-    return new stackableClass(stackable)
+    return new classType({
+      task: stackable
+    })
   }
   if (stackable.classType) {
     // Already valid Stackable, return as-is
     return stackable
   }
+  if (!stackable.task) {
+    stackable = {
+      task: stackable
+    }
+  }
   // Create the new node as the configured stackableClass
-  return new stackableClass(stackable, stackableClass)
+  return new Stackable(stackable)
 }
-
 /**
  * Convert an array into Stackable instances, return the head and tail Stackables.
- * @param {Array} [values=[]]
- * @param {Stackable} [stackableClass=Stackable]
+ * @param {Array} [values=[]] Provide an array of data that will be converted to a chain of stackable linkers.
+ * @param {IsLinker} [classType=Stackable] Provide the type of IsLinker to use.
  * @returns {{head: Stackable, tail: Stackable}}
  */
 Stackable.fromArray = function () {
   const values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []
-  const stackableClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Stackable
-  return _ArrayElement.default.fromArray(values, stackableClass)
+  const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Stackable
+  return _Linker.default.fromArray(values, classType)
 }
 var _default = exports.default = Stackable
