@@ -21,8 +21,18 @@ class Queue {
   /**
    * Instantiate the queue with the given queue list.
    * @param {Iterable|LinkedList} queuedList Give the list of queueables to start in this queue.
+   * @param {IsArrayable} listClass
+   * @param {Queueable} queueableClass
    */
-  constructor (queuedList) {
+  constructor () {
+    let queuedList = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null
+    const listClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _LinkedList.default
+    const queueableClass = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : _Queueable.default
+    this.listClass = listClass
+    this.queueableClass = queueableClass
+    if (queuedList === null) {
+      queuedList = new listClass(queueableClass)
+    }
     this.queuedList = queuedList
   }
 
@@ -50,8 +60,10 @@ class Queue {
         context: next
       }
     }
-    // Place back in queue to be checked once again next time
-    this.enqueue(next)
+    if (!this.empty()) {
+      // Place back in queue to be checked once again next time, only if the queue will not be empty
+      this.enqueue(next)
+    }
     if (next.isReady) {
       return next.run.call(next)
     }
@@ -120,6 +132,6 @@ Queue.fromArray = function () {
   const listClass = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : _LinkedList.default
   const list = new listClass(queueableClass)
   list.initialize(queueableClass.fromArray(values, queueableClass).head)
-  return new Queue(list)
+  return new Queue(list, listClass, queueableClass)
 }
 var _default = exports.default = Queue

@@ -14,10 +14,11 @@ declare class Arrayable implements IsArrayable<ArrayElement>, Iterable<ArrayElem
     readonly classType: typeof Arrayable;
     innerList: Array<ArrayElement>;
     initialized: boolean;
+    elementClass: typeof ArrayElement;
     /**
      * Create the new Arrayable instance, configure the Arrayable class.
      */
-    constructor();
+    constructor(elementClass?: typeof ArrayElement);
     /**
      * Initialize the inner list, should only run once.
      * @param {Array<ArrayElement>} initialList Give the array of elements to start in this Arrayable.

@@ -118,7 +118,8 @@ Queueable.make = function (queueable) {
   if (typeof queueable !== 'object') {
     // It is not an object, so instantiate the Queueable with an element as the data
     return new classType({
-      task: queueable
+      task: queueable,
+      ready: true
     })
   }
   if (queueable.classType) {
@@ -127,7 +128,8 @@ Queueable.make = function (queueable) {
   }
   if (!queueable.task) {
     queueable = {
-      task: queueable
+      task: queueable,
+      ready: true
     }
   }
   // Create the new node as the configured #classType

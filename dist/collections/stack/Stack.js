@@ -21,8 +21,18 @@ class Stack {
   /**
    * Instantiate the state with the starter stacked list.
    * @param {Iterable|LinkedList} stackedList
+   * @param {IsArrayable} listClass
+   * @param {Stackable} stackableClass
    */
-  constructor (stackedList) {
+  constructor () {
+    let stackedList = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null
+    const listClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _LinkedList.default
+    const stackableClass = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : _Stackable.default
+    this.listClass = listClass
+    this.stackableClass = stackableClass
+    if (stackedList === null) {
+      stackedList = new listClass(stackableClass)
+    }
     this.stackedList = stackedList
   }
 

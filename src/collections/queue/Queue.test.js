@@ -1,6 +1,17 @@
 import Queue from './Queue'
 
 describe('Queue', () => {
+  test('can enqueue on empty list', () => {
+    const testQueue = new Queue()
+    expect(testQueue.size()).toBe(0)
+    testQueue.enqueue('one')
+    expect(testQueue.size()).toBe(1)
+    expect(testQueue.peek().data).toBe('one')
+    expect(testQueue.size()).toBe(1)
+    expect(testQueue.dequeue()).toBe('one')
+    expect(testQueue.size()).toBe(0)
+  })
+
   test('can store elements', () => {
     const arrayData = ['one', 'two', 'three', 'four']
     const someQueue = Queue.fromArray(arrayData)
@@ -100,7 +111,8 @@ describe('Queue', () => {
   })
 
   test('returns error when dequeue has nothing ready', () => {
-    const someQueue = Queue.fromArray(['one', 'two', 'three', 'four'])
+    const queueItems = ['one', 'two', 'three', 'four']
+    const someQueue = Queue.fromArray(queueItems.map(item => ({ task: item, ready: false })))
     expect(someQueue.size()).toBe(4)
     const result = someQueue.dequeue()
     expect(result.success).toBeFalsy()

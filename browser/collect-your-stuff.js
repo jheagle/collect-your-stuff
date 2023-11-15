@@ -97,10 +97,11 @@
    * Create the new Arrayable instance, configure the Arrayable class.
    */
       constructor () {
+        const elementClass = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _ArrayElement.default
         this.classType = Arrayable
         this.innerList = []
         this.initialized = false
-        this.initialized = false
+        this.elementClass = elementClass
       }
 
       /**
@@ -158,7 +159,7 @@
    */
       insertAfter (node, newNode) {
         const insertAt = this.innerList.indexOf(node)
-        this.innerList.splice(insertAt + 1, 0, node.classType.make(newNode))
+        this.innerList.splice(insertAt + 1, 0, this.elementClass.make(newNode))
         return this
       }
 
@@ -170,7 +171,7 @@
    */
       insertBefore (node, newNode) {
         const insertAt = this.innerList.indexOf(node)
-        this.innerList.splice(insertAt, 0, node.classType.make(newNode))
+        this.innerList.splice(insertAt, 0, this.elementClass.make(newNode))
         return this
       }
 
@@ -264,7 +265,7 @@
       const values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []
       const elementClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _ArrayElement.default
       const classType = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : Arrayable
-      const list = new classType()
+      const list = new classType(elementClass)
       return list.initialize(elementClass.fromArray(values).head)
     }
     var _default = exports.default = Arrayable
@@ -375,9 +376,11 @@
    * Create the new DoublyLinkedList instance.
    */
       constructor () {
+        const linkerClass = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _DoubleLinker.default
         this.classType = DoublyLinkedList
         this.innerList = null
         this.initialized = false
+        this.linkerClass = linkerClass
       }
 
       /**
@@ -411,6 +414,9 @@
    */
       get last () {
         let tail = this.innerList
+        if (tail === null) {
+          return null
+        }
         let next = tail.next
         while (next !== null) {
           tail = next
@@ -440,16 +446,21 @@
    * @returns {DoublyLinkedList}
    */
       insertAfter (node, newNode) {
-        newNode = node.classType.make(newNode)
-        // Ensure the next reference of this node is assigned to the new node
-        newNode.next = node.next
-        // Ensure this node is assigned as the prev reference of the new node
-        newNode.prev = node
-        // Then set this node's next reference to the new node
-        node.next = newNode
+        newNode = this.linkerClass.make(newNode)
+        if (node !== null) {
+          // Ensure the next reference of this node is assigned to the new node
+          newNode.next = node.next
+          // Ensure this node is assigned as the prev reference of the new node
+          newNode.prev = node
+          // Then set this node's next reference to the new node
+          node.next = newNode
+        }
         if (newNode.next) {
           // Update the next reference to ensure circular reference for prev points to the new node
           newNode.next.prev = newNode
+        }
+        if (!this.length) {
+          this.innerList = newNode
         }
         this.reset()
         return this
@@ -462,16 +473,21 @@
    * @returns {DoublyLinkedList}
    */
       insertBefore (node, newNode) {
-        newNode = node.classType.make(newNode)
-        // The new node will reference this prev node as prev
-        newNode.prev = node.prev
-        // The new node will reference this node as next
-        newNode.next = node
-        // This prev will reference the new node
-        node.prev = newNode
+        newNode = this.linkerClass.make(newNode)
+        if (node !== null) {
+          // The new node will reference this prev node as prev
+          newNode.prev = node.prev
+          // The new node will reference this node as next
+          newNode.next = node
+          // This prev will reference the new node
+          node.prev = newNode
+        }
         if (newNode.prev) {
           // Update the prev reference to ensure circular reference for next points to the new node
           newNode.prev.next = newNode
+        }
+        if (!this.length) {
+          this.innerList = newNode
         }
         this.reset()
         return this
@@ -505,6 +521,9 @@
    * @return {DoubleLinker}
    */
       remove (node) {
+        if (node === null) {
+          return null
+        }
         if (node.prev) {
           // The previous node will reference this next node
           node.prev.next = node.next
@@ -627,10 +646,11 @@
    * Create the new LinkedList instance.
    */
       constructor () {
-        this.classType = null
+        const linkerClass = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _Linker.default
+        this.classType = LinkedList
         this.innerList = null
         this.initialized = false
-        this.classType = LinkedList
+        this.linkerClass = linkerClass
       }
 
       /**
@@ -664,6 +684,9 @@
    */
       get last () {
         let tail = this.innerList
+        if (tail === null) {
+          return null
+        }
         let next = tail.next
         while (next !== null) {
           tail = next
@@ -693,11 +716,16 @@
    * @returns {LinkedList}
    */
       insertAfter (node, newNode) {
-        newNode = node.classType.make(newNode)
-        // Ensure the next reference of this node is assigned to the new node
-        newNode.next = node.next
-        // Then set this node's next reference to the new node
-        node.next = newNode
+        newNode = this.linkerClass.make(newNode)
+        if (node !== null) {
+          // Ensure the next reference of this node is assigned to the new node
+          newNode.next = node.next
+          // Then set this node's next reference to the new node
+          node.next = newNode
+        }
+        if (!this.length) {
+          this.innerList = newNode
+        }
         return this
       }
 
@@ -708,7 +736,7 @@
    * @returns {LinkedList}
    */
       insertBefore (node, newNode) {
-        newNode = node.classType.make(newNode)
+        newNode = this.linkerClass.make(newNode)
         let prevNode = null
         let currentNode = this.first
         while (currentNode !== node) {
@@ -721,7 +749,7 @@
           // Ensure the next reference of the previous node is assigned to the new node
           prevNode.next = newNode
         }
-        if (node === this.first) {
+        if (node === this.first || node === null) {
           this.innerList = newNode
         }
         return this
@@ -765,7 +793,7 @@
           // Ensure the next reference of the previous node skips over the removed node
           prevNode.next = node.next
         }
-        if (node === this.first) {
+        if (node === this.first && node !== null) {
           // Update list head to point to next if it was this node
           this.innerList = node.next
         }
@@ -836,7 +864,7 @@
       const values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []
       const linkerClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _Linker.default
       const classType = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : LinkedList
-      const list = new classType()
+      const list = new classType(linkerClass)
       return list.initialize(linkerClass.fromArray(values).head)
     }
     var _default = exports.default = LinkedList
@@ -957,9 +985,11 @@
    * Create the new LinkedTreeList instance, configure the list class.
    */
       constructor () {
+        const linkerClass = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _TreeLinker.default
         this.classType = LinkedTreeList
         this.innerList = null
         this.initialized = false
+        this.linkerClass = linkerClass
       }
 
       /**
@@ -999,6 +1029,9 @@
    */
       get last () {
         let tail = this.innerList
+        if (tail === null) {
+          return null
+        }
         let next = tail.next
         while (next !== null) {
           tail = next
@@ -1183,7 +1216,7 @@
       const values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []
       const linkerClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _TreeLinker.default
       const classType = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : LinkedTreeList
-      const list = new classType()
+      const list = new classType(linkerClass)
       return list.initialize(linkerClass.fromArray(values).head)
     }
     var _default = exports.default = LinkedTreeList
@@ -1299,8 +1332,18 @@
       /**
    * Instantiate the queue with the given queue list.
    * @param {Iterable|LinkedList} queuedList Give the list of queueables to start in this queue.
+   * @param {IsArrayable} listClass
+   * @param {Queueable} queueableClass
    */
-      constructor (queuedList) {
+      constructor () {
+        let queuedList = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null
+        const listClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _LinkedList.default
+        const queueableClass = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : _Queueable.default
+        this.listClass = listClass
+        this.queueableClass = queueableClass
+        if (queuedList === null) {
+          queuedList = new listClass(queueableClass)
+        }
         this.queuedList = queuedList
       }
 
@@ -1328,8 +1371,10 @@
             context: next
           }
         }
-        // Place back in queue to be checked once again next time
-        this.enqueue(next)
+        if (!this.empty()) {
+          // Place back in queue to be checked once again next time, only if the queue will not be empty
+          this.enqueue(next)
+        }
         if (next.isReady) {
           return next.run.call(next)
         }
@@ -1398,7 +1443,7 @@
       const listClass = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : _LinkedList.default
       const list = new listClass(queueableClass)
       list.initialize(queueableClass.fromArray(values, queueableClass).head)
-      return new Queue(list)
+      return new Queue(list, listClass, queueableClass)
     }
     var _default = exports.default = Queue
   }, { '../linked-list/LinkedList': 5, './Queueable': 10 }],
@@ -1523,7 +1568,8 @@
       if (typeof queueable !== 'object') {
         // It is not an object, so instantiate the Queueable with an element as the data
         return new classType({
-          task: queueable
+          task: queueable,
+          ready: true
         })
       }
       if (queueable.classType) {
@@ -1532,7 +1578,8 @@
       }
       if (!queueable.task) {
         queueable = {
-          task: queueable
+          task: queueable,
+          ready: true
         }
       }
       // Create the new node as the configured #classType
@@ -1574,8 +1621,18 @@
       /**
    * Instantiate the state with the starter stacked list.
    * @param {Iterable|LinkedList} stackedList
+   * @param {IsArrayable} listClass
+   * @param {Stackable} stackableClass
    */
-      constructor (stackedList) {
+      constructor () {
+        let stackedList = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null
+        const listClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _LinkedList.default
+        const stackableClass = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : _Stackable.default
+        this.listClass = listClass
+        this.stackableClass = stackableClass
+        if (stackedList === null) {
+          stackedList = new listClass(stackableClass)
+        }
         this.stackedList = stackedList
       }
 

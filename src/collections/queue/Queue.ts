@@ -15,12 +15,21 @@ import { completeResponse } from '../../recipes/Runnable'
  */
 class Queue {
   public queuedList: IsArrayable<any>
+  private listClass: any
+  private queueableClass: typeof Queueable
 
   /**
    * Instantiate the queue with the given queue list.
    * @param {Iterable|LinkedList} queuedList Give the list of queueables to start in this queue.
+   * @param {IsArrayable} listClass
+   * @param {Queueable} queueableClass
    */
-  public constructor (queuedList: IsArrayable<any>) {
+  public constructor (queuedList: IsArrayable<any> = null, listClass: any = LinkedList, queueableClass: typeof Queueable = Queueable) {
+    this.listClass = listClass
+    this.queueableClass = queueableClass
+    if (queuedList === null) {
+      queuedList = new listClass(queueableClass)
+    }
     this.queuedList = queuedList
   }
 
@@ -48,8 +57,10 @@ class Queue {
         context: next,
       }
     }
-    // Place back in queue to be checked once again next time
-    this.enqueue(next)
+    if (!this.empty()) {
+      // Place back in queue to be checked once again next time, only if the queue will not be empty
+      this.enqueue(next)
+    }
     if (next.isReady) {
       return next.run.call(next)
     }
@@ -115,7 +126,7 @@ class Queue {
   public static fromArray = (values: Array<any> = [], queueableClass: typeof Queueable = Queueable, listClass: any = LinkedList): Queue => {
     const list: IsArrayable<any> = new listClass(queueableClass)
     list.initialize(queueableClass.fromArray(values, queueableClass).head)
-    return new Queue(list)
+    return new Queue(list, listClass, queueableClass)
   }
 }
 

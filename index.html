@@ -1,11 +1,26 @@
 <!DOCTYPE html>
-<heade>
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>JSON DOM</title>
+    <title>Collect your stuff (and run)!</title>
     <meta name="description" content="">
     <meta name="keywords" content="">
     <meta name="viewport" content="width=device-width">
     <script src="browser/collect-your-stuff.js"></script>
-</heade>
+</head>
+<body>
+<p>
+    Check the Browser Console to play with the available classes in <code>collectYourStuff</code>.
+</p>
+<a href='docs'>See the documentation on function usage</a>
+<script type="module">
+  import * as testHelpers from './node_modules/js-build-tools/functions/testHelpers.js'
+
+  window.testHelpers = testHelpers
+
+  window.addEventListener('DOMContentLoaded', () => {
+    testHelpers.logObject(collectYourStuff, 'Collect your stuff (and run)!')
+  })
+</script>
+</body>

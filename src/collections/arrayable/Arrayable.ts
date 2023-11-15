@@ -16,12 +16,13 @@ class Arrayable implements IsArrayable<ArrayElement>, Iterable<ArrayElement> {
   public readonly classType: typeof Arrayable = Arrayable
   public innerList: Array<ArrayElement> = []
   public initialized: boolean = false
+  public elementClass: typeof ArrayElement
 
   /**
    * Create the new Arrayable instance, configure the Arrayable class.
    */
-  public constructor () {
-    this.initialized = false
+  public constructor (elementClass: typeof ArrayElement = ArrayElement) {
+    this.elementClass = elementClass
   }
 
   /**
@@ -79,7 +80,7 @@ class Arrayable implements IsArrayable<ArrayElement>, Iterable<ArrayElement> {
    */
   public insertAfter (node: ArrayElement, newNode: ArrayElement | any): Arrayable {
     const insertAt: number = this.innerList.indexOf(node)
-    this.innerList.splice(insertAt + 1, 0, node.classType.make(newNode))
+    this.innerList.splice(insertAt + 1, 0, this.elementClass.make(newNode))
     return this
   }
 
@@ -91,7 +92,7 @@ class Arrayable implements IsArrayable<ArrayElement>, Iterable<ArrayElement> {
    */
   public insertBefore (node: ArrayElement, newNode: ArrayElement | any): Arrayable {
     const insertAt: number = this.innerList.indexOf(node)
-    this.innerList.splice(insertAt, 0, node.classType.make(newNode))
+    this.innerList.splice(insertAt, 0, this.elementClass.make(newNode))
     return this
   }
 
@@ -179,7 +180,7 @@ class Arrayable implements IsArrayable<ArrayElement>, Iterable<ArrayElement> {
    * @returns {Arrayable}
    */
   public static fromArray = (values: Array<any> = [], elementClass: typeof ArrayElement = ArrayElement, classType: any = Arrayable): IsArrayable<IsElement> => {
-    const list: IsArrayable<IsElement> = new classType()
+    const list: IsArrayable<IsElement> = new classType(elementClass)
     return list.initialize(elementClass.fromArray(values).head)
   }
 }

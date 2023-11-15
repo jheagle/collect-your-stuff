@@ -22,10 +22,11 @@ class Arrayable {
    * Create the new Arrayable instance, configure the Arrayable class.
    */
   constructor () {
+    const elementClass = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _ArrayElement.default
     this.classType = Arrayable
     this.innerList = []
     this.initialized = false
-    this.initialized = false
+    this.elementClass = elementClass
   }
 
   /**
@@ -83,7 +84,7 @@ class Arrayable {
    */
   insertAfter (node, newNode) {
     const insertAt = this.innerList.indexOf(node)
-    this.innerList.splice(insertAt + 1, 0, node.classType.make(newNode))
+    this.innerList.splice(insertAt + 1, 0, this.elementClass.make(newNode))
     return this
   }
 
@@ -95,7 +96,7 @@ class Arrayable {
    */
   insertBefore (node, newNode) {
     const insertAt = this.innerList.indexOf(node)
-    this.innerList.splice(insertAt, 0, node.classType.make(newNode))
+    this.innerList.splice(insertAt, 0, this.elementClass.make(newNode))
     return this
   }
 
@@ -189,7 +190,7 @@ Arrayable.fromArray = function () {
   const values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []
   const elementClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _ArrayElement.default
   const classType = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : Arrayable
-  const list = new classType()
+  const list = new classType(elementClass)
   return list.initialize(elementClass.fromArray(values).head)
 }
 var _default = exports.default = Arrayable

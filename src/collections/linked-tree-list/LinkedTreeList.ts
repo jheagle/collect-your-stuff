@@ -19,11 +19,13 @@ class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
   public readonly classType: typeof LinkedTreeList = LinkedTreeList
   public innerList: IsTreeNode | any = null
   public initialized: boolean = false
+  public linkerClass: typeof TreeLinker
 
   /**
    * Create the new LinkedTreeList instance, configure the list class.
    */
-  public constructor () {
+  public constructor (linkerClass: typeof TreeLinker = TreeLinker) {
+    this.linkerClass = linkerClass
   }
 
   /**
@@ -63,6 +65,9 @@ class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
    */
   public get last (): TreeLinker {
     let tail: TreeLinker = this.innerList
+    if (tail === null) {
+      return null
+    }
     let next: TreeLinker = tail.next
     while (next !== null) {
       tail = next
@@ -240,7 +245,7 @@ class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
    * @returns {LinkedTreeList}
    */
   public static fromArray = (values: Array<any> = [], linkerClass: typeof TreeLinker = TreeLinker, classType: any = LinkedTreeList): IsTree | any => {
-    const list: IsTree = new classType()
+    const list: IsTree = new classType(linkerClass)
     return list.initialize(linkerClass.fromArray(values).head)
   }
 }

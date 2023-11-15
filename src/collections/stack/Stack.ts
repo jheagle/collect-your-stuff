@@ -15,12 +15,21 @@ import { completeResponse } from '../../recipes/Runnable'
  */
 class Stack {
   public stackedList: IsArrayable<any>
+  private listClass: any
+  private stackableClass: typeof Stackable
 
   /**
    * Instantiate the state with the starter stacked list.
    * @param {Iterable|LinkedList} stackedList
+   * @param {IsArrayable} listClass
+   * @param {Stackable} stackableClass
    */
-  public constructor (stackedList: IsArrayable<any>) {
+  public constructor (stackedList: IsArrayable<any> = null, listClass: any = LinkedList, stackableClass: typeof Stackable = Stackable) {
+    this.listClass = listClass
+    this.stackableClass = stackableClass
+    if (stackedList === null) {
+      stackedList = new listClass(stackableClass)
+    }
     this.stackedList = stackedList
   }
 

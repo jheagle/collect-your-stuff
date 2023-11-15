@@ -13,11 +13,15 @@ import { completeResponse } from '../../recipes/Runnable';
  */
 declare class Stack {
     stackedList: IsArrayable<any>;
+    private listClass;
+    private stackableClass;
     /**
      * Instantiate the state with the starter stacked list.
      * @param {Iterable|LinkedList} stackedList
+     * @param {IsArrayable} listClass
+     * @param {Stackable} stackableClass
      */
-    constructor(stackedList: IsArrayable<any>);
+    constructor(stackedList?: IsArrayable<any>, listClass?: any, stackableClass?: typeof Stackable);
     /**
      * Return true if the stack is empty (there are no tasks in the stacked list)
      * @return {boolean}

@@ -13,11 +13,15 @@ import { completeResponse } from '../../recipes/Runnable';
  */
 declare class Queue {
     queuedList: IsArrayable<any>;
+    private listClass;
+    private queueableClass;
     /**
      * Instantiate the queue with the given queue list.
      * @param {Iterable|LinkedList} queuedList Give the list of queueables to start in this queue.
+     * @param {IsArrayable} listClass
+     * @param {Queueable} queueableClass
      */
-    constructor(queuedList: IsArrayable<any>);
+    constructor(queuedList?: IsArrayable<any>, listClass?: any, queueableClass?: typeof Queueable);
     /**
      * Take a queued task from the front of the queue and run it if ready.
      * @return {completeResponse|*}

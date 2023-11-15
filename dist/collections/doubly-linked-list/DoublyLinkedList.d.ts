@@ -15,10 +15,11 @@ declare class DoublyLinkedList implements IsArrayable<DoubleLinker>, Iterable<Do
     readonly classType: typeof DoublyLinkedList;
     innerList: DoubleLinker;
     initialized: boolean;
+    linkerClass: typeof DoubleLinker;
     /**
      * Create the new DoublyLinkedList instance.
      */
-    constructor();
+    constructor(linkerClass?: typeof DoubleLinker);
     /**
      * Initialize the inner list, should only run once.
      * @param {DoubleLinker} initialList Give the list of double-linkers to start in this doubly linked-list.

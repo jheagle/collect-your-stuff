@@ -24,9 +24,11 @@ class DoublyLinkedList {
    * Create the new DoublyLinkedList instance.
    */
   constructor () {
+    const linkerClass = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _DoubleLinker.default
     this.classType = DoublyLinkedList
     this.innerList = null
     this.initialized = false
+    this.linkerClass = linkerClass
   }
 
   /**
@@ -60,6 +62,9 @@ class DoublyLinkedList {
    */
   get last () {
     let tail = this.innerList
+    if (tail === null) {
+      return null
+    }
     let next = tail.next
     while (next !== null) {
       tail = next
@@ -89,16 +94,21 @@ class DoublyLinkedList {
    * @returns {DoublyLinkedList}
    */
   insertAfter (node, newNode) {
-    newNode = node.classType.make(newNode)
-    // Ensure the next reference of this node is assigned to the new node
-    newNode.next = node.next
-    // Ensure this node is assigned as the prev reference of the new node
-    newNode.prev = node
-    // Then set this node's next reference to the new node
-    node.next = newNode
+    newNode = this.linkerClass.make(newNode)
+    if (node !== null) {
+      // Ensure the next reference of this node is assigned to the new node
+      newNode.next = node.next
+      // Ensure this node is assigned as the prev reference of the new node
+      newNode.prev = node
+      // Then set this node's next reference to the new node
+      node.next = newNode
+    }
     if (newNode.next) {
       // Update the next reference to ensure circular reference for prev points to the new node
       newNode.next.prev = newNode
+    }
+    if (!this.length) {
+      this.innerList = newNode
     }
     this.reset()
     return this
@@ -111,16 +121,21 @@ class DoublyLinkedList {
    * @returns {DoublyLinkedList}
    */
   insertBefore (node, newNode) {
-    newNode = node.classType.make(newNode)
-    // The new node will reference this prev node as prev
-    newNode.prev = node.prev
-    // The new node will reference this node as next
-    newNode.next = node
-    // This prev will reference the new node
-    node.prev = newNode
+    newNode = this.linkerClass.make(newNode)
+    if (node !== null) {
+      // The new node will reference this prev node as prev
+      newNode.prev = node.prev
+      // The new node will reference this node as next
+      newNode.next = node
+      // This prev will reference the new node
+      node.prev = newNode
+    }
     if (newNode.prev) {
       // Update the prev reference to ensure circular reference for next points to the new node
       newNode.prev.next = newNode
+    }
+    if (!this.length) {
+      this.innerList = newNode
     }
     this.reset()
     return this
@@ -154,6 +169,9 @@ class DoublyLinkedList {
    * @return {DoubleLinker}
    */
   remove (node) {
+    if (node === null) {
+      return null
+    }
     if (node.prev) {
       // The previous node will reference this next node
       node.prev.next = node.next

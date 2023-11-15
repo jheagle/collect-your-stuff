@@ -112,14 +112,14 @@ class Queueable implements IsLinker, IsRunnable {
   public static make = (queueable: Queueable | any, classType: any = Queueable): IsLinker => {
     if (typeof queueable !== 'object') {
       // It is not an object, so instantiate the Queueable with an element as the data
-      return new classType({ task: queueable })
+      return new classType({ task: queueable, ready: true })
     }
     if (queueable.classType) {
       // Already valid Queueable, return as-is
       return queueable
     }
     if (!queueable.task) {
-      queueable = { task: queueable }
+      queueable = { task: queueable, ready: true }
     }
     // Create the new node as the configured #classType
     return new classType(queueable)

@@ -15,10 +15,11 @@ declare class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
     readonly classType: typeof LinkedList;
     innerList: Linker;
     initialized: boolean;
+    linkerClass: typeof Linker;
     /**
      * Create the new LinkedList instance.
      */
-    constructor();
+    constructor(linkerClass?: typeof Linker);
     /**
      * Initialize the inner list, should only run once.
      * @param {Linker|Array} initialList Give the list of linkers to start in this linked-list.

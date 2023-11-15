@@ -17,10 +17,11 @@ class LinkedList {
    * Create the new LinkedList instance.
    */
   constructor () {
-    this.classType = null
+    const linkerClass = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _Linker.default
+    this.classType = LinkedList
     this.innerList = null
     this.initialized = false
-    this.classType = LinkedList
+    this.linkerClass = linkerClass
   }
 
   /**
@@ -54,6 +55,9 @@ class LinkedList {
    */
   get last () {
     let tail = this.innerList
+    if (tail === null) {
+      return null
+    }
     let next = tail.next
     while (next !== null) {
       tail = next
@@ -83,11 +87,16 @@ class LinkedList {
    * @returns {LinkedList}
    */
   insertAfter (node, newNode) {
-    newNode = node.classType.make(newNode)
-    // Ensure the next reference of this node is assigned to the new node
-    newNode.next = node.next
-    // Then set this node's next reference to the new node
-    node.next = newNode
+    newNode = this.linkerClass.make(newNode)
+    if (node !== null) {
+      // Ensure the next reference of this node is assigned to the new node
+      newNode.next = node.next
+      // Then set this node's next reference to the new node
+      node.next = newNode
+    }
+    if (!this.length) {
+      this.innerList = newNode
+    }
     return this
   }
 
@@ -98,7 +107,7 @@ class LinkedList {
    * @returns {LinkedList}
    */
   insertBefore (node, newNode) {
-    newNode = node.classType.make(newNode)
+    newNode = this.linkerClass.make(newNode)
     let prevNode = null
     let currentNode = this.first
     while (currentNode !== node) {
@@ -111,7 +120,7 @@ class LinkedList {
       // Ensure the next reference of the previous node is assigned to the new node
       prevNode.next = newNode
     }
-    if (node === this.first) {
+    if (node === this.first || node === null) {
       this.innerList = newNode
     }
     return this
@@ -155,7 +164,7 @@ class LinkedList {
       // Ensure the next reference of the previous node skips over the removed node
       prevNode.next = node.next
     }
-    if (node === this.first) {
+    if (node === this.first && node !== null) {
       // Update list head to point to next if it was this node
       this.innerList = node.next
     }
@@ -226,7 +235,7 @@ LinkedList.fromArray = function () {
   const values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []
   const linkerClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _Linker.default
   const classType = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : LinkedList
-  const list = new classType()
+  const list = new classType(linkerClass)
   return list.initialize(linkerClass.fromArray(values).head)
 }
 var _default = exports.default = LinkedList

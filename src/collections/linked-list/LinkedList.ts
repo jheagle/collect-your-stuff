@@ -15,15 +15,16 @@ import Arrayable from '../arrayable/Arrayable'
  * @extends Arrayable
  */
 class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
-  public readonly classType: typeof LinkedList = null
+  public readonly classType: typeof LinkedList = LinkedList
   public innerList: Linker = null
   public initialized: boolean = false
+  public linkerClass: typeof Linker
 
   /**
    * Create the new LinkedList instance.
    */
-  public constructor () {
-    this.classType = LinkedList
+  public constructor (linkerClass: typeof Linker = Linker) {
+    this.linkerClass = linkerClass
   }
 
   /**
@@ -57,6 +58,9 @@ class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
    */
   public get last (): Linker {
     let tail = this.innerList
+    if (tail === null) {
+      return null
+    }
     let next = tail.next
     while (next !== null) {
       tail = next
@@ -86,11 +90,16 @@ class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
    * @returns {LinkedList}
    */
   public insertAfter (node: IsLinker, newNode: Linker | any): LinkedList {
-    newNode = node.classType.make(newNode)
-    // Ensure the next reference of this node is assigned to the new node
-    newNode.next = node.next
-    // Then set this node's next reference to the new node
-    node.next = newNode
+    newNode = this.linkerClass.make(newNode)
+    if (node !== null) {
+      // Ensure the next reference of this node is assigned to the new node
+      newNode.next = node.next
+      // Then set this node's next reference to the new node
+      node.next = newNode
+    }
+    if (!this.length) {
+      this.innerList = newNode
+    }
     return this
   }
 
@@ -101,7 +110,7 @@ class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
    * @returns {LinkedList}
    */
   public insertBefore (node: IsLinker, newNode: Linker | any): LinkedList {
-    newNode = node.classType.make(newNode)
+    newNode = this.linkerClass.make(newNode)
     let prevNode = null
     let currentNode: IsLinker = this.first
     while (currentNode !== node) {
@@ -114,7 +123,7 @@ class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
       // Ensure the next reference of the previous node is assigned to the new node
       prevNode.next = newNode
     }
-    if (node === this.first) {
+    if (node === this.first || node === null) {
       this.innerList = newNode
     }
     return this
@@ -156,7 +165,7 @@ class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
       // Ensure the next reference of the previous node skips over the removed node
       prevNode.next = node.next
     }
-    if (node === this.first) {
+    if (node === this.first && node !== null) {
       // Update list head to point to next if it was this node
       this.innerList = node.next
     }
@@ -223,7 +232,7 @@ class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
    * @returns {LinkedList}
    */
   public static fromArray = (values: Array<any> = [], linkerClass: typeof Linker = Linker, classType: any = LinkedList): IsArrayable<IsLinker> | any => {
-    const list: IsArrayable<IsLinker> = new classType()
+    const list: IsArrayable<IsLinker> = new classType(linkerClass)
     return list.initialize(linkerClass.fromArray(values).head)
   }
 }

@@ -24,9 +24,11 @@ class LinkedTreeList {
    * Create the new LinkedTreeList instance, configure the list class.
    */
   constructor () {
+    const linkerClass = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _TreeLinker.default
     this.classType = LinkedTreeList
     this.innerList = null
     this.initialized = false
+    this.linkerClass = linkerClass
   }
 
   /**
@@ -66,6 +68,9 @@ class LinkedTreeList {
    */
   get last () {
     let tail = this.innerList
+    if (tail === null) {
+      return null
+    }
     let next = tail.next
     while (next !== null) {
       tail = next
@@ -250,7 +255,7 @@ LinkedTreeList.fromArray = function () {
   const values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []
   const linkerClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _TreeLinker.default
   const classType = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : LinkedTreeList
-  const list = new classType()
+  const list = new classType(linkerClass)
   return list.initialize(linkerClass.fromArray(values).head)
 }
 var _default = exports.default = LinkedTreeList

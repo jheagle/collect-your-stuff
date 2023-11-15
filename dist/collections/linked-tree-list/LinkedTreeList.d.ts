@@ -16,10 +16,11 @@ declare class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
     readonly classType: typeof LinkedTreeList;
     innerList: IsTreeNode | any;
     initialized: boolean;
+    linkerClass: typeof TreeLinker;
     /**
      * Create the new LinkedTreeList instance, configure the list class.
      */
-    constructor();
+    constructor(linkerClass?: typeof TreeLinker);
     /**
      * Initialize the inner list, should only run once.
      * @param {TreeLinker} initialList Give the list of tree-linkers to start in this linked-tree-list.

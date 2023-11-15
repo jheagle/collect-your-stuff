@@ -1,4 +1,4 @@
-# Collect your stuff (and go)
+# Collect your stuff (and go)!
 
 Data allocation and manipulation.
 
@@ -256,7 +256,7 @@ Store a collection of items which can only be inserted and removed from the top.
 **Kind**: global class  
 
 * [Stack](#Stack)
-    * [new Stack(stackedList)](#new_Stack_new)
+    * [new Stack(stackedList, listClass, stackableClass)](#new_Stack_new)
     * _instance_
         * [.empty()](#Stack+empty) ⇒ <code>boolean</code>
         * [.top()](#Stack+top) ⇒ [<code>Stackable</code>](#Stackable)
@@ -269,13 +269,15 @@ Store a collection of items which can only be inserted and removed from the top.
 
 <a name="new_Stack_new"></a>
 
-### new Stack(stackedList)
+### new Stack(stackedList, listClass, stackableClass)
 Instantiate the state with the starter stacked list.
 
 
 | Param | Type |
 | --- | --- |
 | stackedList | <code>Iterable</code> \| [<code>LinkedList</code>](#LinkedList) | 
+| listClass | <code>IsArrayable</code> | 
+| stackableClass | [<code>Stackable</code>](#Stackable) | 
 
 <a name="Stack+empty"></a>
 
@@ -427,7 +429,7 @@ Maintain a series of queued items.
 **Kind**: global class  
 
 * [Queue](#Queue)
-    * [new Queue(queuedList)](#new_Queue_new)
+    * [new Queue(queuedList, listClass, queueableClass)](#new_Queue_new)
     * _instance_
         * [.dequeue()](#Queue+dequeue) ⇒ <code>completeResponse</code> \| <code>\*</code>
         * [.empty()](#Queue+empty) ⇒ <code>boolean</code>
@@ -440,13 +442,15 @@ Maintain a series of queued items.
 
 <a name="new_Queue_new"></a>
 
-### new Queue(queuedList)
+### new Queue(queuedList, listClass, queueableClass)
 Instantiate the queue with the given queue list.
 
 
 | Param | Type | Description |
 | --- | --- | --- |
 | queuedList | <code>Iterable</code> \| [<code>LinkedList</code>](#LinkedList) | Give the list of queueables to start in this queue. |
+| listClass | <code>IsArrayable</code> |  |
+| queueableClass | [<code>Queueable</code>](#Queueable) |  |
 
 <a name="Queue+dequeue"></a>
 
