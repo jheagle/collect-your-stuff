@@ -8,6 +8,7 @@ import IsArrayable from '../../recipes/IsArrayable'
 import IsTreeNode from '../../recipes/IsTreeNode'
 import DoubleLinker from '../doubly-linked-list/DoubleLinker'
 import IsTree from '../../recipes/IsTree'
+import LinkedTreeList from './LinkedTreeList'
 
 /**
  * TreeLinker represents a node in a LinkedTreeList having a parent (or root) and child nodes.
@@ -43,14 +44,15 @@ class TreeLinker implements IsTreeNode {
    * Create the children for this tree from an array.
    * @param {Array|null} children Provide an array of data / linker references to be children of this tree node.
    * @param {IsTree} classType Provide the type of IsElement to use.
+   * @param {IsArrayable<IsTree>} listType Give the type of list to use for storing the children
    * @return {LinkedTreeList|null}
    */
-  public childrenFromArray (children: Array<any> | null = null, classType: any = TreeLinker): IsTree | any {
+  public childrenFromArray (children: Array<any> | null = null, classType: any = TreeLinker, listType: any = LinkedTreeList): IsTree | any {
     if (children === null) {
       return null
     }
     // Creates a linked-tree-list to store the children.
-    return classType.fromArray(
+    return listType.fromArray(
       children.map(child => Object.assign({}, child, { parent: this })),
       classType
     )

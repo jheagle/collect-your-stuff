@@ -38,9 +38,10 @@ declare class TreeLinker implements IsTreeNode {
      * Create the children for this tree from an array.
      * @param {Array|null} children Provide an array of data / linker references to be children of this tree node.
      * @param {IsTree} classType Provide the type of IsElement to use.
+     * @param {IsArrayable<IsTree>} listType Give the type of list to use for storing the children
      * @return {LinkedTreeList|null}
      */
-    childrenFromArray(children?: Array<any> | null, classType?: any): IsTree | any;
+    childrenFromArray(children?: Array<any> | null, classType?: any, listType?: any): IsTree | any;
     /**
      * Make a new DoubleLinker from the data given if it is not already a valid Linker.
      * @param {TreeLinker|*} linker Return a valid TreeLinker instance from given data, or even an already valid one.

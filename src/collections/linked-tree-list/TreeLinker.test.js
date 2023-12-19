@@ -198,4 +198,37 @@ describe('TreeLinker', () => {
 
     expect(linkerHead.next.next.next).toBeNull()
   })
+
+  test('can build properly formed children', () => {
+    const multilayeredArray = [
+      {
+        data: 'one',
+        children: [
+          {
+            data: 'four',
+            children: []
+          },
+          {
+            data: 'five',
+            children: []
+          }
+        ]
+      },
+      {
+        data: 'two',
+        children: [
+          {
+            data: 'three',
+            children: []
+          }
+        ]
+      }
+    ]
+    const linkedTree = TreeLinker.fromArray(multilayeredArray).head
+    expect(linkedTree.data).toEqual('one')
+    expect(linkedTree.next.data).toEqual('two')
+    expect(linkedTree.next.children.first.data).toEqual('three')
+    expect(linkedTree.children.first.data).toEqual('four')
+    expect(linkedTree.children.last.data).toEqual('five')
+  })
 })

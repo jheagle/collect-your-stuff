@@ -182,4 +182,37 @@ describe('LinkedTreeList', () => {
     // The last linker is now 'three'
     expect(someArray.last.data).toBe(arrayData[2])
   })
+
+  test('can store head child only (not both head and tail)', () => {
+    const multilayeredArray = [
+      {
+        data: 'one',
+        children: [
+          {
+            data: 'four',
+            children: []
+          },
+          {
+            data: 'five',
+            children: []
+          }
+        ]
+      },
+      {
+        data: 'two',
+        children: [
+          {
+            data: 'three',
+            children: []
+          }
+        ]
+      }
+    ]
+    const linkedTreeList = LinkedTreeList.fromArray(multilayeredArray)
+    expect(linkedTreeList.first.data).toEqual('one')
+    expect(linkedTreeList.first.next.data).toEqual('two')
+    expect(linkedTreeList.first.next.children.first.data).toEqual('three')
+    expect(linkedTreeList.first.children.first.data).toEqual('four')
+    expect(linkedTreeList.first.children.last.data).toEqual('five')
+  })
 })

@@ -7,6 +7,7 @@ exports.default = void 0
 require('core-js/modules/esnext.async-iterator.map.js')
 require('core-js/modules/esnext.iterator.map.js')
 var _DoubleLinker = _interopRequireDefault(require('../doubly-linked-list/DoubleLinker'))
+var _LinkedTreeList = _interopRequireDefault(require('./LinkedTreeList'))
 function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
 /**
  * TreeLinker represents a node in a LinkedTreeList having a parent (or root) and child nodes.
@@ -47,16 +48,18 @@ class TreeLinker {
    * Create the children for this tree from an array.
    * @param {Array|null} children Provide an array of data / linker references to be children of this tree node.
    * @param {IsTree} classType Provide the type of IsElement to use.
+   * @param {IsArrayable<IsTree>} listType Give the type of list to use for storing the children
    * @return {LinkedTreeList|null}
    */
   childrenFromArray () {
     const children = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null
     const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : TreeLinker
+    const listType = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : _LinkedTreeList.default
     if (children === null) {
       return null
     }
     // Creates a linked-tree-list to store the children.
-    return classType.fromArray(children.map(child => Object.assign({}, child, {
+    return listType.fromArray(children.map(child => Object.assign({}, child, {
       parent: this
     })), classType)
   }
