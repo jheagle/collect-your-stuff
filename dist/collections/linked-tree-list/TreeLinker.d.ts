@@ -26,22 +26,23 @@ declare class TreeLinker implements IsTreeNode {
      * @param {TreeLinker} [settings.prev=null] The reference to the previous linker if any
      * @param {LinkedTreeList} [settings.children=null] The references to child linkers if any
      * @param {TreeLinker} [settings.parent=null] The reference to a parent linker if any
+     * @param {IsArrayable<IsTreeNode>} listClass Give the type of list to use for storing the children
      */
-    constructor({ data, next, prev, children, parent }?: {
+    constructor({ data, next, prev, children, parent, listClass }?: {
         data?: any;
         next?: IsTreeNode;
         prev?: IsTreeNode;
         children?: Array<any>;
         parent?: IsTreeNode;
+        listClass?: any;
     });
     /**
      * Create the children for this tree from an array.
      * @param {Array|null} children Provide an array of data / linker references to be children of this tree node.
-     * @param {IsTree} classType Provide the type of IsElement to use.
-     * @param {IsArrayable<IsTree>} listType Give the type of list to use for storing the children
+     * @param {IsArrayable<IsTreeNode>} listClass Give the type of list to use for storing the children
      * @return {LinkedTreeList|null}
      */
-    childrenFromArray(children?: Array<any> | null, classType?: any, listType?: any): IsTree | any;
+    childrenFromArray(children?: Array<any> | null, listClass?: any): IsTree | any;
     /**
      * Make a new DoubleLinker from the data given if it is not already a valid Linker.
      * @param {TreeLinker|*} linker Return a valid TreeLinker instance from given data, or even an already valid one.

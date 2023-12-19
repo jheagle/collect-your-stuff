@@ -30,31 +30,45 @@ class TreeLinker implements IsTreeNode {
    * @param {TreeLinker} [settings.prev=null] The reference to the previous linker if any
    * @param {LinkedTreeList} [settings.children=null] The references to child linkers if any
    * @param {TreeLinker} [settings.parent=null] The reference to a parent linker if any
+   * @param {IsArrayable<IsTreeNode>} listClass Give the type of list to use for storing the children
    */
-  public constructor ({ data = null, next = null, prev = null, children = null, parent = null }:
-    { data?: any; next?: IsTreeNode; prev?: IsTreeNode; children?: Array<any>; parent?: IsTreeNode } = {}) {
+  public constructor ({
+    data = null,
+    next = null,
+    prev = null,
+    children = null,
+    parent = null,
+    listClass = LinkedTreeList
+  }:
+    {
+      data?: any;
+      next?: IsTreeNode;
+      prev?: IsTreeNode;
+      children?: Array<any>;
+      parent?: IsTreeNode;
+      listClass?: any
+    } = {}) {
     this.data = data
     this.next = next
     this.prev = prev
     this.parent = parent
-    this.children = this.childrenFromArray(children)
+    this.children = this.childrenFromArray(children, listClass)
   }
 
   /**
    * Create the children for this tree from an array.
    * @param {Array|null} children Provide an array of data / linker references to be children of this tree node.
-   * @param {IsTree} classType Provide the type of IsElement to use.
-   * @param {IsArrayable<IsTree>} listType Give the type of list to use for storing the children
+   * @param {IsArrayable<IsTreeNode>} listClass Give the type of list to use for storing the children
    * @return {LinkedTreeList|null}
    */
-  public childrenFromArray (children: Array<any> | null = null, classType: any = TreeLinker, listType: any = LinkedTreeList): IsTree | any {
+  public childrenFromArray (children: Array<any> | null = null, listClass: any = LinkedTreeList): IsTree | any {
     if (children === null) {
       return null
     }
     // Creates a linked-tree-list to store the children.
-    return listType.fromArray(
+    return listClass.fromArray(
       children.map(child => Object.assign({}, child, { parent: this })),
-      classType
+      this.classType
     )
   }
 

@@ -515,16 +515,16 @@ TreeLinker represents a node in a LinkedTreeList having a parent (or root) and c
 **Extends**: [<code>DoubleLinker</code>](#DoubleLinker)  
 
 * [TreeLinker](#TreeLinker) ⇐ [<code>DoubleLinker</code>](#DoubleLinker)
-    * [new TreeLinker([settings])](#new_TreeLinker_new)
+    * [new TreeLinker([settings], listClass)](#new_TreeLinker_new)
     * _instance_
-        * [.childrenFromArray(children, classType, listType)](#TreeLinker+childrenFromArray) ⇒ [<code>LinkedTreeList</code>](#LinkedTreeList) \| <code>null</code>
+        * [.childrenFromArray(children, listClass)](#TreeLinker+childrenFromArray) ⇒ [<code>LinkedTreeList</code>](#LinkedTreeList) \| <code>null</code>
     * _static_
         * [.make(linker, [classType])](#TreeLinker.make) ⇒ [<code>TreeLinker</code>](#TreeLinker)
         * [.fromArray([values], [classType])](#TreeLinker.fromArray) ⇒ <code>Object</code>
 
 <a name="new_TreeLinker_new"></a>
 
-### new TreeLinker([settings])
+### new TreeLinker([settings], listClass)
 Create the new TreeLinker instance, provide the data and optionally set references for next, prev, parent, or children.
 
 
@@ -536,10 +536,11 @@ Create the new TreeLinker instance, provide the data and optionally set referenc
 | [settings.prev] | [<code>TreeLinker</code>](#TreeLinker) | <code></code> | The reference to the previous linker if any |
 | [settings.children] | [<code>LinkedTreeList</code>](#LinkedTreeList) | <code></code> | The references to child linkers if any |
 | [settings.parent] | [<code>TreeLinker</code>](#TreeLinker) | <code></code> | The reference to a parent linker if any |
+| listClass | <code>IsArrayable.&lt;IsTreeNode&gt;</code> |  | Give the type of list to use for storing the children |
 
 <a name="TreeLinker+childrenFromArray"></a>
 
-### treeLinker.childrenFromArray(children, classType, listType) ⇒ [<code>LinkedTreeList</code>](#LinkedTreeList) \| <code>null</code>
+### treeLinker.childrenFromArray(children, listClass) ⇒ [<code>LinkedTreeList</code>](#LinkedTreeList) \| <code>null</code>
 Create the children for this tree from an array.
 
 **Kind**: instance method of [<code>TreeLinker</code>](#TreeLinker)  
@@ -547,8 +548,7 @@ Create the children for this tree from an array.
 | Param | Type | Description |
 | --- | --- | --- |
 | children | <code>Array</code> \| <code>null</code> | Provide an array of data / linker references to be children of this tree node. |
-| classType | <code>IsTree</code> | Provide the type of IsElement to use. |
-| listType | <code>IsArrayable.&lt;IsTree&gt;</code> | Give the type of list to use for storing the children |
+| listClass | <code>IsArrayable.&lt;IsTreeNode&gt;</code> | Give the type of list to use for storing the children |
 
 <a name="TreeLinker.make"></a>
 
