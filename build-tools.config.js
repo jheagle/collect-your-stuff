@@ -1,5 +1,12 @@
 module.exports = {
-  browserName: 'collect-your-stuff',
-  readmeSearch: 'dist/**/!(*.min).js',
-  useTsConfig: 'tsconfig.json'
+  browser:{
+    name: 'collect-your-stuff'
+  },
+  readme:{
+    from: 'dist/**/!(*.min).js'
+  },
+  typescript:{
+    config: 'tsconfig.json',
+    enabled: true,
+  }
 }
