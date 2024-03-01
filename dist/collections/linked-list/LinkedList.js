@@ -4,6 +4,7 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 })
 exports.default = void 0
+require('core-js/modules/web.dom-collections.iterator.js')
 var _Linker = _interopRequireDefault(require('./Linker'))
 var _LinkerIterator = _interopRequireDefault(require('../../recipes/LinkerIterator'))
 var _Arrayable = _interopRequireDefault(require('../arrayable/Arrayable'))
