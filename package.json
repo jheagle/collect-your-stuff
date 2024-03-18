@@ -1,7 +1,7 @@
 {
   "name": "collect-your-stuff",
   "description": "Use a variety of collections to collect your stuff when building code.",
-  "version": "1.1.8",
+  "version": "1.1.9",
   "main": "dist/main.js",
   "types": "dist/main.d.ts",
   "author": "Joshua Heagle",
