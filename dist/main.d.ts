@@ -6,12 +6,12 @@
  * @module collect-your-stuff
  */
 import 'core-js/stable';
-import Arrayable from './collections/arrayable/Arrayable';
-import DoublyLinkedList from './collections/./doubly-linked-list/DoublyLinkedList';
-import LinkedList from './collections/linked-list/LinkedList';
-import LinkedTreeList from './collections/linked-tree-list/LinkedTreeList';
-import Queue from './collections/queue/Queue';
-import Stack from './collections/stack/Stack';
+import { Arrayable } from './collections/arrayable/Arrayable';
+import { DoublyLinkedList } from './collections/doubly-linked-list/DoublyLinkedList';
+import { LinkedList } from './collections/linked-list/LinkedList';
+import { LinkedTreeList } from './collections/linked-tree-list/LinkedTreeList';
+import { Queue } from './collections/queue/Queue';
+import { Stack } from './collections/stack/Stack';
 /**
  * TODO:
  * 1. Create binary tree. Use the tree, but it has a limit of only two children per parent, and when adding / removing sort is applied. Add sort function in fromArray
@@ -29,12 +29,12 @@ declare const collectYourStuff: {
     Queue: typeof Queue;
     Stack: typeof Stack;
     recipes: {
-        ArrayIterator: typeof import("./recipes/ArrayIterator").default;
-        Runnable: typeof import("./recipes/Runnable").default;
+        ArrayIterator: typeof import("./recipes/ArrayIterator").ArrayIterator;
+        Runnable: typeof import("./recipes/Runnable").Runnable;
     };
     services: {
-        parseTree: (tree: import("./recipes/IsTree").default, callback: import("./recipes/IsArrayable").forEachCallback) => import("./recipes/IsTree").default;
-        parseTreeNext: (treeNode: import("./recipes/IsTreeNode").default) => import("./recipes/IsTreeNode").default;
+        parseTree: (tree: import("./recipes/IsTree").IsTree, callback: import("./recipes/IsArrayable").forEachCallback) => import("./recipes/IsTree").IsTree;
+        parseTreeNext: (treeNode: import("./recipes/IsTreeNode").IsTreeNode) => import("./recipes/IsTreeNode").IsTreeNode;
     };
 };
 export default collectYourStuff;

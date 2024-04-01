@@ -1,9 +1,9 @@
-import IsLinker from './IsLinker'
+import { IsLinker } from './IsLinker'
 
 /**
  * Class LinkerIterator returns the next value when using linkers of linked type lists.
  */
-class LinkerIterator implements Iterator<IsLinker> {
+export class LinkerIterator implements Iterator<IsLinker> {
   private current: IsLinker
 
   constructor (current: IsLinker) {
@@ -16,5 +16,3 @@ class LinkerIterator implements Iterator<IsLinker> {
     return result
   }
 }
-
-export default LinkerIterator

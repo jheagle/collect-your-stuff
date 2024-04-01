@@ -4,14 +4,14 @@
  * @version 1.1.0
  * @memberOf module:collect-your-stuff
  */
-import IsDoubleLinker from '../../recipes/IsDoubleLinker'
-import Linker from '../linked-list/Linker'
+import { IsDoubleLinker } from '../../recipes/IsDoubleLinker'
+import { Linker } from '../linked-list/Linker'
 
 /**
  * DoubleLinker represents a node in a DoublyLinkedList which is chained by next and prev.
  * @extends Linker
  */
-class DoubleLinker implements IsDoubleLinker {
+export class DoubleLinker implements IsDoubleLinker {
   public readonly classType: typeof DoubleLinker = DoubleLinker
   public data: any = null
   public next: DoubleLinker | null = null
@@ -69,5 +69,3 @@ class DoubleLinker implements IsDoubleLinker {
     { head: null, tail: null }
   )
 }
-
-export default DoubleLinker

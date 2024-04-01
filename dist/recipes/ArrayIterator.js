@@ -3,7 +3,7 @@
 Object.defineProperty(exports, '__esModule', {
   value: true
 })
-exports.default = void 0
+exports.ArrayIterator = void 0
 /**
  * Class ArrayIterator returns the next value when using elements of array type list.
  */
@@ -27,4 +27,4 @@ class ArrayIterator {
     }
   }
 }
-var _default = exports.default = ArrayIterator
+exports.ArrayIterator = ArrayIterator

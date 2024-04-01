@@ -4,17 +4,17 @@
  * @version 1.1.0
  * @memberOf module:collect-your-stuff
  */
-import DoubleLinker from './DoubleLinker'
-import IsArrayable, { forEachCallback } from '../../recipes/IsArrayable'
-import DoubleLinkerIterator from '../../recipes/DoubleLinkerIterator'
-import LinkedList from '../linked-list/LinkedList'
-import IsDoubleLinker from '../../recipes/IsDoubleLinker'
+import { DoubleLinker } from './DoubleLinker'
+import { forEachCallback, IsArrayable } from '../../recipes/IsArrayable'
+import { DoubleLinkerIterator } from '../../recipes/DoubleLinkerIterator'
+import { LinkedList } from '../linked-list/LinkedList'
+import { IsDoubleLinker } from '../../recipes/IsDoubleLinker'
 
 /**
  * DoublyLinkedList represents a collection stored as a LinkedList with prev and next references.
  * @extends LinkedList
  */
-class DoublyLinkedList implements IsArrayable<DoubleLinker>, Iterable<DoubleLinker> {
+export class DoublyLinkedList implements IsArrayable<DoubleLinker>, Iterable<DoubleLinker> {
   public readonly classType: typeof DoublyLinkedList = DoublyLinkedList
   public innerList: DoubleLinker = null
   public initialized: boolean = false
@@ -263,5 +263,3 @@ class DoublyLinkedList implements IsArrayable<DoubleLinker>, Iterable<DoubleLink
     return LinkedList.fromArray(values, linkerClass, classType)
   }
 }
-
-export default DoublyLinkedList

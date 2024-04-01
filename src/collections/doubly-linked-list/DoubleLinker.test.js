@@ -1,4 +1,4 @@
-import DoubleLinker from './DoubleLinker'
+import { DoubleLinker } from './DoubleLinker'
 
 describe('DoubleLinker', () => {
   test('can store data and pointer to next and previous linkers', () => {

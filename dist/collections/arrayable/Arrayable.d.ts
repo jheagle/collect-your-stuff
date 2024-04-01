@@ -4,13 +4,13 @@
  * @version 1.1.0
  * @memberOf module:collect-your-stuff
  */
-import ArrayElement from './ArrayElement';
-import IsArrayable, { forEachCallback } from '../../recipes/IsArrayable';
-import IsElement from '../../recipes/IsElement';
+import { ArrayElement } from './ArrayElement';
+import { forEachCallback, IsArrayable } from '../../recipes/IsArrayable';
+import { IsElement } from '../../recipes/IsElement';
 /**
  * Arrayable represents a collection stored as an array.
  */
-declare class Arrayable implements IsArrayable<ArrayElement>, Iterable<ArrayElement> {
+export declare class Arrayable implements IsArrayable<ArrayElement>, Iterable<ArrayElement> {
     readonly classType: typeof Arrayable;
     innerList: Array<ArrayElement>;
     initialized: boolean;
@@ -106,4 +106,3 @@ declare class Arrayable implements IsArrayable<ArrayElement>, Iterable<ArrayElem
      */
     static fromArray: (values?: Array<any>, elementClass?: typeof ArrayElement, classType?: any) => IsArrayable<IsElement>;
 }
-export default Arrayable;

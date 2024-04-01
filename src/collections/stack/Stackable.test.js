@@ -1,4 +1,4 @@
-import Stackable from './Stackable'
+import { Stackable } from './Stackable'
 
 describe('Stackable', () => {
   test('can be generated using make', () => {

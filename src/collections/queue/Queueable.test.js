@@ -1,4 +1,4 @@
-import Queueable from './Queueable'
+import { Queueable } from './Queueable'
 
 describe('Queueable', () => {
   test('can store data and pointer to next and previous queueables', () => {

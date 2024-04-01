@@ -4,16 +4,16 @@
  * @version 1.1.0
  * @memberOf module:collect-your-stuff
  */
-import Queueable from './Queueable'
-import LinkedList from '../linked-list/LinkedList'
-import IsArrayable from '../../recipes/IsArrayable'
-import IsLinker from '../../recipes/IsLinker'
+import { Queueable } from './Queueable'
+import { LinkedList } from '../linked-list/LinkedList'
+import { IsArrayable } from '../../recipes/IsArrayable'
+import { IsLinker } from '../../recipes/IsLinker'
 import { completeResponse } from '../../recipes/Runnable'
 
 /**
  * Maintain a series of queued items.
  */
-class Queue {
+export class Queue {
   public queuedList: IsArrayable<any>
   private listClass: any
   private queueableClass: typeof Queueable
@@ -129,5 +129,3 @@ class Queue {
     return new Queue(list, listClass, queueableClass)
   }
 }
-
-export default Queue

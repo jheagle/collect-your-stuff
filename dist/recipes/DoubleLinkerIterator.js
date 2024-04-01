@@ -3,7 +3,7 @@
 Object.defineProperty(exports, '__esModule', {
   value: true
 })
-exports.default = void 0
+exports.DoubleLinkerIterator = void 0
 /**
  * Class DoubleLinkerIterator returns the next value when using linkers of linked type lists.
  */
@@ -21,4 +21,4 @@ class DoubleLinkerIterator {
     return result
   }
 }
-var _default = exports.default = DoubleLinkerIterator
+exports.DoubleLinkerIterator = DoubleLinkerIterator

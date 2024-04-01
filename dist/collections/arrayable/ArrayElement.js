@@ -3,7 +3,7 @@
 Object.defineProperty(exports, '__esModule', {
   value: true
 })
-exports.default = void 0
+exports.ArrayElement = void 0
 require('core-js/modules/esnext.async-iterator.reduce.js')
 require('core-js/modules/esnext.iterator.constructor.js')
 require('core-js/modules/esnext.iterator.reduce.js')
@@ -28,6 +28,7 @@ class ArrayElement {
  * @param {IsElement} [classType=ArrayElement] Provide the type of IsElement to use.
  * @return {ArrayElement}
  */
+exports.ArrayElement = ArrayElement
 ArrayElement.make = function (element) {
   const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : ArrayElement
   if (typeof element !== 'object') {
@@ -68,4 +69,3 @@ ArrayElement.fromArray = function () {
     tail: null
   })
 }
-var _default = exports.default = ArrayElement

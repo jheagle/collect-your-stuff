@@ -1,5 +1,5 @@
-import parseTree from './parseTree'
-import LinkedTreeList from '../collections/linked-tree-list/LinkedTreeList'
+import { parseTree } from './parseTree'
+import { LinkedTreeList } from '../collections/linked-tree-list/LinkedTreeList'
 
 describe('parseTree', () => {
   const expectedResults = [

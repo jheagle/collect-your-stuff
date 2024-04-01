@@ -3,9 +3,8 @@
 Object.defineProperty(exports, '__esModule', {
   value: true
 })
-exports.default = void 0
-var _Linker = _interopRequireDefault(require('../linked-list/Linker'))
-function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
+exports.Queueable = void 0
+var _Linker = require('../linked-list/Linker')
 /**
  * Queueable represents a runnable entry in a queue.
  * @extends Linker
@@ -113,6 +112,7 @@ class Queueable {
  * @param {IsLinker} [classType=Queueable] Provide the type of IsLinker to use.
  * @return {Queueable}
  */
+exports.Queueable = Queueable
 Queueable.make = function (queueable) {
   const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Queueable
   if (typeof queueable !== 'object') {
@@ -143,6 +143,5 @@ Queueable.make = function (queueable) {
  */
 Queueable.fromArray = function (values) {
   const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Queueable
-  return _Linker.default.fromArray(values, classType)
+  return _Linker.Linker.fromArray(values, classType)
 }
-var _default = exports.default = Queueable

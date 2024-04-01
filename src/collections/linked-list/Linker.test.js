@@ -1,4 +1,4 @@
-import Linker from './Linker'
+import { Linker } from './Linker'
 
 describe('Linker', () => {
   test('can store data and pointer to next and previous linkers', () => {

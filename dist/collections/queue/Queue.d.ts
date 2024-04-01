@@ -4,14 +4,14 @@
  * @version 1.1.0
  * @memberOf module:collect-your-stuff
  */
-import Queueable from './Queueable';
-import IsArrayable from '../../recipes/IsArrayable';
-import IsLinker from '../../recipes/IsLinker';
+import { Queueable } from './Queueable';
+import { IsArrayable } from '../../recipes/IsArrayable';
+import { IsLinker } from '../../recipes/IsLinker';
 import { completeResponse } from '../../recipes/Runnable';
 /**
  * Maintain a series of queued items.
  */
-declare class Queue {
+export declare class Queue {
     queuedList: IsArrayable<any>;
     private listClass;
     private queueableClass;
@@ -61,4 +61,3 @@ declare class Queue {
      */
     static fromArray: (values?: Array<any>, queueableClass?: typeof Queueable, listClass?: any) => Queue;
 }
-export default Queue;

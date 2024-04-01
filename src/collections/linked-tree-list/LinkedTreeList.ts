@@ -4,18 +4,18 @@
  * @version 1.1.0
  * @memberOf module:collect-your-stuff
  */
-import TreeLinker from './TreeLinker'
+import { TreeLinker } from './TreeLinker'
 import { forEachCallback } from '../../recipes/IsArrayable'
-import TreeLinkerIterator from '../../recipes/TreeLinkerIterator'
-import IsTree from '../../recipes/IsTree'
-import DoublyLinkedList from '../doubly-linked-list/DoublyLinkedList'
-import IsTreeNode from '../../recipes/IsTreeNode'
+import { TreeLinkerIterator } from '../../recipes/TreeLinkerIterator'
+import { IsTree } from '../../recipes/IsTree'
+import { DoublyLinkedList } from '../doubly-linked-list/DoublyLinkedList'
+import { IsTreeNode } from '../../recipes/IsTreeNode'
 
 /**
  * LinkedTreeList represents a collection stored with a root and spreading in branching (tree) formation.
  * @extends DoublyLinkedList
  */
-class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
+export class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
   public readonly classType: typeof LinkedTreeList = LinkedTreeList
   public innerList: IsTreeNode | any = null
   public initialized: boolean = false
@@ -249,5 +249,3 @@ class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
     return list.initialize(linkerClass.fromArray(values).head)
   }
 }
-
-export default LinkedTreeList

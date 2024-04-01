@@ -3,9 +3,8 @@
 Object.defineProperty(exports, '__esModule', {
   value: true
 })
-exports.default = void 0
-var _parseTreeNext = _interopRequireDefault(require('../services/parseTreeNext'))
-function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
+exports.TreeLinkerIterator = void 0
+var _parseTreeNext = require('../services/parseTreeNext')
 /**
  * Class TreeLinkerIterator returns the next value taking a left-first approach down a tree.
  */
@@ -19,8 +18,8 @@ class TreeLinkerIterator {
       value: this.current,
       done: !this.current
     }
-    this.current = (0, _parseTreeNext.default)(this.current)
+    this.current = (0, _parseTreeNext.parseTreeNext)(this.current)
     return result
   }
 }
-var _default = exports.default = TreeLinkerIterator
+exports.TreeLinkerIterator = TreeLinkerIterator

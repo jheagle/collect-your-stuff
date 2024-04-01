@@ -1,4 +1,4 @@
-import Stack from './Stack'
+import { Stack } from './Stack'
 
 describe('Stack', () => {
   test('can store elements', () => {

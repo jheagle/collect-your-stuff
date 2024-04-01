@@ -27,7 +27,7 @@ export interface IsRunnable {
 /**
  * Identify a class that can be run.
  */
-export default class Runnable implements IsRunnable {
+export declare class Runnable implements IsRunnable {
     data: any;
     /**
      * Instantiate a Runnable class.

@@ -3,10 +3,9 @@
 Object.defineProperty(exports, '__esModule', {
   value: true
 })
-exports.default = void 0
-var _parseTree = _interopRequireDefault(require('./parseTree'))
-var _parseTreeNext = _interopRequireDefault(require('./parseTreeNext'))
-function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
+exports.services = void 0
+var _parseTree = require('./parseTree')
+var _parseTreeNext = require('./parseTreeNext')
 /**
  * @file some useful resources when working with collections.
  * @author Joshua Heagle <joshuaheagle@gmail.com>
@@ -17,8 +16,7 @@ function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { d
 /**
  * List helpful functions when dealing with collections.
  */
-const services = {
-  parseTree: _parseTree.default,
-  parseTreeNext: _parseTreeNext.default
+const services = exports.services = {
+  parseTree: _parseTree.parseTree,
+  parseTreeNext: _parseTreeNext.parseTreeNext
 }
-var _default = exports.default = services

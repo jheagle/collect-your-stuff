@@ -1,9 +1,9 @@
-import IsElement from './IsElement'
+import { IsElement } from './IsElement'
 
 /**
  * Class ArrayIterator returns the next value when using elements of array type list.
  */
-class ArrayIterator implements Iterator<IsElement> {
+export class ArrayIterator implements Iterator<IsElement> {
   private readonly innerList: Array<IsElement>
   private index: number
 
@@ -19,5 +19,3 @@ class ArrayIterator implements Iterator<IsElement> {
     return { value: undefined, done: true }
   }
 }
-
-export default ArrayIterator

@@ -4,17 +4,17 @@
  * @version 1.1.0
  * @memberOf module:collect-your-stuff
  */
-import IsArrayable from '../../recipes/IsArrayable'
-import IsTreeNode from '../../recipes/IsTreeNode'
-import DoubleLinker from '../doubly-linked-list/DoubleLinker'
-import IsTree from '../../recipes/IsTree'
-import LinkedTreeList from './LinkedTreeList'
+import { IsArrayable } from '../../recipes/IsArrayable'
+import { IsTreeNode } from '../../recipes/IsTreeNode'
+import { DoubleLinker } from '../doubly-linked-list/DoubleLinker'
+import { IsTree } from '../../recipes/IsTree'
+import { LinkedTreeList } from './LinkedTreeList'
 
 /**
  * TreeLinker represents a node in a LinkedTreeList having a parent (or root) and child nodes.
  * @extends DoubleLinker
  */
-class TreeLinker implements IsTreeNode {
+export class TreeLinker implements IsTreeNode {
   public readonly classType: typeof TreeLinker = TreeLinker
   public data: any = null
   public next: IsTreeNode | null = null
@@ -93,5 +93,3 @@ class TreeLinker implements IsTreeNode {
     tail: TreeLinker | any;
   } => DoubleLinker.fromArray(values, classType)
 }
-
-export default TreeLinker

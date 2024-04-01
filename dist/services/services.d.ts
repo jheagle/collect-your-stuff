@@ -7,8 +7,7 @@
 /**
  * List helpful functions when dealing with collections.
  */
-declare const services: {
-    parseTree: (tree: import("../recipes/IsTree").default, callback: import("../recipes/IsArrayable").forEachCallback) => import("../recipes/IsTree").default;
-    parseTreeNext: (treeNode: import("../recipes/IsTreeNode").default) => import("../recipes/IsTreeNode").default;
+export declare const services: {
+    parseTree: (tree: import("../recipes/IsTree").IsTree, callback: import("../recipes/IsArrayable").forEachCallback) => import("../recipes/IsTree").IsTree;
+    parseTreeNext: (treeNode: import("../recipes/IsTreeNode").IsTreeNode) => import("../recipes/IsTreeNode").IsTreeNode;
 };
-export default services;

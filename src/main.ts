@@ -6,14 +6,14 @@
  * @module collect-your-stuff
  */
 import 'core-js/stable'
-import Arrayable from './collections/arrayable/Arrayable'
-import DoublyLinkedList from './collections/./doubly-linked-list/DoublyLinkedList'
-import LinkedList from './collections/linked-list/LinkedList'
-import LinkedTreeList from './collections/linked-tree-list/LinkedTreeList'
-import Queue from './collections/queue/Queue'
-import Stack from './collections/stack/Stack'
-import recipes from './recipes/recipes'
-import services from './services/services'
+import { Arrayable } from './collections/arrayable/Arrayable'
+import { DoublyLinkedList } from './collections/doubly-linked-list/DoublyLinkedList'
+import { LinkedList } from './collections/linked-list/LinkedList'
+import { LinkedTreeList } from './collections/linked-tree-list/LinkedTreeList'
+import { Queue } from './collections/queue/Queue'
+import { Stack } from './collections/stack/Stack'
+import { recipes } from './recipes/recipes'
+import { services } from './services/services'
 
 /**
  * TODO:

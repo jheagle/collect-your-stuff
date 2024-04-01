@@ -3,7 +3,7 @@
 Object.defineProperty(exports, '__esModule', {
   value: true
 })
-exports.default = void 0
+exports.Runnable = void 0
 /**
  * @file Runnable class recipe.
  * @author Joshua Heagle <joshuaheagle@gmail.com>
@@ -66,4 +66,4 @@ class Runnable {
     return typeof thing.run === 'function'
   }
 }
-exports.default = Runnable
+exports.Runnable = Runnable

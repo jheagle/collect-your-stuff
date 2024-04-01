@@ -4,15 +4,15 @@
  * @version 1.1.0
  * @memberOf module:collect-your-stuff
  */
-import ArrayElement from './ArrayElement'
-import ArrayIterator from '../../recipes/ArrayIterator'
-import IsArrayable, { forEachCallback } from '../../recipes/IsArrayable'
-import IsElement from '../../recipes/IsElement'
+import { ArrayElement } from './ArrayElement'
+import { ArrayIterator } from '../../recipes/ArrayIterator'
+import { forEachCallback, IsArrayable } from '../../recipes/IsArrayable'
+import { IsElement } from '../../recipes/IsElement'
 
 /**
  * Arrayable represents a collection stored as an array.
  */
-class Arrayable implements IsArrayable<ArrayElement>, Iterable<ArrayElement> {
+export class Arrayable implements IsArrayable<ArrayElement>, Iterable<ArrayElement> {
   public readonly classType: typeof Arrayable = Arrayable
   public innerList: Array<ArrayElement> = []
   public initialized: boolean = false
@@ -184,5 +184,3 @@ class Arrayable implements IsArrayable<ArrayElement>, Iterable<ArrayElement> {
     return list.initialize(elementClass.fromArray(values).head)
   }
 }
-
-export default Arrayable

@@ -5,12 +5,12 @@
  * @memberOf module:collect-your-stuff
  */
 import { IsRunnable } from '../../recipes/Runnable';
-import IsLinker from '../../recipes/IsLinker';
+import { IsLinker } from '../../recipes/IsLinker';
 /**
  * Stackable represents a runnable entry in stack.
  * @extends Linker
  */
-declare class Stackable implements IsLinker, IsRunnable {
+export declare class Stackable implements IsLinker, IsRunnable {
     readonly classType: typeof Stackable;
     data: any;
     next: Stackable | null;
@@ -54,4 +54,3 @@ declare class Stackable implements IsLinker, IsRunnable {
         tail: IsLinker;
     };
 }
-export default Stackable;

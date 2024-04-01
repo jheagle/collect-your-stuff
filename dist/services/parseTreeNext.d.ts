@@ -1,4 +1,4 @@
-import IsTreeNode from '../recipes/IsTreeNode';
+import { IsTreeNode } from '../recipes/IsTreeNode';
 /**
  * Be able to parse over every node in a tree.
  * 1. Start at root (get root parent)
@@ -11,5 +11,4 @@ import IsTreeNode from '../recipes/IsTreeNode';
  * @param {IsTreeNode} treeNode Provide a node in a tree and get the next node (left-first approach)
  * @returns {IsTreeNode|null}
  */
-declare const parseTreeNext: (treeNode: IsTreeNode) => IsTreeNode | null;
-export default parseTreeNext;
+export declare const parseTreeNext: (treeNode: IsTreeNode) => IsTreeNode | null;

@@ -5,15 +5,14 @@ Object.defineProperty(exports, '__esModule', {
 })
 exports.default = void 0
 require('core-js/stable')
-var _Arrayable = _interopRequireDefault(require('./collections/arrayable/Arrayable'))
-var _DoublyLinkedList = _interopRequireDefault(require('./collections/./doubly-linked-list/DoublyLinkedList'))
-var _LinkedList = _interopRequireDefault(require('./collections/linked-list/LinkedList'))
-var _LinkedTreeList = _interopRequireDefault(require('./collections/linked-tree-list/LinkedTreeList'))
-var _Queue = _interopRequireDefault(require('./collections/queue/Queue'))
-var _Stack = _interopRequireDefault(require('./collections/stack/Stack'))
-var _recipes = _interopRequireDefault(require('./recipes/recipes'))
-var _services = _interopRequireDefault(require('./services/services'))
-function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
+var _Arrayable = require('./collections/arrayable/Arrayable')
+var _DoublyLinkedList = require('./collections/doubly-linked-list/DoublyLinkedList')
+var _LinkedList = require('./collections/linked-list/LinkedList')
+var _LinkedTreeList = require('./collections/linked-tree-list/LinkedTreeList')
+var _Queue = require('./collections/queue/Queue')
+var _Stack = require('./collections/stack/Stack')
+var _recipes = require('./recipes/recipes')
+var _services = require('./services/services')
 /**
  * All of the collections available.
  * @file
@@ -32,14 +31,14 @@ function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { d
  * All methods exported from this module are encapsulated within collect-your-stuff.
  */
 const collectYourStuff = {
-  Arrayable: _Arrayable.default,
-  DoublyLinkedList: _DoublyLinkedList.default,
-  LinkedList: _LinkedList.default,
-  LinkedTreeList: _LinkedTreeList.default,
-  Queue: _Queue.default,
-  Stack: _Stack.default,
-  recipes: _recipes.default,
-  services: _services.default
+  Arrayable: _Arrayable.Arrayable,
+  DoublyLinkedList: _DoublyLinkedList.DoublyLinkedList,
+  LinkedList: _LinkedList.LinkedList,
+  LinkedTreeList: _LinkedTreeList.LinkedTreeList,
+  Queue: _Queue.Queue,
+  Stack: _Stack.Stack,
+  recipes: _recipes.recipes,
+  services: _services.services
 }
 var _default = exports.default = collectYourStuff
 if (void 0) {

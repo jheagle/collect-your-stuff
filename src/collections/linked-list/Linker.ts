@@ -4,14 +4,14 @@
  * @version 1.1.0
  * @memberOf module:collect-your-stuff
  */
-import IsLinker from '../../recipes/IsLinker'
-import ArrayElement from '../arrayable/ArrayElement'
+import { IsLinker } from '../../recipes/IsLinker'
+import { ArrayElement } from '../arrayable/ArrayElement'
 
 /**
  * Linker represents a node in a LinkedList.
  * @extends ArrayElement
  */
-class Linker implements IsLinker {
+export class Linker implements IsLinker {
   public readonly classType: typeof Linker = Linker
   public data: any = null
   public next: Linker | null = null
@@ -76,5 +76,3 @@ class Linker implements IsLinker {
     { head: null, tail: null }
   )
 }
-
-export default Linker

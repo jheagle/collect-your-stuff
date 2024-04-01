@@ -3,12 +3,11 @@
 Object.defineProperty(exports, '__esModule', {
   value: true
 })
-exports.default = void 0
+exports.Linker = void 0
 require('core-js/modules/esnext.async-iterator.reduce.js')
 require('core-js/modules/esnext.iterator.constructor.js')
 require('core-js/modules/esnext.iterator.reduce.js')
-var _ArrayElement = _interopRequireDefault(require('../arrayable/ArrayElement'))
-function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
+var _ArrayElement = require('../arrayable/ArrayElement')
 /**
  * Linker represents a node in a LinkedList.
  * @extends ArrayElement
@@ -38,6 +37,7 @@ class Linker {
  * @param {IsLinker} [classType=Linker] Provide the type of IsLinker to use.
  * @return {Linker}
  */
+exports.Linker = Linker
 Linker.make = function (linker) {
   const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Linker
   if (typeof linker !== 'object') {
@@ -56,7 +56,7 @@ Linker.make = function (linker) {
     }
   }
   // Create the new node as the configured #classType
-  return _ArrayElement.default.make(linker, classType)
+  return _ArrayElement.ArrayElement.make(linker, classType)
 }
 /**
  * Convert an array into Linker instances, return the head and tail Linkers.
@@ -84,4 +84,3 @@ Linker.fromArray = function (values) {
     tail: null
   })
 }
-var _default = exports.default = Linker

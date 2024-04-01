@@ -4,14 +4,14 @@
  * @version 1.1.0
  * @memberOf module:collect-your-stuff
  */
-import IsArrayable, { forEachCallback } from '../../recipes/IsArrayable';
-import IsLinker from '../../recipes/IsLinker';
-import Linker from './Linker';
+import { forEachCallback, IsArrayable } from '../../recipes/IsArrayable';
+import { IsLinker } from '../../recipes/IsLinker';
+import { Linker } from './Linker';
 /**
  * LinkedList represents a collection stored as a LinkedList with next references.
  * @extends Arrayable
  */
-declare class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
+export declare class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
     readonly classType: typeof LinkedList;
     innerList: Linker;
     initialized: boolean;
@@ -107,4 +107,3 @@ declare class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
      */
     static fromArray: (values?: Array<any>, linkerClass?: typeof Linker, classType?: any) => IsArrayable<IsLinker> | any;
 }
-export default LinkedList;

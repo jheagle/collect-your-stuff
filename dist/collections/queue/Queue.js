@@ -3,10 +3,9 @@
 Object.defineProperty(exports, '__esModule', {
   value: true
 })
-exports.default = void 0
-var _Queueable = _interopRequireDefault(require('./Queueable'))
-var _LinkedList = _interopRequireDefault(require('../linked-list/LinkedList'))
-function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
+exports.Queue = void 0
+var _Queueable = require('./Queueable')
+var _LinkedList = require('../linked-list/LinkedList')
 /**
  * @file queue
  * @author Joshua Heagle <joshuaheagle@gmail.com>
@@ -26,8 +25,8 @@ class Queue {
    */
   constructor () {
     let queuedList = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null
-    const listClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _LinkedList.default
-    const queueableClass = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : _Queueable.default
+    const listClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _LinkedList.LinkedList
+    const queueableClass = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : _Queueable.Queueable
     this.listClass = listClass
     this.queueableClass = queueableClass
     if (queuedList === null) {
@@ -126,12 +125,12 @@ class Queue {
  * @param {Queue|Iterable} listClass The class to use to manage the queueables
  * @returns {Queue}
  */
+exports.Queue = Queue
 Queue.fromArray = function () {
   const values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []
-  const queueableClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _Queueable.default
-  const listClass = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : _LinkedList.default
+  const queueableClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _Queueable.Queueable
+  const listClass = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : _LinkedList.LinkedList
   const list = new listClass(queueableClass)
   list.initialize(queueableClass.fromArray(values, queueableClass).head)
   return new Queue(list, listClass, queueableClass)
 }
-var _default = exports.default = Queue

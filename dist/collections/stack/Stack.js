@@ -3,10 +3,9 @@
 Object.defineProperty(exports, '__esModule', {
   value: true
 })
-exports.default = void 0
-var _Stackable = _interopRequireDefault(require('./Stackable'))
-var _LinkedList = _interopRequireDefault(require('../linked-list/LinkedList'))
-function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
+exports.Stack = void 0
+var _Stackable = require('./Stackable')
+var _LinkedList = require('../linked-list/LinkedList')
 /**
  * @file stack.
  * @author Joshua Heagle <joshuaheagle@gmail.com>
@@ -26,8 +25,8 @@ class Stack {
    */
   constructor () {
     let stackedList = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null
-    const listClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _LinkedList.default
-    const stackableClass = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : _Stackable.default
+    const listClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _LinkedList.LinkedList
+    const stackableClass = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : _Stackable.Stackable
     this.listClass = listClass
     this.stackableClass = stackableClass
     if (stackedList === null) {
@@ -102,12 +101,12 @@ class Stack {
  * @param {Stack|Iterable} listClass The class to use to manage the stackables
  * @returns {Stack}
  */
+exports.Stack = Stack
 Stack.fromArray = function () {
   const values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []
-  const stackableClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _Stackable.default
-  const listClass = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : _LinkedList.default
+  const stackableClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _Stackable.Stackable
+  const listClass = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : _LinkedList.LinkedList
   const list = new listClass(stackableClass)
   list.initialize(stackableClass.fromArray(values, stackableClass).head)
   return new Stack(list)
 }
-var _default = exports.default = Stack

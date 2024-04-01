@@ -5,7 +5,7 @@
     Object.defineProperty(exports, '__esModule', {
       value: true
     })
-    exports.default = void 0
+    exports.ArrayElement = void 0
     require('core-js/modules/esnext.async-iterator.reduce.js')
     require('core-js/modules/esnext.iterator.constructor.js')
     require('core-js/modules/esnext.iterator.reduce.js')
@@ -30,6 +30,7 @@
  * @param {IsElement} [classType=ArrayElement] Provide the type of IsElement to use.
  * @return {ArrayElement}
  */
+    exports.ArrayElement = ArrayElement
     ArrayElement.make = function (element) {
       const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : ArrayElement
       if (typeof element !== 'object') {
@@ -70,7 +71,6 @@
         tail: null
       })
     }
-    var _default = exports.default = ArrayElement
   }, { 'core-js/modules/esnext.async-iterator.reduce.js': 544, 'core-js/modules/esnext.iterator.constructor.js': 545, 'core-js/modules/esnext.iterator.reduce.js': 547 }],
   2: [function (require, module, exports) {
     'use strict'
@@ -78,11 +78,10 @@
     Object.defineProperty(exports, '__esModule', {
       value: true
     })
-    exports.default = void 0
+    exports.Arrayable = void 0
     require('core-js/modules/web.dom-collections.iterator.js')
-    var _ArrayElement = _interopRequireDefault(require('./ArrayElement'))
-    var _ArrayIterator = _interopRequireDefault(require('../../recipes/ArrayIterator'))
-    function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
+    var _ArrayElement = require('./ArrayElement')
+    var _ArrayIterator = require('../../recipes/ArrayIterator')
     /**
  * @file arrayable list.
  * @author Joshua Heagle <joshuaheagle@gmail.com>
@@ -98,7 +97,7 @@
    * Create the new Arrayable instance, configure the Arrayable class.
    */
       constructor () {
-        const elementClass = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _ArrayElement.default
+        const elementClass = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _ArrayElement.ArrayElement
         this.classType = Arrayable
         this.innerList = []
         this.initialized = false
@@ -252,7 +251,7 @@
    */
       [Symbol.iterator] () {
         const index = 0
-        return new _ArrayIterator.default(this.innerList, index)
+        return new _ArrayIterator.ArrayIterator(this.innerList, index)
       }
     }
     /**
@@ -262,14 +261,14 @@
  * @param {IsArrayable<ArrayElement>} [classType=Arrayable] Provide the type of IsArrayable to use.
  * @returns {Arrayable}
  */
+    exports.Arrayable = Arrayable
     Arrayable.fromArray = function () {
       const values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []
-      const elementClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _ArrayElement.default
+      const elementClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _ArrayElement.ArrayElement
       const classType = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : Arrayable
       const list = new classType(elementClass)
       return list.initialize(elementClass.fromArray(values).head)
     }
-    var _default = exports.default = Arrayable
   }, { '../../recipes/ArrayIterator': 14, './ArrayElement': 1, 'core-js/modules/web.dom-collections.iterator.js': 552 }],
   3: [function (require, module, exports) {
     'use strict'
@@ -277,12 +276,11 @@
     Object.defineProperty(exports, '__esModule', {
       value: true
     })
-    exports.default = void 0
+    exports.DoubleLinker = void 0
     require('core-js/modules/esnext.async-iterator.reduce.js')
     require('core-js/modules/esnext.iterator.constructor.js')
     require('core-js/modules/esnext.iterator.reduce.js')
-    var _Linker = _interopRequireDefault(require('../linked-list/Linker'))
-    function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
+    var _Linker = require('../linked-list/Linker')
     /**
  * DoubleLinker represents a node in a DoublyLinkedList which is chained by next and prev.
  * @extends Linker
@@ -316,9 +314,10 @@
  * @param {IsDoubleLinker} [classType=DoubleLinker] Provide the type of IsDoubleLinker to use.
  * @return {DoubleLinker}
  */
+    exports.DoubleLinker = DoubleLinker
     DoubleLinker.make = function (linker) {
       const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : DoubleLinker
-      return _Linker.default.make(linker, classType)
+      return _Linker.Linker.make(linker, classType)
     }
     /**
  * Convert an array into DoubleLinker instances, return the head and tail DoubleLinkers.
@@ -348,7 +347,6 @@
         tail: null
       })
     }
-    var _default = exports.default = DoubleLinker
   }, { '../linked-list/Linker': 6, 'core-js/modules/esnext.async-iterator.reduce.js': 544, 'core-js/modules/esnext.iterator.constructor.js': 545, 'core-js/modules/esnext.iterator.reduce.js': 547 }],
   4: [function (require, module, exports) {
     'use strict'
@@ -356,12 +354,11 @@
     Object.defineProperty(exports, '__esModule', {
       value: true
     })
-    exports.default = void 0
+    exports.DoublyLinkedList = void 0
     require('core-js/modules/web.dom-collections.iterator.js')
-    var _DoubleLinker = _interopRequireDefault(require('./DoubleLinker'))
-    var _DoubleLinkerIterator = _interopRequireDefault(require('../../recipes/DoubleLinkerIterator'))
-    var _LinkedList = _interopRequireDefault(require('../linked-list/LinkedList'))
-    function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
+    var _DoubleLinker = require('./DoubleLinker')
+    var _DoubleLinkerIterator = require('../../recipes/DoubleLinkerIterator')
+    var _LinkedList = require('../linked-list/LinkedList')
     /**
  * @file doubly linked list.
  * @author Joshua Heagle <joshuaheagle@gmail.com>
@@ -378,7 +375,7 @@
    * Create the new DoublyLinkedList instance.
    */
       constructor () {
-        const linkerClass = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _DoubleLinker.default
+        const linkerClass = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _DoubleLinker.DoubleLinker
         this.classType = DoublyLinkedList
         this.innerList = null
         this.initialized = false
@@ -391,7 +388,7 @@
    * @return {DoublyLinkedList}
    */
       initialize (initialList) {
-        return _LinkedList.default.prototype.initialize.call(this, initialList)
+        return _LinkedList.LinkedList.prototype.initialize.call(this, initialList)
       }
 
       /**
@@ -601,7 +598,7 @@
    */
       forEach (callback) {
         const thisArg = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this
-        return _LinkedList.default.prototype.forEach.call(this, callback, thisArg)
+        return _LinkedList.LinkedList.prototype.forEach.call(this, callback, thisArg)
       }
 
       /**
@@ -610,7 +607,7 @@
    */
       [Symbol.iterator] () {
         const current = this.first
-        return new _DoubleLinkerIterator.default(current)
+        return new _DoubleLinkerIterator.DoubleLinkerIterator(current)
       }
     }
     /**
@@ -620,13 +617,13 @@
  * @param {IsArrayable<IsDoubleLinker>} [classType=LinkedList] Provide the type of IsArrayable to use.
  * @returns {DoublyLinkedList}
  */
+    exports.DoublyLinkedList = DoublyLinkedList
     DoublyLinkedList.fromArray = function () {
       const values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []
-      const linkerClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _DoubleLinker.default
+      const linkerClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _DoubleLinker.DoubleLinker
       const classType = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : DoublyLinkedList
-      return _LinkedList.default.fromArray(values, linkerClass, classType)
+      return _LinkedList.LinkedList.fromArray(values, linkerClass, classType)
     }
-    var _default = exports.default = DoublyLinkedList
   }, { '../../recipes/DoubleLinkerIterator': 15, '../linked-list/LinkedList': 5, './DoubleLinker': 3, 'core-js/modules/web.dom-collections.iterator.js': 552 }],
   5: [function (require, module, exports) {
     'use strict'
@@ -634,12 +631,11 @@
     Object.defineProperty(exports, '__esModule', {
       value: true
     })
-    exports.default = void 0
+    exports.LinkedList = void 0
     require('core-js/modules/web.dom-collections.iterator.js')
-    var _Linker = _interopRequireDefault(require('./Linker'))
-    var _LinkerIterator = _interopRequireDefault(require('../../recipes/LinkerIterator'))
-    var _Arrayable = _interopRequireDefault(require('../arrayable/Arrayable'))
-    function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
+    var _Linker = require('./Linker')
+    var _LinkerIterator = require('../../recipes/LinkerIterator')
+    var _Arrayable = require('../arrayable/Arrayable')
     /**
  * LinkedList represents a collection stored as a LinkedList with next references.
  * @extends Arrayable
@@ -649,7 +645,7 @@
    * Create the new LinkedList instance.
    */
       constructor () {
-        const linkerClass = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _Linker.default
+        const linkerClass = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _Linker.Linker
         this.classType = LinkedList
         this.innerList = null
         this.initialized = false
@@ -662,7 +658,7 @@
    * @return {LinkedList}
    */
       initialize (initialList) {
-        return _Arrayable.default.prototype.initialize.call(this, initialList)
+        return _Arrayable.Arrayable.prototype.initialize.call(this, initialList)
       }
 
       /**
@@ -853,7 +849,7 @@
    * @returns {Iterator}
    */
       [Symbol.iterator] () {
-        return new _LinkerIterator.default(this.first)
+        return new _LinkerIterator.LinkerIterator(this.first)
       }
     }
     /**
@@ -863,14 +859,14 @@
  * @param {IsArrayable<Linker>} [classType=LinkedList] Provide the type of IsArrayable to use.
  * @returns {LinkedList}
  */
+    exports.LinkedList = LinkedList
     LinkedList.fromArray = function () {
       const values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []
-      const linkerClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _Linker.default
+      const linkerClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _Linker.Linker
       const classType = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : LinkedList
       const list = new classType(linkerClass)
       return list.initialize(linkerClass.fromArray(values).head)
     }
-    var _default = exports.default = LinkedList
   }, { '../../recipes/LinkerIterator': 16, '../arrayable/Arrayable': 2, './Linker': 6, 'core-js/modules/web.dom-collections.iterator.js': 552 }],
   6: [function (require, module, exports) {
     'use strict'
@@ -878,12 +874,11 @@
     Object.defineProperty(exports, '__esModule', {
       value: true
     })
-    exports.default = void 0
+    exports.Linker = void 0
     require('core-js/modules/esnext.async-iterator.reduce.js')
     require('core-js/modules/esnext.iterator.constructor.js')
     require('core-js/modules/esnext.iterator.reduce.js')
-    var _ArrayElement = _interopRequireDefault(require('../arrayable/ArrayElement'))
-    function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
+    var _ArrayElement = require('../arrayable/ArrayElement')
     /**
  * Linker represents a node in a LinkedList.
  * @extends ArrayElement
@@ -913,6 +908,7 @@
  * @param {IsLinker} [classType=Linker] Provide the type of IsLinker to use.
  * @return {Linker}
  */
+    exports.Linker = Linker
     Linker.make = function (linker) {
       const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Linker
       if (typeof linker !== 'object') {
@@ -931,7 +927,7 @@
         }
       }
       // Create the new node as the configured #classType
-      return _ArrayElement.default.make(linker, classType)
+      return _ArrayElement.ArrayElement.make(linker, classType)
     }
     /**
  * Convert an array into Linker instances, return the head and tail Linkers.
@@ -959,7 +955,6 @@
         tail: null
       })
     }
-    var _default = exports.default = Linker
   }, { '../arrayable/ArrayElement': 1, 'core-js/modules/esnext.async-iterator.reduce.js': 544, 'core-js/modules/esnext.iterator.constructor.js': 545, 'core-js/modules/esnext.iterator.reduce.js': 547 }],
   7: [function (require, module, exports) {
     'use strict'
@@ -967,12 +962,11 @@
     Object.defineProperty(exports, '__esModule', {
       value: true
     })
-    exports.default = void 0
+    exports.LinkedTreeList = void 0
     require('core-js/modules/web.dom-collections.iterator.js')
-    var _TreeLinker = _interopRequireDefault(require('./TreeLinker'))
-    var _TreeLinkerIterator = _interopRequireDefault(require('../../recipes/TreeLinkerIterator'))
-    var _DoublyLinkedList = _interopRequireDefault(require('../doubly-linked-list/DoublyLinkedList'))
-    function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
+    var _TreeLinker = require('./TreeLinker')
+    var _TreeLinkerIterator = require('../../recipes/TreeLinkerIterator')
+    var _DoublyLinkedList = require('../doubly-linked-list/DoublyLinkedList')
     /**
  * @file doubly linked tree list.
  * @author Joshua Heagle <joshuaheagle@gmail.com>
@@ -989,7 +983,7 @@
    * Create the new LinkedTreeList instance, configure the list class.
    */
       constructor () {
-        const linkerClass = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _TreeLinker.default
+        const linkerClass = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _TreeLinker.TreeLinker
         this.classType = LinkedTreeList
         this.innerList = null
         this.initialized = false
@@ -1122,7 +1116,7 @@
    * @returns {LinkedTreeList}
    */
       insertAfter (node, newNode) {
-        return _DoublyLinkedList.default.prototype.insertAfter.call(this, node, newNode)
+        return _DoublyLinkedList.DoublyLinkedList.prototype.insertAfter.call(this, node, newNode)
       }
 
       /**
@@ -1132,7 +1126,7 @@
    * @returns {LinkedTreeList}
    */
       insertBefore (node, newNode) {
-        return _DoublyLinkedList.default.prototype.insertBefore.call(this, node, newNode)
+        return _DoublyLinkedList.DoublyLinkedList.prototype.insertBefore.call(this, node, newNode)
       }
 
       /**
@@ -1143,7 +1137,7 @@
    */
       append (node) {
         const after = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.last
-        return _DoublyLinkedList.default.prototype.append.call(this, node, after)
+        return _DoublyLinkedList.DoublyLinkedList.prototype.append.call(this, node, after)
       }
 
       /**
@@ -1154,7 +1148,7 @@
    */
       prepend (node) {
         const before = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.first
-        return _DoublyLinkedList.default.prototype.prepend.call(this, node, before)
+        return _DoublyLinkedList.DoublyLinkedList.prototype.prepend.call(this, node, before)
       }
 
       /**
@@ -1163,7 +1157,7 @@
    * @return {TreeLinker}
    */
       remove (node) {
-        return _DoublyLinkedList.default.prototype.remove.call(this, node)
+        return _DoublyLinkedList.DoublyLinkedList.prototype.remove.call(this, node)
       }
 
       /**
@@ -1171,7 +1165,7 @@
    * @return {TreeLinker}
    */
       reset () {
-        return _DoublyLinkedList.default.prototype.reset.call(this)
+        return _DoublyLinkedList.DoublyLinkedList.prototype.reset.call(this)
       }
 
       /**
@@ -1180,7 +1174,7 @@
    * @returns {TreeLinker|null}
    */
       item (index) {
-        return _DoublyLinkedList.default.prototype.item.call(this, index)
+        return _DoublyLinkedList.DoublyLinkedList.prototype.item.call(this, index)
       }
 
       /**
@@ -1206,7 +1200,7 @@
    */
       [Symbol.iterator] () {
         const root = this.rootParent
-        return new _TreeLinkerIterator.default(root)
+        return new _TreeLinkerIterator.TreeLinkerIterator(root)
       }
     }
     /**
@@ -1216,14 +1210,14 @@
  * @param {IsArrayable<TreeLinker>} [classType=LinkedTreeList] Provide the type of IsArrayable to use.
  * @returns {LinkedTreeList}
  */
+    exports.LinkedTreeList = LinkedTreeList
     LinkedTreeList.fromArray = function () {
       const values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []
-      const linkerClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _TreeLinker.default
+      const linkerClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _TreeLinker.TreeLinker
       const classType = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : LinkedTreeList
       const list = new classType(linkerClass)
       return list.initialize(linkerClass.fromArray(values).head)
     }
-    var _default = exports.default = LinkedTreeList
   }, { '../../recipes/TreeLinkerIterator': 18, '../doubly-linked-list/DoublyLinkedList': 4, './TreeLinker': 8, 'core-js/modules/web.dom-collections.iterator.js': 552 }],
   8: [function (require, module, exports) {
     'use strict'
@@ -1231,12 +1225,11 @@
     Object.defineProperty(exports, '__esModule', {
       value: true
     })
-    exports.default = void 0
+    exports.TreeLinker = void 0
     require('core-js/modules/esnext.async-iterator.map.js')
     require('core-js/modules/esnext.iterator.map.js')
-    var _DoubleLinker = _interopRequireDefault(require('../doubly-linked-list/DoubleLinker'))
-    var _LinkedTreeList = _interopRequireDefault(require('./LinkedTreeList'))
-    function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
+    var _DoubleLinker = require('../doubly-linked-list/DoubleLinker')
+    var _LinkedTreeList = require('./LinkedTreeList')
     /**
  * TreeLinker represents a node in a LinkedTreeList having a parent (or root) and child nodes.
  * @extends DoubleLinker
@@ -1259,7 +1252,7 @@
           prev = null,
           children = null,
           parent = null,
-          listClass = _LinkedTreeList.default
+          listClass = _LinkedTreeList.LinkedTreeList
         } = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {}
         this.classType = TreeLinker
         this.data = null
@@ -1282,7 +1275,7 @@
    */
       childrenFromArray () {
         const children = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null
-        const listClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _LinkedTreeList.default
+        const listClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _LinkedTreeList.LinkedTreeList
         if (children === null) {
           return null
         }
@@ -1298,9 +1291,10 @@
  * @param {IsTreeNode} [classType=TreeLinker] Provide the type of IsTreeNode to use.
  * @return {TreeLinker}
  */
+    exports.TreeLinker = TreeLinker
     TreeLinker.make = function (linker) {
       const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : TreeLinker
-      return _DoubleLinker.default.make(linker, classType)
+      return _DoubleLinker.DoubleLinker.make(linker, classType)
     }
     /**
  * Convert an array into DoubleLinker instances, return the head and tail DoubleLinkers.
@@ -1311,9 +1305,8 @@
     TreeLinker.fromArray = function () {
       const values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []
       const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : TreeLinker
-      return _DoubleLinker.default.fromArray(values, classType)
+      return _DoubleLinker.DoubleLinker.fromArray(values, classType)
     }
-    var _default = exports.default = TreeLinker
   }, { '../doubly-linked-list/DoubleLinker': 3, './LinkedTreeList': 7, 'core-js/modules/esnext.async-iterator.map.js': 543, 'core-js/modules/esnext.iterator.map.js': 546 }],
   9: [function (require, module, exports) {
     'use strict'
@@ -1321,10 +1314,9 @@
     Object.defineProperty(exports, '__esModule', {
       value: true
     })
-    exports.default = void 0
-    var _Queueable = _interopRequireDefault(require('./Queueable'))
-    var _LinkedList = _interopRequireDefault(require('../linked-list/LinkedList'))
-    function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
+    exports.Queue = void 0
+    var _Queueable = require('./Queueable')
+    var _LinkedList = require('../linked-list/LinkedList')
     /**
  * @file queue
  * @author Joshua Heagle <joshuaheagle@gmail.com>
@@ -1344,8 +1336,8 @@
    */
       constructor () {
         let queuedList = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null
-        const listClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _LinkedList.default
-        const queueableClass = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : _Queueable.default
+        const listClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _LinkedList.LinkedList
+        const queueableClass = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : _Queueable.Queueable
         this.listClass = listClass
         this.queueableClass = queueableClass
         if (queuedList === null) {
@@ -1444,15 +1436,15 @@
  * @param {Queue|Iterable} listClass The class to use to manage the queueables
  * @returns {Queue}
  */
+    exports.Queue = Queue
     Queue.fromArray = function () {
       const values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []
-      const queueableClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _Queueable.default
-      const listClass = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : _LinkedList.default
+      const queueableClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _Queueable.Queueable
+      const listClass = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : _LinkedList.LinkedList
       const list = new listClass(queueableClass)
       list.initialize(queueableClass.fromArray(values, queueableClass).head)
       return new Queue(list, listClass, queueableClass)
     }
-    var _default = exports.default = Queue
   }, { '../linked-list/LinkedList': 5, './Queueable': 10 }],
   10: [function (require, module, exports) {
     'use strict'
@@ -1460,9 +1452,8 @@
     Object.defineProperty(exports, '__esModule', {
       value: true
     })
-    exports.default = void 0
-    var _Linker = _interopRequireDefault(require('../linked-list/Linker'))
-    function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
+    exports.Queueable = void 0
+    var _Linker = require('../linked-list/Linker')
     /**
  * Queueable represents a runnable entry in a queue.
  * @extends Linker
@@ -1570,6 +1561,7 @@
  * @param {IsLinker} [classType=Queueable] Provide the type of IsLinker to use.
  * @return {Queueable}
  */
+    exports.Queueable = Queueable
     Queueable.make = function (queueable) {
       const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Queueable
       if (typeof queueable !== 'object') {
@@ -1600,9 +1592,8 @@
  */
     Queueable.fromArray = function (values) {
       const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Queueable
-      return _Linker.default.fromArray(values, classType)
+      return _Linker.Linker.fromArray(values, classType)
     }
-    var _default = exports.default = Queueable
   }, { '../linked-list/Linker': 6 }],
   11: [function (require, module, exports) {
     'use strict'
@@ -1610,10 +1601,9 @@
     Object.defineProperty(exports, '__esModule', {
       value: true
     })
-    exports.default = void 0
-    var _Stackable = _interopRequireDefault(require('./Stackable'))
-    var _LinkedList = _interopRequireDefault(require('../linked-list/LinkedList'))
-    function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
+    exports.Stack = void 0
+    var _Stackable = require('./Stackable')
+    var _LinkedList = require('../linked-list/LinkedList')
     /**
  * @file stack.
  * @author Joshua Heagle <joshuaheagle@gmail.com>
@@ -1633,8 +1623,8 @@
    */
       constructor () {
         let stackedList = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null
-        const listClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _LinkedList.default
-        const stackableClass = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : _Stackable.default
+        const listClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _LinkedList.LinkedList
+        const stackableClass = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : _Stackable.Stackable
         this.listClass = listClass
         this.stackableClass = stackableClass
         if (stackedList === null) {
@@ -1709,15 +1699,15 @@
  * @param {Stack|Iterable} listClass The class to use to manage the stackables
  * @returns {Stack}
  */
+    exports.Stack = Stack
     Stack.fromArray = function () {
       const values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []
-      const stackableClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _Stackable.default
-      const listClass = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : _LinkedList.default
+      const stackableClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _Stackable.Stackable
+      const listClass = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : _LinkedList.LinkedList
       const list = new listClass(stackableClass)
       list.initialize(stackableClass.fromArray(values, stackableClass).head)
       return new Stack(list)
     }
-    var _default = exports.default = Stack
   }, { '../linked-list/LinkedList': 5, './Stackable': 12 }],
   12: [function (require, module, exports) {
     'use strict'
@@ -1725,9 +1715,8 @@
     Object.defineProperty(exports, '__esModule', {
       value: true
     })
-    exports.default = void 0
-    var _Linker = _interopRequireDefault(require('../linked-list/Linker'))
-    function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
+    exports.Stackable = void 0
+    var _Linker = require('../linked-list/Linker')
     /**
  * Stackable represents a runnable entry in stack.
  * @extends Linker
@@ -1778,6 +1767,7 @@
  * @param {IsLinker} [classType=Stackable] Provide the type of IsLinker to use.
  * @return {Stackable}
  */
+    exports.Stackable = Stackable
     Stackable.make = function (stackable) {
       const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Stackable
       if (typeof stackable !== 'object') {
@@ -1807,9 +1797,8 @@
     Stackable.fromArray = function () {
       const values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []
       const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Stackable
-      return _Linker.default.fromArray(values, classType)
+      return _Linker.Linker.fromArray(values, classType)
     }
-    var _default = exports.default = Stackable
   }, { '../linked-list/Linker': 6 }],
   13: [function (require, module, exports) {
     'use strict'
@@ -1819,15 +1808,14 @@
     })
     exports.default = void 0
     require('core-js/stable')
-    var _Arrayable = _interopRequireDefault(require('./collections/arrayable/Arrayable'))
-    var _DoublyLinkedList = _interopRequireDefault(require('./collections/./doubly-linked-list/DoublyLinkedList'))
-    var _LinkedList = _interopRequireDefault(require('./collections/linked-list/LinkedList'))
-    var _LinkedTreeList = _interopRequireDefault(require('./collections/linked-tree-list/LinkedTreeList'))
-    var _Queue = _interopRequireDefault(require('./collections/queue/Queue'))
-    var _Stack = _interopRequireDefault(require('./collections/stack/Stack'))
-    var _recipes = _interopRequireDefault(require('./recipes/recipes'))
-    var _services = _interopRequireDefault(require('./services/services'))
-    function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
+    var _Arrayable = require('./collections/arrayable/Arrayable')
+    var _DoublyLinkedList = require('./collections/doubly-linked-list/DoublyLinkedList')
+    var _LinkedList = require('./collections/linked-list/LinkedList')
+    var _LinkedTreeList = require('./collections/linked-tree-list/LinkedTreeList')
+    var _Queue = require('./collections/queue/Queue')
+    var _Stack = require('./collections/stack/Stack')
+    var _recipes = require('./recipes/recipes')
+    var _services = require('./services/services')
     /**
  * All of the collections available.
  * @file
@@ -1846,14 +1834,14 @@
  * All methods exported from this module are encapsulated within collect-your-stuff.
  */
     const collectYourStuff = {
-      Arrayable: _Arrayable.default,
-      DoublyLinkedList: _DoublyLinkedList.default,
-      LinkedList: _LinkedList.default,
-      LinkedTreeList: _LinkedTreeList.default,
-      Queue: _Queue.default,
-      Stack: _Stack.default,
-      recipes: _recipes.default,
-      services: _services.default
+      Arrayable: _Arrayable.Arrayable,
+      DoublyLinkedList: _DoublyLinkedList.DoublyLinkedList,
+      LinkedList: _LinkedList.LinkedList,
+      LinkedTreeList: _LinkedTreeList.LinkedTreeList,
+      Queue: _Queue.Queue,
+      Stack: _Stack.Stack,
+      recipes: _recipes.recipes,
+      services: _services.services
     }
     var _default = exports.default = collectYourStuff
     if (void 0) {
@@ -1863,14 +1851,14 @@
       // @ts-ignore
       window.collectYourStuff = collectYourStuff
     }
-  }, { './collections/./doubly-linked-list/DoublyLinkedList': 4, './collections/arrayable/Arrayable': 2, './collections/linked-list/LinkedList': 5, './collections/linked-tree-list/LinkedTreeList': 7, './collections/queue/Queue': 9, './collections/stack/Stack': 11, './recipes/recipes': 19, './services/services': 22, 'core-js/stable': 573 }],
+  }, { './collections/arrayable/Arrayable': 2, './collections/doubly-linked-list/DoublyLinkedList': 4, './collections/linked-list/LinkedList': 5, './collections/linked-tree-list/LinkedTreeList': 7, './collections/queue/Queue': 9, './collections/stack/Stack': 11, './recipes/recipes': 19, './services/services': 22, 'core-js/stable': 573 }],
   14: [function (require, module, exports) {
     'use strict'
 
     Object.defineProperty(exports, '__esModule', {
       value: true
     })
-    exports.default = void 0
+    exports.ArrayIterator = void 0
     /**
  * Class ArrayIterator returns the next value when using elements of array type list.
  */
@@ -1894,7 +1882,7 @@
         }
       }
     }
-    var _default = exports.default = ArrayIterator
+    exports.ArrayIterator = ArrayIterator
   }, {}],
   15: [function (require, module, exports) {
     'use strict'
@@ -1902,7 +1890,7 @@
     Object.defineProperty(exports, '__esModule', {
       value: true
     })
-    exports.default = void 0
+    exports.DoubleLinkerIterator = void 0
     /**
  * Class DoubleLinkerIterator returns the next value when using linkers of linked type lists.
  */
@@ -1920,7 +1908,7 @@
         return result
       }
     }
-    var _default = exports.default = DoubleLinkerIterator
+    exports.DoubleLinkerIterator = DoubleLinkerIterator
   }, {}],
   16: [function (require, module, exports) {
     'use strict'
@@ -1928,7 +1916,7 @@
     Object.defineProperty(exports, '__esModule', {
       value: true
     })
-    exports.default = void 0
+    exports.LinkerIterator = void 0
     /**
  * Class LinkerIterator returns the next value when using linkers of linked type lists.
  */
@@ -1946,7 +1934,7 @@
         return result
       }
     }
-    var _default = exports.default = LinkerIterator
+    exports.LinkerIterator = LinkerIterator
   }, {}],
   17: [function (require, module, exports) {
     'use strict'
@@ -1954,7 +1942,7 @@
     Object.defineProperty(exports, '__esModule', {
       value: true
     })
-    exports.default = void 0
+    exports.Runnable = void 0
     /**
  * @file Runnable class recipe.
  * @author Joshua Heagle <joshuaheagle@gmail.com>
@@ -2017,7 +2005,7 @@
         return typeof thing.run === 'function'
       }
     }
-    exports.default = Runnable
+    exports.Runnable = Runnable
   }, {}],
   18: [function (require, module, exports) {
     'use strict'
@@ -2025,9 +2013,8 @@
     Object.defineProperty(exports, '__esModule', {
       value: true
     })
-    exports.default = void 0
-    var _parseTreeNext = _interopRequireDefault(require('../services/parseTreeNext'))
-    function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
+    exports.TreeLinkerIterator = void 0
+    var _parseTreeNext = require('../services/parseTreeNext')
     /**
  * Class TreeLinkerIterator returns the next value taking a left-first approach down a tree.
  */
@@ -2041,11 +2028,11 @@
           value: this.current,
           done: !this.current
         }
-        this.current = (0, _parseTreeNext.default)(this.current)
+        this.current = (0, _parseTreeNext.parseTreeNext)(this.current)
         return result
       }
     }
-    var _default = exports.default = TreeLinkerIterator
+    exports.TreeLinkerIterator = TreeLinkerIterator
   }, { '../services/parseTreeNext': 21 }],
   19: [function (require, module, exports) {
     'use strict'
@@ -2053,10 +2040,9 @@
     Object.defineProperty(exports, '__esModule', {
       value: true
     })
-    exports.default = void 0
-    var _ArrayIterator = _interopRequireDefault(require('./ArrayIterator'))
-    var _Runnable = _interopRequireDefault(require('./Runnable'))
-    function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
+    exports.recipes = void 0
+    var _ArrayIterator = require('./ArrayIterator')
+    var _Runnable = require('./Runnable')
     /**
  * @file sample classes which follow a pattern (have certain members or methods).
  * @author Joshua Heagle <joshuaheagle@gmail.com>
@@ -2067,11 +2053,10 @@
     /**
  * List of class declarations that can be used to specify attributes for a style of object / class.
  */
-    const recipes = {
-      ArrayIterator: _ArrayIterator.default,
-      Runnable: _Runnable.default
+    const recipes = exports.recipes = {
+      ArrayIterator: _ArrayIterator.ArrayIterator,
+      Runnable: _Runnable.Runnable
     }
-    var _default = exports.default = recipes
   }, { './ArrayIterator': 14, './Runnable': 17 }],
   20: [function (require, module, exports) {
     'use strict'
@@ -2079,9 +2064,8 @@
     Object.defineProperty(exports, '__esModule', {
       value: true
     })
-    exports.default = void 0
-    var _parseTreeNext = _interopRequireDefault(require('./parseTreeNext'))
-    function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
+    exports.parseTree = void 0
+    var _parseTreeNext = require('./parseTreeNext')
     /**
  * Loop over all the nodes in a tree starting from left and apply a callback for each
  * @param {IsArrayable<IsTreeNode>} tree
@@ -2093,12 +2077,12 @@
       let current = tree.rootParent
       while (current !== null) {
         callback(current, index, tree)
-        current = (0, _parseTreeNext.default)(current)
+        current = (0, _parseTreeNext.parseTreeNext)(current)
         ++index
       }
       return tree
     }
-    var _default = exports.default = parseTree
+    exports.parseTree = parseTree
   }, { './parseTreeNext': 21 }],
   21: [function (require, module, exports) {
     'use strict'
@@ -2106,7 +2090,7 @@
     Object.defineProperty(exports, '__esModule', {
       value: true
     })
-    exports.default = void 0
+    exports.parseTreeNext = void 0
     /**
  * Be able to parse over every node in a tree.
  * 1. Start at root (get root parent)
@@ -2147,7 +2131,7 @@
       // Finally, either use the node we found, or it may be null
       return test
     }
-    var _default = exports.default = parseTreeNext
+    exports.parseTreeNext = parseTreeNext
   }, {}],
   22: [function (require, module, exports) {
     'use strict'
@@ -2155,10 +2139,9 @@
     Object.defineProperty(exports, '__esModule', {
       value: true
     })
-    exports.default = void 0
-    var _parseTree = _interopRequireDefault(require('./parseTree'))
-    var _parseTreeNext = _interopRequireDefault(require('./parseTreeNext'))
-    function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
+    exports.services = void 0
+    var _parseTree = require('./parseTree')
+    var _parseTreeNext = require('./parseTreeNext')
     /**
  * @file some useful resources when working with collections.
  * @author Joshua Heagle <joshuaheagle@gmail.com>
@@ -2169,11 +2152,10 @@
     /**
  * List helpful functions when dealing with collections.
  */
-    const services = {
-      parseTree: _parseTree.default,
-      parseTreeNext: _parseTreeNext.default
+    const services = exports.services = {
+      parseTree: _parseTree.parseTree,
+      parseTreeNext: _parseTreeNext.parseTreeNext
     }
-    var _default = exports.default = services
   }, { './parseTree': 20, './parseTreeNext': 21 }],
   23: [function (require, module, exports) {
     'use strict'

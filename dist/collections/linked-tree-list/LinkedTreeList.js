@@ -3,12 +3,11 @@
 Object.defineProperty(exports, '__esModule', {
   value: true
 })
-exports.default = void 0
+exports.LinkedTreeList = void 0
 require('core-js/modules/web.dom-collections.iterator.js')
-var _TreeLinker = _interopRequireDefault(require('./TreeLinker'))
-var _TreeLinkerIterator = _interopRequireDefault(require('../../recipes/TreeLinkerIterator'))
-var _DoublyLinkedList = _interopRequireDefault(require('../doubly-linked-list/DoublyLinkedList'))
-function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
+var _TreeLinker = require('./TreeLinker')
+var _TreeLinkerIterator = require('../../recipes/TreeLinkerIterator')
+var _DoublyLinkedList = require('../doubly-linked-list/DoublyLinkedList')
 /**
  * @file doubly linked tree list.
  * @author Joshua Heagle <joshuaheagle@gmail.com>
@@ -25,7 +24,7 @@ class LinkedTreeList {
    * Create the new LinkedTreeList instance, configure the list class.
    */
   constructor () {
-    const linkerClass = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _TreeLinker.default
+    const linkerClass = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _TreeLinker.TreeLinker
     this.classType = LinkedTreeList
     this.innerList = null
     this.initialized = false
@@ -158,7 +157,7 @@ class LinkedTreeList {
    * @returns {LinkedTreeList}
    */
   insertAfter (node, newNode) {
-    return _DoublyLinkedList.default.prototype.insertAfter.call(this, node, newNode)
+    return _DoublyLinkedList.DoublyLinkedList.prototype.insertAfter.call(this, node, newNode)
   }
 
   /**
@@ -168,7 +167,7 @@ class LinkedTreeList {
    * @returns {LinkedTreeList}
    */
   insertBefore (node, newNode) {
-    return _DoublyLinkedList.default.prototype.insertBefore.call(this, node, newNode)
+    return _DoublyLinkedList.DoublyLinkedList.prototype.insertBefore.call(this, node, newNode)
   }
 
   /**
@@ -179,7 +178,7 @@ class LinkedTreeList {
    */
   append (node) {
     const after = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.last
-    return _DoublyLinkedList.default.prototype.append.call(this, node, after)
+    return _DoublyLinkedList.DoublyLinkedList.prototype.append.call(this, node, after)
   }
 
   /**
@@ -190,7 +189,7 @@ class LinkedTreeList {
    */
   prepend (node) {
     const before = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.first
-    return _DoublyLinkedList.default.prototype.prepend.call(this, node, before)
+    return _DoublyLinkedList.DoublyLinkedList.prototype.prepend.call(this, node, before)
   }
 
   /**
@@ -199,7 +198,7 @@ class LinkedTreeList {
    * @return {TreeLinker}
    */
   remove (node) {
-    return _DoublyLinkedList.default.prototype.remove.call(this, node)
+    return _DoublyLinkedList.DoublyLinkedList.prototype.remove.call(this, node)
   }
 
   /**
@@ -207,7 +206,7 @@ class LinkedTreeList {
    * @return {TreeLinker}
    */
   reset () {
-    return _DoublyLinkedList.default.prototype.reset.call(this)
+    return _DoublyLinkedList.DoublyLinkedList.prototype.reset.call(this)
   }
 
   /**
@@ -216,7 +215,7 @@ class LinkedTreeList {
    * @returns {TreeLinker|null}
    */
   item (index) {
-    return _DoublyLinkedList.default.prototype.item.call(this, index)
+    return _DoublyLinkedList.DoublyLinkedList.prototype.item.call(this, index)
   }
 
   /**
@@ -242,7 +241,7 @@ class LinkedTreeList {
    */
   [Symbol.iterator] () {
     const root = this.rootParent
-    return new _TreeLinkerIterator.default(root)
+    return new _TreeLinkerIterator.TreeLinkerIterator(root)
   }
 }
 /**
@@ -252,11 +251,11 @@ class LinkedTreeList {
  * @param {IsArrayable<TreeLinker>} [classType=LinkedTreeList] Provide the type of IsArrayable to use.
  * @returns {LinkedTreeList}
  */
+exports.LinkedTreeList = LinkedTreeList
 LinkedTreeList.fromArray = function () {
   const values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []
-  const linkerClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _TreeLinker.default
+  const linkerClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _TreeLinker.TreeLinker
   const classType = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : LinkedTreeList
   const list = new classType(linkerClass)
   return list.initialize(linkerClass.fromArray(values).head)
 }
-var _default = exports.default = LinkedTreeList

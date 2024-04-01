@@ -4,14 +4,14 @@
  * @version 1.1.0
  * @memberOf module:collect-your-stuff
  */
-import DoubleLinker from './DoubleLinker';
-import IsArrayable, { forEachCallback } from '../../recipes/IsArrayable';
-import IsDoubleLinker from '../../recipes/IsDoubleLinker';
+import { DoubleLinker } from './DoubleLinker';
+import { forEachCallback, IsArrayable } from '../../recipes/IsArrayable';
+import { IsDoubleLinker } from '../../recipes/IsDoubleLinker';
 /**
  * DoublyLinkedList represents a collection stored as a LinkedList with prev and next references.
  * @extends LinkedList
  */
-declare class DoublyLinkedList implements IsArrayable<DoubleLinker>, Iterable<DoubleLinker> {
+export declare class DoublyLinkedList implements IsArrayable<DoubleLinker>, Iterable<DoubleLinker> {
     readonly classType: typeof DoublyLinkedList;
     innerList: DoubleLinker;
     initialized: boolean;
@@ -111,4 +111,3 @@ declare class DoublyLinkedList implements IsArrayable<DoubleLinker>, Iterable<Do
      */
     static fromArray: (values?: Array<any>, linkerClass?: typeof DoubleLinker, classType?: any) => IsArrayable<IsDoubleLinker> | any;
 }
-export default DoublyLinkedList;

@@ -3,12 +3,11 @@
 Object.defineProperty(exports, '__esModule', {
   value: true
 })
-exports.default = void 0
+exports.DoubleLinker = void 0
 require('core-js/modules/esnext.async-iterator.reduce.js')
 require('core-js/modules/esnext.iterator.constructor.js')
 require('core-js/modules/esnext.iterator.reduce.js')
-var _Linker = _interopRequireDefault(require('../linked-list/Linker'))
-function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
+var _Linker = require('../linked-list/Linker')
 /**
  * DoubleLinker represents a node in a DoublyLinkedList which is chained by next and prev.
  * @extends Linker
@@ -42,9 +41,10 @@ class DoubleLinker {
  * @param {IsDoubleLinker} [classType=DoubleLinker] Provide the type of IsDoubleLinker to use.
  * @return {DoubleLinker}
  */
+exports.DoubleLinker = DoubleLinker
 DoubleLinker.make = function (linker) {
   const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : DoubleLinker
-  return _Linker.default.make(linker, classType)
+  return _Linker.Linker.make(linker, classType)
 }
 /**
  * Convert an array into DoubleLinker instances, return the head and tail DoubleLinkers.
@@ -74,4 +74,3 @@ DoubleLinker.fromArray = function () {
     tail: null
   })
 }
-var _default = exports.default = DoubleLinker

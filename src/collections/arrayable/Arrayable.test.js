@@ -1,4 +1,4 @@
-import Arrayable from './Arrayable'
+import { Arrayable } from './Arrayable'
 
 describe('Arrayable', () => {
   test('can store elements', () => {

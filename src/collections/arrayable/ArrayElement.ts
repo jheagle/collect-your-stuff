@@ -4,12 +4,12 @@
  * @version 1.1.0
  * @memberOf module:collect-your-stuff
  */
-import IsElement from '../../recipes/IsElement'
+import { IsElement } from '../../recipes/IsElement'
 
 /**
  * Element represents a node in an Arrayable.
  */
-class ArrayElement implements IsElement {
+export class ArrayElement implements IsElement {
   public readonly classType: typeof ArrayElement = ArrayElement
   public data: any = null
 
@@ -64,5 +64,3 @@ class ArrayElement implements IsElement {
     { head: [], tail: null }
   )
 }
-
-export default ArrayElement

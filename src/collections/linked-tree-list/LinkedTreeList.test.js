@@ -1,5 +1,5 @@
-import LinkedTreeList from './LinkedTreeList'
-import TreeLinker from './TreeLinker'
+import { LinkedTreeList } from './LinkedTreeList'
+import { TreeLinker } from './TreeLinker'
 
 describe('LinkedTreeList', () => {
   test('can store linkers', () => {

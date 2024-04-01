@@ -3,11 +3,10 @@
 Object.defineProperty(exports, '__esModule', {
   value: true
 })
-exports.default = void 0
+exports.Arrayable = void 0
 require('core-js/modules/web.dom-collections.iterator.js')
-var _ArrayElement = _interopRequireDefault(require('./ArrayElement'))
-var _ArrayIterator = _interopRequireDefault(require('../../recipes/ArrayIterator'))
-function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
+var _ArrayElement = require('./ArrayElement')
+var _ArrayIterator = require('../../recipes/ArrayIterator')
 /**
  * @file arrayable list.
  * @author Joshua Heagle <joshuaheagle@gmail.com>
@@ -23,7 +22,7 @@ class Arrayable {
    * Create the new Arrayable instance, configure the Arrayable class.
    */
   constructor () {
-    const elementClass = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _ArrayElement.default
+    const elementClass = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _ArrayElement.ArrayElement
     this.classType = Arrayable
     this.innerList = []
     this.initialized = false
@@ -177,7 +176,7 @@ class Arrayable {
    */
   [Symbol.iterator] () {
     const index = 0
-    return new _ArrayIterator.default(this.innerList, index)
+    return new _ArrayIterator.ArrayIterator(this.innerList, index)
   }
 }
 /**
@@ -187,11 +186,11 @@ class Arrayable {
  * @param {IsArrayable<ArrayElement>} [classType=Arrayable] Provide the type of IsArrayable to use.
  * @returns {Arrayable}
  */
+exports.Arrayable = Arrayable
 Arrayable.fromArray = function () {
   const values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []
-  const elementClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _ArrayElement.default
+  const elementClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _ArrayElement.ArrayElement
   const classType = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : Arrayable
   const list = new classType(elementClass)
   return list.initialize(elementClass.fromArray(values).head)
 }
-var _default = exports.default = Arrayable

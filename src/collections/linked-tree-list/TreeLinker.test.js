@@ -1,4 +1,4 @@
-import TreeLinker from './TreeLinker'
+import { TreeLinker } from './TreeLinker'
 
 const sampleArrayData = () => ([
   {

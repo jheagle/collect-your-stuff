@@ -1,5 +1,5 @@
-import parseTreeNext from './parseTreeNext'
-import LinkedTreeList from '../collections/linked-tree-list/LinkedTreeList'
+import { parseTreeNext } from './parseTreeNext'
+import { LinkedTreeList } from '../collections/linked-tree-list/LinkedTreeList'
 
 describe('parseTreeNext', () => {
   test('will parse next nodes in balanced tree', () => {

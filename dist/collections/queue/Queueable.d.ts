@@ -5,12 +5,12 @@
  * @memberOf module:collect-your-stuff
  */
 import { completeResponse, IsRunnable } from '../../recipes/Runnable';
-import IsLinker from '../../recipes/IsLinker';
+import { IsLinker } from '../../recipes/IsLinker';
 /**
  * Queueable represents a runnable entry in a queue.
  * @extends Linker
  */
-declare class Queueable implements IsLinker, IsRunnable {
+export declare class Queueable implements IsLinker, IsRunnable {
     readonly classType: typeof Queueable;
     data: any;
     next: Queueable | null;
@@ -75,4 +75,3 @@ declare class Queueable implements IsLinker, IsRunnable {
         tail: IsLinker;
     };
 }
-export default Queueable;

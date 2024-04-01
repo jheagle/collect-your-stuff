@@ -3,7 +3,7 @@
 Object.defineProperty(exports, '__esModule', {
   value: true
 })
-exports.default = void 0
+exports.parseTreeNext = void 0
 /**
  * Be able to parse over every node in a tree.
  * 1. Start at root (get root parent)
@@ -44,4 +44,4 @@ const parseTreeNext = treeNode => {
   // Finally, either use the node we found, or it may be null
   return test
 }
-var _default = exports.default = parseTreeNext
+exports.parseTreeNext = parseTreeNext

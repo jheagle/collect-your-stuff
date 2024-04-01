@@ -3,9 +3,8 @@
 Object.defineProperty(exports, '__esModule', {
   value: true
 })
-exports.default = void 0
-var _Linker = _interopRequireDefault(require('../linked-list/Linker'))
-function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
+exports.Stackable = void 0
+var _Linker = require('../linked-list/Linker')
 /**
  * Stackable represents a runnable entry in stack.
  * @extends Linker
@@ -56,6 +55,7 @@ class Stackable {
  * @param {IsLinker} [classType=Stackable] Provide the type of IsLinker to use.
  * @return {Stackable}
  */
+exports.Stackable = Stackable
 Stackable.make = function (stackable) {
   const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Stackable
   if (typeof stackable !== 'object') {
@@ -85,6 +85,5 @@ Stackable.make = function (stackable) {
 Stackable.fromArray = function () {
   const values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []
   const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Stackable
-  return _Linker.default.fromArray(values, classType)
+  return _Linker.Linker.fromArray(values, classType)
 }
-var _default = exports.default = Stackable

@@ -12,7 +12,6 @@
  * @property {*} error
  * @property {*} context
  */
-
 export type completeResponse = { success: boolean | any, error: boolean | any, context: any }
 
 /**
@@ -29,7 +28,7 @@ export interface IsRunnable {
 /**
  * Identify a class that can be run.
  */
-export default class Runnable implements IsRunnable {
+export class Runnable implements IsRunnable {
   public data: any = null
 
   /**

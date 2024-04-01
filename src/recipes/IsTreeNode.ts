@@ -1,11 +1,11 @@
-import IsArrayable from './IsArrayable'
-import IsDoubleLinker from './IsDoubleLinker'
-import LinkedTreeList from '../collections/linked-tree-list/LinkedTreeList'
+import { IsArrayable } from './IsArrayable'
+import { IsDoubleLinker } from './IsDoubleLinker'
+import { LinkedTreeList } from '../collections/linked-tree-list/LinkedTreeList'
 
 /**
  * Define the common attributes of a Tree Node for a tree structure.
  */
-export default interface IsTreeNode extends IsDoubleLinker {
+export interface IsTreeNode extends IsDoubleLinker {
   /**
    * @property {IsTreeNode} [next=null]
    */

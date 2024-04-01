@@ -3,9 +3,8 @@
 Object.defineProperty(exports, '__esModule', {
   value: true
 })
-exports.default = void 0
-var _parseTreeNext = _interopRequireDefault(require('./parseTreeNext'))
-function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
+exports.parseTree = void 0
+var _parseTreeNext = require('./parseTreeNext')
 /**
  * Loop over all the nodes in a tree starting from left and apply a callback for each
  * @param {IsArrayable<IsTreeNode>} tree
@@ -17,9 +16,9 @@ const parseTree = (tree, callback) => {
   let current = tree.rootParent
   while (current !== null) {
     callback(current, index, tree)
-    current = (0, _parseTreeNext.default)(current)
+    current = (0, _parseTreeNext.parseTreeNext)(current)
     ++index
   }
   return tree
 }
-var _default = exports.default = parseTree
+exports.parseTree = parseTree

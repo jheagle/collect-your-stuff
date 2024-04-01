@@ -1,4 +1,4 @@
-import IsElement from './IsElement';
+import { IsElement } from './IsElement';
 /**
  * Run this function for each element in this arrayable.
  * @callback forEachCallback
@@ -10,7 +10,7 @@ export type forEachCallback = (element: IsElement, index?: number, thisArg?: IsA
 /**
  * Arrayable represents a collection stored as Elements.
  */
-export default interface IsArrayable<T extends IsElement> {
+export interface IsArrayable<T extends IsElement> {
     /**
      * Obnoxious typescript won't let me use typeof this class
      * @property {IsArrayable} classType

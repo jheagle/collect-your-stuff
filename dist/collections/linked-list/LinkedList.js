@@ -3,12 +3,11 @@
 Object.defineProperty(exports, '__esModule', {
   value: true
 })
-exports.default = void 0
+exports.LinkedList = void 0
 require('core-js/modules/web.dom-collections.iterator.js')
-var _Linker = _interopRequireDefault(require('./Linker'))
-var _LinkerIterator = _interopRequireDefault(require('../../recipes/LinkerIterator'))
-var _Arrayable = _interopRequireDefault(require('../arrayable/Arrayable'))
-function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
+var _Linker = require('./Linker')
+var _LinkerIterator = require('../../recipes/LinkerIterator')
+var _Arrayable = require('../arrayable/Arrayable')
 /**
  * LinkedList represents a collection stored as a LinkedList with next references.
  * @extends Arrayable
@@ -18,7 +17,7 @@ class LinkedList {
    * Create the new LinkedList instance.
    */
   constructor () {
-    const linkerClass = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _Linker.default
+    const linkerClass = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _Linker.Linker
     this.classType = LinkedList
     this.innerList = null
     this.initialized = false
@@ -31,7 +30,7 @@ class LinkedList {
    * @return {LinkedList}
    */
   initialize (initialList) {
-    return _Arrayable.default.prototype.initialize.call(this, initialList)
+    return _Arrayable.Arrayable.prototype.initialize.call(this, initialList)
   }
 
   /**
@@ -222,7 +221,7 @@ class LinkedList {
    * @returns {Iterator}
    */
   [Symbol.iterator] () {
-    return new _LinkerIterator.default(this.first)
+    return new _LinkerIterator.LinkerIterator(this.first)
   }
 }
 /**
@@ -232,11 +231,11 @@ class LinkedList {
  * @param {IsArrayable<Linker>} [classType=LinkedList] Provide the type of IsArrayable to use.
  * @returns {LinkedList}
  */
+exports.LinkedList = LinkedList
 LinkedList.fromArray = function () {
   const values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []
-  const linkerClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _Linker.default
+  const linkerClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _Linker.Linker
   const classType = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : LinkedList
   const list = new classType(linkerClass)
   return list.initialize(linkerClass.fromArray(values).head)
 }
-var _default = exports.default = LinkedList

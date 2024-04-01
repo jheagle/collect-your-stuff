@@ -1,10 +1,10 @@
-import IsTreeNode from './IsTreeNode'
-import parseTreeNext from '../services/parseTreeNext'
+import { IsTreeNode } from './IsTreeNode'
+import { parseTreeNext } from '../services/parseTreeNext'
 
 /**
  * Class TreeLinkerIterator returns the next value taking a left-first approach down a tree.
  */
-class TreeLinkerIterator implements Iterator<IsTreeNode> {
+export class TreeLinkerIterator implements Iterator<IsTreeNode> {
   private current: IsTreeNode
 
   constructor (current: IsTreeNode) {
@@ -17,5 +17,3 @@ class TreeLinkerIterator implements Iterator<IsTreeNode> {
     return result
   }
 }
-
-export default TreeLinkerIterator

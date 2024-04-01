@@ -5,14 +5,14 @@
  * @memberOf module:collect-your-stuff
  */
 import { IsRunnable } from '../../recipes/Runnable'
-import IsLinker from '../../recipes/IsLinker'
-import Linker from '../linked-list/Linker'
+import { IsLinker } from '../../recipes/IsLinker'
+import { Linker } from '../linked-list/Linker'
 
 /**
  * Stackable represents a runnable entry in stack.
  * @extends Linker
  */
-class Stackable implements IsLinker, IsRunnable {
+export class Stackable implements IsLinker, IsRunnable {
   public readonly classType: typeof Stackable
   public data: any = null
   public next: Stackable | null = null
@@ -86,5 +86,3 @@ class Stackable implements IsLinker, IsRunnable {
     tail: IsLinker
   } =>  Linker.fromArray(values, classType)
 }
-
-export default Stackable

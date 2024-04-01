@@ -4,16 +4,16 @@
  * @version 1.0.0
  * @memberOf module:collect-your-stuff
  */
-import Stackable from './Stackable'
-import IsArrayable from '../../recipes/IsArrayable'
-import LinkedList from '../linked-list/LinkedList'
-import IsLinker from '../../recipes/IsLinker'
+import { Stackable } from './Stackable'
+import { IsArrayable } from '../../recipes/IsArrayable'
+import { LinkedList } from '../linked-list/LinkedList'
+import { IsLinker } from '../../recipes/IsLinker'
 import { completeResponse } from '../../recipes/Runnable'
 
 /**
  * Store a collection of items which can only be inserted and removed from the top.
  */
-class Stack {
+export class Stack {
   public stackedList: IsArrayable<any>
   private listClass: any
   private stackableClass: typeof Stackable
@@ -105,5 +105,3 @@ class Stack {
     return new Stack(list)
   }
 }
-
-export default Stack

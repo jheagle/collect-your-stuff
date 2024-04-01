@@ -1,9 +1,9 @@
-import IsDoubleLinker from './IsDoubleLinker'
+import { IsDoubleLinker } from './IsDoubleLinker'
 
 /**
  * Class DoubleLinkerIterator returns the next value when using linkers of linked type lists.
  */
-class DoubleLinkerIterator implements Iterator<IsDoubleLinker> {
+export class DoubleLinkerIterator implements Iterator<IsDoubleLinker> {
   private current: IsDoubleLinker
 
   constructor (current: IsDoubleLinker) {
@@ -16,5 +16,3 @@ class DoubleLinkerIterator implements Iterator<IsDoubleLinker> {
     return result
   }
 }
-
-export default DoubleLinkerIterator

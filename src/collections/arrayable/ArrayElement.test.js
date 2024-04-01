@@ -1,4 +1,4 @@
-import ArrayElement from './ArrayElement'
+import { ArrayElement } from './ArrayElement'
 
 describe('Element', () => {
   test('can store data', () => {

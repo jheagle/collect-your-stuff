@@ -3,12 +3,11 @@
 Object.defineProperty(exports, '__esModule', {
   value: true
 })
-exports.default = void 0
+exports.DoublyLinkedList = void 0
 require('core-js/modules/web.dom-collections.iterator.js')
-var _DoubleLinker = _interopRequireDefault(require('./DoubleLinker'))
-var _DoubleLinkerIterator = _interopRequireDefault(require('../../recipes/DoubleLinkerIterator'))
-var _LinkedList = _interopRequireDefault(require('../linked-list/LinkedList'))
-function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj } }
+var _DoubleLinker = require('./DoubleLinker')
+var _DoubleLinkerIterator = require('../../recipes/DoubleLinkerIterator')
+var _LinkedList = require('../linked-list/LinkedList')
 /**
  * @file doubly linked list.
  * @author Joshua Heagle <joshuaheagle@gmail.com>
@@ -25,7 +24,7 @@ class DoublyLinkedList {
    * Create the new DoublyLinkedList instance.
    */
   constructor () {
-    const linkerClass = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _DoubleLinker.default
+    const linkerClass = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _DoubleLinker.DoubleLinker
     this.classType = DoublyLinkedList
     this.innerList = null
     this.initialized = false
@@ -38,7 +37,7 @@ class DoublyLinkedList {
    * @return {DoublyLinkedList}
    */
   initialize (initialList) {
-    return _LinkedList.default.prototype.initialize.call(this, initialList)
+    return _LinkedList.LinkedList.prototype.initialize.call(this, initialList)
   }
 
   /**
@@ -248,7 +247,7 @@ class DoublyLinkedList {
    */
   forEach (callback) {
     const thisArg = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this
-    return _LinkedList.default.prototype.forEach.call(this, callback, thisArg)
+    return _LinkedList.LinkedList.prototype.forEach.call(this, callback, thisArg)
   }
 
   /**
@@ -257,7 +256,7 @@ class DoublyLinkedList {
    */
   [Symbol.iterator] () {
     const current = this.first
-    return new _DoubleLinkerIterator.default(current)
+    return new _DoubleLinkerIterator.DoubleLinkerIterator(current)
   }
 }
 /**
@@ -267,10 +266,10 @@ class DoublyLinkedList {
  * @param {IsArrayable<IsDoubleLinker>} [classType=LinkedList] Provide the type of IsArrayable to use.
  * @returns {DoublyLinkedList}
  */
+exports.DoublyLinkedList = DoublyLinkedList
 DoublyLinkedList.fromArray = function () {
   const values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []
-  const linkerClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _DoubleLinker.default
+  const linkerClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _DoubleLinker.DoubleLinker
   const classType = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : DoublyLinkedList
-  return _LinkedList.default.fromArray(values, linkerClass, classType)
+  return _LinkedList.LinkedList.fromArray(values, linkerClass, classType)
 }
-var _default = exports.default = DoublyLinkedList

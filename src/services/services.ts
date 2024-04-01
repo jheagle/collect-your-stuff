@@ -5,15 +5,13 @@
  * @memberOf module:collect-your-stuff
  */
 
-import parseTree from './parseTree'
-import parseTreeNext from './parseTreeNext'
+import { parseTree } from './parseTree'
+import { parseTreeNext } from './parseTreeNext'
 
 /**
  * List helpful functions when dealing with collections.
  */
-const services = {
+export const services = {
   parseTree,
   parseTreeNext
 }
-
-export default services

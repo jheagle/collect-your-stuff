@@ -1,7 +1,7 @@
-import IsTreeNode from '../recipes/IsTreeNode'
+import { IsTreeNode } from '../recipes/IsTreeNode'
 import { forEachCallback } from '../recipes/IsArrayable'
-import IsTree from '../recipes/IsTree'
-import parseTreeNext from './parseTreeNext'
+import { IsTree } from '../recipes/IsTree'
+import { parseTreeNext } from './parseTreeNext'
 
 /**
  * Loop over all the nodes in a tree starting from left and apply a callback for each
@@ -9,7 +9,7 @@ import parseTreeNext from './parseTreeNext'
  * @param {forEachCallback} callback
  * @returns {IsArrayable<IsTreeNode>}
  */
-const parseTree = (tree: IsTree, callback: forEachCallback): IsTree => {
+export const parseTree = (tree: IsTree, callback: forEachCallback): IsTree => {
   let index: number = 0
   let current: IsTreeNode = tree.rootParent
   while (current !== null) {
@@ -19,5 +19,3 @@ const parseTree = (tree: IsTree, callback: forEachCallback): IsTree => {
   }
   return tree
 }
-
-export default parseTree
