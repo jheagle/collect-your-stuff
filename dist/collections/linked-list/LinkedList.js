@@ -4,7 +4,6 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 })
 exports.LinkedList = void 0
-require('core-js/modules/web.dom-collections.iterator.js')
 var _Linker = require('./Linker')
 var _LinkerIterator = require('../../recipes/LinkerIterator')
 var _Arrayable = require('../arrayable/Arrayable')

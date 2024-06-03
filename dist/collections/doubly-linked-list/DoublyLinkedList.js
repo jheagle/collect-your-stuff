@@ -4,7 +4,6 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 })
 exports.DoublyLinkedList = void 0
-require('core-js/modules/web.dom-collections.iterator.js')
 var _DoubleLinker = require('./DoubleLinker')
 var _DoubleLinkerIterator = require('../../recipes/DoubleLinkerIterator')
 var _LinkedList = require('../linked-list/LinkedList')

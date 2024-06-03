@@ -4,7 +4,6 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 })
 exports.Arrayable = void 0
-require('core-js/modules/web.dom-collections.iterator.js')
 var _ArrayElement = require('./ArrayElement')
 var _ArrayIterator = require('../../recipes/ArrayIterator')
 /**
