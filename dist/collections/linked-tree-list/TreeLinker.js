@@ -4,7 +4,7 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 })
 exports.TreeLinker = void 0
-require('core-js/modules/esnext.async-iterator.map.js')
+require('core-js/modules/esnext.iterator.constructor.js')
 require('core-js/modules/esnext.iterator.map.js')
 var _DoubleLinker = require('../doubly-linked-list/DoubleLinker')
 var _LinkedTreeList = require('./LinkedTreeList')
