@@ -24,14 +24,19 @@ class TreeLinker {
    * @param {IsArrayable<IsTreeNode>} listClass Give the type of list to use for storing the children
    */
   constructor () {
-    const {
-      data = null,
-      next = null,
-      prev = null,
-      children = null,
-      parent = null,
-      listClass = _LinkedTreeList.LinkedTreeList
-    } = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {}
+    const _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {}
+    const _ref$data = _ref.data
+    const data = _ref$data === void 0 ? null : _ref$data
+    const _ref$next = _ref.next
+    const next = _ref$next === void 0 ? null : _ref$next
+    const _ref$prev = _ref.prev
+    const prev = _ref$prev === void 0 ? null : _ref$prev
+    const _ref$children = _ref.children
+    const children = _ref$children === void 0 ? null : _ref$children
+    const _ref$parent = _ref.parent
+    const parent = _ref$parent === void 0 ? null : _ref$parent
+    const _ref$listClass = _ref.listClass
+    const listClass = _ref$listClass === void 0 ? _LinkedTreeList.LinkedTreeList : _ref$listClass
     this.classType = TreeLinker
     this.data = null
     this.next = null

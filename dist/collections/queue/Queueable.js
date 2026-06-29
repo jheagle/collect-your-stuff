@@ -18,11 +18,13 @@ class Queueable {
    * @param {boolean|Function} [queueableData.ready=false] Indicate if the queueable is ready to run
    */
   constructor () {
-    const {
-      task = null,
-      next = null,
-      ready = false
-    } = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {}
+    const _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {}
+    const _ref$task = _ref.task
+    const task = _ref$task === void 0 ? null : _ref$task
+    const _ref$next = _ref.next
+    const next = _ref$next === void 0 ? null : _ref$next
+    const _ref$ready = _ref.ready
+    const ready = _ref$ready === void 0 ? false : _ref$ready
     this.data = null
     this.next = null
     this.complete = false
@@ -66,11 +68,13 @@ class Queueable {
    * @return {completeResponse}
    */
   markCompleted () {
-    const {
-      success = true,
-      error = false,
-      context = null
-    } = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {}
+    const _ref2 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {}
+    const _ref2$success = _ref2.success
+    const success = _ref2$success === void 0 ? true : _ref2$success
+    const _ref2$error = _ref2.error
+    const error = _ref2$error === void 0 ? false : _ref2$error
+    const _ref2$context = _ref2.context
+    const context = _ref2$context === void 0 ? null : _ref2$context
     this.complete = true
     this.running = false
     return {

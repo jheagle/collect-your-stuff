@@ -6,6 +6,7 @@ Object.defineProperty(exports, '__esModule', {
 exports.DoublyLinkedList = void 0
 require('core-js/modules/esnext.iterator.constructor.js')
 require('core-js/modules/esnext.iterator.for-each.js')
+require('core-js/modules/web.dom-collections.iterator.js')
 var _DoubleLinker = require('./DoubleLinker')
 var _DoubleLinkerIterator = require('../../recipes/DoubleLinkerIterator')
 var _LinkedList = require('../linked-list/LinkedList')

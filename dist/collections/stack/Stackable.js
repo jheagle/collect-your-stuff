@@ -18,11 +18,13 @@ class Stackable {
    * @param {boolean|Function} [stackData.ready=false] Indicate if the stackable is ready to run
    */
   constructor () {
-    const {
-      task = null,
-      next = null,
-      ready = false
-    } = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {}
+    const _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {}
+    const _ref$task = _ref.task
+    const task = _ref$task === void 0 ? null : _ref$task
+    const _ref$next = _ref.next
+    const next = _ref$next === void 0 ? null : _ref$next
+    const _ref$ready = _ref.ready
+    const ready = _ref$ready === void 0 ? false : _ref$ready
     this.data = null
     this.next = null
     this.classType = Stackable

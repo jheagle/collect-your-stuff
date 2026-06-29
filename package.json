@@ -24,7 +24,7 @@
     "watch:test": "gulp watchTest"
   },
   "devDependencies": {
-    "js-build-tools": "^4.0.9"
+    "js-build-tools": "^4.0.10"
   },
   "repository": {
     "type": "git",

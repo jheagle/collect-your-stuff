@@ -20,11 +20,13 @@ class DoubleLinker {
    * @param {DoubleLinker|null} [nodeData.prev=null] The reference to the previous linker if any
    */
   constructor () {
-    const {
-      data = null,
-      next = null,
-      prev = null
-    } = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {}
+    const _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {}
+    const _ref$data = _ref.data
+    const data = _ref$data === void 0 ? null : _ref$data
+    const _ref$next = _ref.next
+    const next = _ref$next === void 0 ? null : _ref$next
+    const _ref$prev = _ref.prev
+    const prev = _ref$prev === void 0 ? null : _ref$prev
     this.classType = DoubleLinker
     this.data = null
     this.next = null

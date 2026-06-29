@@ -19,10 +19,11 @@ class Linker {
    * @param {Linker|null} [nodeData.next=null] The reference to the next linker if any
    */
   constructor () {
-    const {
-      data = null,
-      next = null
-    } = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {}
+    const _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {}
+    const _ref$data = _ref.data
+    const data = _ref$data === void 0 ? null : _ref$data
+    const _ref$next = _ref.next
+    const next = _ref$next === void 0 ? null : _ref$next
     this.classType = Linker
     this.data = null
     this.next = null
