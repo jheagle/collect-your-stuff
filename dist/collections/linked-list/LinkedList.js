@@ -4,7 +4,6 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 })
 exports.LinkedList = void 0
-require('core-js/modules/web.dom-collections.iterator.js')
 var _Linker = require('./Linker')
 var _LinkerIterator = require('../../recipes/LinkerIterator')
 var _Arrayable = require('../arrayable/Arrayable')
@@ -16,8 +15,7 @@ class LinkedList {
   /**
    * Create the new LinkedList instance.
    */
-  constructor () {
-    const linkerClass = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _Linker.Linker
+  constructor (linkerClass = _Linker.Linker) {
     this.classType = LinkedList
     this.innerList = null
     this.initialized = false
@@ -132,8 +130,7 @@ class LinkedList {
    * @param {Linker} after The existing last node
    * @returns {Linker}
    */
-  append (node) {
-    const after = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.last
+  append (node, after = this.last) {
     return this.insertAfter(after, node)
   }
 
@@ -143,8 +140,7 @@ class LinkedList {
    * @param {Linker} before The existing first node
    * @returns {Linker}
    */
-  prepend (node) {
-    const before = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.first
+  prepend (node, before = this.first) {
     return this.insertBefore(before, node)
   }
 
@@ -204,8 +200,7 @@ class LinkedList {
    * @param {LinkedList} thisArg Optional, 'this' reference
    * @returns {LinkedList}
    */
-  forEach (callback) {
-    const thisArg = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this
+  forEach (callback, thisArg = this) {
     let index = 0
     let current = thisArg.first
     while (current !== null) {
@@ -232,10 +227,7 @@ class LinkedList {
  * @returns {LinkedList}
  */
 exports.LinkedList = LinkedList
-LinkedList.fromArray = function () {
-  const values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []
-  const linkerClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _Linker.Linker
-  const classType = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : LinkedList
+LinkedList.fromArray = (values = [], linkerClass = _Linker.Linker, classType = LinkedList) => {
   const list = new classType(linkerClass)
   return list.initialize(linkerClass.fromArray(values).head)
 }

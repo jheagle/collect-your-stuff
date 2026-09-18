@@ -23,20 +23,14 @@ class TreeLinker {
    * @param {TreeLinker} [settings.parent=null] The reference to a parent linker if any
    * @param {IsArrayable<IsTreeNode>} listClass Give the type of list to use for storing the children
    */
-  constructor () {
-    const _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {}
-    const _ref$data = _ref.data
-    const data = _ref$data === void 0 ? null : _ref$data
-    const _ref$next = _ref.next
-    const next = _ref$next === void 0 ? null : _ref$next
-    const _ref$prev = _ref.prev
-    const prev = _ref$prev === void 0 ? null : _ref$prev
-    const _ref$children = _ref.children
-    const children = _ref$children === void 0 ? null : _ref$children
-    const _ref$parent = _ref.parent
-    const parent = _ref$parent === void 0 ? null : _ref$parent
-    const _ref$listClass = _ref.listClass
-    const listClass = _ref$listClass === void 0 ? _LinkedTreeList.LinkedTreeList : _ref$listClass
+  constructor ({
+    data = null,
+    next = null,
+    prev = null,
+    children = null,
+    parent = null,
+    listClass = _LinkedTreeList.LinkedTreeList
+  } = {}) {
     this.classType = TreeLinker
     this.data = null
     this.next = null
@@ -56,9 +50,7 @@ class TreeLinker {
    * @param {IsArrayable<IsTreeNode>} listClass Give the type of list to use for storing the children
    * @return {LinkedTreeList|null}
    */
-  childrenFromArray () {
-    const children = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null
-    const listClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _LinkedTreeList.LinkedTreeList
+  childrenFromArray (children = null, listClass = _LinkedTreeList.LinkedTreeList) {
     if (children === null) {
       return null
     }
@@ -75,8 +67,7 @@ class TreeLinker {
  * @return {TreeLinker}
  */
 exports.TreeLinker = TreeLinker
-TreeLinker.make = function (linker) {
-  const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : TreeLinker
+TreeLinker.make = (linker, classType = TreeLinker) => {
   return _DoubleLinker.DoubleLinker.make(linker, classType)
 }
 /**
@@ -85,8 +76,4 @@ TreeLinker.make = function (linker) {
  * @param {IsTreeNode} [classType=TreeLinker] Provide the type of IsTreeNode to use.
  * @returns {{head: TreeLinker, tail: TreeLinker}}
  */
-TreeLinker.fromArray = function () {
-  const values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []
-  const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : TreeLinker
-  return _DoubleLinker.DoubleLinker.fromArray(values, classType)
-}
+TreeLinker.fromArray = (values = [], classType = TreeLinker) => _DoubleLinker.DoubleLinker.fromArray(values, classType)

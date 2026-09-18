@@ -18,12 +18,10 @@ class Linker {
    * @param {*} [nodeData.data=null] The data to be stored in this linker
    * @param {Linker|null} [nodeData.next=null] The reference to the next linker if any
    */
-  constructor () {
-    const _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {}
-    const _ref$data = _ref.data
-    const data = _ref$data === void 0 ? null : _ref$data
-    const _ref$next = _ref.next
-    const next = _ref$next === void 0 ? null : _ref$next
+  constructor ({
+    data = null,
+    next = null
+  } = {}) {
     this.classType = Linker
     this.data = null
     this.next = null
@@ -38,8 +36,7 @@ class Linker {
  * @return {Linker}
  */
 exports.Linker = Linker
-Linker.make = function (linker) {
-  const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Linker
+Linker.make = (linker, classType = Linker) => {
   if (typeof linker !== 'object') {
     // It is not an object, so instantiate the Linker with element as the data
     return new classType({
@@ -64,23 +61,20 @@ Linker.make = function (linker) {
  * @param {IsLinker} [classType=Linker] Provide the type of IsLinker to use.
  * @returns {{head: Linker, tail: Linker}}
  */
-Linker.fromArray = function (values) {
-  const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Linker
-  return values.reduce((references, linker) => {
-    const newLinker = classType.make(linker, classType)
-    if (references.head === null) {
-      // Initialize the head and tail with the new node
-      return {
-        head: newLinker,
-        tail: newLinker
-      }
+Linker.fromArray = (values, classType = Linker) => values.reduce((references, linker) => {
+  const newLinker = classType.make(linker, classType)
+  if (references.head === null) {
+    // Initialize the head and tail with the new node
+    return {
+      head: newLinker,
+      tail: newLinker
     }
-    // Only update the tail once head has been set, tail is always the most recent node
-    references.tail.next = newLinker
-    references.tail = newLinker
-    return references
-  }, {
-    head: null,
-    tail: null
-  })
-}
+  }
+  // Only update the tail once head has been set, tail is always the most recent node
+  references.tail.next = newLinker
+  references.tail = newLinker
+  return references
+}, {
+  head: null,
+  tail: null
+})

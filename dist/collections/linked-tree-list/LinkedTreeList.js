@@ -4,7 +4,6 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 })
 exports.LinkedTreeList = void 0
-require('core-js/modules/web.dom-collections.iterator.js')
 var _TreeLinker = require('./TreeLinker')
 var _TreeLinkerIterator = require('../../recipes/TreeLinkerIterator')
 var _DoublyLinkedList = require('../doubly-linked-list/DoublyLinkedList')
@@ -23,8 +22,7 @@ class LinkedTreeList {
   /**
    * Create the new LinkedTreeList instance, configure the list class.
    */
-  constructor () {
-    const linkerClass = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _TreeLinker.TreeLinker
+  constructor (linkerClass = _TreeLinker.TreeLinker) {
     this.classType = LinkedTreeList
     this.innerList = null
     this.initialized = false
@@ -142,8 +140,7 @@ class LinkedTreeList {
    * @param {TreeLinker} item The TreeLinker node that will be the parent of the children
    * @param {LinkedTreeList} children The LinkedTreeList which has the child nodes to use
    */
-  setChildren (item) {
-    const children = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null
+  setChildren (item, children = null) {
     if (Array.from(this).indexOf(item) < 0) {
       console.error('item is not a child of this')
     }
@@ -176,8 +173,7 @@ class LinkedTreeList {
    * @param {TreeLinker} after The existing last node
    * @returns {TreeLinker}
    */
-  append (node) {
-    const after = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.last
+  append (node, after = this.last) {
     return _DoublyLinkedList.DoublyLinkedList.prototype.append.call(this, node, after)
   }
 
@@ -187,8 +183,7 @@ class LinkedTreeList {
    * @param {TreeLinker} before The existing first node
    * @returns {TreeLinker}
    */
-  prepend (node) {
-    const before = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.first
+  prepend (node, before = this.first) {
     return _DoublyLinkedList.DoublyLinkedList.prototype.prepend.call(this, node, before)
   }
 
@@ -223,8 +218,7 @@ class LinkedTreeList {
    * @param {forEachCallback} callback The function to call for-each tree node
    * @param {LinkedTreeList} thisArg Optional, 'this' reference
    */
-  forEach (callback) {
-    const thisArg = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this
+  forEach (callback, thisArg = this) {
     let index = 0
     let current = thisArg.first
     while (current !== null) {
@@ -252,10 +246,7 @@ class LinkedTreeList {
  * @returns {LinkedTreeList}
  */
 exports.LinkedTreeList = LinkedTreeList
-LinkedTreeList.fromArray = function () {
-  const values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []
-  const linkerClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _TreeLinker.TreeLinker
-  const classType = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : LinkedTreeList
+LinkedTreeList.fromArray = (values = [], linkerClass = _TreeLinker.TreeLinker, classType = LinkedTreeList) => {
   const list = new classType(linkerClass)
   return list.initialize(linkerClass.fromArray(values).head)
 }

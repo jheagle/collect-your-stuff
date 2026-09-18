@@ -17,14 +17,11 @@ class Queueable {
    * @param {Queueable|null} [queueableData.next=null] The reference to the next queueable if any
    * @param {boolean|Function} [queueableData.ready=false] Indicate if the queueable is ready to run
    */
-  constructor () {
-    const _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {}
-    const _ref$task = _ref.task
-    const task = _ref$task === void 0 ? null : _ref$task
-    const _ref$next = _ref.next
-    const next = _ref$next === void 0 ? null : _ref$next
-    const _ref$ready = _ref.ready
-    const ready = _ref$ready === void 0 ? false : _ref$ready
+  constructor ({
+    task = null,
+    next = null,
+    ready = false
+  } = {}) {
     this.data = null
     this.next = null
     this.complete = false
@@ -67,14 +64,11 @@ class Queueable {
    * @param {*} [completeResponse.context=null] Provide additional data in the response
    * @return {completeResponse}
    */
-  markCompleted () {
-    const _ref2 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {}
-    const _ref2$success = _ref2.success
-    const success = _ref2$success === void 0 ? true : _ref2$success
-    const _ref2$error = _ref2.error
-    const error = _ref2$error === void 0 ? false : _ref2$error
-    const _ref2$context = _ref2.context
-    const context = _ref2$context === void 0 ? null : _ref2$context
+  markCompleted ({
+    success = true,
+    error = false,
+    context = null
+  } = {}) {
     this.complete = true
     this.running = false
     return {
@@ -117,8 +111,7 @@ class Queueable {
  * @return {Queueable}
  */
 exports.Queueable = Queueable
-Queueable.make = function (queueable) {
-  const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Queueable
+Queueable.make = (queueable, classType = Queueable) => {
   if (typeof queueable !== 'object') {
     // It is not an object, so instantiate the Queueable with an element as the data
     return new classType({
@@ -145,7 +138,4 @@ Queueable.make = function (queueable) {
  * @param {IsLinker} [classType=Queueable] Provide the type of IsLinker to use.
  * @returns {{head: Queueable, tail: Queueable}}
  */
-Queueable.fromArray = function (values) {
-  const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Queueable
-  return _Linker.Linker.fromArray(values, classType)
-}
+Queueable.fromArray = (values, classType = Queueable) => _Linker.Linker.fromArray(values, classType)

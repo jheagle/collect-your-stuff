@@ -4,7 +4,6 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 })
 exports.Arrayable = void 0
-require('core-js/modules/web.dom-collections.iterator.js')
 var _ArrayElement = require('./ArrayElement')
 var _ArrayIterator = require('../../recipes/ArrayIterator')
 /**
@@ -21,8 +20,7 @@ class Arrayable {
   /**
    * Create the new Arrayable instance, configure the Arrayable class.
    */
-  constructor () {
-    const elementClass = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _ArrayElement.ArrayElement
+  constructor (elementClass = _ArrayElement.ArrayElement) {
     this.classType = Arrayable
     this.innerList = []
     this.initialized = false
@@ -106,8 +104,7 @@ class Arrayable {
    * @param {ArrayElement} after The existing last node
    * @returns {Arrayable}
    */
-  append (node) {
-    const after = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.last
+  append (node, after = this.last) {
     return this.insertAfter(after, node)
   }
 
@@ -117,8 +114,7 @@ class Arrayable {
    * @param {ArrayElement} before The existing first node
    * @returns {Arrayable}
    */
-  prepend (node) {
-    const before = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.first
+  prepend (node, before = this.first) {
     return this.insertBefore(before, node)
   }
 
@@ -162,8 +158,7 @@ class Arrayable {
    * @param {Arrayable} thisArg Optional, 'this' reference
    * @returns {Arrayable}
    */
-  forEach (callback) {
-    const thisArg = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this
+  forEach (callback, thisArg = this) {
     for (let i = 0; i < thisArg.length; ++i) {
       callback(thisArg.item(i), i, thisArg)
     }
@@ -187,10 +182,7 @@ class Arrayable {
  * @returns {Arrayable}
  */
 exports.Arrayable = Arrayable
-Arrayable.fromArray = function () {
-  const values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []
-  const elementClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _ArrayElement.ArrayElement
-  const classType = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : Arrayable
+Arrayable.fromArray = (values = [], elementClass = _ArrayElement.ArrayElement, classType = Arrayable) => {
   const list = new classType(elementClass)
   return list.initialize(elementClass.fromArray(values).head)
 }

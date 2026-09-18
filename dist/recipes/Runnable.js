@@ -18,8 +18,7 @@ class Runnable {
    * Instantiate a Runnable class.
    * @param {*} data
    */
-  constructor () {
-    const data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null
+  constructor (data = null) {
     this.data = null
     this.data = data
   }

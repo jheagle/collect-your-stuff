@@ -23,10 +23,7 @@ class Stack {
    * @param {IsArrayable} listClass
    * @param {Stackable} stackableClass
    */
-  constructor () {
-    let stackedList = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null
-    const listClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _LinkedList.LinkedList
-    const stackableClass = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : _Stackable.Stackable
+  constructor (stackedList = null, listClass = _LinkedList.LinkedList, stackableClass = _Stackable.Stackable) {
     this.listClass = listClass
     this.stackableClass = stackableClass
     if (stackedList === null) {
@@ -102,10 +99,7 @@ class Stack {
  * @returns {Stack}
  */
 exports.Stack = Stack
-Stack.fromArray = function () {
-  const values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []
-  const stackableClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _Stackable.Stackable
-  const listClass = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : _LinkedList.LinkedList
+Stack.fromArray = (values = [], stackableClass = _Stackable.Stackable, listClass = _LinkedList.LinkedList) => {
   const list = new listClass(stackableClass)
   list.initialize(stackableClass.fromArray(values, stackableClass).head)
   return new Stack(list)

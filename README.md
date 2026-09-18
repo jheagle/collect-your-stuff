@@ -178,9 +178,9 @@ Identify a class that can be run.
 Instantiate a Runnable class.
 
 
-| Param | Type |
-| --- | --- |
-| data | <code>\*</code> | 
+| Param | Type | Default |
+| --- | --- | --- |
+| data | <code>\*</code> | <code></code> | 
 
 <a name="Runnable+task"></a>
 
@@ -298,11 +298,11 @@ Store a collection of items which can only be inserted and removed from the top.
 Instantiate the state with the starter stacked list.
 
 
-| Param | Type |
-| --- | --- |
-| stackedList | <code>Iterable</code> \| [<code>LinkedList</code>](#LinkedList) | 
-| listClass | <code>IsArrayable</code> | 
-| stackableClass | [<code>Stackable</code>](#Stackable) | 
+| Param | Type | Default |
+| --- | --- | --- |
+| stackedList | <code>Iterable</code> \| [<code>LinkedList</code>](#LinkedList) | <code></code> | 
+| listClass | <code>IsArrayable</code> |  | 
+| stackableClass | [<code>Stackable</code>](#Stackable) |  | 
 
 <a name="Stack+empty"></a>
 
@@ -442,11 +442,11 @@ Maintain a series of queued items.
 Instantiate the queue with the given queue list.
 
 
-| Param | Type | Description |
-| --- | --- | --- |
-| queuedList | <code>Iterable</code> \| [<code>LinkedList</code>](#LinkedList) | Give the list of queueables to start in this queue. |
-| listClass | <code>IsArrayable</code> |  |
-| queueableClass | [<code>Queueable</code>](#Queueable) |  |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| queuedList | <code>Iterable</code> \| [<code>LinkedList</code>](#LinkedList) | <code></code> | Give the list of queueables to start in this queue. |
+| listClass | <code>IsArrayable</code> |  |  |
+| queueableClass | [<code>Queueable</code>](#Queueable) |  |  |
 
 <a name="Queue+dequeue"></a>
 
@@ -527,10 +527,10 @@ Create the children for this tree from an array.
 
 **Kind**: instance method of [<code>TreeLinker</code>](#TreeLinker)  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| children | <code>Array</code> \| <code>null</code> | Provide an array of data / linker references to be children of this tree node. |
-| listClass | <code>IsArrayable.&lt;IsTreeNode&gt;</code> | Give the type of list to use for storing the children |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| children | <code>Array</code> \| <code>null</code> | <code></code> | Provide an array of data / linker references to be children of this tree node. |
+| listClass | <code>IsArrayable.&lt;IsTreeNode&gt;</code> |  | Give the type of list to use for storing the children |
 
 <a name="TreeLinker.fromArray"></a>
 
@@ -647,10 +647,10 @@ Set the children on a parent item.
 
 **Kind**: instance method of [<code>LinkedTreeList</code>](#LinkedTreeList)  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| item | [<code>TreeLinker</code>](#TreeLinker) | The TreeLinker node that will be the parent of the children |
-| children | [<code>LinkedTreeList</code>](#LinkedTreeList) | The LinkedTreeList which has the child nodes to use |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| item | [<code>TreeLinker</code>](#TreeLinker) |  | The TreeLinker node that will be the parent of the children |
+| children | [<code>LinkedTreeList</code>](#LinkedTreeList) | <code></code> | The LinkedTreeList which has the child nodes to use |
 
 <a name="LinkedTreeList+insertAfter"></a>
 
@@ -1406,11 +1406,11 @@ Convert an array to a Stack.
 Instantiate the state with the starter stacked list.
 
 
-| Param | Type |
-| --- | --- |
-| stackedList | <code>Iterable</code> \| [<code>LinkedList</code>](#LinkedList) | 
-| listClass | <code>IsArrayable</code> | 
-| stackableClass | [<code>Stackable</code>](#Stackable) | 
+| Param | Type | Default |
+| --- | --- | --- |
+| stackedList | <code>Iterable</code> \| [<code>LinkedList</code>](#LinkedList) | <code></code> | 
+| listClass | <code>IsArrayable</code> |  | 
+| stackableClass | [<code>Stackable</code>](#Stackable) |  | 
 
 <a name="Stack+empty"></a>
 
@@ -1562,11 +1562,11 @@ Convert an array to a Queue.
 Instantiate the queue with the given queue list.
 
 
-| Param | Type | Description |
-| --- | --- | --- |
-| queuedList | <code>Iterable</code> \| [<code>LinkedList</code>](#LinkedList) | Give the list of queueables to start in this queue. |
-| listClass | <code>IsArrayable</code> |  |
-| queueableClass | [<code>Queueable</code>](#Queueable) |  |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| queuedList | <code>Iterable</code> \| [<code>LinkedList</code>](#LinkedList) | <code></code> | Give the list of queueables to start in this queue. |
+| listClass | <code>IsArrayable</code> |  |  |
+| queueableClass | [<code>Queueable</code>](#Queueable) |  |  |
 
 <a name="Queue+dequeue"></a>
 
@@ -1652,10 +1652,10 @@ Create the children for this tree from an array.
 
 **Kind**: instance method of [<code>TreeLinker</code>](#TreeLinker)  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| children | <code>Array</code> \| <code>null</code> | Provide an array of data / linker references to be children of this tree node. |
-| listClass | <code>IsArrayable.&lt;IsTreeNode&gt;</code> | Give the type of list to use for storing the children |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| children | <code>Array</code> \| <code>null</code> | <code></code> | Provide an array of data / linker references to be children of this tree node. |
+| listClass | <code>IsArrayable.&lt;IsTreeNode&gt;</code> |  | Give the type of list to use for storing the children |
 
 <a name="TreeLinker.fromArray"></a>
 
@@ -1778,10 +1778,10 @@ Set the children on a parent item.
 
 **Kind**: instance method of [<code>LinkedTreeList</code>](#LinkedTreeList)  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| item | [<code>TreeLinker</code>](#TreeLinker) | The TreeLinker node that will be the parent of the children |
-| children | [<code>LinkedTreeList</code>](#LinkedTreeList) | The LinkedTreeList which has the child nodes to use |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| item | [<code>TreeLinker</code>](#TreeLinker) |  | The TreeLinker node that will be the parent of the children |
+| children | [<code>LinkedTreeList</code>](#LinkedTreeList) | <code></code> | The LinkedTreeList which has the child nodes to use |
 
 <a name="LinkedTreeList+insertAfter"></a>
 

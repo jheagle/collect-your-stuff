@@ -6,7 +6,6 @@ Object.defineProperty(exports, '__esModule', {
 exports.DoublyLinkedList = void 0
 require('core-js/modules/esnext.iterator.constructor.js')
 require('core-js/modules/esnext.iterator.for-each.js')
-require('core-js/modules/web.dom-collections.iterator.js')
 var _DoubleLinker = require('./DoubleLinker')
 var _DoubleLinkerIterator = require('../../recipes/DoubleLinkerIterator')
 var _LinkedList = require('../linked-list/LinkedList')
@@ -25,8 +24,7 @@ class DoublyLinkedList {
   /**
    * Create the new DoublyLinkedList instance.
    */
-  constructor () {
-    const linkerClass = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _DoubleLinker.DoubleLinker
+  constructor (linkerClass = _DoubleLinker.DoubleLinker) {
     this.classType = DoublyLinkedList
     this.innerList = null
     this.initialized = false
@@ -149,8 +147,7 @@ class DoublyLinkedList {
    * @param {DoubleLinker} after The existing last node
    * @returns {DoubleLinker}
    */
-  append (node) {
-    const after = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.last
+  append (node, after = this.last) {
     return this.insertAfter(after, node)
   }
 
@@ -160,8 +157,7 @@ class DoublyLinkedList {
    * @param {DoubleLinker} before The existing first node
    * @returns {DoubleLinker}
    */
-  prepend (node) {
-    const before = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.first
+  prepend (node, before = this.first) {
     return this.insertBefore(before, node)
   }
 
@@ -247,8 +243,7 @@ class DoublyLinkedList {
    * @param {forEachCallback} callback The function to call for-each double linker
    * @param {DoublyLinkedList} thisArg Optional, 'this' reference
    */
-  forEach (callback) {
-    const thisArg = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this
+  forEach (callback, thisArg = this) {
     return _LinkedList.LinkedList.prototype.forEach.call(this, callback, thisArg)
   }
 
@@ -269,9 +264,6 @@ class DoublyLinkedList {
  * @returns {DoublyLinkedList}
  */
 exports.DoublyLinkedList = DoublyLinkedList
-DoublyLinkedList.fromArray = function () {
-  const values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []
-  const linkerClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _DoubleLinker.DoubleLinker
-  const classType = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : DoublyLinkedList
+DoublyLinkedList.fromArray = (values = [], linkerClass = _DoubleLinker.DoubleLinker, classType = DoublyLinkedList) => {
   return _LinkedList.LinkedList.fromArray(values, linkerClass, classType)
 }
