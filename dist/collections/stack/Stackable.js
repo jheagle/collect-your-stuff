@@ -17,14 +17,11 @@ class Stackable {
    * @param {Stackable|null} [stackData.next=null] The reference to the next stackable if any
    * @param {boolean|Function} [stackData.ready=false] Indicate if the stackable is ready to run
    */
-  constructor () {
-    const _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {}
-    const _ref$task = _ref.task
-    const task = _ref$task === void 0 ? null : _ref$task
-    const _ref$next = _ref.next
-    const next = _ref$next === void 0 ? null : _ref$next
-    const _ref$ready = _ref.ready
-    const ready = _ref$ready === void 0 ? false : _ref$ready
+  constructor ({
+    task = null,
+    next = null,
+    ready = false
+  } = {}) {
     this.data = null
     this.next = null
     this.classType = Stackable
@@ -58,8 +55,7 @@ class Stackable {
  * @return {Stackable}
  */
 exports.Stackable = Stackable
-Stackable.make = function (stackable) {
-  const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Stackable
+Stackable.make = (stackable, classType = Stackable) => {
   if (typeof stackable !== 'object') {
     // It is not an object, so instantiate the Stackable with stackable as the data
     return new classType({
@@ -84,8 +80,4 @@ Stackable.make = function (stackable) {
  * @param {IsLinker} [classType=Stackable] Provide the type of IsLinker to use.
  * @returns {{head: Stackable, tail: Stackable}}
  */
-Stackable.fromArray = function () {
-  const values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []
-  const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Stackable
-  return _Linker.Linker.fromArray(values, classType)
-}
+Stackable.fromArray = (values = [], classType = Stackable) => _Linker.Linker.fromArray(values, classType)

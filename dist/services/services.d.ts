@@ -9,5 +9,5 @@
  */
 export declare const services: {
     parseTree: (tree: import("../recipes/IsTree").IsTree, callback: import("../recipes/IsArrayable").forEachCallback) => import("../recipes/IsTree").IsTree;
-    parseTreeNext: (treeNode: import("../recipes/IsTreeNode").IsTreeNode) => import("../recipes/IsTreeNode").IsTreeNode;
+    parseTreeNext: (treeNode: import("../recipes/IsTreeNode").IsTreeNode) => import("../recipes/IsTreeNode").IsTreeNode | null;
 };

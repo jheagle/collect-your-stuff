@@ -23,10 +23,7 @@ class Queue {
    * @param {IsArrayable} listClass
    * @param {Queueable} queueableClass
    */
-  constructor () {
-    let queuedList = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null
-    const listClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _LinkedList.LinkedList
-    const queueableClass = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : _Queueable.Queueable
+  constructor (queuedList = null, listClass = _LinkedList.LinkedList, queueableClass = _Queueable.Queueable) {
     this.listClass = listClass
     this.queueableClass = queueableClass
     if (queuedList === null) {
@@ -126,10 +123,7 @@ class Queue {
  * @returns {Queue}
  */
 exports.Queue = Queue
-Queue.fromArray = function () {
-  const values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []
-  const queueableClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _Queueable.Queueable
-  const listClass = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : _LinkedList.LinkedList
+Queue.fromArray = (values = [], queueableClass = _Queueable.Queueable, listClass = _LinkedList.LinkedList) => {
   const list = new listClass(queueableClass)
   list.initialize(queueableClass.fromArray(values, queueableClass).head)
   return new Queue(list, listClass, queueableClass)

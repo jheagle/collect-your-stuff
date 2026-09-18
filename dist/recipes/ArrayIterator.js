@@ -8,8 +8,7 @@ exports.ArrayIterator = void 0
  * Class ArrayIterator returns the next value when using elements of array type list.
  */
 class ArrayIterator {
-  constructor (innerList) {
-    const index = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0
+  constructor (innerList, index = 0) {
     this.innerList = innerList
     this.index = index
   }

@@ -14,8 +14,7 @@ class ArrayElement {
    * Create the new Element instance, provide the data and optionally configure the type of Element.
    * @param {*} [data=null] The data to be stored in this element.
    */
-  constructor () {
-    const data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null
+  constructor (data = null) {
     this.classType = ArrayElement
     this.data = null
     this.data = data
@@ -28,8 +27,7 @@ class ArrayElement {
  * @return {ArrayElement}
  */
 exports.ArrayElement = ArrayElement
-ArrayElement.make = function (element) {
-  const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : ArrayElement
+ArrayElement.make = (element, classType = ArrayElement) => {
   if (typeof element !== 'object') {
     // It is not an object, so instantiate the Element with element as the data
     return new classType(element)
@@ -47,24 +45,20 @@ ArrayElement.make = function (element) {
  * @param {IsElement} [classType=ArrayElement] Provide the type of IsElement to use.
  * @returns {{head: ArrayElement[], tail: ArrayElement}}
  */
-ArrayElement.fromArray = function () {
-  const values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []
-  const classType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : ArrayElement
-  return values.reduce((references, element) => {
-    const newElement = classType.make(element, classType)
-    if (!references.head.length) {
-      // Initialize the head and tail with the new node
-      return {
-        head: [newElement],
-        tail: newElement
-      }
+ArrayElement.fromArray = (values = [], classType = ArrayElement) => values.reduce((references, element) => {
+  const newElement = classType.make(element, classType)
+  if (!references.head.length) {
+    // Initialize the head and tail with the new node
+    return {
+      head: [newElement],
+      tail: newElement
     }
-    // Only update the tail once head has been set, tail is always the most recent node
-    references.head.push(newElement)
-    references.tail = newElement
-    return references
-  }, {
-    head: [],
-    tail: null
-  })
-}
+  }
+  // Only update the tail once head has been set, tail is always the most recent node
+  references.head.push(newElement)
+  references.tail = newElement
+  return references
+}, {
+  head: [],
+  tail: null
+})
