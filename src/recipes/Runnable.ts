@@ -29,11 +29,12 @@ export interface IsRunnable {
  * Identify a class that can be run.
  */
 export class Runnable implements IsRunnable {
+  /** The task (or data) this runnable holds. */
   public data: any = null
 
   /**
    * Instantiate a Runnable class.
-   * @param {*} data
+   * @param {*} [data=null] The task (a function) or the data which the task returns.
    */
   constructor (data: any = null) {
     this.data = data
@@ -61,7 +62,7 @@ export class Runnable implements IsRunnable {
   /**
    * Check if a given thing is Runnable
    * @memberof Runnable
-   * @param {*} thing
+   * @param {*} thing The value to check, or nothing to check whether this class is Runnable.
    * @return {boolean}
    */
   public static isRunnable (thing: any): boolean {

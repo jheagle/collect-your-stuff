@@ -10,13 +10,17 @@ import { IsDoubleLinker } from '../../recipes/IsDoubleLinker';
  * @extends Linker
  */
 export declare class DoubleLinker implements IsDoubleLinker {
+    /** The class used to create this instance, so that it can be recognized as valid without an instanceof check. */
     readonly classType: typeof DoubleLinker;
+    /** The data stored in this linker. */
     data: any;
+    /** The linker after this one, or null when this is the last. */
     next: DoubleLinker | null;
+    /** The linker before this one, or null when this is the first. */
     prev: DoubleLinker | null;
     /**
      * Create the new DoubleLinker instance, provide the data and optionally the next and prev references.
-     * @param {Object} [nodeData={}]
+     * @param {Object} [nodeData={}] The settings for the new linker.
      * @param {*} [nodeData.data=null] The data to be stored in this linker
      * @param {DoubleLinker|null} [nodeData.next=null] The reference to the next linker if any
      * @param {DoubleLinker|null} [nodeData.prev=null] The reference to the previous linker if any

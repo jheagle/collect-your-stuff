@@ -9,7 +9,9 @@ import { IsElement } from '../../recipes/IsElement';
  * Element represents a node in an Arrayable.
  */
 export declare class ArrayElement implements IsElement {
+    /** The class used to create this instance, so that it can be recognized as valid without an instanceof check. */
     readonly classType: typeof ArrayElement;
+    /** The data stored in this element. */
     data: any;
     /**
      * Create the new Element instance, provide the data and optionally configure the type of Element.

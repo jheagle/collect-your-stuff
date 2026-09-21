@@ -5,6 +5,16 @@ import { IsElement } from './IsElement';
 export declare class ArrayIterator implements Iterator<IsElement> {
     private readonly innerList;
     private index;
+    /**
+     * Create an iterator over the given array.
+     * @param {Array<IsElement>} innerList The elements to iterate over.
+     * @param {number} [index=0] The position to start from.
+     */
     constructor(innerList: Array<IsElement>, index?: number);
+    /**
+     * Get the next element, moving the iterator forward.
+     * @param {*} [value] Not used, present to match the Iterator interface.
+     * @return {IteratorResult<IsElement>} The next element, or done when there are no more.
+     */
     next(value?: any): IteratorResult<IsElement>;
 }

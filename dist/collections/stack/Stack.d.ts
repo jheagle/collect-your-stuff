@@ -12,14 +12,15 @@ import { completeResponse } from '../../recipes/Runnable';
  * Store a collection of items which can only be inserted and removed from the top.
  */
 export declare class Stack {
+    /** The list which stores the stackables, the first is the top of the stack. */
     stackedList: IsArrayable<any>;
     private listClass;
     private stackableClass;
     /**
      * Instantiate the state with the starter stacked list.
-     * @param {Iterable|LinkedList} stackedList
-     * @param {IsArrayable} listClass
-     * @param {Stackable} stackableClass
+     * @param {Iterable|LinkedList} [stackedList=null] The list of stackables to start in this stack.
+     * @param {IsArrayable} [listClass=LinkedList] The type of list to create when no stacked list is given.
+     * @param {Stackable} [stackableClass=Stackable] The class used to wrap stacked items.
      */
     constructor(stackedList?: IsArrayable<any>, listClass?: any, stackableClass?: typeof Stackable);
     /**

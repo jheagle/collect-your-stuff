@@ -12,13 +12,16 @@ import { ArrayElement } from '../arrayable/ArrayElement'
  * @extends ArrayElement
  */
 export class Linker implements IsLinker {
+  /** The class used to create this instance, so that it can be recognized as valid without an instanceof check. */
   public readonly classType: typeof Linker = Linker
+  /** The data stored in this linker. */
   public data: any = null
+  /** The linker after this one, or null when this is the last. */
   public next: Linker | null = null
 
   /**
    * Create the new Linker instance, provide the data and optionally give the next Linker.
-   * @param {Object} [nodeData={}]
+   * @param {Object} [nodeData={}] The settings for the new linker.
    * @param {*} [nodeData.data=null] The data to be stored in this linker
    * @param {Linker|null} [nodeData.next=null] The reference to the next linker if any
    */

@@ -12,15 +12,21 @@ import { IsTree } from '../../recipes/IsTree';
  * @extends DoubleLinker
  */
 export declare class TreeLinker implements IsTreeNode {
+    /** The class used to create this instance, so that it can be recognized as valid without an instanceof check. */
     readonly classType: typeof TreeLinker;
+    /** The data stored in this tree node. */
     data: any;
+    /** The sibling after this node, or null when this is the last child. */
     next: IsTreeNode | null;
+    /** The sibling before this node, or null when this is the first child. */
     prev: IsTreeNode | null;
+    /** The node this node is a child of, or null for a root node. */
     parent: IsTreeNode;
+    /** The list of the children of this node, or null when it has none. */
     children: IsArrayable<IsTreeNode>;
     /**
      * Create the new TreeLinker instance, provide the data and optionally set references for next, prev, parent, or children.
-     * @param {Object} [settings={}]
+     * @param {Object} [settings={}] The settings for the new tree node.
      * @param {*} [settings.data=null] The data to be stored in this tree node
      * @param {TreeLinker} [settings.next=null] The reference to the next linker if any
      * @param {TreeLinker} [settings.prev=null] The reference to the previous linker if any

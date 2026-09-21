@@ -23,10 +23,14 @@ var _LinkedList = require('../linked-list/LinkedList')
 class DoublyLinkedList {
   /**
    * Create the new DoublyLinkedList instance.
+   * @param {DoubleLinker} [linkerClass=DoubleLinker] The class used to wrap given data as linkers.
    */
   constructor (linkerClass = _DoubleLinker.DoubleLinker) {
+    /** The class used to create this instance, so that it can be recognized as valid without an instanceof check. */
     this.classType = DoublyLinkedList
+    /** A linker of the list (null when the list is empty); the head is found by walking back from it. */
     this.innerList = null
+    /** Whether the inner list has been initialized (it can only be initialized once). */
     this.initialized = false
     this.linkerClass = linkerClass
   }
@@ -37,6 +41,7 @@ class DoublyLinkedList {
    * @return {DoublyLinkedList}
    */
   initialize (initialList) {
+    // Borrowed from LinkedList, which types its return as a LinkedList although it returns whatever list called it
     return _LinkedList.LinkedList.prototype.initialize.call(this, initialList)
   }
 
@@ -247,6 +252,7 @@ class DoublyLinkedList {
    * Be able to run forEach on this DoublyLinkedList to iterate over the DoubleLinker Items.
    * @param {forEachCallback} callback The function to call for-each double linker
    * @param {DoublyLinkedList} thisArg Optional, 'this' reference
+   * @return {DoublyLinkedList} The list which was iterated.
    */
   forEach (callback, thisArg = this) {
     return _LinkedList.LinkedList.prototype.forEach.call(this, callback, thisArg)

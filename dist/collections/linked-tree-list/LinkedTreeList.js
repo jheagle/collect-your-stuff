@@ -21,10 +21,14 @@ var _DoublyLinkedList = require('../doubly-linked-list/DoublyLinkedList')
 class LinkedTreeList {
   /**
    * Create the new LinkedTreeList instance, configure the list class.
+   * @param {TreeLinker} [linkerClass=TreeLinker] The class used to wrap given data as tree linkers.
    */
   constructor (linkerClass = _TreeLinker.TreeLinker) {
+    /** The class used to create this instance, so that it can be recognized as valid without an instanceof check. */
     this.classType = LinkedTreeList
+    /** A linker of the list (null when the list is empty); the head is found by walking back from it. */
     this.innerList = null
+    /** Whether the inner list has been initialized (it can only be initialized once). */
     this.initialized = false
     this.linkerClass = linkerClass
   }
@@ -217,6 +221,7 @@ class LinkedTreeList {
    * Be able to run forEach on this LinkedTreeList to iterate over the TreeLinker Items.
    * @param {forEachCallback} callback The function to call for-each tree node
    * @param {LinkedTreeList} thisArg Optional, 'this' reference
+   * @return {LinkedTreeList} The list which was iterated.
    */
   forEach (callback, thisArg = this) {
     let index = 0

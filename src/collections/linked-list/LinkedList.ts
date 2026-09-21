@@ -15,13 +15,18 @@ import { Arrayable } from '../arrayable/Arrayable'
  * @extends Arrayable
  */
 export class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
+  /** The class used to create this instance, so that it can be recognized as valid without an instanceof check. */
   public readonly classType: typeof LinkedList = LinkedList
+  /** The first linker of the list (null when the list is empty), from which the whole list is reached. */
   public innerList: Linker = null
+  /** Whether the inner list has been initialized (it can only be initialized once). */
   public initialized: boolean = false
+  /** The class used to wrap the data given to this list as linkers. */
   public linkerClass: typeof Linker
 
   /**
    * Create the new LinkedList instance.
+   * @param {Linker} [linkerClass=Linker] The class used to wrap given data as linkers.
    */
   public constructor (linkerClass: typeof Linker = Linker) {
     this.linkerClass = linkerClass
@@ -33,7 +38,8 @@ export class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
    * @return {LinkedList}
    */
   public initialize (initialList: Linker): LinkedList {
-    return Arrayable.prototype.initialize.call(this, initialList)
+    // Borrowed from Arrayable, which types its return as an Arrayable although it returns whatever list called it
+    return Arrayable.prototype.initialize.call(this, initialList as unknown as Array<any>) as unknown as LinkedList
   }
 
   /**

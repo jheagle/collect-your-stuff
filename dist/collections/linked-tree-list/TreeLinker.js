@@ -15,7 +15,7 @@ var _LinkedTreeList = require('./LinkedTreeList')
 class TreeLinker {
   /**
    * Create the new TreeLinker instance, provide the data and optionally set references for next, prev, parent, or children.
-   * @param {Object} [settings={}]
+   * @param {Object} [settings={}] The settings for the new tree node.
    * @param {*} [settings.data=null] The data to be stored in this tree node
    * @param {TreeLinker} [settings.next=null] The reference to the next linker if any
    * @param {TreeLinker} [settings.prev=null] The reference to the previous linker if any
@@ -31,11 +31,17 @@ class TreeLinker {
     parent = null,
     listClass = _LinkedTreeList.LinkedTreeList
   } = {}) {
+    /** The class used to create this instance, so that it can be recognized as valid without an instanceof check. */
     this.classType = TreeLinker
+    /** The data stored in this tree node. */
     this.data = null
+    /** The sibling after this node, or null when this is the last child. */
     this.next = null
+    /** The sibling before this node, or null when this is the first child. */
     this.prev = null
+    /** The node this node is a child of, or null for a root node. */
     this.parent = null
+    /** The list of the children of this node, or null when it has none. */
     this.children = null
     this.data = data
     this.next = next

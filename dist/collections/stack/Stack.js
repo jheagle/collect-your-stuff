@@ -19,9 +19,9 @@ var _LinkedList = require('../linked-list/LinkedList')
 class Stack {
   /**
    * Instantiate the state with the starter stacked list.
-   * @param {Iterable|LinkedList} stackedList
-   * @param {IsArrayable} listClass
-   * @param {Stackable} stackableClass
+   * @param {Iterable|LinkedList} [stackedList=null] The list of stackables to start in this stack.
+   * @param {IsArrayable} [listClass=LinkedList] The type of list to create when no stacked list is given.
+   * @param {Stackable} [stackableClass=Stackable] The class used to wrap stacked items.
    */
   constructor (stackedList = null, listClass = _LinkedList.LinkedList, stackableClass = _Stackable.Stackable) {
     this.listClass = listClass
