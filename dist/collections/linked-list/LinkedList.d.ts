@@ -20,6 +20,10 @@ export declare class LinkedList implements IsArrayable<Linker>, Iterable<Linker>
     initialized: boolean;
     /** The class used to wrap the data given to this list as linkers. */
     linkerClass: typeof Linker;
+    /** The last linker, remembered so that adding to the end does not need to walk the whole list (null when not known yet). */
+    private tailCache;
+    /** The number of linkers, kept up to date by the list's own methods so that the length does not need to walk the whole list (null when not known yet). */
+    private countCache;
     /**
      * Create the new LinkedList instance.
      * @param {Linker} [linkerClass=Linker] The class used to wrap given data as linkers.
@@ -42,12 +46,13 @@ export declare class LinkedList implements IsArrayable<Linker>, Iterable<Linker>
      */
     get first(): Linker;
     /**
-     * Retrieve the last Linker in the list.
+     * Retrieve the last Linker in the list. The end is remembered, so this does not walk the list.
      * @returns {Linker}
      */
-    get last(): Linker;
+    get last(): Linker | null;
     /**
-     * Return the length of the list.
+     * Return the length of the list. It is kept up to date by the list's own methods, so this does not walk the list
+     * (call reset() after linkers were changed directly).
      * @returns {number}
      */
     get length(): number;
@@ -86,6 +91,12 @@ export declare class LinkedList implements IsArrayable<Linker>, Iterable<Linker>
      * @return {Linker|null} The removed node, or null when it was not in this list (nothing is removed)
      */
     remove(node: Linker | null): Linker | null;
+    /**
+     * Refresh the remembered end and length of the list by walking it once. The list's own methods keep these up to date,
+     * so this is only needed after linkers were changed directly (for example by setting next on a linker).
+     * @return {Linker|null} The first linker of the list
+     */
+    reset(): Linker | null;
     /**
      * Retrieve a Linker item from this list by numeric index, otherwise return null.
      * @param {number} index The integer number for retrieving a node by position.

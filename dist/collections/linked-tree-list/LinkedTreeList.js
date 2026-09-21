@@ -15,6 +15,13 @@ var _DoublyLinkedList = require('../doubly-linked-list/DoublyLinkedList')
  */
 
 /**
+ * Use one of the accessors of DoublyLinkedList (which keeps track of the head, tail and length) for a LinkedTreeList.
+ * @param {string} name The accessor to use
+ * @param {LinkedTreeList} list The list to use it on
+ * @returns {*}
+ */
+const borrowedGetter = (name, list) => Object.getOwnPropertyDescriptor(_DoublyLinkedList.DoublyLinkedList.prototype, name).get.call(list)
+/**
  * LinkedTreeList represents a collection stored with a root and spreading in branching (tree) formation.
  * @extends DoublyLinkedList
  */
@@ -30,6 +37,10 @@ class LinkedTreeList {
     this.innerList = null
     /** Whether the inner list has been initialized (it can only be initialized once). */
     this.initialized = false
+    /** The last linker, remembered so that adding to the end does not need to walk the whole list (null when not known yet). */
+    this.tailCache = null
+    /** The number of linkers, kept up to date by the list's own methods so that the length does not need to walk the whole list (null when not known yet). */
+    this.countCache = null
     this.linkerClass = linkerClass
   }
 
@@ -61,38 +72,24 @@ class LinkedTreeList {
    * @returns {TreeLinker}
    */
   get first () {
-    return this.reset()
+    return borrowedGetter('first', this)
   }
 
   /**
-   * Retrieve the last TreeLinker in the list.
+   * Retrieve the last TreeLinker in the list. The end is remembered, so this does not walk the list.
    * @returns {TreeLinker}
    */
   get last () {
-    let tail = this.innerList
-    if (tail === null) {
-      return null
-    }
-    let next = tail.next
-    while (next !== null) {
-      tail = next
-      next = tail.next
-    }
-    return tail
+    return borrowedGetter('last', this)
   }
 
   /**
-   * Return the length of the list.
+   * Return the length of the list. It is kept up to date by the list's own methods, so this does not walk the list
+   * (call reset() after linkers were changed directly).
    * @returns {number}
    */
   get length () {
-    let current = this.first
-    let length = 0
-    while (current !== null) {
-      ++length
-      current = current.next
-    }
-    return length
+    return borrowedGetter('length', this)
   }
 
   /**
@@ -201,7 +198,8 @@ class LinkedTreeList {
   }
 
   /**
-   * Refresh all references and return head reference.
+   * Refresh all references (the head, the end and the length) by walking the list once, and return the head. The
+   * list's own methods keep these up to date, so this is only needed after linkers were changed directly.
    * @return {TreeLinker}
    */
   reset () {
