@@ -79,14 +79,14 @@ export declare class Arrayable implements IsArrayable<ArrayElement>, Iterable<Ar
      * @param {ArrayElement} after The existing last node
      * @returns {Arrayable}
      */
-    append(node: ArrayElement | any, after?: ArrayElement): Arrayable;
+    append(node: ArrayElement | any, after?: ArrayElement | null): Arrayable;
     /**
      * Add a node (or data) before the given (or first) node in the list.
      * @param {ArrayElement|*} node The new node to add to the start of the list
      * @param {ArrayElement} before The existing first node
      * @returns {Arrayable}
      */
-    prepend(node: ArrayElement | any, before?: ArrayElement): Arrayable;
+    prepend(node: ArrayElement | any, before?: ArrayElement | null): Arrayable;
     /**
      * Remove an element from this arrayable.
      * @param {ArrayElement} node The node we wish to remove (and it will be returned after removal)

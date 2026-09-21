@@ -21,6 +21,10 @@ export declare class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
     initialized: boolean;
     /** The class used to wrap the data given to this list as tree linkers. */
     linkerClass: typeof TreeLinker;
+    /** The last linker, remembered so that adding to the end does not need to walk the whole list (null when not known yet). */
+    private tailCache;
+    /** The number of linkers, kept up to date by the list's own methods so that the length does not need to walk the whole list (null when not known yet). */
+    private countCache;
     /**
      * Create the new LinkedTreeList instance, configure the list class.
      * @param {TreeLinker} [linkerClass=TreeLinker] The class used to wrap given data as tree linkers.
@@ -43,12 +47,13 @@ export declare class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
      */
     get first(): TreeLinker;
     /**
-     * Retrieve the last TreeLinker in the list.
+     * Retrieve the last TreeLinker in the list. The end is remembered, so this does not walk the list.
      * @returns {TreeLinker}
      */
     get last(): TreeLinker;
     /**
-     * Return the length of the list.
+     * Return the length of the list. It is kept up to date by the list's own methods, so this does not walk the list
+     * (call reset() after linkers were changed directly).
      * @returns {number}
      */
     get length(): number;
@@ -108,7 +113,8 @@ export declare class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
      */
     remove(node: TreeLinker): TreeLinker;
     /**
-     * Refresh all references and return head reference.
+     * Refresh all references (the head, the end and the length) by walking the list once, and return the head. The
+     * list's own methods keep these up to date, so this is only needed after linkers were changed directly.
      * @return {TreeLinker}
      */
     reset(): TreeLinker;

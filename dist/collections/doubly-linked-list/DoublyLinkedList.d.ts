@@ -20,6 +20,10 @@ export declare class DoublyLinkedList implements IsArrayable<DoubleLinker>, Iter
     initialized: boolean;
     /** The class used to wrap the data given to this list as linkers. */
     linkerClass: typeof DoubleLinker;
+    /** The last linker, remembered so that adding to the end does not need to walk the whole list (null when not known yet). */
+    private tailCache;
+    /** The number of linkers, kept up to date by the list's own methods so that the length does not need to walk the whole list (null when not known yet). */
+    private countCache;
     /**
      * Create the new DoublyLinkedList instance.
      * @param {DoubleLinker} [linkerClass=DoubleLinker] The class used to wrap given data as linkers.
@@ -40,14 +44,15 @@ export declare class DoublyLinkedList implements IsArrayable<DoubleLinker>, Iter
      * Retrieve the first DoubleLinker in the list.
      * @returns {DoubleLinker}
      */
-    get first(): DoubleLinker;
+    get first(): DoubleLinker | null;
     /**
-     * Retrieve the last DoubleLinker in the list.
+     * Retrieve the last DoubleLinker in the list. The end is remembered, so this does not walk the list.
      * @returns {DoubleLinker}
      */
-    get last(): DoubleLinker;
+    get last(): DoubleLinker | null;
     /**
-     * Return the length of the list.
+     * Return the length of the list. It is kept up to date by the list's own methods, so this does not walk the list
+     * (call reset() after linkers were changed directly).
      * @returns {number}
      */
     get length(): number;
@@ -84,12 +89,13 @@ export declare class DoublyLinkedList implements IsArrayable<DoubleLinker>, Iter
      * @param {DoubleLinker} node The node we wish to remove (and it will be returned after removal)
      * @return {DoubleLinker}
      */
-    remove(node: DoubleLinker): DoubleLinker;
+    remove(node: DoubleLinker | null): DoubleLinker | null;
     /**
-     * Refresh all references and return head reference.
-     * @return {DoubleLinker}
+     * Refresh all references (the head, the end and the length) by walking the list once, and return the head. The list's
+     * own methods keep these up to date, so this is only needed after linkers were changed directly.
+     * @return {DoubleLinker|null}
      */
-    reset(): DoubleLinker;
+    reset(): DoubleLinker | null;
     /**
      * Retrieve a DoubleLinker item from this list by numeric index, otherwise return null.
      * @param {number} index The integer number for retrieving a node by position.

@@ -127,6 +127,11 @@ class Arrayable {
    * @returns {Arrayable}
    */
   append (node, after = this.last) {
+    if (after === this.last) {
+      // Adding to the end does not need to search for where that is
+      this.innerList.push(this.elementClass.make(node, this.elementClass))
+      return this
+    }
     return this.insertAfter(after, node)
   }
 
@@ -137,6 +142,11 @@ class Arrayable {
    * @returns {Arrayable}
    */
   prepend (node, before = this.first) {
+    if (before === this.first) {
+      // Adding to the start does not need to search for where that is
+      this.innerList.unshift(this.elementClass.make(node, this.elementClass))
+      return this
+    }
     return this.insertBefore(before, node)
   }
 

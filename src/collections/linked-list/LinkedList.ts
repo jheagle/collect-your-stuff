@@ -24,6 +24,11 @@ export class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
   /** The class used to wrap the data given to this list as linkers. */
   public linkerClass: typeof Linker
 
+  /** The last linker, remembered so that adding to the end does not need to walk the whole list (null when not known yet). */
+  private tailCache: Linker | null = null
+  /** The number of linkers, kept up to date by the list's own methods so that the length does not need to walk the whole list (null when not known yet). */
+  private countCache: number | null = null
+
   /**
    * Create the new LinkedList instance.
    * @param {Linker} [linkerClass=Linker] The class used to wrap given data as linkers.
@@ -59,34 +64,32 @@ export class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
   }
 
   /**
-   * Retrieve the last Linker in the list.
+   * Retrieve the last Linker in the list. The end is remembered, so this does not walk the list.
    * @returns {Linker}
    */
-  public get last (): Linker {
-    let tail = this.innerList
-    if (tail === null) {
+  public get last (): Linker | null {
+    if (this.innerList === null) {
       return null
     }
-    let next = tail.next
-    while (next !== null) {
-      tail = next
-      next = tail.next
+    let tail: Linker = this.tailCache !== null ? this.tailCache : this.innerList
+    // The remembered tail is normally the end already, walking on from it also finds anything linked on outside of this list
+    while (tail.next !== null) {
+      tail = tail.next
     }
+    this.tailCache = tail
     return tail
   }
 
   /**
-   * Return the length of the list.
+   * Return the length of the list. It is kept up to date by the list's own methods, so this does not walk the list
+   * (call reset() after linkers were changed directly).
    * @returns {number}
    */
   public get length (): number {
-    let current: IsLinker = this.first
-    let length: number = 0
-    while (current !== null) {
-      ++length
-      current = current.next
+    if (this.countCache === null) {
+      this.reset()
     }
-    return length
+    return this.countCache as number
   }
 
   /**
@@ -100,11 +103,20 @@ export class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
     if (node === null || typeof node === 'undefined') {
       // After nothing means at the start of the list
       newNode.next = this.innerList
+      if (this.innerList === null) {
+        this.tailCache = newNode
+      }
       this.innerList = newNode
-      return this
+    } else {
+      newNode.next = node.next
+      node.next = newNode
+      if (newNode.next === null) {
+        this.tailCache = newNode
+      }
     }
-    newNode.next = node.next
-    node.next = newNode
+    if (this.countCache !== null) {
+      ++this.countCache
+    }
     return this
   }
 
@@ -119,28 +131,33 @@ export class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
     newNode = this.linkerClass.make(newNode, this.linkerClass)
     if (node === null || typeof node === 'undefined') {
       // Before nothing means at the end of the list
-      const tail: Linker = this.last
+      const tail: Linker | null = this.last
+      newNode.next = null
       if (tail === null) {
         this.innerList = newNode
       } else {
         tail.next = newNode
       }
-      return this
-    }
-    let prevNode: Linker | null = null
-    let currentNode: Linker | null = this.first
-    while (currentNode !== null && currentNode !== node) {
-      prevNode = currentNode
-      currentNode = currentNode.next
-    }
-    if (currentNode === null) {
-      throw new Error('The reference node is not in this list.')
-    }
-    newNode.next = node
-    if (prevNode) {
-      prevNode.next = newNode
+      this.tailCache = newNode
     } else {
-      this.innerList = newNode
+      let prevNode: Linker | null = null
+      let currentNode: Linker | null = this.first
+      while (currentNode !== null && currentNode !== node) {
+        prevNode = currentNode
+        currentNode = currentNode.next
+      }
+      if (currentNode === null) {
+        throw new Error('The reference node is not in this list.')
+      }
+      newNode.next = node
+      if (prevNode) {
+        prevNode.next = newNode
+      } else {
+        this.innerList = newNode
+      }
+    }
+    if (this.countCache !== null) {
+      ++this.countCache
     }
     return this
   }
@@ -189,7 +206,35 @@ export class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
     } else {
       this.innerList = node.next
     }
+    if (this.tailCache === node) {
+      this.tailCache = prevNode
+    }
+    if (this.innerList === null) {
+      this.tailCache = null
+    }
+    if (this.countCache !== null) {
+      --this.countCache
+    }
     return node
+  }
+
+  /**
+   * Refresh the remembered end and length of the list by walking it once. The list's own methods keep these up to date,
+   * so this is only needed after linkers were changed directly (for example by setting next on a linker).
+   * @return {Linker|null} The first linker of the list
+   */
+  public reset (): Linker | null {
+    let count: number = 0
+    let tail: Linker | null = null
+    let current: Linker | null = this.innerList
+    while (current !== null) {
+      ++count
+      tail = current
+      current = current.next
+    }
+    this.countCache = count
+    this.tailCache = tail
+    return this.innerList
   }
 
   /**

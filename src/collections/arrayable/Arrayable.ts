@@ -125,7 +125,12 @@ export class Arrayable implements IsArrayable<ArrayElement>, Iterable<ArrayEleme
    * @param {ArrayElement} after The existing last node
    * @returns {Arrayable}
    */
-  public append (node: ArrayElement | any, after: ArrayElement = this.last): Arrayable {
+  public append (node: ArrayElement | any, after: ArrayElement | null = this.last): Arrayable {
+    if (after === this.last) {
+      // Adding to the end does not need to search for where that is
+      this.innerList.push(this.elementClass.make(node, this.elementClass))
+      return this
+    }
     return this.insertAfter(after, node)
   }
 
@@ -135,7 +140,12 @@ export class Arrayable implements IsArrayable<ArrayElement>, Iterable<ArrayEleme
    * @param {ArrayElement} before The existing first node
    * @returns {Arrayable}
    */
-  public prepend (node: ArrayElement | any, before: ArrayElement = this.first): Arrayable {
+  public prepend (node: ArrayElement | any, before: ArrayElement | null = this.first): Arrayable {
+    if (before === this.first) {
+      // Adding to the start does not need to search for where that is
+      this.innerList.unshift(this.elementClass.make(node, this.elementClass))
+      return this
+    }
     return this.insertBefore(before, node)
   }
 

@@ -12,6 +12,16 @@ import { DoublyLinkedList } from '../doubly-linked-list/DoublyLinkedList'
 import { IsTreeNode } from '../../recipes/IsTreeNode'
 
 /**
+ * Use one of the accessors of DoublyLinkedList (which keeps track of the head, tail and length) for a LinkedTreeList.
+ * @param {string} name The accessor to use
+ * @param {LinkedTreeList} list The list to use it on
+ * @returns {*}
+ */
+const borrowedGetter = (name: 'first' | 'last' | 'length', list: LinkedTreeList): any => (
+  (Object.getOwnPropertyDescriptor(DoublyLinkedList.prototype, name) as PropertyDescriptor).get as () => any
+).call(list)
+
+/**
  * LinkedTreeList represents a collection stored with a root and spreading in branching (tree) formation.
  * @extends DoublyLinkedList
  */
@@ -24,6 +34,11 @@ export class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
   public initialized: boolean = false
   /** The class used to wrap the data given to this list as tree linkers. */
   public linkerClass: typeof TreeLinker
+
+  /** The last linker, remembered so that adding to the end does not need to walk the whole list (null when not known yet). */
+  private tailCache: TreeLinker | null = null
+  /** The number of linkers, kept up to date by the list's own methods so that the length does not need to walk the whole list (null when not known yet). */
+  private countCache: number | null = null
 
   /**
    * Create the new LinkedTreeList instance, configure the list class.
@@ -61,38 +76,24 @@ export class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
    * @returns {TreeLinker}
    */
   public get first (): TreeLinker {
-    return this.reset()
+    return borrowedGetter('first', this)
   }
 
   /**
-   * Retrieve the last TreeLinker in the list.
+   * Retrieve the last TreeLinker in the list. The end is remembered, so this does not walk the list.
    * @returns {TreeLinker}
    */
   public get last (): TreeLinker {
-    let tail: TreeLinker = this.innerList
-    if (tail === null) {
-      return null
-    }
-    let next: TreeLinker = tail.next
-    while (next !== null) {
-      tail = next
-      next = tail.next
-    }
-    return tail
+    return borrowedGetter('last', this)
   }
 
   /**
-   * Return the length of the list.
+   * Return the length of the list. It is kept up to date by the list's own methods, so this does not walk the list
+   * (call reset() after linkers were changed directly).
    * @returns {number}
    */
   public get length (): number {
-    let current: TreeLinker = this.first
-    let length: number = 0
-    while (current !== null) {
-      ++length
-      current = current.next
-    }
-    return length
+    return borrowedGetter('length', this)
   }
 
   /**
@@ -201,7 +202,8 @@ export class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
   }
 
   /**
-   * Refresh all references and return head reference.
+   * Refresh all references (the head, the end and the length) by walking the list once, and return the head. The
+   * list's own methods keep these up to date, so this is only needed after linkers were changed directly.
    * @return {TreeLinker}
    */
   public reset (): TreeLinker {

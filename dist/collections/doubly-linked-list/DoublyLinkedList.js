@@ -32,6 +32,10 @@ class DoublyLinkedList {
     this.innerList = null
     /** Whether the inner list has been initialized (it can only be initialized once). */
     this.initialized = false
+    /** The last linker, remembered so that adding to the end does not need to walk the whole list (null when not known yet). */
+    this.tailCache = null
+    /** The number of linkers, kept up to date by the list's own methods so that the length does not need to walk the whole list (null when not known yet). */
+    this.countCache = null
     this.linkerClass = linkerClass
   }
 
@@ -58,38 +62,45 @@ class DoublyLinkedList {
    * @returns {DoubleLinker}
    */
   get first () {
-    return this.reset()
+    let head = this.innerList
+    if (head === null) {
+      return null
+    }
+    // innerList is normally the head already, walking back also finds anything linked on before it outside of this list
+    while (head.prev !== null) {
+      head = head.prev
+    }
+    this.innerList = head
+    return head
   }
 
   /**
-   * Retrieve the last DoubleLinker in the list.
+   * Retrieve the last DoubleLinker in the list. The end is remembered, so this does not walk the list.
    * @returns {DoubleLinker}
    */
   get last () {
-    let tail = this.innerList
-    if (tail === null) {
+    if (this.innerList === null) {
       return null
     }
-    let next = tail.next
-    while (next !== null) {
-      tail = next
-      next = tail.next
+    let tail = this.tailCache !== null ? this.tailCache : this.innerList
+    // The remembered tail is normally the end already, walking on from it also finds anything linked on outside of this list
+    while (tail.next !== null) {
+      tail = tail.next
     }
+    this.tailCache = tail
     return tail
   }
 
   /**
-   * Return the length of the list.
+   * Return the length of the list. It is kept up to date by the list's own methods, so this does not walk the list
+   * (call reset() after linkers were changed directly).
    * @returns {number}
    */
   get length () {
-    let current = this.first
-    let length = 0
-    while (current !== null) {
-      ++length
-      current = current.next
+    if (this.countCache === null) {
+      this.reset()
     }
-    return length
+    return this.countCache
   }
 
   /**
@@ -103,24 +114,31 @@ class DoublyLinkedList {
     if (node === null || typeof node === 'undefined') {
       // After nothing means at the start of the list
       const head = this.first
+      newNode.prev = null
       newNode.next = head
       if (head) {
         head.prev = newNode
+      } else {
+        this.tailCache = newNode
       }
       this.innerList = newNode
-      return this
+    } else {
+      // Ensure the next reference of this node is assigned to the new node
+      newNode.next = node.next
+      // Ensure this node is assigned as the prev reference of the new node
+      newNode.prev = node
+      // Then set this node's next reference to the new node
+      node.next = newNode
+      if (newNode.next) {
+        // Update the next reference to ensure circular reference for prev points to the new node
+        newNode.next.prev = newNode
+      } else {
+        this.tailCache = newNode
+      }
     }
-    // Ensure the next reference of this node is assigned to the new node
-    newNode.next = node.next
-    // Ensure this node is assigned as the prev reference of the new node
-    newNode.prev = node
-    // Then set this node's next reference to the new node
-    node.next = newNode
-    if (newNode.next) {
-      // Update the next reference to ensure circular reference for prev points to the new node
-      newNode.next.prev = newNode
+    if (this.countCache !== null) {
+      ++this.countCache
     }
-    this.reset()
     return this
   }
 
@@ -135,26 +153,31 @@ class DoublyLinkedList {
     if (node === null || typeof node === 'undefined') {
       // Before nothing means at the end of the list
       const tail = this.last
+      newNode.next = null
+      newNode.prev = tail
       if (tail === null) {
         this.innerList = newNode
       } else {
         tail.next = newNode
-        newNode.prev = tail
       }
-      this.reset()
-      return this
+      this.tailCache = newNode
+    } else {
+      // The new node will reference this prev node as prev
+      newNode.prev = node.prev
+      // The new node will reference this node as next
+      newNode.next = node
+      // This prev will reference the new node
+      node.prev = newNode
+      if (newNode.prev) {
+        // Update the prev reference to ensure circular reference for next points to the new node
+        newNode.prev.next = newNode
+      } else {
+        this.innerList = newNode
+      }
     }
-    // The new node will reference this prev node as prev
-    newNode.prev = node.prev
-    // The new node will reference this node as next
-    newNode.next = node
-    // This prev will reference the new node
-    node.prev = newNode
-    if (newNode.prev) {
-      // Update the prev reference to ensure circular reference for next points to the new node
-      newNode.prev.next = newNode
+    if (this.countCache !== null) {
+      ++this.countCache
     }
-    this.reset()
     return this
   }
 
@@ -184,7 +207,7 @@ class DoublyLinkedList {
    * @return {DoubleLinker}
    */
   remove (node) {
-    if (node === null) {
+    if (node === null || typeof node === 'undefined') {
       return null
     }
     if (node.prev) {
@@ -200,35 +223,47 @@ class DoublyLinkedList {
     if (this.innerList === node) {
       this.innerList = node.next || node.prev || null
     }
-    // Update head reference
-    this.reset()
+    if (this.tailCache === node) {
+      this.tailCache = node.prev
+    }
+    if (this.innerList === null) {
+      this.tailCache = null
+    }
+    if (this.countCache !== null) {
+      --this.countCache
+    }
     return node
   }
 
   /**
-   * Refresh all references and return head reference.
-   * @return {DoubleLinker}
+   * Refresh all references (the head, the end and the length) by walking the list once, and return the head. The list's
+   * own methods keep these up to date, so this is only needed after linkers were changed directly.
+   * @return {DoubleLinker|null}
    */
   reset () {
     // Start at the pointer for the list
     let pointer = this.innerList
     if (pointer === null) {
+      this.countCache = 0
+      this.tailCache = null
       return null
     }
-    let next = pointer.next
-    // Follow references till the end
-    while (next !== null) {
-      pointer = next
-      next = pointer.next
+    // Follow references back to the beginning
+    while (pointer.prev !== null) {
+      pointer = pointer.prev
     }
-    let prev = pointer.prev
-    // From final reference, follow references back to the beginning
-    while (prev !== null) {
-      pointer = prev
-      prev = pointer.prev
-    }
-    // All the live references should have been found, and we are pointing to the true head
+    // We are pointing to the true head, now count along to the end to find the tail and the length
     this.innerList = pointer
+    let count = 0
+    let tail = pointer
+    let current = pointer
+    while (current !== null) {
+      ++count
+      tail = current
+      current = current.next
+    }
+    this.countCache = count
+    this.tailCache = tail
     return pointer
   }
 
