@@ -1,156 +1,99 @@
-import { Queueable } from './Queueable'
 import { Queue } from './Queue'
+import { LinkedList } from '../linked-list/LinkedList'
+import { DoublyLinkedList } from '../doubly-linked-list/DoublyLinkedList'
+import { Arrayable } from '../arrayable/Arrayable'
+import { Linker } from '../linked-list/Linker'
 
 describe('Queue', () => {
-  test('can enqueue on empty list', () => {
-    const testQueue = new Queue()
-    expect(testQueue.size()).toBe(0)
-    testQueue.enqueue('one')
-    expect(testQueue.size()).toBe(1)
-    expect(testQueue.peek().data).toBe('one')
-    expect(testQueue.size()).toBe(1)
-    expect(testQueue.dequeue()).toBe('one')
-    expect(testQueue.size()).toBe(0)
-  })
-
-  test('can store elements', () => {
-    const arrayData = ['one', 'two', 'three', 'four']
-    const someQueue = Queue.fromArray(arrayData)
-    expect(someQueue.size()).toBe(4)
-    expect(Array.from(someQueue.queuedList).map(item => item.data)).toEqual(arrayData)
-  })
-
-  test('peek returns head of list', () => {
-    const arrayData = ['one', 'two', 'three', 'four']
-    const someQueue = Queue.fromArray(arrayData)
-    expect(someQueue.peek().data).toBe(arrayData[0])
-    // Size didn't change
-    expect(someQueue.size()).toBe(4)
-  })
-
-  test('can add to the queue', () => {
-    const someQueue = Queue.fromArray(['one', 'two', 'three', 'four'])
-    someQueue.enqueue('five')
-    expect(someQueue.size()).toBe(5)
-    expect(someQueue.queuedList.last.data).toBe('five')
-    someQueue.enqueue('six')
-    expect(someQueue.size()).toBe(6)
-    expect(someQueue.queuedList.last.data).toBe('six')
-  })
-
-  test('can remove from the queue', () => {
-    const someQueue = Queue.fromArray(['one', 'two', 'three', 'four', 'five', 'six'])
-    expect(someQueue.size()).toBe(6)
-    someQueue.remove()
-    expect(someQueue.size()).toBe(5)
-    someQueue.remove()
-    expect(someQueue.size()).toBe(4)
-  })
-
-  test('returns success when no queueable tasks', () => {
-    const someQueue = Queue.fromArray([])
-    expect(someQueue.size()).toBe(0)
-    const result = someQueue.dequeue()
-    expect(result.success).toEqual('No more queueable tasks in the queue')
-    expect(result.error).toBeFalsy()
-  })
-
-  test('removes all completed tasks', () => {
-    const someQueue = Queue.fromArray(['one', 'two', 'three', 'four'])
-    expect(someQueue.size()).toBe(4)
-    someQueue.queuedList.forEach(queueable => {
-      queueable.complete = true
-    })
-    const result = someQueue.dequeue()
-    expect(someQueue.size()).toBe(0)
-    expect(result.success).toEqual('No more queueable tasks in the queue')
-    expect(result.error).toBeFalsy()
-  })
-
-  test('bails when there is a task still running', () => {
-    const someQueue = Queue.fromArray(['one', 'two', 'three', 'four'])
-    expect(someQueue.size()).toBe(4)
-    someQueue.peek().running = true
-    const result = someQueue.dequeue()
+  test('is first in, first out', () => {
+    const someQueue = new Queue()
+    someQueue.enqueue('one').enqueue('two').enqueue('three')
     expect(someQueue.size()).toBe(3)
-    expect(result.success).toBeFalsy()
-    expect(result.error).toBe('The queue has been blocked by an unfinished task.')
-    expect(result.context.data).toBe('one')
+    expect(someQueue.dequeue()).toBe('one')
+    expect(someQueue.dequeue()).toBe('two')
+    someQueue.enqueue('four')
+    expect(someQueue.dequeue()).toBe('three')
+    expect(someQueue.dequeue()).toBe('four')
+    expect(someQueue.empty()).toBe(true)
   })
 
-  test('returns assigned queue data', () => {
-    const someQueue = Queue.fromArray(['one', 'two', 'three', 'four'])
-    expect(someQueue.size()).toBe(4)
-    someQueue.peek().ready = true
-    const result = someQueue.dequeue()
-    expect(result).toBe('one')
-    // Still 4, first got pushed to end
-    expect(someQueue.size()).toBe(4)
-    expect(someQueue.peek().data).toBe('two')
-    expect(someQueue.queuedList.last.data).toBe('one')
-    expect(someQueue.queuedList.last.complete).toBeTruthy()
-  })
-
-  test('returns assigned queue task', () => {
-    const taskData = ['one', 'two', 'three', 'four']
-    const willRunTasks = taskData
-      .map(
-        data => ({ task: complete => complete({ success: true, error: false, context: data }), ready: true })
-      )
-    const someQueue = Queue.fromArray(willRunTasks)
-    expect(someQueue.size()).toBe(4)
-    someQueue.peek().ready = true
-    taskData.forEach(data => {
-      const result = someQueue.dequeue()
-      expect(result.success).toBeTruthy()
-      expect(result.error).toBeFalsy()
-      expect(result.context).toBe(data)
-    })
-    expect(someQueue.size()).toBe(4)
-    someQueue.dequeue()
+  test('dequeue and peek give null when the queue is empty', () => {
+    const someQueue = new Queue()
+    expect(someQueue.dequeue()).toBeNull()
+    expect(someQueue.peek()).toBeNull()
+    expect(someQueue.empty()).toBe(true)
     expect(someQueue.size()).toBe(0)
   })
 
-  test('returns error when dequeue has nothing ready', () => {
-    const queueItems = ['one', 'two', 'three', 'four']
-    const someQueue = Queue.fromArray(queueItems.map(item => ({ task: item, ready: false })))
-    expect(someQueue.size()).toBe(4)
-    const result = someQueue.dequeue()
-    expect(result.success).toBeFalsy()
-    expect(result.error).toEqual('Unable to find ready task.')
-    expect(result.context.data).toBe('one')
-    // Still 4, first got pushed to end
-    expect(someQueue.size()).toBe(4)
-    expect(someQueue.peek().data).toBe('two')
-    expect(someQueue.queuedList.last.data).toBe('one')
+  test('peek shows the front without removing it', () => {
+    const someQueue = Queue.fromArray(['one', 'two'])
+    expect(someQueue.peek()).toBe('one')
+    expect(someQueue.peek()).toBe('one')
+    expect(someQueue.size()).toBe(2)
   })
 
-  test('a task which is not ready is kept in the queue, even when it is the only one', () => {
-    let isReady = false
-    const someQueue = new Queue()
-    someQueue.enqueue(new Queueable({ task: () => 'ran', ready: () => isReady }))
-    expect(someQueue.dequeue().error).toBe('Unable to find ready task.')
-    expect(someQueue.size()).toBe(1)
-    isReady = true
-    expect(someQueue.dequeue()).toBe('ran')
+  test('fromArray puts the first value at the front', () => {
+    const someQueue = Queue.fromArray([1, 2, 3])
+    expect(someQueue.dequeue()).toBe(1)
+    expect(Array.from(Queue.fromArray([1, 2, 3]))).toEqual([1, 2, 3])
   })
 
-  test('a not-ready task goes to the back so the ready ones can be tried', () => {
-    const someQueue = new Queue()
-    someQueue.enqueue(new Queueable({ task: () => 'later', ready: false }))
-    someQueue.enqueue(new Queueable({ task: () => 'now', ready: true }))
-    expect(someQueue.dequeue().error).toBe('Unable to find ready task.')
-    expect(someQueue.dequeue()).toBe('now')
+  test('gives back exactly what was queued: functions, objects (even ones with a data property), null and falsy values', () => {
+    const fn = () => 'ran'
+    const withData = { data: 5, other: 'kept' }
+    const items = [fn, withData, null, 0, '', false, { task: 1 }, [1, 2]]
+    const someQueue = Queue.fromArray(items)
+    expect(someQueue.size()).toBe(items.length)
+    items.forEach(item => expect(someQueue.dequeue()).toBe(item))
+    expect(someQueue.empty()).toBe(true)
   })
 
-  test('any number of completed tasks are skipped without recursing', () => {
+  test('can be iterated without removing anything', () => {
+    const someQueue = Queue.fromArray(['a', 'b', 'c'])
+    expect(Array.from(someQueue)).toEqual(['a', 'b', 'c'])
+    expect(someQueue.size()).toBe(3)
+  })
+
+  test('can be built on another kind of list', () => {
+    ;[LinkedList, DoublyLinkedList, Arrayable].forEach(ListClass => {
+      const someQueue = new Queue(null, ListClass)
+      someQueue.enqueue(1).enqueue(2)
+      expect(someQueue.dequeue()).toBe(1)
+      expect(someQueue.peek()).toBe(2)
+      expect(someQueue.size()).toBe(1)
+    })
+  })
+
+  test('can start from an existing list', () => {
+    const someQueue = new Queue(LinkedList.fromArray(['a', 'b']))
+    expect(someQueue.size()).toBe(2)
+    expect(someQueue.dequeue()).toBe('a')
+  })
+
+  test('uses the linker class it was given', () => {
+    class CustomLinker extends Linker {}
+    const someQueue = new Queue(null, LinkedList, CustomLinker)
+    someQueue.enqueue('a')
+    expect(someQueue.queuedList.first).toBeInstanceOf(CustomLinker)
+  })
+
+  test('has the shape of the queue si-funciona expects (dequeue, empty, enqueue, peek, size)', () => {
     const someQueue = new Queue()
-    for (let i = 0; i < 20000; i++) {
-      const completed = new Queueable({ task: () => i, ready: true })
-      completed.complete = true
-      someQueue.enqueue(completed)
+    ;['dequeue', 'empty', 'enqueue', 'peek', 'size'].forEach(name => expect(typeof someQueue[name]).toBe('function'))
+  })
+
+  test('adding and taking many items is fast', () => {
+    const someQueue = new Queue()
+    const started = Date.now()
+    for (let i = 0; i < 50000; i++) {
+      someQueue.enqueue(i)
     }
-    someQueue.enqueue(new Queueable({ task: () => 'last', ready: true }))
-    expect(someQueue.dequeue()).toBe('last')
+    expect(someQueue.size()).toBe(50000)
+    let sum = 0
+    while (!someQueue.empty()) {
+      sum += someQueue.dequeue()
+    }
+    expect(sum).toBe(49999 * 50000 / 2)
+    expect(Date.now() - started).toBeLessThan(3000)
   })
 })

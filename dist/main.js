@@ -69,6 +69,18 @@ Object.defineProperty(exports, 'Stackable', {
     return _Stackable.Stackable
   }
 })
+Object.defineProperty(exports, 'TaskQueue', {
+  enumerable: true,
+  get: function () {
+    return _TaskQueue.TaskQueue
+  }
+})
+Object.defineProperty(exports, 'TaskStack', {
+  enumerable: true,
+  get: function () {
+    return _TaskStack.TaskStack
+  }
+})
 Object.defineProperty(exports, 'TreeLinker', {
   enumerable: true,
   get: function () {
@@ -99,8 +111,10 @@ var _TreeLinker = require('./collections/linked-tree-list/TreeLinker')
 var _LinkedTreeList = require('./collections/linked-tree-list/LinkedTreeList')
 var _Queueable = require('./collections/queue/Queueable')
 var _Queue = require('./collections/queue/Queue')
+var _TaskQueue = require('./collections/queue/TaskQueue')
 var _Stackable = require('./collections/stack/Stackable')
 var _Stack = require('./collections/stack/Stack')
+var _TaskStack = require('./collections/stack/TaskStack')
 var _recipes = require('./recipes/recipes')
 var _services = require('./services/services')
 /**
@@ -135,8 +149,10 @@ const collectYourStuff = {
   LinkedTreeList: _LinkedTreeList.LinkedTreeList,
   Queueable: _Queueable.Queueable,
   Queue: _Queue.Queue,
+  TaskQueue: _TaskQueue.TaskQueue,
   Stackable: _Stackable.Stackable,
   Stack: _Stack.Stack,
+  TaskStack: _TaskStack.TaskStack,
   recipes: _recipes.recipes,
   services: _services.services
 }

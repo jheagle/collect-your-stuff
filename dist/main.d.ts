@@ -16,8 +16,10 @@ import { TreeLinker } from './collections/linked-tree-list/TreeLinker';
 import { LinkedTreeList } from './collections/linked-tree-list/LinkedTreeList';
 import { Queueable } from './collections/queue/Queueable';
 import { Queue } from './collections/queue/Queue';
+import { TaskQueue } from './collections/queue/TaskQueue';
 import { Stackable } from './collections/stack/Stackable';
 import { Stack } from './collections/stack/Stack';
+import { TaskStack } from './collections/stack/TaskStack';
 import { recipes } from './recipes/recipes';
 import { services } from './services/services';
 /**
@@ -26,13 +28,15 @@ import { services } from './services/services';
  * 2. Create a heap (both min and max heap variants) which is similar to binary tree in structure, but tree having its min / max value as root. and it must insert on the left-most lowest level, and removes from root. Be able to easily swap nodes to ensure min / max ordering.
  * 3. Create a graph type which can have directional and undirectional variants for linking nodes
  */
-export { ArrayElement, Arrayable, DoubleLinker, DoublyLinkedList, Linker, LinkedList, TreeLinker, LinkedTreeList, Queueable, Queue, Stackable, Stack, recipes, services };
+export { ArrayElement, Arrayable, DoubleLinker, DoublyLinkedList, Linker, LinkedList, TreeLinker, LinkedTreeList, Queueable, Queue, TaskQueue, Stackable, Stack, TaskStack, recipes, services };
 export type { IsArrayable, forEachCallback } from './recipes/IsArrayable';
 export type { IsDoubleLinker } from './recipes/IsDoubleLinker';
 export type { IsElement } from './recipes/IsElement';
 export type { IsLinker } from './recipes/IsLinker';
 export type { IsTree } from './recipes/IsTree';
 export type { IsTreeNode } from './recipes/IsTreeNode';
+export type { IsQueue } from './recipes/IsQueue';
+export type { IsStack } from './recipes/IsStack';
 export type { IsRunnable, completeResponse } from './recipes/Runnable';
 /**
  * All methods exported from this module are encapsulated within collect-your-stuff (this default export is the same
@@ -49,8 +53,10 @@ declare const collectYourStuff: {
     LinkedTreeList: typeof LinkedTreeList;
     Queueable: typeof Queueable;
     Queue: typeof Queue;
+    TaskQueue: typeof TaskQueue;
     Stackable: typeof Stackable;
     Stack: typeof Stack;
+    TaskStack: typeof TaskStack;
     recipes: {
         ArrayIterator: typeof import("./recipes/ArrayIterator").ArrayIterator;
         Runnable: typeof import("./recipes/Runnable").Runnable;

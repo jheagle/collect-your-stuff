@@ -5,7 +5,7 @@ import { Linker } from './collections/linked-list/Linker'
 describe('main', () => {
   test('everything on the default export is also a named export', () => {
     const defaultNames = Object.keys(collectYourStuff)
-    expect(defaultNames).toEqual(expect.arrayContaining(['Arrayable', 'DoublyLinkedList', 'LinkedList', 'LinkedTreeList', 'Queue', 'Stack', 'recipes', 'services']))
+    expect(defaultNames).toEqual(expect.arrayContaining(['Arrayable', 'DoublyLinkedList', 'LinkedList', 'LinkedTreeList', 'Queue', 'TaskQueue', 'Stack', 'TaskStack', 'recipes', 'services']))
     defaultNames.forEach(name => {
       expect(named[name]).toBe(collectYourStuff[name])
     })
