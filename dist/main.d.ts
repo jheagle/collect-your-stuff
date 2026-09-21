@@ -63,7 +63,7 @@ declare const collectYourStuff: {
     };
     services: {
         parseTree: (tree: import("./main").IsTree, callback: import("./main").forEachCallback) => import("./main").IsTree;
-        parseTreeNext: (treeNode: import("./main").IsTreeNode) => import("./main").IsTreeNode | null;
+        parseTreeNext: (treeNode: import("./main").IsTreeNode, boundaryParent?: import("./main").IsTreeNode | null) => import("./main").IsTreeNode | null;
     };
 };
 export default collectYourStuff;

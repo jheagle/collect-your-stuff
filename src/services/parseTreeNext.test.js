@@ -1,5 +1,6 @@
 import { parseTreeNext } from './parseTreeNext'
 import { LinkedTreeList } from '../collections/linked-tree-list/LinkedTreeList'
+import { TreeLinker } from '../collections/linked-tree-list/TreeLinker'
 
 describe('parseTreeNext', () => {
   test('will parse next nodes in balanced tree', () => {
@@ -185,5 +186,25 @@ describe('parseTreeNext', () => {
     expect(next.data).toEqual('twelve')
     next = parseTreeNext(next)
     expect(next).toBeNull()
+  })
+
+  test('a boundary keeps the parsing to the nodes below it', () => {
+    const tree = TreeLinker.fromArray([
+      { data: 'one', children: [{ data: 'a', children: [{ data: 'a1' }] }, { data: 'b' }] },
+      { data: 'two' }
+    ]).head
+    const visit = (start, boundary) => {
+      const found = []
+      let current = start
+      while (current) {
+        found.push(current.data)
+        current = parseTreeNext(current, boundary)
+      }
+      return found
+    }
+    expect(visit(tree)).toEqual(['one', 'a', 'a1', 'b', 'two'])
+    expect(visit(tree, null)).toEqual(['one', 'a', 'a1', 'b', 'two'])
+    expect(visit(tree.children.first, tree)).toEqual(['a', 'a1', 'b'])
+    expect(visit(tree.children.first.children.first, tree.children.first)).toEqual(['a1'])
   })
 })

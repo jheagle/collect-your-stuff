@@ -231,4 +231,53 @@ describe('TreeLinker', () => {
     expect(linkedTree.children.first.data).toEqual('four')
     expect(linkedTree.children.last.data).toEqual('five')
   })
+
+  describe('children made from an array', () => {
+    const childData = list => {
+      const found = []
+      list.forEach(linker => found.push(linker.data))
+      return found
+    }
+
+    test('plain values are the data of the children', () => {
+      const parent = new TreeLinker({ data: 'parent', children: ['a', 'b', 0, '', false, null] })
+      expect(childData(parent.children)).toEqual(['a', 'b', 0, '', false, null])
+      parent.children.forEach(child => {
+        expect(child).toBeInstanceOf(TreeLinker)
+        expect(child.parent).toBe(parent)
+      })
+    })
+
+    test('objects without a data property are the data of the children', () => {
+      const payload = { name: 'x' }
+      const parent = new TreeLinker({ data: 'parent', children: [payload] })
+      expect(parent.children.first.data).toBe(payload)
+    })
+
+    test('an existing linker is kept (not copied) and given the parent', () => {
+      const existing = new TreeLinker({ data: 'existing' })
+      const parent = new TreeLinker({ data: 'parent', children: [existing, { data: 'made' }] })
+      expect(parent.children.first).toBe(existing)
+      expect(existing.parent).toBe(parent)
+      expect(existing.next.data).toBe('made')
+      expect(existing.next.prev).toBe(existing)
+    })
+
+    test('settings with children give a nested tree, each level knowing its parent', () => {
+      const parent = new TreeLinker({ data: 'p', children: [{ data: 'c', children: [{ data: 'g' }] }] })
+      const child = parent.children.first
+      const grandchild = child.children.first
+      expect(child.parent).toBe(parent)
+      expect(grandchild.parent).toBe(child)
+      expect(child.children.parent).toBe(child)
+      expect(parent.children.parent).toBe(parent)
+    })
+
+    test('an empty array gives an empty list which knows its parent, and null gives no list', () => {
+      const parent = new TreeLinker({ data: 'p', children: [] })
+      expect(parent.children.length).toBe(0)
+      expect(parent.children.parent).toBe(parent)
+      expect(new TreeLinker({ data: 'p' }).children).toBeNull()
+    })
+  })
 })
