@@ -49,7 +49,7 @@ export class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
   }
 
   /**
-   * Retrieve a copy of the innerList used.
+   * Retrieve the innerList used (the list itself, not a copy).
    * @returns {TreeLinker}
    */
   public get list (): TreeLinker {

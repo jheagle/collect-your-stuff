@@ -103,6 +103,6 @@ export class Stack {
   public static fromArray = (values: Array<any> = [], stackableClass: typeof Stackable = Stackable, listClass: any = LinkedList): Stack => {
     const list: IsArrayable<any> = new listClass(stackableClass)
     list.initialize(stackableClass.fromArray(values, stackableClass).head)
-    return new Stack(list)
+    return new Stack(list, listClass, stackableClass)
   }
 }

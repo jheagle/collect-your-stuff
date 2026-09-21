@@ -35,11 +35,17 @@ export class Queue {
   }
 
   /**
-   * Take a queued task from the front of the queue and run it if ready.
+   * Take a queued task from the front of the queue and run it if ready. A task which is not ready yet is kept in the
+   * queue (never dropped), a task which is still running is reported as blocking and left to finish on its own, and
+   * completed tasks are discarded.
    * @return {completeResponse|*}
    */
   public dequeue (): completeResponse | any {
-    const next: Queueable = this.remove()
+    let next: Queueable | null = this.remove()
+    // Tasks which already completed are discarded when they reach the front of the queue
+    while (next && next.complete) {
+      next = this.remove()
+    }
     if (!next) {
       return {
         success: 'No more queueable tasks in the queue',
@@ -47,14 +53,22 @@ export class Queue {
         context: this.queuedList,
       }
     }
-    if (next.complete) {
-      // Previously ran queued, run next
-      return this.dequeue()
-    }
     if (next.running) {
+      // The unfinished task reports back through its own complete callback, so it is not kept in the queue
       return {
         success: false,
         error: 'The queue has been blocked by an unfinished task.',
+        context: next,
+      }
+    }
+    if (!next.isReady) {
+      // Keep the task (at the back, so the next dequeue can try the other tasks) rather than losing it
+      this.enqueue(next)
+      // We could go check the next in queue here but if we end up in a state where nothing is ready it would infinite loop
+      // Also, we want the loop handled externally
+      return {
+        success: false,
+        error: 'Unable to find ready task.',
         context: next,
       }
     }
@@ -62,16 +76,7 @@ export class Queue {
       // Place back in queue to be checked once again next time, only if the queue will not be empty
       this.enqueue(next)
     }
-    if (next.isReady) {
-      return next.run.call(next)
-    }
-    // We could go check the next in queue here but if we end up in a state where nothing is ready it would infinite loop
-    // Also, we want the loop handled externally
-    return {
-      success: false,
-      error: 'Unable to find ready task.',
-      context: next,
-    }
+    return next.run.call(next)
   }
 
   /**

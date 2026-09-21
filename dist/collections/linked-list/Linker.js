@@ -40,8 +40,8 @@ class Linker {
  */
 exports.Linker = Linker
 Linker.make = (linker, classType = Linker) => {
-  if (typeof linker !== 'object') {
-    // It is not an object, so instantiate the Linker with element as the data
+  if (linker === null || typeof linker !== 'object') {
+    // It is not an object (or it is null), so instantiate the Linker with element as the data
     return new classType({
       data: linker
     })
@@ -50,7 +50,8 @@ Linker.make = (linker, classType = Linker) => {
     // Already valid Linker, return as-is
     return linker
   }
-  if (!linker.data) {
+  if (!('data' in linker)) {
+    // Not the settings for a linker (which would have data, even if it is falsy), so it is the data itself
     linker = {
       data: linker
     }
@@ -64,7 +65,7 @@ Linker.make = (linker, classType = Linker) => {
  * @param {IsLinker} [classType=Linker] Provide the type of IsLinker to use.
  * @returns {{head: Linker, tail: Linker}}
  */
-Linker.fromArray = (values, classType = Linker) => values.reduce((references, linker) => {
+Linker.fromArray = (values = [], classType = Linker) => values.reduce((references, linker) => {
   const newLinker = classType.make(linker, classType)
   if (references.head === null) {
     // Initialize the head and tail with the new node

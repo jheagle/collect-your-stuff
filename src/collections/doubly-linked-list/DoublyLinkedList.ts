@@ -43,7 +43,7 @@ export class DoublyLinkedList implements IsArrayable<DoubleLinker>, Iterable<Dou
   }
 
   /**
-   * Retrieve a copy of the innerList used.
+   * Retrieve the innerList used (the list itself, not a copy).
    * @returns {DoubleLinker}
    */
   public get list (): DoubleLinker {
@@ -91,26 +91,31 @@ export class DoublyLinkedList implements IsArrayable<DoubleLinker>, Iterable<Dou
 
   /**
    * Insert a new node (or data) after a node.
-   * @param {DoubleLinker|*} node The existing node as reference
+   * @param {DoubleLinker|*} node The existing node as reference (which must be in this list, this is not checked), or null to insert at the start of the list
    * @param {DoubleLinker|*} newNode The new node to go after the existing node
    * @returns {DoublyLinkedList}
    */
-  public insertAfter (node: DoubleLinker, newNode: DoubleLinker | any): DoublyLinkedList {
-    newNode = this.linkerClass.make(newNode)
-    if (node !== null) {
-      // Ensure the next reference of this node is assigned to the new node
-      newNode.next = node.next
-      // Ensure this node is assigned as the prev reference of the new node
-      newNode.prev = node
-      // Then set this node's next reference to the new node
-      node.next = newNode
+  public insertAfter (node: DoubleLinker | null, newNode: DoubleLinker | any): DoublyLinkedList {
+    newNode = this.linkerClass.make(newNode, this.linkerClass)
+    if (node === null || typeof node === 'undefined') {
+      // After nothing means at the start of the list
+      const head: DoubleLinker | null = this.first
+      newNode.next = head
+      if (head) {
+        head.prev = newNode
+      }
+      this.innerList = newNode
+      return this
     }
+    // Ensure the next reference of this node is assigned to the new node
+    newNode.next = node.next
+    // Ensure this node is assigned as the prev reference of the new node
+    newNode.prev = node
+    // Then set this node's next reference to the new node
+    node.next = newNode
     if (newNode.next) {
       // Update the next reference to ensure circular reference for prev points to the new node
       newNode.next.prev = newNode
-    }
-    if (!this.length) {
-      this.innerList = newNode
     }
     this.reset()
     return this
@@ -118,26 +123,33 @@ export class DoublyLinkedList implements IsArrayable<DoubleLinker>, Iterable<Dou
 
   /**
    * Insert a new node (or data) before a node.
-   * @param {DoubleLinker|*} node The existing node as reference
+   * @param {DoubleLinker|*} node The existing node as reference (which must be in this list, this is not checked), or null to insert at the end of the list
    * @param {DoubleLinker|*} newNode The new node to go before the existing node
    * @returns {DoublyLinkedList}
    */
-  public insertBefore (node: DoubleLinker, newNode: DoubleLinker | any): DoublyLinkedList {
-    newNode = this.linkerClass.make(newNode)
-    if (node !== null) {
-      // The new node will reference this prev node as prev
-      newNode.prev = node.prev
-      // The new node will reference this node as next
-      newNode.next = node
-      // This prev will reference the new node
-      node.prev = newNode
+  public insertBefore (node: DoubleLinker | null, newNode: DoubleLinker | any): DoublyLinkedList {
+    newNode = this.linkerClass.make(newNode, this.linkerClass)
+    if (node === null || typeof node === 'undefined') {
+      // Before nothing means at the end of the list
+      const tail: DoubleLinker | null = this.last
+      if (tail === null) {
+        this.innerList = newNode
+      } else {
+        tail.next = newNode
+        newNode.prev = tail
+      }
+      this.reset()
+      return this
     }
+    // The new node will reference this prev node as prev
+    newNode.prev = node.prev
+    // The new node will reference this node as next
+    newNode.next = node
+    // This prev will reference the new node
+    node.prev = newNode
     if (newNode.prev) {
       // Update the prev reference to ensure circular reference for next points to the new node
       newNode.prev.next = newNode
-    }
-    if (!this.length) {
-      this.innerList = newNode
     }
     this.reset()
     return this

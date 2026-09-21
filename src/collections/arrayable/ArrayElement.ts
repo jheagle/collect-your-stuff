@@ -30,8 +30,8 @@ export class ArrayElement implements IsElement {
    * @return {ArrayElement}
    */
   public static make = (element: ArrayElement | any, classType: any = ArrayElement): IsElement | any => {
-    if (typeof element !== 'object') {
-      // It is not an object, so instantiate the Element with element as the data
+    if (element === null || typeof element !== 'object') {
+      // It is not an object (or it is null), so instantiate the Element with element as the data
       return new classType(element)
     }
     if (element.classType) {

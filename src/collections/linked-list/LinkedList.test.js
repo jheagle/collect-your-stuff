@@ -1,3 +1,4 @@
+import { Linker } from './Linker'
 import { LinkedList } from './LinkedList'
 
 describe('LinkedList', () => {
@@ -121,5 +122,67 @@ describe('LinkedList', () => {
     expect(removedLast.data).toBe(lastLinker.data)
     // The last linker is now 'three'
     expect(someArray.last.data).toBe(arrayData[2])
+  })
+
+  describe('with nodes which are not in the list, or no reference node', () => {
+    const values = list => Array.from(list).map(node => node.data)
+
+    test('inserting after null goes at the start, before null goes at the end', () => {
+      const someList = LinkedList.fromArray(['a', 'b'])
+      someList.insertAfter(null, 'start')
+      someList.insertBefore(null, 'end')
+      expect(values(someList)).toEqual(['start', 'a', 'b', 'end'])
+      expect(someList.first.data).toBe('start')
+      expect(someList.last.data).toBe('end')
+    })
+
+    test('inserting relative to null works on an empty list', () => {
+      const first = new LinkedList()
+      first.insertAfter(null, 'a')
+      expect(values(first)).toEqual(['a'])
+      const second = new LinkedList()
+      second.insertBefore(null, 'b')
+      expect(values(second)).toEqual(['b'])
+    })
+
+    test('append and prepend work on an empty list', () => {
+      const someList = new LinkedList()
+      someList.append('b')
+      someList.prepend('a')
+      expect(values(someList)).toEqual(['a', 'b'])
+    })
+  })
+
+  describe('removing and inserting relative to nodes not in the list', () => {
+    test('remove returns null (and changes nothing) for null or a node which is not in the list', () => {
+      const someList = LinkedList.fromArray(['a', 'b'])
+      expect(someList.remove(null)).toBeNull()
+      expect(someList.remove(new Linker({ data: 'x' }))).toBeNull()
+      expect(someList.length).toBe(2)
+    })
+
+    test('insertBefore throws for a reference node which is not in the list', () => {
+      const someList = LinkedList.fromArray(['a'])
+      expect(() => someList.insertBefore(new Linker({ data: 'x' }), 'y')).toThrow('not in this list')
+      expect(someList.length).toBe(1)
+    })
+
+    test('the head, the middle and the only node can still be removed', () => {
+      const someList = LinkedList.fromArray(['a', 'b', 'c'])
+      expect(someList.remove(someList.first).data).toBe('a')
+      expect(someList.remove(someList.first.next).data).toBe('c')
+      expect(someList.remove(someList.first).data).toBe('b')
+      expect(someList.length).toBe(0)
+      expect(someList.first).toBeNull()
+    })
+  })
+
+  test('nodes added to the list are made with the linker class the list was given', () => {
+    class CustomLinker extends Linker {}
+    const someList = new LinkedList(CustomLinker)
+    someList.append('a')
+    someList.prepend('b')
+    someList.insertAfter(someList.first, 'c')
+    expect(Array.from(someList).every(node => node instanceof CustomLinker)).toBe(true)
   })
 })

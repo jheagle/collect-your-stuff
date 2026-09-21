@@ -63,19 +63,19 @@ export class Stackable implements IsLinker, IsRunnable {
    * @return {Stackable}
    */
   public static make = (stackable: Stackable | any, classType: any = Stackable): Stackable => {
-    if (typeof stackable !== 'object') {
-      // It is not an object, so instantiate the Stackable with stackable as the data
+    if (stackable === null || typeof stackable !== 'object') {
+      // It is not an object (or it is null), so instantiate the Stackable with stackable as the data
       return new classType({ task: stackable })
     }
     if (stackable.classType) {
       // Already valid Stackable, return as-is
       return stackable
     }
-    if (!stackable.task) {
+    if (!('task' in stackable)) {
       stackable = { task: stackable }
     }
     // Create the new node as the configured stackableClass
-    return new Stackable(stackable)
+    return new classType(stackable)
   }
 
   /**

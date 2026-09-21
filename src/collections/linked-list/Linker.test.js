@@ -39,4 +39,27 @@ describe('Linker', () => {
     expect(linkerHead.next.next.next.next).toBeNull()
     expect(linkerReferences.tail.data).toBe(arrayData[3])
   })
+
+  test('falsy data is kept as the data, and null can be stored', () => {
+    expect(Linker.make({ data: 0 }).data).toBe(0)
+    expect(Linker.make({ data: '' }).data).toBe('')
+    expect(Linker.make({ data: false }).data).toBe(false)
+    expect(Linker.make({ data: null }).data).toBeNull()
+    expect(Linker.make(null).data).toBeNull()
+    expect(Linker.make(0).data).toBe(0)
+  })
+
+  test('objects without data (or an existing linker) are handled', () => {
+    expect(Linker.make({ name: 'x' }).data).toEqual({ name: 'x' })
+    const existing = new Linker({ data: 'a' })
+    expect(Linker.make(existing)).toBe(existing)
+  })
+
+  test('fromArray can be given nothing, or null values', () => {
+    expect(Linker.fromArray()).toEqual({ head: null, tail: null })
+    const { head, tail } = Linker.fromArray([null, 0, 'a'])
+    expect(head.data).toBeNull()
+    expect(head.next.data).toBe(0)
+    expect(tail.data).toBe('a')
+  })
 })

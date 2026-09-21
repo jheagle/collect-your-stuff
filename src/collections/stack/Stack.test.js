@@ -1,3 +1,4 @@
+import { Stackable } from './Stackable'
 import { Stack } from './Stack'
 
 describe('Stack', () => {
@@ -63,5 +64,13 @@ describe('Stack', () => {
       expect(result).toBe(taskData[i])
     })
     expect(someStack.size()).toBe(0)
+  })
+
+  test('fromArray keeps the classes it was given', () => {
+    class CustomStackable extends Stackable {}
+    const someStack = Stack.fromArray(['a', 'b'], CustomStackable)
+    expect(someStack.top()).toBeInstanceOf(CustomStackable)
+    someStack.push('c')
+    expect(someStack.top()).toBeInstanceOf(CustomStackable)
   })
 })

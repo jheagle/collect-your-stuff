@@ -240,4 +240,33 @@ describe('LinkedTreeList', () => {
     expect(someArray.length).toBe(1)
     expect(someArray.first.data).toBe('two')
   })
+
+  describe('with nodes which are not in the list, or no reference node', () => {
+    const values = list => Array.from(list).map(node => node.data)
+
+    test('inserting after null goes at the start, before null goes at the end', () => {
+      const someList = LinkedTreeList.fromArray(['a', 'b'])
+      someList.insertAfter(null, 'start')
+      someList.insertBefore(null, 'end')
+      expect(values(someList)).toEqual(['start', 'a', 'b', 'end'])
+      expect(someList.first.data).toBe('start')
+      expect(someList.last.data).toBe('end')
+    })
+
+    test('inserting relative to null works on an empty list', () => {
+      const first = new LinkedTreeList()
+      first.insertAfter(null, 'a')
+      expect(values(first)).toEqual(['a'])
+      const second = new LinkedTreeList()
+      second.insertBefore(null, 'b')
+      expect(values(second)).toEqual(['b'])
+    })
+
+    test('append and prepend work on an empty list', () => {
+      const someList = new LinkedTreeList()
+      someList.append('b')
+      someList.prepend('a')
+      expect(values(someList)).toEqual(['a', 'b'])
+    })
+  })
 })

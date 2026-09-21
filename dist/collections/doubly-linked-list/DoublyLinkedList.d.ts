@@ -32,7 +32,7 @@ export declare class DoublyLinkedList implements IsArrayable<DoubleLinker>, Iter
      */
     initialize(initialList: DoubleLinker): DoublyLinkedList;
     /**
-     * Retrieve a copy of the innerList used.
+     * Retrieve the innerList used (the list itself, not a copy).
      * @returns {DoubleLinker}
      */
     get list(): DoubleLinker;
@@ -53,18 +53,18 @@ export declare class DoublyLinkedList implements IsArrayable<DoubleLinker>, Iter
     get length(): number;
     /**
      * Insert a new node (or data) after a node.
-     * @param {DoubleLinker|*} node The existing node as reference
+     * @param {DoubleLinker|*} node The existing node as reference (which must be in this list, this is not checked), or null to insert at the start of the list
      * @param {DoubleLinker|*} newNode The new node to go after the existing node
      * @returns {DoublyLinkedList}
      */
-    insertAfter(node: DoubleLinker, newNode: DoubleLinker | any): DoublyLinkedList;
+    insertAfter(node: DoubleLinker | null, newNode: DoubleLinker | any): DoublyLinkedList;
     /**
      * Insert a new node (or data) before a node.
-     * @param {DoubleLinker|*} node The existing node as reference
+     * @param {DoubleLinker|*} node The existing node as reference (which must be in this list, this is not checked), or null to insert at the end of the list
      * @param {DoubleLinker|*} newNode The new node to go before the existing node
      * @returns {DoublyLinkedList}
      */
-    insertBefore(node: DoubleLinker, newNode: DoubleLinker | any): DoublyLinkedList;
+    insertBefore(node: DoubleLinker | null, newNode: DoubleLinker | any): DoublyLinkedList;
     /**
      * Add a node (or data) after the given (or last) node in the list.
      * @param {DoubleLinker|*} node The new node to add to the end of the list

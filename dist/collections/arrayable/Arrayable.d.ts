@@ -25,26 +25,33 @@ export declare class Arrayable implements IsArrayable<ArrayElement>, Iterable<Ar
      */
     constructor(elementClass?: typeof ArrayElement);
     /**
+     * Find the position of an element which must be in this list.
+     * @param {ArrayElement} node The element to find
+     * @returns {number}
+     * @throws {Error} When the element is not in this list
+     */
+    private indexOfElement;
+    /**
      * Initialize the inner list, should only run once.
      * @param {Array<ArrayElement>} initialList Give the array of elements to start in this Arrayable.
      * @return {Arrayable}
      */
     initialize(initialList: Array<ArrayElement>): Arrayable;
     /**
-     * Retrieve a copy of the innerList used.
+     * Retrieve the innerList used (the list itself, not a copy).
      * @returns {Array<ArrayElement>}
      */
     get list(): Array<ArrayElement>;
     /**
      * Retrieve the first Element from the Arrayable
-     * @returns {ArrayElement}
+     * @returns {ArrayElement|null} The first element, or null when the Arrayable is empty
      */
-    get first(): ArrayElement;
+    get first(): ArrayElement | null;
     /**
      * Retrieve the last Element from the Arrayable
-     * @returns {ArrayElement}
+     * @returns {ArrayElement|null} The last element, or null when the Arrayable is empty
      */
-    get last(): ArrayElement;
+    get last(): ArrayElement | null;
     /**
      * Return the length of the list.
      * @returns {number}
@@ -52,18 +59,20 @@ export declare class Arrayable implements IsArrayable<ArrayElement>, Iterable<Ar
     get length(): number;
     /**
      * Insert a new node (or data) after a node.
-     * @param {ArrayElement|*} node The existing node as reference
+     * @param {ArrayElement|null} node The existing node as reference, or null to insert at the start of the list
      * @param {ArrayElement|*} newNode The new node to go after the existing node
      * @returns {Arrayable}
+     * @throws {Error} When the reference node is not in this list
      */
-    insertAfter(node: ArrayElement, newNode: ArrayElement | any): Arrayable;
+    insertAfter(node: ArrayElement | null, newNode: ArrayElement | any): Arrayable;
     /**
      * Insert a new node (or data) before a node.
-     * @param {ArrayElement|*} node The existing node as reference
+     * @param {ArrayElement|null} node The existing node as reference, or null to insert at the end of the list
      * @param {ArrayElement|*} newNode The new node to go before the existing node
      * @returns {Arrayable}
+     * @throws {Error} When the reference node is not in this list
      */
-    insertBefore(node: ArrayElement, newNode: ArrayElement | any): Arrayable;
+    insertBefore(node: ArrayElement | null, newNode: ArrayElement | any): Arrayable;
     /**
      * Add a node (or data) after the given (or last) node in the list.
      * @param {ArrayElement|*} node The new node to add to the end of the list
@@ -81,9 +90,9 @@ export declare class Arrayable implements IsArrayable<ArrayElement>, Iterable<Ar
     /**
      * Remove an element from this arrayable.
      * @param {ArrayElement} node The node we wish to remove (and it will be returned after removal)
-     * @return {ArrayElement}
+     * @return {ArrayElement|null} The removed node, or null when it was not in this list (nothing is removed)
      */
-    remove(node: ArrayElement): ArrayElement;
+    remove(node: ArrayElement): ArrayElement | null;
     /**
      * Retrieve an ArrayElement item from this list by numeric index, otherwise return null.
      * @param {number} index The integer number for retrieving a node by position.

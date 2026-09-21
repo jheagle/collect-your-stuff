@@ -1,3 +1,4 @@
+import { DoubleLinker } from './DoubleLinker'
 import { DoublyLinkedList } from './DoublyLinkedList'
 
 describe('DoublyLinkedList', () => {
@@ -146,5 +147,52 @@ describe('DoublyLinkedList', () => {
     someArray.append('two')
     expect(someArray.length).toBe(1)
     expect(someArray.first.data).toBe('two')
+  })
+
+  describe('with nodes which are not in the list, or no reference node', () => {
+    const values = list => Array.from(list).map(node => node.data)
+
+    test('inserting after null goes at the start, before null goes at the end', () => {
+      const someList = DoublyLinkedList.fromArray(['a', 'b'])
+      someList.insertAfter(null, 'start')
+      someList.insertBefore(null, 'end')
+      expect(values(someList)).toEqual(['start', 'a', 'b', 'end'])
+      expect(someList.first.data).toBe('start')
+      expect(someList.last.data).toBe('end')
+    })
+
+    test('inserting relative to null works on an empty list', () => {
+      const first = new DoublyLinkedList()
+      first.insertAfter(null, 'a')
+      expect(values(first)).toEqual(['a'])
+      const second = new DoublyLinkedList()
+      second.insertBefore(null, 'b')
+      expect(values(second)).toEqual(['b'])
+    })
+
+    test('append and prepend work on an empty list', () => {
+      const someList = new DoublyLinkedList()
+      someList.append('b')
+      someList.prepend('a')
+      expect(values(someList)).toEqual(['a', 'b'])
+    })
+  })
+
+  test('inserting after / before null keeps the prev references in step', () => {
+    const someList = DoublyLinkedList.fromArray(['a', 'b'])
+    someList.insertAfter(null, 'start')
+    someList.insertBefore(null, 'end')
+    expect(someList.first.prev).toBeNull()
+    expect(someList.first.next.prev).toBe(someList.first)
+    expect(someList.last.prev.data).toBe('b')
+    expect(someList.last.prev.next).toBe(someList.last)
+  })
+
+  test('nodes added to the list are made with the linker class the list was given', () => {
+    class CustomLinker extends DoubleLinker {}
+    const someList = new DoublyLinkedList(CustomLinker)
+    someList.append('a')
+    someList.prepend('b')
+    expect(Array.from(someList).every(node => node instanceof CustomLinker)).toBe(true)
   })
 })

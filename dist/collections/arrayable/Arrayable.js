@@ -32,6 +32,20 @@ class Arrayable {
   }
 
   /**
+   * Find the position of an element which must be in this list.
+   * @param {ArrayElement} node The element to find
+   * @returns {number}
+   * @throws {Error} When the element is not in this list
+   */
+  indexOfElement (node) {
+    const index = this.innerList.indexOf(node)
+    if (index < 0) {
+      throw new Error('The reference element is not in this list.')
+    }
+    return index
+  }
+
+  /**
    * Initialize the inner list, should only run once.
    * @param {Array<ArrayElement>} initialList Give the array of elements to start in this Arrayable.
    * @return {Arrayable}
@@ -47,7 +61,7 @@ class Arrayable {
   }
 
   /**
-   * Retrieve a copy of the innerList used.
+   * Retrieve the innerList used (the list itself, not a copy).
    * @returns {Array<ArrayElement>}
    */
   get list () {
@@ -56,18 +70,18 @@ class Arrayable {
 
   /**
    * Retrieve the first Element from the Arrayable
-   * @returns {ArrayElement}
+   * @returns {ArrayElement|null} The first element, or null when the Arrayable is empty
    */
   get first () {
-    return this.innerList[0]
+    return this.length ? this.innerList[0] : null
   }
 
   /**
    * Retrieve the last Element from the Arrayable
-   * @returns {ArrayElement}
+   * @returns {ArrayElement|null} The last element, or null when the Arrayable is empty
    */
   get last () {
-    return this.innerList[this.length - 1]
+    return this.length ? this.innerList[this.length - 1] : null
   }
 
   /**
@@ -80,25 +94,29 @@ class Arrayable {
 
   /**
    * Insert a new node (or data) after a node.
-   * @param {ArrayElement|*} node The existing node as reference
+   * @param {ArrayElement|null} node The existing node as reference, or null to insert at the start of the list
    * @param {ArrayElement|*} newNode The new node to go after the existing node
    * @returns {Arrayable}
+   * @throws {Error} When the reference node is not in this list
    */
   insertAfter (node, newNode) {
-    const insertAt = this.innerList.indexOf(node)
-    this.innerList.splice(insertAt + 1, 0, this.elementClass.make(newNode))
+    // With no reference element, the new one goes after nothing: at the start of the list
+    const insertAt = node === null || typeof node === 'undefined' ? -1 : this.indexOfElement(node)
+    this.innerList.splice(insertAt + 1, 0, this.elementClass.make(newNode, this.elementClass))
     return this
   }
 
   /**
    * Insert a new node (or data) before a node.
-   * @param {ArrayElement|*} node The existing node as reference
+   * @param {ArrayElement|null} node The existing node as reference, or null to insert at the end of the list
    * @param {ArrayElement|*} newNode The new node to go before the existing node
    * @returns {Arrayable}
+   * @throws {Error} When the reference node is not in this list
    */
   insertBefore (node, newNode) {
-    const insertAt = this.innerList.indexOf(node)
-    this.innerList.splice(insertAt, 0, this.elementClass.make(newNode))
+    // With no reference element, the new one goes before nothing: at the end of the list
+    const insertAt = node === null || typeof node === 'undefined' ? this.length : this.indexOfElement(node)
+    this.innerList.splice(insertAt, 0, this.elementClass.make(newNode, this.elementClass))
     return this
   }
 
@@ -125,10 +143,13 @@ class Arrayable {
   /**
    * Remove an element from this arrayable.
    * @param {ArrayElement} node The node we wish to remove (and it will be returned after removal)
-   * @return {ArrayElement}
+   * @return {ArrayElement|null} The removed node, or null when it was not in this list (nothing is removed)
    */
   remove (node) {
     const deleteAt = this.innerList.indexOf(node)
+    if (deleteAt < 0) {
+      return null
+    }
     this.innerList.splice(deleteAt, 1)
     return node
   }

@@ -30,4 +30,9 @@ describe('Element', () => {
     expect(elementHead.data).toBe(arrayData[0])
     expect(elementTail.data).toBe(arrayData[3])
   })
+
+  test('null can be stored', () => {
+    expect(ArrayElement.make(null).data).toBeNull()
+    expect(ArrayElement.fromArray([null, 'a']).head.map(element => element.data)).toEqual([null, 'a'])
+  })
 })

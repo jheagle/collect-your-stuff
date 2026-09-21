@@ -33,7 +33,7 @@ export declare class Queueable implements IsLinker, IsRunnable {
     constructor({ task, next, ready }?: {
         task?: any;
         next?: Queueable | null;
-        ready?: boolean;
+        ready?: boolean | Function;
     });
     /**
      * Check ready state.
@@ -76,7 +76,7 @@ export declare class Queueable implements IsLinker, IsRunnable {
      * @param {IsLinker} [classType=Queueable] Provide the type of IsLinker to use.
      * @returns {{head: Queueable, tail: Queueable}}
      */
-    static fromArray: (values: Array<any>, classType?: any) => {
+    static fromArray: (values?: Array<any>, classType?: any) => {
         head: IsLinker;
         tail: IsLinker;
     };
