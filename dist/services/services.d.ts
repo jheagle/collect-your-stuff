@@ -8,6 +8,6 @@
  * List helpful functions when dealing with collections.
  */
 export declare const services: {
-    parseTree: (tree: import("../recipes/IsTree").IsTree, callback: import("../recipes/IsArrayable").forEachCallback) => import("../recipes/IsTree").IsTree;
-    parseTreeNext: (treeNode: import("../recipes/IsTreeNode").IsTreeNode) => import("../recipes/IsTreeNode").IsTreeNode | null;
+    parseTree: (tree: import("../main").IsTree, callback: import("../main").forEachCallback) => import("../main").IsTree;
+    parseTreeNext: (treeNode: import("../main").IsTreeNode) => import("../main").IsTreeNode | null;
 };

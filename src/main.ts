@@ -6,11 +6,17 @@
  * @module collect-your-stuff
  */
 import 'core-js/stable'
+import { ArrayElement } from './collections/arrayable/ArrayElement'
 import { Arrayable } from './collections/arrayable/Arrayable'
+import { DoubleLinker } from './collections/doubly-linked-list/DoubleLinker'
 import { DoublyLinkedList } from './collections/doubly-linked-list/DoublyLinkedList'
+import { Linker } from './collections/linked-list/Linker'
 import { LinkedList } from './collections/linked-list/LinkedList'
+import { TreeLinker } from './collections/linked-tree-list/TreeLinker'
 import { LinkedTreeList } from './collections/linked-tree-list/LinkedTreeList'
+import { Queueable } from './collections/queue/Queueable'
 import { Queue } from './collections/queue/Queue'
+import { Stackable } from './collections/stack/Stackable'
 import { Stack } from './collections/stack/Stack'
 import { recipes } from './recipes/recipes'
 import { services } from './services/services'
@@ -22,15 +28,50 @@ import { services } from './services/services'
  * 3. Create a graph type which can have directional and undirectional variants for linking nodes
  */
 
+// Every collection (with the linker / element class it is built from), the recipes and the services are available by
+// name: import { LinkedList, Linker } from 'collect-your-stuff', require('collect-your-stuff').LinkedList ...
+export {
+  ArrayElement,
+  Arrayable,
+  DoubleLinker,
+  DoublyLinkedList,
+  Linker,
+  LinkedList,
+  TreeLinker,
+  LinkedTreeList,
+  Queueable,
+  Queue,
+  Stackable,
+  Stack,
+  recipes,
+  services
+}
+
+// ... and the types of the recipes, for TypeScript users
+export type { IsArrayable, forEachCallback } from './recipes/IsArrayable'
+export type { IsDoubleLinker } from './recipes/IsDoubleLinker'
+export type { IsElement } from './recipes/IsElement'
+export type { IsLinker } from './recipes/IsLinker'
+export type { IsTree } from './recipes/IsTree'
+export type { IsTreeNode } from './recipes/IsTreeNode'
+export type { IsRunnable, completeResponse } from './recipes/Runnable'
+
 /**
- * All methods exported from this module are encapsulated within collect-your-stuff.
+ * All methods exported from this module are encapsulated within collect-your-stuff (this default export is the same
+ * set of classes as the named exports).
  */
 const collectYourStuff = {
+  ArrayElement,
   Arrayable,
+  DoubleLinker,
   DoublyLinkedList,
+  Linker,
   LinkedList,
+  TreeLinker,
   LinkedTreeList,
+  Queueable,
   Queue,
+  Stackable,
   Stack,
   recipes,
   services
