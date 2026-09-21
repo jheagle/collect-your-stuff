@@ -16,8 +16,10 @@ import { TreeLinker } from './collections/linked-tree-list/TreeLinker'
 import { LinkedTreeList } from './collections/linked-tree-list/LinkedTreeList'
 import { Queueable } from './collections/queue/Queueable'
 import { Queue } from './collections/queue/Queue'
+import { TaskQueue } from './collections/queue/TaskQueue'
 import { Stackable } from './collections/stack/Stackable'
 import { Stack } from './collections/stack/Stack'
+import { TaskStack } from './collections/stack/TaskStack'
 import { recipes } from './recipes/recipes'
 import { services } from './services/services'
 
@@ -41,8 +43,10 @@ export {
   LinkedTreeList,
   Queueable,
   Queue,
+  TaskQueue,
   Stackable,
   Stack,
+  TaskStack,
   recipes,
   services
 }
@@ -54,6 +58,8 @@ export type { IsElement } from './recipes/IsElement'
 export type { IsLinker } from './recipes/IsLinker'
 export type { IsTree } from './recipes/IsTree'
 export type { IsTreeNode } from './recipes/IsTreeNode'
+export type { IsQueue } from './recipes/IsQueue'
+export type { IsStack } from './recipes/IsStack'
 export type { IsRunnable, completeResponse } from './recipes/Runnable'
 
 /**
@@ -71,8 +77,10 @@ const collectYourStuff = {
   LinkedTreeList,
   Queueable,
   Queue,
+  TaskQueue,
   Stackable,
   Stack,
+  TaskStack,
   recipes,
   services
 }

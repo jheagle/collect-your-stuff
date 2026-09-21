@@ -4,81 +4,49 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 })
 exports.Queue = void 0
-var _Queueable = require('./Queueable')
+require('core-js/modules/esnext.iterator.constructor.js')
+require('core-js/modules/esnext.iterator.for-each.js')
 var _LinkedList = require('../linked-list/LinkedList')
+var _Linker = require('../linked-list/Linker')
 /**
  * @file queue
  * @author Joshua Heagle <joshuaheagle@gmail.com>
- * @version 1.1.0
+ * @version 2.0.0
  * @memberOf module:collect-your-stuff
  */
 
 /**
- * Maintain a series of queued items.
+ * A first-in-first-out collection: items are added to the back with enqueue and taken from the front with dequeue.
+ * Any value can be queued (it is stored as it is, whether it is a function, an object or null), and adding and taking
+ * are constant time. To queue tasks which are run as they are taken use TaskQueue.
  */
 class Queue {
   /**
-   * Instantiate the queue with the given queue list.
-   * @param {Iterable|LinkedList} queuedList Give the list of queueables to start in this queue.
-   * @param {IsArrayable} [listClass=LinkedList] The type of list to create when no queued list is given.
-   * @param {Queueable} [queueableClass=Queueable] The class used to wrap queued items.
+   * Instantiate the queue, optionally with a list of items to start from.
+   * @param {IsArrayable|null} [queuedList=null] The list of linkers to start in this queue (the first is the front)
+   * @param {IsArrayable} [listClass=LinkedList] The type of list to create when no queued list is given
+   * @param {Linker} [linkerClass=Linker] The class used to hold each queued item
    */
-  constructor (queuedList = null, listClass = _LinkedList.LinkedList, queueableClass = _Queueable.Queueable) {
-    this.listClass = listClass
-    this.queueableClass = queueableClass
-    if (queuedList === null) {
-      queuedList = new listClass(queueableClass)
-    }
-    this.queuedList = queuedList
+  constructor (queuedList = null, listClass = _LinkedList.LinkedList, linkerClass = _Linker.Linker) {
+    this.linkerClass = linkerClass
+    this.queuedList = queuedList === null ? new listClass(linkerClass) : queuedList
   }
 
   /**
-   * Take a queued task from the front of the queue and run it if ready. A task which is not ready yet is kept in the
-   * queue (never dropped), a task which is still running is reported as blocking and left to finish on its own, and
-   * completed tasks are discarded.
-   * @return {completeResponse|*}
+   * Take the item from the front of the queue.
+   * @return {*|null} The item, or null when the queue is empty
    */
   dequeue () {
-    let next = this.remove()
-    // Tasks which already completed are discarded when they reach the front of the queue
-    while (next && next.complete) {
-      next = this.remove()
+    const front = this.queuedList.first
+    if (front === null || typeof front === 'undefined') {
+      return null
     }
-    if (!next) {
-      return {
-        success: 'No more queueable tasks in the queue',
-        error: false,
-        context: this.queuedList
-      }
-    }
-    if (next.running) {
-      // The unfinished task reports back through its own complete callback, so it is not kept in the queue
-      return {
-        success: false,
-        error: 'The queue has been blocked by an unfinished task.',
-        context: next
-      }
-    }
-    if (!next.isReady) {
-      // Keep the task (at the back, so the next dequeue can try the other tasks) rather than losing it
-      this.enqueue(next)
-      // We could go check the next in queue here but if we end up in a state where nothing is ready it would infinite loop
-      // Also, we want the loop handled externally
-      return {
-        success: false,
-        error: 'Unable to find ready task.',
-        context: next
-      }
-    }
-    if (!this.empty()) {
-      // Place back in queue to be checked once again next time, only if the queue will not be empty
-      this.enqueue(next)
-    }
-    return next.run.call(next)
+    this.queuedList.remove(front)
+    return front.data
   }
 
   /**
-   * Return true if the queue is empty (there are no tasks in the queue list)
+   * Check whether the queue has no items.
    * @return {boolean}
    */
   empty () {
@@ -86,50 +54,66 @@ class Queue {
   }
 
   /**
-   * Add a queued task to the end of the queue
-   * @param {Queueable} queueable Add a new queueable to the end of the queue
+   * Add an item to the back of the queue.
+   * @param {*} data The item to add
+   * @return {Queue} This queue, so that adding can be chained
    */
-  enqueue (queueable) {
-    this.queuedList.append(queueable)
+  enqueue (data) {
+    // The item is wrapped here rather than left to the list, since the list treats objects that look like a linker's
+    // settings (they have a data property) as such, and a queue must give back exactly what it was given
+    this.queuedList.append(new this.linkerClass({
+      data
+    }))
+    return this
   }
 
   /**
-   * Take a look at the next queued task
-   * @return {Queueable}
+   * Look at the item at the front of the queue, without removing it.
+   * @return {*|null} The item, or null when the queue is empty
    */
   peek () {
-    return this.queuedList.first
+    const front = this.queuedList.first
+    return front === null || typeof front === 'undefined' ? null : front.data
   }
 
   /**
-   * Remove the next queued item and return it.
-   * @return {Queueable|null}
-   */
-  remove () {
-    if (this.empty()) {
-      return null
-    }
-    return this.queuedList.remove(this.queuedList.first)
-  }
-
-  /**
-   * Get the length of the current queue.
+   * Count the items in the queue.
    * @return {number}
    */
   size () {
     return this.queuedList.length
   }
+
+  /**
+   * Iterate over the items from the front of the queue to the back, without removing them.
+   * @return {Iterator}
+   */
+  [Symbol.iterator] () {
+    const linkers = this.queuedList[Symbol.iterator]()
+    return {
+      next: () => {
+        const result = linkers.next()
+        return result.done ? {
+          done: true,
+          value: undefined
+        } : {
+          done: false,
+          value: result.value.data
+        }
+      }
+    }
+  }
 }
 /**
- * Convert an array to a Queue.
- * @param {Array} values An array of values which will be converted to queueables in this queue
- * @param {Queueable} queueableClass The class to use for each queueable
- * @param {Queue|Iterable} listClass The class to use to manage the queueables
+ * Convert an array to a Queue, the first value is at the front.
+ * @param {Array} [values=[]] The items to queue
+ * @param {IsArrayable} [listClass=LinkedList] The type of list used to store the items
+ * @param {Linker} [linkerClass=Linker] The class used to hold each queued item
  * @returns {Queue}
  */
 exports.Queue = Queue
-Queue.fromArray = (values = [], queueableClass = _Queueable.Queueable, listClass = _LinkedList.LinkedList) => {
-  const list = new listClass(queueableClass)
-  list.initialize(queueableClass.fromArray(values, queueableClass).head)
-  return new Queue(list, listClass, queueableClass)
+Queue.fromArray = (values = [], listClass = _LinkedList.LinkedList, linkerClass = _Linker.Linker) => {
+  const queue = new Queue(null, listClass, linkerClass)
+  values.forEach(value => queue.enqueue(value))
+  return queue
 }

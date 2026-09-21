@@ -1,66 +1,59 @@
-/**
- * @file queue
- * @author Joshua Heagle <joshuaheagle@gmail.com>
- * @version 1.1.0
- * @memberOf module:collect-your-stuff
- */
-import { Queueable } from './Queueable';
+import { Linker } from '../linked-list/Linker';
 import { IsArrayable } from '../../recipes/IsArrayable';
-import { IsLinker } from '../../recipes/IsLinker';
-import { completeResponse } from '../../recipes/Runnable';
+import { IsQueue } from '../../recipes/IsQueue';
 /**
- * Maintain a series of queued items.
+ * A first-in-first-out collection: items are added to the back with enqueue and taken from the front with dequeue.
+ * Any value can be queued (it is stored as it is, whether it is a function, an object or null), and adding and taking
+ * are constant time. To queue tasks which are run as they are taken use TaskQueue.
  */
-export declare class Queue {
-    /** The list which stores the queueables, the first is next to be dequeued. */
+export declare class Queue<T = any> implements IsQueue<T>, Iterable<T> {
+    /** The list which stores the queued items, the first is next to be dequeued. */
     queuedList: IsArrayable<any>;
-    private listClass;
-    private queueableClass;
+    private readonly linkerClass;
     /**
-     * Instantiate the queue with the given queue list.
-     * @param {Iterable|LinkedList} queuedList Give the list of queueables to start in this queue.
-     * @param {IsArrayable} [listClass=LinkedList] The type of list to create when no queued list is given.
-     * @param {Queueable} [queueableClass=Queueable] The class used to wrap queued items.
+     * Instantiate the queue, optionally with a list of items to start from.
+     * @param {IsArrayable|null} [queuedList=null] The list of linkers to start in this queue (the first is the front)
+     * @param {IsArrayable} [listClass=LinkedList] The type of list to create when no queued list is given
+     * @param {Linker} [linkerClass=Linker] The class used to hold each queued item
      */
-    constructor(queuedList?: IsArrayable<any>, listClass?: any, queueableClass?: typeof Queueable);
+    constructor(queuedList?: IsArrayable<any> | null, listClass?: any, linkerClass?: typeof Linker);
     /**
-     * Take a queued task from the front of the queue and run it if ready. A task which is not ready yet is kept in the
-     * queue (never dropped), a task which is still running is reported as blocking and left to finish on its own, and
-     * completed tasks are discarded.
-     * @return {completeResponse|*}
+     * Take the item from the front of the queue.
+     * @return {*|null} The item, or null when the queue is empty
      */
-    dequeue(): completeResponse | any;
+    dequeue(): T | null;
     /**
-     * Return true if the queue is empty (there are no tasks in the queue list)
+     * Check whether the queue has no items.
      * @return {boolean}
      */
     empty(): boolean;
     /**
-     * Add a queued task to the end of the queue
-     * @param {Queueable} queueable Add a new queueable to the end of the queue
+     * Add an item to the back of the queue.
+     * @param {*} data The item to add
+     * @return {Queue} This queue, so that adding can be chained
      */
-    enqueue(queueable: Queueable): void;
+    enqueue(data: T): this;
     /**
-     * Take a look at the next queued task
-     * @return {Queueable}
+     * Look at the item at the front of the queue, without removing it.
+     * @return {*|null} The item, or null when the queue is empty
      */
-    peek(): IsLinker;
+    peek(): T | null;
     /**
-     * Remove the next queued item and return it.
-     * @return {Queueable|null}
-     */
-    remove(): Queueable | null;
-    /**
-     * Get the length of the current queue.
+     * Count the items in the queue.
      * @return {number}
      */
     size(): number;
     /**
-     * Convert an array to a Queue.
-     * @param {Array} values An array of values which will be converted to queueables in this queue
-     * @param {Queueable} queueableClass The class to use for each queueable
-     * @param {Queue|Iterable} listClass The class to use to manage the queueables
+     * Iterate over the items from the front of the queue to the back, without removing them.
+     * @return {Iterator}
+     */
+    [Symbol.iterator](): Iterator<T>;
+    /**
+     * Convert an array to a Queue, the first value is at the front.
+     * @param {Array} [values=[]] The items to queue
+     * @param {IsArrayable} [listClass=LinkedList] The type of list used to store the items
+     * @param {Linker} [linkerClass=Linker] The class used to hold each queued item
      * @returns {Queue}
      */
-    static fromArray: (values?: Array<any>, queueableClass?: typeof Queueable, listClass?: any) => Queue;
+    static fromArray: <T_1 = any>(values?: Array<T_1>, listClass?: any, linkerClass?: typeof Linker) => Queue<T_1>;
 }
