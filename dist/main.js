@@ -3,13 +3,103 @@
 Object.defineProperty(exports, '__esModule', {
   value: true
 })
+Object.defineProperty(exports, 'ArrayElement', {
+  enumerable: true,
+  get: function () {
+    return _ArrayElement.ArrayElement
+  }
+})
+Object.defineProperty(exports, 'Arrayable', {
+  enumerable: true,
+  get: function () {
+    return _Arrayable.Arrayable
+  }
+})
+Object.defineProperty(exports, 'DoubleLinker', {
+  enumerable: true,
+  get: function () {
+    return _DoubleLinker.DoubleLinker
+  }
+})
+Object.defineProperty(exports, 'DoublyLinkedList', {
+  enumerable: true,
+  get: function () {
+    return _DoublyLinkedList.DoublyLinkedList
+  }
+})
+Object.defineProperty(exports, 'LinkedList', {
+  enumerable: true,
+  get: function () {
+    return _LinkedList.LinkedList
+  }
+})
+Object.defineProperty(exports, 'LinkedTreeList', {
+  enumerable: true,
+  get: function () {
+    return _LinkedTreeList.LinkedTreeList
+  }
+})
+Object.defineProperty(exports, 'Linker', {
+  enumerable: true,
+  get: function () {
+    return _Linker.Linker
+  }
+})
+Object.defineProperty(exports, 'Queue', {
+  enumerable: true,
+  get: function () {
+    return _Queue.Queue
+  }
+})
+Object.defineProperty(exports, 'Queueable', {
+  enumerable: true,
+  get: function () {
+    return _Queueable.Queueable
+  }
+})
+Object.defineProperty(exports, 'Stack', {
+  enumerable: true,
+  get: function () {
+    return _Stack.Stack
+  }
+})
+Object.defineProperty(exports, 'Stackable', {
+  enumerable: true,
+  get: function () {
+    return _Stackable.Stackable
+  }
+})
+Object.defineProperty(exports, 'TreeLinker', {
+  enumerable: true,
+  get: function () {
+    return _TreeLinker.TreeLinker
+  }
+})
 exports.default = void 0
+Object.defineProperty(exports, 'recipes', {
+  enumerable: true,
+  get: function () {
+    return _recipes.recipes
+  }
+})
+Object.defineProperty(exports, 'services', {
+  enumerable: true,
+  get: function () {
+    return _services.services
+  }
+})
 require('core-js/stable')
+var _ArrayElement = require('./collections/arrayable/ArrayElement')
 var _Arrayable = require('./collections/arrayable/Arrayable')
+var _DoubleLinker = require('./collections/doubly-linked-list/DoubleLinker')
 var _DoublyLinkedList = require('./collections/doubly-linked-list/DoublyLinkedList')
+var _Linker = require('./collections/linked-list/Linker')
 var _LinkedList = require('./collections/linked-list/LinkedList')
+var _TreeLinker = require('./collections/linked-tree-list/TreeLinker')
 var _LinkedTreeList = require('./collections/linked-tree-list/LinkedTreeList')
+var _Queueable = require('./collections/queue/Queueable')
 var _Queue = require('./collections/queue/Queue')
+var _Stackable = require('./collections/stack/Stackable')
 var _Stack = require('./collections/stack/Stack')
 var _recipes = require('./recipes/recipes')
 var _services = require('./services/services')
@@ -27,15 +117,25 @@ var _services = require('./services/services')
  * 2. Create a heap (both min and max heap variants) which is similar to binary tree in structure, but tree having its min / max value as root. and it must insert on the left-most lowest level, and removes from root. Be able to easily swap nodes to ensure min / max ordering.
  * 3. Create a graph type which can have directional and undirectional variants for linking nodes
  */
+// Every collection (with the linker / element class it is built from), the recipes and the services are available by
+// name: import { LinkedList, Linker } from 'collect-your-stuff', require('collect-your-stuff').LinkedList ...
+
 /**
- * All methods exported from this module are encapsulated within collect-your-stuff.
+ * All methods exported from this module are encapsulated within collect-your-stuff (this default export is the same
+ * set of classes as the named exports).
  */
 const collectYourStuff = {
+  ArrayElement: _ArrayElement.ArrayElement,
   Arrayable: _Arrayable.Arrayable,
+  DoubleLinker: _DoubleLinker.DoubleLinker,
   DoublyLinkedList: _DoublyLinkedList.DoublyLinkedList,
+  Linker: _Linker.Linker,
   LinkedList: _LinkedList.LinkedList,
+  TreeLinker: _TreeLinker.TreeLinker,
   LinkedTreeList: _LinkedTreeList.LinkedTreeList,
+  Queueable: _Queueable.Queueable,
   Queue: _Queue.Queue,
+  Stackable: _Stackable.Stackable,
   Stack: _Stack.Stack,
   recipes: _recipes.recipes,
   services: _services.services
