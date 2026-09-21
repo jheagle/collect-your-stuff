@@ -39,6 +39,8 @@ export class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
   private tailCache: TreeLinker | null = null
   /** The number of linkers, kept up to date by the list's own methods so that the length does not need to walk the whole list (null when not known yet). */
   private countCache: number | null = null
+  /** The node these linkers are the children of, remembered so that it is known even while the list is empty (undefined until it is known). */
+  private ownerNode: TreeLinker | null | undefined = undefined
 
   /**
    * Create the new LinkedTreeList instance, configure the list class.
@@ -97,26 +99,29 @@ export class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
   }
 
   /**
-   * Get the parent of this tree list.
-   * @return {TreeLinker}
+   * Get the parent of this tree list: the node these linkers are the children of (remembered even while the list is
+   * empty), or null for the linkers at the top of a tree.
+   * @return {TreeLinker|null}
    */
-  public get parent (): TreeLinker {
-    const first = this.first
-    if (first === null) {
-      return null
+  public get parent (): TreeLinker | null {
+    if (this.ownerNode !== undefined) {
+      return this.ownerNode
     }
-    return this.first.parent
+    const first = this.first
+    return first === null ? null : first.parent as TreeLinker
   }
 
   /**
-   * Set the parent of this tree list
-   * @param {TreeLinker} parent The new node to use as the parent for this group of children
+   * Set the parent of this tree list: every linker in it gets the node as its parent, and the node gets this list as its
+   * children. Linkers added to the list later get this parent too.
+   * @param {TreeLinker|null} parent The new node to use as the parent for this group of children
    */
-  public set parent (parent: TreeLinker) {
+  public set parent (parent: TreeLinker | null) {
+    this.ownerNode = parent
     let current: TreeLinker = this.first
     while (current !== null) {
       current.parent = parent
-      current = current.next
+      current = current.next as TreeLinker
     }
     if (parent) {
       parent.children = this
@@ -142,34 +147,57 @@ export class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
 
   /**
    * Set the children on a parent item.
-   * @param {TreeLinker} item The TreeLinker node that will be the parent of the children
-   * @param {LinkedTreeList} children The LinkedTreeList which has the child nodes to use
+   * @param {TreeLinker} item The TreeLinker node (one of the linkers of this list) that will be the parent of the children
+   * @param {LinkedTreeList|null} [children=null] The LinkedTreeList which has the child nodes to use, or null to remove the children of the item
+   * @throws {Error} When the item is not one of the linkers of this list
    */
-  public setChildren (item: TreeLinker, children: LinkedTreeList = null): void {
-    if (Array.from(this).indexOf(item) < 0) {
-      console.error('item is not a child of this')
+  public setChildren (item: TreeLinker, children: LinkedTreeList | null = null): void {
+    // The item must be one of the linkers of this list (only the siblings are checked, not the whole tree)
+    let isChild: boolean = false
+    this.forEach((linker: any) => {
+      if (linker === item) {
+        isChild = true
+      }
+    })
+    if (!isChild) {
+      throw new Error('The item is not one of the linkers of this list.')
+    }
+    if (children === null || typeof children === 'undefined') {
+      item.children = null
+      return
     }
     children.parent = item
   }
 
   /**
-   * Insert a new node (or data) after a node.
-   * @param {TreeLinker|*} node The existing node as reference
-   * @param {TreeLinker|*} newNode The new node to go after the existing node
-   * @returns {LinkedTreeList}
+   * Make a linker of the given node (or data) and make this list's parent its parent.
+   * @param {TreeLinker|*} newNode The node (or data) which is being added to this list
+   * @returns {TreeLinker}
    */
-  public insertAfter (node: TreeLinker, newNode: TreeLinker | any): LinkedTreeList {
-    return DoublyLinkedList.prototype.insertAfter.call(this, node, newNode) as unknown as LinkedTreeList
+  private adopt (newNode: TreeLinker | any): TreeLinker {
+    const linker: TreeLinker = this.linkerClass.make(newNode, this.linkerClass)
+    linker.parent = this.parent
+    return linker
   }
 
   /**
-   * Insert a new node (or data) before a node.
-   * @param {TreeLinker|*} node The existing node as reference
+   * Insert a new node (or data) after a node. The new node gets the parent of this list.
+   * @param {TreeLinker|*} node The existing node as reference, or null to insert at the start of the list
+   * @param {TreeLinker|*} newNode The new node to go after the existing node
+   * @returns {LinkedTreeList}
+   */
+  public insertAfter (node: TreeLinker | null, newNode: TreeLinker | any): LinkedTreeList {
+    return DoublyLinkedList.prototype.insertAfter.call(this, node, this.adopt(newNode)) as unknown as LinkedTreeList
+  }
+
+  /**
+   * Insert a new node (or data) before a node. The new node gets the parent of this list.
+   * @param {TreeLinker|*} node The existing node as reference, or null to insert at the end of the list
    * @param {TreeLinker|*} newNode The new node to go before the existing node
    * @returns {LinkedTreeList}
    */
-  public insertBefore (node: TreeLinker, newNode: TreeLinker | any): LinkedTreeList {
-    return DoublyLinkedList.prototype.insertBefore.call(this, node, newNode) as unknown as LinkedTreeList
+  public insertBefore (node: TreeLinker | null, newNode: TreeLinker | any): LinkedTreeList {
+    return DoublyLinkedList.prototype.insertBefore.call(this, node, this.adopt(newNode)) as unknown as LinkedTreeList
   }
 
   /**
@@ -193,12 +221,19 @@ export class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
   }
 
   /**
-   * Remove a linker from this linked list.
+   * Remove a linker from this linked list. The removed node no longer has a parent.
    * @param {TreeLinker} node The node we wish to remove (and it will be returned after removal)
-   * @return {TreeLinker}
+   * @return {TreeLinker|null} The removed node, or null when there was nothing to remove
    */
-  public remove (node: TreeLinker): TreeLinker {
-    return DoublyLinkedList.prototype.remove.call(this, node) as unknown as TreeLinker
+  public remove (node: TreeLinker): TreeLinker | null {
+    const owner: TreeLinker | null = this.parent
+    const removed = DoublyLinkedList.prototype.remove.call(this, node) as unknown as TreeLinker | null
+    if (removed && removed.parent === owner) {
+      // Remember whose children these are (the list may now be empty), the removed node no longer has that parent
+      this.ownerNode = owner
+      removed.parent = null
+    }
+    return removed
   }
 
   /**
@@ -237,12 +272,14 @@ export class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
   }
 
   /**
-   * Be able to iterate over this class.
+   * Be able to iterate over this class: the linkers of this list and everything below them (left-first). It stays within
+   * this list (it does not start at, or climb up to, the parents), use the parseTree service to parse a whole tree.
    * @returns {Iterator}
    */
   [Symbol.iterator] (): Iterator<TreeLinker> {
-    let root: IsTreeNode = this.rootParent
-    return new TreeLinkerIterator(root)
+    // The linkers of this list and everything below them, left-first. It stays within this list: it does not start at,
+    // or climb up to, the parents (use the parseTree service to parse a whole tree)
+    return new TreeLinkerIterator(this.first, this.parent)
   }
 
   /**

@@ -6,13 +6,16 @@ import { parseTreeNext } from '../services/parseTreeNext'
  */
 export class TreeLinkerIterator implements Iterator<IsTreeNode> {
   private current: IsTreeNode
+  private readonly boundaryParent: IsTreeNode | null | undefined
 
   /**
    * Create an iterator starting at the given item.
    * @param {IsTreeNode} current The item to start from.
+   * @param {IsTreeNode|null} [boundaryParent] The parent of the nodes to stay within (null for the top of a tree), the whole tree when not given.
    */
-  constructor (current: IsTreeNode) {
+  constructor (current: IsTreeNode, boundaryParent?: IsTreeNode | null) {
     this.current = current
+    this.boundaryParent = boundaryParent
   }
 
   /**
@@ -22,7 +25,7 @@ export class TreeLinkerIterator implements Iterator<IsTreeNode> {
    */
   next (value?: any): IteratorResult<IsTreeNode> {
     const result = { value: this.current, done: !this.current }
-    this.current = parseTreeNext(this.current)
+    this.current = parseTreeNext(this.current, this.boundaryParent)
     return result
   }
 }

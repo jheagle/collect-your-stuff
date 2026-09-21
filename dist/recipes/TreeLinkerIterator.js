@@ -12,9 +12,11 @@ class TreeLinkerIterator {
   /**
    * Create an iterator starting at the given item.
    * @param {IsTreeNode} current The item to start from.
+   * @param {IsTreeNode|null} [boundaryParent] The parent of the nodes to stay within (null for the top of a tree), the whole tree when not given.
    */
-  constructor (current) {
+  constructor (current, boundaryParent) {
     this.current = current
+    this.boundaryParent = boundaryParent
   }
 
   /**
@@ -27,7 +29,7 @@ class TreeLinkerIterator {
       value: this.current,
       done: !this.current
     }
-    this.current = (0, _parseTreeNext.parseTreeNext)(this.current)
+    this.current = (0, _parseTreeNext.parseTreeNext)(this.current, this.boundaryParent)
     return result
   }
 }

@@ -13,35 +13,30 @@ exports.parseTreeNext = void 0
  * 5. Repeat 3
  * 6. If no next child, return to parent and repeat 3
  * 7. Stop at root (next is null and parent is null
+ * A boundary can be given to parse only part of a tree: going back up to the parents stops at the boundary, so the
+ * parsing stays within the nodes whose parent is the boundary (and everything below them).
  * @param {IsTreeNode} treeNode Provide a node in a tree and get the next node (left-first approach)
+ * @param {IsTreeNode|null} [boundaryParent] The parent of the nodes to stay within, null for the nodes at the top of a tree. When it is not given the whole tree is parsed.
  * @returns {IsTreeNode|null}
  */
-const parseTreeNext = treeNode => {
+const parseTreeNext = (treeNode, boundaryParent) => {
   if (!treeNode) {
     return null
   }
-  let test = null
   if (treeNode.children && treeNode.children.length) {
-    // Go down the left side of the tree
-    test = treeNode.children.first
+    return treeNode.children.first
   }
-  if (!test) {
-    // Reached the bottom, go the next node on the right
-    test = treeNode.next
+  if (treeNode.next) {
+    return treeNode.next
   }
-  if (!test && treeNode.parent) {
-    // No more child nodes, return to parent and check parent sibling on the right
-    let parentNext = treeNode.parent.next
-    let parent = treeNode.parent
-    while (parent && !parentNext) {
-      parentNext = parent.next
-      // Keep checking parent next, until there are no more parents, or we find the parent sibling
-      parent = parent.parent
+  // Nothing more below or beside this node, so go back up until there is a node which has a next (or the boundary)
+  let parent = treeNode.parent
+  while (parent && parent !== boundaryParent) {
+    if (parent.next) {
+      return parent.next
     }
-    // This may be the parent sibling, or it could be null indicating we are done
-    test = parentNext
+    parent = parent.parent
   }
-  // Finally, either use the node we found, or it may be null
-  return test
+  return null
 }
 exports.parseTreeNext = parseTreeNext

@@ -43,7 +43,9 @@ export declare class TreeLinker implements IsTreeNode {
         listClass?: any;
     });
     /**
-     * Create the children for this tree from an array.
+     * Create the children for this tree from an array. Each child becomes a tree linker with this node as its parent: an
+     * existing linker is kept as it is, an object with a data property gives the settings of the linker, and anything
+     * else is the data of the linker.
      * @param {Array|null} children Provide an array of data / linker references to be children of this tree node.
      * @param {IsArrayable<IsTreeNode>} listClass Give the type of list to use for storing the children
      * @return {LinkedTreeList|null}

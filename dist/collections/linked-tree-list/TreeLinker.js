@@ -51,7 +51,9 @@ class TreeLinker {
   }
 
   /**
-   * Create the children for this tree from an array.
+   * Create the children for this tree from an array. Each child becomes a tree linker with this node as its parent: an
+   * existing linker is kept as it is, an object with a data property gives the settings of the linker, and anything
+   * else is the data of the linker.
    * @param {Array|null} children Provide an array of data / linker references to be children of this tree node.
    * @param {IsArrayable<IsTreeNode>} listClass Give the type of list to use for storing the children
    * @return {LinkedTreeList|null}
@@ -60,10 +62,17 @@ class TreeLinker {
     if (children === null) {
       return null
     }
-    // Creates a linked-tree-list to store the children.
-    return listClass.fromArray(children.map(child => Object.assign({}, child, {
-      parent: this
-    })), this.classType)
+    // Every child is made into a tree linker (an existing one is kept as it is, and a plain value is the data) and is
+    // given this node as its parent
+    const nodes = children.map(child => {
+      const linker = this.classType.make(child, this.classType)
+      linker.parent = this
+      return linker
+    })
+    // Creates a linked-tree-list to store the children, which remembers this node as its parent even when it is empty
+    const list = listClass.fromArray(nodes, this.classType)
+    list.parent = this
+    return list
   }
 }
 /**

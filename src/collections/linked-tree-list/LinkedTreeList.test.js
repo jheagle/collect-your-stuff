@@ -1,5 +1,24 @@
 import { LinkedTreeList } from './LinkedTreeList'
+
 import { TreeLinker } from './TreeLinker'
+
+const sampleTree = () => LinkedTreeList.fromArray([
+  {
+    data: 'root1',
+    children: [
+      { data: 'a', children: [{ data: 'a1' }, { data: 'a2' }] },
+      { data: 'b' }
+    ]
+  },
+  { data: 'root2', children: [{ data: 'c' }] }
+])
+const names = list => Array.from(list).map(linker => linker.data)
+const siblings = list => {
+  const found = []
+  list.forEach(linker => found.push(linker.data))
+  return found
+}
+
 
 describe('LinkedTreeList', () => {
   test('can store linkers', () => {
@@ -267,6 +286,116 @@ describe('LinkedTreeList', () => {
       someList.append('b')
       someList.prepend('a')
       expect(values(someList)).toEqual(['a', 'b'])
+    })
+  })
+
+  describe('a list keeps to its own part of the tree', () => {
+    test('a top level list iterates the whole tree, left-first', () => {
+      expect(names(sampleTree())).toEqual(['root1', 'a', 'a1', 'a2', 'b', 'root2', 'c'])
+    })
+
+    test('the list of children only iterates the children and what is below them, not the parent or its siblings', () => {
+      const tree = sampleTree()
+      expect(names(tree.first.children)).toEqual(['a', 'a1', 'a2', 'b'])
+      expect(names(tree.first.children.first.children)).toEqual(['a1', 'a2'])
+      expect(names(tree.first.next.children)).toEqual(['c'])
+    })
+
+    test('forEach, length, first and item cover the list itself while iteration also goes down', () => {
+      const children = sampleTree().first.children
+      expect(siblings(children)).toEqual(['a', 'b'])
+      expect(children.length).toBe(2)
+      expect(children.item(1).data).toBe('b')
+    })
+
+    test('an empty list iterates nothing', () => {
+      expect(names(new LinkedTreeList())).toEqual([])
+      expect(names(LinkedTreeList.fromArray([{ data: 'x', children: [] }]).first.children)).toEqual([])
+    })
+  })
+
+  describe('the parent of added and removed linkers', () => {
+    test('linkers added to a list of children get the parent of the list', () => {
+      const tree = sampleTree()
+      const children = tree.first.children
+      children.append('end')
+      children.prepend('start')
+      children.insertAfter(children.first, 'second')
+      children.insertBefore(children.last, 'penultimate')
+      expect(siblings(children)).toEqual(['start', 'second', 'a', 'b', 'penultimate', 'end'])
+      children.forEach(linker => expect(linker.parent).toBe(tree.first))
+    })
+
+    test('an existing linker which is added takes on the parent too', () => {
+      const tree = sampleTree()
+      const moved = tree.first.next
+      tree.first.children.append(moved)
+      expect(moved.parent).toBe(tree.first)
+    })
+
+    test('a list of children which is empty still knows its parent', () => {
+      const tree = LinkedTreeList.fromArray([{ data: 'x', children: [] }])
+      const children = tree.first.children
+      expect(children.parent).toBe(tree.first)
+      children.append('child')
+      expect(children.first.parent).toBe(tree.first)
+    })
+
+    test('a list keeps its parent when everything is removed and something is added again', () => {
+      const tree = sampleTree()
+      const children = tree.first.next.children
+      children.remove(children.first)
+      expect(children.length).toBe(0)
+      expect(children.parent).toBe(tree.first.next)
+      children.append('again')
+      expect(children.first.parent).toBe(tree.first.next)
+    })
+
+    test('a removed linker no longer has a parent', () => {
+      const tree = sampleTree()
+      const children = tree.first.children
+      const removed = children.remove(children.first)
+      expect(removed.data).toBe('a')
+      expect(removed.parent).toBeNull()
+      expect(children.first.parent).toBe(tree.first)
+    })
+
+    test('removing a linker which is not in the list leaves its parent alone', () => {
+      const tree = sampleTree()
+      const other = tree.first.next.children.first
+      expect(tree.first.children.remove(other)).toBe(other)
+      expect(other.parent).toBe(tree.first.next)
+    })
+
+    test('a top level list has no parent', () => {
+      const tree = sampleTree()
+      expect(tree.parent).toBeNull()
+      tree.append('another')
+      expect(tree.last.parent).toBeNull()
+    })
+  })
+
+  describe('setChildren', () => {
+    test('sets the parent of the children and the children of the parent', () => {
+      const tree = sampleTree()
+      const newChildren = LinkedTreeList.fromArray(['x', 'y'])
+      tree.setChildren(tree.first.next, newChildren)
+      expect(tree.first.next.children).toBe(newChildren)
+      newChildren.forEach(linker => expect(linker.parent).toBe(tree.first.next))
+    })
+
+    test('with no children given, removes the children of the item', () => {
+      const tree = sampleTree()
+      tree.setChildren(tree.first)
+      expect(tree.first.children).toBeNull()
+    })
+
+    test('throws for an item which is not one of the linkers of the list', () => {
+      const tree = sampleTree()
+      const other = sampleTree()
+      expect(() => tree.setChildren(other.first, LinkedTreeList.fromArray(['x']))).toThrow('not one of the linkers')
+      // A child of an item is not one of the linkers of the list either, only the siblings are checked
+      expect(() => tree.setChildren(tree.first.children.first, LinkedTreeList.fromArray(['x']))).toThrow('not one of the linkers')
     })
   })
 })
