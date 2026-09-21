@@ -178,6 +178,11 @@ class DoublyLinkedList {
       // The next node will reference this previous node
       node.next.prev = node.prev
     }
+    // The list finds its head by walking from innerList, so it must not keep pointing at the node being removed. For the
+    // last remaining node there is nothing to walk to, which would otherwise leave the removed node in the list.
+    if (this.innerList === node) {
+      this.innerList = node.next || node.prev || null
+    }
     // Update head reference
     this.reset()
     return node
