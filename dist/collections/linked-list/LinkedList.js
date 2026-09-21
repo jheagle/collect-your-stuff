@@ -14,10 +14,14 @@ var _Arrayable = require('../arrayable/Arrayable')
 class LinkedList {
   /**
    * Create the new LinkedList instance.
+   * @param {Linker} [linkerClass=Linker] The class used to wrap given data as linkers.
    */
   constructor (linkerClass = _Linker.Linker) {
+    /** The class used to create this instance, so that it can be recognized as valid without an instanceof check. */
     this.classType = LinkedList
+    /** The first linker of the list (null when the list is empty), from which the whole list is reached. */
     this.innerList = null
+    /** Whether the inner list has been initialized (it can only be initialized once). */
     this.initialized = false
     this.linkerClass = linkerClass
   }
@@ -28,6 +32,7 @@ class LinkedList {
    * @return {LinkedList}
    */
   initialize (initialList) {
+    // Borrowed from Arrayable, which types its return as an Arrayable although it returns whatever list called it
     return _Arrayable.Arrayable.prototype.initialize.call(this, initialList)
   }
 

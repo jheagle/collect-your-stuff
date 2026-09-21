@@ -12,7 +12,7 @@ var _Linker = require('../linked-list/Linker')
 class Stackable {
   /**
    * Create a stackable item that can be used in a stack.
-   * @param {Object} [stackData={}]
+   * @param {Object} [stackData={}] The settings for the new stackable.
    * @param {*} [stackData.task=null] The data to be stored in this stackable
    * @param {Stackable|null} [stackData.next=null] The reference to the next stackable if any
    * @param {boolean|Function} [stackData.ready=false] Indicate if the stackable is ready to run
@@ -22,7 +22,9 @@ class Stackable {
     next = null,
     ready = false
   } = {}) {
+    /** The task (or data) this stackable holds. */
     this.data = null
+    /** The stackable below this one, or null when this is the bottom. */
     this.next = null
     this.classType = Stackable
     this.data = task

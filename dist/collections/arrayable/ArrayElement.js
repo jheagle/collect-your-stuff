@@ -15,7 +15,9 @@ class ArrayElement {
    * @param {*} [data=null] The data to be stored in this element.
    */
   constructor (data = null) {
+    /** The class used to create this instance, so that it can be recognized as valid without an instanceof check. */
     this.classType = ArrayElement
+    /** The data stored in this element. */
     this.data = null
     this.data = data
   }

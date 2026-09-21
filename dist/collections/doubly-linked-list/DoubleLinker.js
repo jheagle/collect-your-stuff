@@ -14,7 +14,7 @@ var _Linker = require('../linked-list/Linker')
 class DoubleLinker {
   /**
    * Create the new DoubleLinker instance, provide the data and optionally the next and prev references.
-   * @param {Object} [nodeData={}]
+   * @param {Object} [nodeData={}] The settings for the new linker.
    * @param {*} [nodeData.data=null] The data to be stored in this linker
    * @param {DoubleLinker|null} [nodeData.next=null] The reference to the next linker if any
    * @param {DoubleLinker|null} [nodeData.prev=null] The reference to the previous linker if any
@@ -24,9 +24,13 @@ class DoubleLinker {
     next = null,
     prev = null
   } = {}) {
+    /** The class used to create this instance, so that it can be recognized as valid without an instanceof check. */
     this.classType = DoubleLinker
+    /** The data stored in this linker. */
     this.data = null
+    /** The linker after this one, or null when this is the last. */
     this.next = null
+    /** The linker before this one, or null when this is the first. */
     this.prev = null
     this.data = data
     this.next = next

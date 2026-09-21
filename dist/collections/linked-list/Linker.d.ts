@@ -10,12 +10,15 @@ import { IsLinker } from '../../recipes/IsLinker';
  * @extends ArrayElement
  */
 export declare class Linker implements IsLinker {
+    /** The class used to create this instance, so that it can be recognized as valid without an instanceof check. */
     readonly classType: typeof Linker;
+    /** The data stored in this linker. */
     data: any;
+    /** The linker after this one, or null when this is the last. */
     next: Linker | null;
     /**
      * Create the new Linker instance, provide the data and optionally give the next Linker.
-     * @param {Object} [nodeData={}]
+     * @param {Object} [nodeData={}] The settings for the new linker.
      * @param {*} [nodeData.data=null] The data to be stored in this linker
      * @param {Linker|null} [nodeData.next=null] The reference to the next linker if any
      */

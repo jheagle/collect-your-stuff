@@ -20,8 +20,8 @@ class Queue {
   /**
    * Instantiate the queue with the given queue list.
    * @param {Iterable|LinkedList} queuedList Give the list of queueables to start in this queue.
-   * @param {IsArrayable} listClass
-   * @param {Queueable} queueableClass
+   * @param {IsArrayable} [listClass=LinkedList] The type of list to create when no queued list is given.
+   * @param {Queueable} [queueableClass=Queueable] The class used to wrap queued items.
    */
   constructor (queuedList = null, listClass = _LinkedList.LinkedList, queueableClass = _Queueable.Queueable) {
     this.listClass = listClass

@@ -15,16 +15,22 @@ import { LinkedTreeList } from './LinkedTreeList'
  * @extends DoubleLinker
  */
 export class TreeLinker implements IsTreeNode {
+  /** The class used to create this instance, so that it can be recognized as valid without an instanceof check. */
   public readonly classType: typeof TreeLinker = TreeLinker
+  /** The data stored in this tree node. */
   public data: any = null
+  /** The sibling after this node, or null when this is the last child. */
   public next: IsTreeNode | null = null
+  /** The sibling before this node, or null when this is the first child. */
   public prev: IsTreeNode | null = null
+  /** The node this node is a child of, or null for a root node. */
   public parent: IsTreeNode = null
+  /** The list of the children of this node, or null when it has none. */
   public children: IsArrayable<IsTreeNode> = null
 
   /**
    * Create the new TreeLinker instance, provide the data and optionally set references for next, prev, parent, or children.
-   * @param {Object} [settings={}]
+   * @param {Object} [settings={}] The settings for the new tree node.
    * @param {*} [settings.data=null] The data to be stored in this tree node
    * @param {TreeLinker} [settings.next=null] The reference to the next linker if any
    * @param {TreeLinker} [settings.prev=null] The reference to the previous linker if any

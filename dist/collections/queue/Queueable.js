@@ -12,7 +12,7 @@ var _Linker = require('../linked-list/Linker')
 class Queueable {
   /**
    * Create a queueable item that can be used in a queue.
-   * @param {Object} [queueableData={}]
+   * @param {Object} [queueableData={}] The settings for the new queueable.
    * @param {*} [queueableData.task=null] The data to be stored in this queueable
    * @param {Queueable|null} [queueableData.next=null] The reference to the next queueable if any
    * @param {boolean|Function} [queueableData.ready=false] Indicate if the queueable is ready to run
@@ -22,10 +22,15 @@ class Queueable {
     next = null,
     ready = false
   } = {}) {
+    /** The task (or data) this queueable holds. */
     this.data = null
+    /** The queueable after this one, or null when this is the last. */
     this.next = null
+    /** Whether this queueable has been run to completion. */
     this.complete = false
+    /** Whether this queueable may run, or a function which answers that when asked. */
     this.ready = false
+    /** Whether this queueable is running right now. */
     this.running = false
     this.classType = Queueable
     this.data = task
@@ -58,7 +63,7 @@ class Queueable {
 
   /**
    * Set this queueable as completed.
-   * @param {Object} completeResponse
+   * @param {Object} [completeResponse={}] The result to report for the task.
    * @param {*} [completeResponse.success=true] Indicate when the task failed (use false) or give a success message
    * @param {*} [completeResponse.error=false] Indicate a task was error-free (use false) or give an error message
    * @param {*} [completeResponse.context=null] Provide additional data in the response

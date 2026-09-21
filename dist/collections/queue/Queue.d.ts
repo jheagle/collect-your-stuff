@@ -12,14 +12,15 @@ import { completeResponse } from '../../recipes/Runnable';
  * Maintain a series of queued items.
  */
 export declare class Queue {
+    /** The list which stores the queueables, the first is next to be dequeued. */
     queuedList: IsArrayable<any>;
     private listClass;
     private queueableClass;
     /**
      * Instantiate the queue with the given queue list.
      * @param {Iterable|LinkedList} queuedList Give the list of queueables to start in this queue.
-     * @param {IsArrayable} listClass
-     * @param {Queueable} queueableClass
+     * @param {IsArrayable} [listClass=LinkedList] The type of list to create when no queued list is given.
+     * @param {Queueable} [queueableClass=Queueable] The class used to wrap queued items.
      */
     constructor(queuedList?: IsArrayable<any>, listClass?: any, queueableClass?: typeof Queueable);
     /**

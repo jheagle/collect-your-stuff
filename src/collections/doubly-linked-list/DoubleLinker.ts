@@ -12,14 +12,18 @@ import { Linker } from '../linked-list/Linker'
  * @extends Linker
  */
 export class DoubleLinker implements IsDoubleLinker {
+  /** The class used to create this instance, so that it can be recognized as valid without an instanceof check. */
   public readonly classType: typeof DoubleLinker = DoubleLinker
+  /** The data stored in this linker. */
   public data: any = null
+  /** The linker after this one, or null when this is the last. */
   public next: DoubleLinker | null = null
+  /** The linker before this one, or null when this is the first. */
   public prev: DoubleLinker | null = null
 
   /**
    * Create the new DoubleLinker instance, provide the data and optionally the next and prev references.
-   * @param {Object} [nodeData={}]
+   * @param {Object} [nodeData={}] The settings for the new linker.
    * @param {*} [nodeData.data=null] The data to be stored in this linker
    * @param {DoubleLinker|null} [nodeData.next=null] The reference to the next linker if any
    * @param {DoubleLinker|null} [nodeData.prev=null] The reference to the previous linker if any

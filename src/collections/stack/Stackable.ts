@@ -13,13 +13,16 @@ import { Linker } from '../linked-list/Linker'
  * @extends Linker
  */
 export class Stackable implements IsLinker, IsRunnable {
+  /** The class used to create this instance, so that it can be recognized as valid without an instanceof check. */
   public readonly classType: typeof Stackable
+  /** The task (or data) this stackable holds. */
   public data: any = null
+  /** The stackable below this one, or null when this is the bottom. */
   public next: Stackable | null = null
 
   /**
    * Create a stackable item that can be used in a stack.
-   * @param {Object} [stackData={}]
+   * @param {Object} [stackData={}] The settings for the new stackable.
    * @param {*} [stackData.task=null] The data to be stored in this stackable
    * @param {Stackable|null} [stackData.next=null] The reference to the next stackable if any
    * @param {boolean|Function} [stackData.ready=false] Indicate if the stackable is ready to run

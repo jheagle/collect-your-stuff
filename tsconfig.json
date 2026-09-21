@@ -1,11 +1,19 @@
 {
-  "files": [
+  "include": [
     "src/**/*.ts"
   ],
+  "exclude": [
+    "src/**/*.test.*"
+  ],
   "compilerOptions": {
+    "strict": true,
+    "strictNullChecks": false,
+    "strictPropertyInitialization": false,
     "noImplicitAny": true,
     "target": "es6",
-    "moduleResolution": "node",
-    "declaration": true
+    "moduleResolution": "bundler",
+    "skipLibCheck": true,
+    "declaration": true,
+    "types": []
   }
 }

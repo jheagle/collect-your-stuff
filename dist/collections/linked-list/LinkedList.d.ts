@@ -12,12 +12,17 @@ import { Linker } from './Linker';
  * @extends Arrayable
  */
 export declare class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
+    /** The class used to create this instance, so that it can be recognized as valid without an instanceof check. */
     readonly classType: typeof LinkedList;
+    /** The first linker of the list (null when the list is empty), from which the whole list is reached. */
     innerList: Linker;
+    /** Whether the inner list has been initialized (it can only be initialized once). */
     initialized: boolean;
+    /** The class used to wrap the data given to this list as linkers. */
     linkerClass: typeof Linker;
     /**
      * Create the new LinkedList instance.
+     * @param {Linker} [linkerClass=Linker] The class used to wrap given data as linkers.
      */
     constructor(linkerClass?: typeof Linker);
     /**

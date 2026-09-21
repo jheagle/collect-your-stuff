@@ -16,13 +16,18 @@ import { IsTreeNode } from '../../recipes/IsTreeNode'
  * @extends DoublyLinkedList
  */
 export class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
+  /** The class used to create this instance, so that it can be recognized as valid without an instanceof check. */
   public readonly classType: typeof LinkedTreeList = LinkedTreeList
+  /** A linker of the list (null when the list is empty); the head is found by walking back from it. */
   public innerList: IsTreeNode | any = null
+  /** Whether the inner list has been initialized (it can only be initialized once). */
   public initialized: boolean = false
+  /** The class used to wrap the data given to this list as tree linkers. */
   public linkerClass: typeof TreeLinker
 
   /**
    * Create the new LinkedTreeList instance, configure the list class.
+   * @param {TreeLinker} [linkerClass=TreeLinker] The class used to wrap given data as tree linkers.
    */
   public constructor (linkerClass: typeof TreeLinker = TreeLinker) {
     this.linkerClass = linkerClass
@@ -153,7 +158,7 @@ export class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
    * @returns {LinkedTreeList}
    */
   public insertAfter (node: TreeLinker, newNode: TreeLinker | any): LinkedTreeList {
-    return DoublyLinkedList.prototype.insertAfter.call(this, node, newNode)
+    return DoublyLinkedList.prototype.insertAfter.call(this, node, newNode) as unknown as LinkedTreeList
   }
 
   /**
@@ -163,7 +168,7 @@ export class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
    * @returns {LinkedTreeList}
    */
   public insertBefore (node: TreeLinker, newNode: TreeLinker | any): LinkedTreeList {
-    return DoublyLinkedList.prototype.insertBefore.call(this, node, newNode)
+    return DoublyLinkedList.prototype.insertBefore.call(this, node, newNode) as unknown as LinkedTreeList
   }
 
   /**
@@ -173,7 +178,7 @@ export class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
    * @returns {TreeLinker}
    */
   public append (node: TreeLinker | any, after: TreeLinker = this.last): LinkedTreeList {
-    return DoublyLinkedList.prototype.append.call(this, node, after)
+    return DoublyLinkedList.prototype.append.call(this, node, after) as unknown as LinkedTreeList
   }
 
   /**
@@ -183,7 +188,7 @@ export class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
    * @returns {TreeLinker}
    */
   public prepend (node: TreeLinker | any, before: TreeLinker = this.first): LinkedTreeList {
-    return DoublyLinkedList.prototype.prepend.call(this, node, before)
+    return DoublyLinkedList.prototype.prepend.call(this, node, before) as unknown as LinkedTreeList
   }
 
   /**
@@ -192,7 +197,7 @@ export class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
    * @return {TreeLinker}
    */
   public remove (node: TreeLinker): TreeLinker {
-    return DoublyLinkedList.prototype.remove.call(this, node)
+    return DoublyLinkedList.prototype.remove.call(this, node) as unknown as TreeLinker
   }
 
   /**
@@ -200,7 +205,7 @@ export class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
    * @return {TreeLinker}
    */
   public reset (): TreeLinker {
-    return DoublyLinkedList.prototype.reset.call(this)
+    return DoublyLinkedList.prototype.reset.call(this) as unknown as TreeLinker
   }
 
   /**
@@ -209,13 +214,14 @@ export class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
    * @returns {TreeLinker|null}
    */
   public item (index: number): TreeLinker {
-    return DoublyLinkedList.prototype.item.call(this, index)
+    return DoublyLinkedList.prototype.item.call(this, index) as unknown as TreeLinker
   }
 
   /**
    * Be able to run forEach on this LinkedTreeList to iterate over the TreeLinker Items.
    * @param {forEachCallback} callback The function to call for-each tree node
    * @param {LinkedTreeList} thisArg Optional, 'this' reference
+   * @return {LinkedTreeList} The list which was iterated.
    */
   public forEach (callback: forEachCallback, thisArg: LinkedTreeList = this): LinkedTreeList {
     let index: number = 0

@@ -14,7 +14,7 @@ var _ArrayElement = require('../arrayable/ArrayElement')
 class Linker {
   /**
    * Create the new Linker instance, provide the data and optionally give the next Linker.
-   * @param {Object} [nodeData={}]
+   * @param {Object} [nodeData={}] The settings for the new linker.
    * @param {*} [nodeData.data=null] The data to be stored in this linker
    * @param {Linker|null} [nodeData.next=null] The reference to the next linker if any
    */
@@ -22,8 +22,11 @@ class Linker {
     data = null,
     next = null
   } = {}) {
+    /** The class used to create this instance, so that it can be recognized as valid without an instanceof check. */
     this.classType = Linker
+    /** The data stored in this linker. */
     this.data = null
+    /** The linker after this one, or null when this is the last. */
     this.next = null
     this.data = data
     this.next = next

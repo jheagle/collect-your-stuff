@@ -13,16 +13,22 @@ import { Linker } from '../linked-list/Linker'
  * @extends Linker
  */
 export class Queueable implements IsLinker, IsRunnable {
+  /** The class used to create this instance, so that it can be recognized as valid without an instanceof check. */
   public readonly classType: typeof Queueable
+  /** The task (or data) this queueable holds. */
   public data: any = null
+  /** The queueable after this one, or null when this is the last. */
   public next: Queueable | null = null
+  /** Whether this queueable has been run to completion. */
   public complete: boolean = false
+  /** Whether this queueable may run, or a function which answers that when asked. */
   public ready: Function | boolean = false
+  /** Whether this queueable is running right now. */
   public running: boolean = false
 
   /**
    * Create a queueable item that can be used in a queue.
-   * @param {Object} [queueableData={}]
+   * @param {Object} [queueableData={}] The settings for the new queueable.
    * @param {*} [queueableData.task=null] The data to be stored in this queueable
    * @param {Queueable|null} [queueableData.next=null] The reference to the next queueable if any
    * @param {boolean|Function} [queueableData.ready=false] Indicate if the queueable is ready to run
@@ -61,7 +67,7 @@ export class Queueable implements IsLinker, IsRunnable {
 
   /**
    * Set this queueable as completed.
-   * @param {Object} completeResponse
+   * @param {Object} [completeResponse={}] The result to report for the task.
    * @param {*} [completeResponse.success=true] Indicate when the task failed (use false) or give a success message
    * @param {*} [completeResponse.error=false] Indicate a task was error-free (use false) or give an error message
    * @param {*} [completeResponse.context=null] Provide additional data in the response

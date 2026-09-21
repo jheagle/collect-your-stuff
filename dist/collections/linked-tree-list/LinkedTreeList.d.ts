@@ -13,12 +13,17 @@ import { IsTreeNode } from '../../recipes/IsTreeNode';
  * @extends DoublyLinkedList
  */
 export declare class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
+    /** The class used to create this instance, so that it can be recognized as valid without an instanceof check. */
     readonly classType: typeof LinkedTreeList;
+    /** A linker of the list (null when the list is empty); the head is found by walking back from it. */
     innerList: IsTreeNode | any;
+    /** Whether the inner list has been initialized (it can only be initialized once). */
     initialized: boolean;
+    /** The class used to wrap the data given to this list as tree linkers. */
     linkerClass: typeof TreeLinker;
     /**
      * Create the new LinkedTreeList instance, configure the list class.
+     * @param {TreeLinker} [linkerClass=TreeLinker] The class used to wrap given data as tree linkers.
      */
     constructor(linkerClass?: typeof TreeLinker);
     /**
@@ -117,6 +122,7 @@ export declare class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
      * Be able to run forEach on this LinkedTreeList to iterate over the TreeLinker Items.
      * @param {forEachCallback} callback The function to call for-each tree node
      * @param {LinkedTreeList} thisArg Optional, 'this' reference
+     * @return {LinkedTreeList} The list which was iterated.
      */
     forEach(callback: forEachCallback, thisArg?: LinkedTreeList): LinkedTreeList;
     /**

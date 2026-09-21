@@ -12,12 +12,17 @@ import { IsDoubleLinker } from '../../recipes/IsDoubleLinker';
  * @extends LinkedList
  */
 export declare class DoublyLinkedList implements IsArrayable<DoubleLinker>, Iterable<DoubleLinker> {
+    /** The class used to create this instance, so that it can be recognized as valid without an instanceof check. */
     readonly classType: typeof DoublyLinkedList;
+    /** A linker of the list (null when the list is empty); the head is found by walking back from it. */
     innerList: DoubleLinker;
+    /** Whether the inner list has been initialized (it can only be initialized once). */
     initialized: boolean;
+    /** The class used to wrap the data given to this list as linkers. */
     linkerClass: typeof DoubleLinker;
     /**
      * Create the new DoublyLinkedList instance.
+     * @param {DoubleLinker} [linkerClass=DoubleLinker] The class used to wrap given data as linkers.
      */
     constructor(linkerClass?: typeof DoubleLinker);
     /**
@@ -95,6 +100,7 @@ export declare class DoublyLinkedList implements IsArrayable<DoubleLinker>, Iter
      * Be able to run forEach on this DoublyLinkedList to iterate over the DoubleLinker Items.
      * @param {forEachCallback} callback The function to call for-each double linker
      * @param {DoublyLinkedList} thisArg Optional, 'this' reference
+     * @return {DoublyLinkedList} The list which was iterated.
      */
     forEach(callback: forEachCallback, thisArg?: DoublyLinkedList): DoublyLinkedList;
     /**

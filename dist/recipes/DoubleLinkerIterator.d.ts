@@ -4,6 +4,15 @@ import { IsDoubleLinker } from './IsDoubleLinker';
  */
 export declare class DoubleLinkerIterator implements Iterator<IsDoubleLinker> {
     private current;
+    /**
+     * Create an iterator starting at the given item.
+     * @param {IsDoubleLinker} current The item to start from.
+     */
     constructor(current: IsDoubleLinker);
+    /**
+     * Get the current item and move on to the following one.
+     * @param {*} [value] Not used, present to match the Iterator interface.
+     * @return {IteratorResult<IsDoubleLinker>} The current item, or done when there are no more.
+     */
     next(value?: any): IteratorResult<IsDoubleLinker>;
 }

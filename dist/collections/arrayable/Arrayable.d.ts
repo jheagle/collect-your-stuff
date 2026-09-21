@@ -11,12 +11,17 @@ import { IsElement } from '../../recipes/IsElement';
  * Arrayable represents a collection stored as an array.
  */
 export declare class Arrayable implements IsArrayable<ArrayElement>, Iterable<ArrayElement> {
+    /** The class used to create this instance, so that it can be recognized as valid without an instanceof check. */
     readonly classType: typeof Arrayable;
+    /** The array which stores the elements of this Arrayable. */
     innerList: Array<ArrayElement>;
+    /** Whether the inner list has been initialized (it can only be initialized once). */
     initialized: boolean;
+    /** The class used to wrap the data given to this Arrayable as elements. */
     elementClass: typeof ArrayElement;
     /**
      * Create the new Arrayable instance, configure the Arrayable class.
+     * @param {ArrayElement} [elementClass=ArrayElement] The class used to wrap given data as elements.
      */
     constructor(elementClass?: typeof ArrayElement);
     /**

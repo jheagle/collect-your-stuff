@@ -15,13 +15,18 @@ import { IsDoubleLinker } from '../../recipes/IsDoubleLinker'
  * @extends LinkedList
  */
 export class DoublyLinkedList implements IsArrayable<DoubleLinker>, Iterable<DoubleLinker> {
+  /** The class used to create this instance, so that it can be recognized as valid without an instanceof check. */
   public readonly classType: typeof DoublyLinkedList = DoublyLinkedList
+  /** A linker of the list (null when the list is empty); the head is found by walking back from it. */
   public innerList: DoubleLinker = null
+  /** Whether the inner list has been initialized (it can only be initialized once). */
   public initialized: boolean = false
+  /** The class used to wrap the data given to this list as linkers. */
   public linkerClass: typeof DoubleLinker
 
   /**
    * Create the new DoublyLinkedList instance.
+   * @param {DoubleLinker} [linkerClass=DoubleLinker] The class used to wrap given data as linkers.
    */
   public constructor (linkerClass: typeof DoubleLinker = DoubleLinker) {
     this.linkerClass = linkerClass
@@ -33,7 +38,8 @@ export class DoublyLinkedList implements IsArrayable<DoubleLinker>, Iterable<Dou
    * @return {DoublyLinkedList}
    */
   public initialize (initialList: DoubleLinker): DoublyLinkedList {
-    return LinkedList.prototype.initialize.call(this, initialList)
+    // Borrowed from LinkedList, which types its return as a LinkedList although it returns whatever list called it
+    return LinkedList.prototype.initialize.call(this, initialList) as unknown as DoublyLinkedList
   }
 
   /**
@@ -243,9 +249,10 @@ export class DoublyLinkedList implements IsArrayable<DoubleLinker>, Iterable<Dou
    * Be able to run forEach on this DoublyLinkedList to iterate over the DoubleLinker Items.
    * @param {forEachCallback} callback The function to call for-each double linker
    * @param {DoublyLinkedList} thisArg Optional, 'this' reference
+   * @return {DoublyLinkedList} The list which was iterated.
    */
   public forEach (callback: forEachCallback, thisArg: DoublyLinkedList = this): DoublyLinkedList {
-    return LinkedList.prototype.forEach.call(this, callback, thisArg)
+    return LinkedList.prototype.forEach.call(this, callback, thisArg as unknown as LinkedList) as unknown as DoublyLinkedList
   }
 
   /**
