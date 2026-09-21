@@ -215,4 +215,29 @@ describe('LinkedTreeList', () => {
     expect(linkedTreeList.first.children.first.data).toEqual('four')
     expect(linkedTreeList.first.children.last.data).toEqual('five')
   })
+
+  test('can remove the only node, and every node in turn, leaving an empty list', () => {
+    const single = LinkedTreeList.fromArray(['one'])
+    const removedOnly = single.remove(single.first)
+    expect(removedOnly.data).toBe('one')
+    expect(single.length).toBe(0)
+    expect(single.first).toBeNull()
+    expect(single.last).toBeNull()
+
+    const someArray = LinkedTreeList.fromArray(['one', 'two', 'three'])
+    expect(someArray.remove(someArray.first.next).data).toBe('two')
+    expect(someArray.remove(someArray.first).data).toBe('one')
+    expect(someArray.length).toBe(1)
+    expect(someArray.remove(someArray.first).data).toBe('three')
+    expect(someArray.length).toBe(0)
+    expect(someArray.first).toBeNull()
+  })
+
+  test('can add to a list after everything was removed from it', () => {
+    const someArray = LinkedTreeList.fromArray(['one'])
+    someArray.remove(someArray.first)
+    someArray.append('two')
+    expect(someArray.length).toBe(1)
+    expect(someArray.first.data).toBe('two')
+  })
 })
