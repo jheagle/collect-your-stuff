@@ -43,7 +43,7 @@ export class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
   }
 
   /**
-   * Retrieve a copy of the innerList used.
+   * Retrieve the innerList used (the list itself, not a copy).
    * @returns {Linker}
    */
   public get list (): IsLinker {
@@ -91,45 +91,55 @@ export class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
 
   /**
    * Insert a new node (or data) after a node.
-   * @param {Linker|*} node The existing node as reference
+   * @param {Linker|*} node The existing node as reference, or null to insert at the start of the list
    * @param {Linker|*} newNode The new node to go after the existing node
    * @returns {LinkedList}
    */
-  public insertAfter (node: IsLinker, newNode: Linker | any): LinkedList {
-    newNode = this.linkerClass.make(newNode)
-    if (node !== null) {
-      // Ensure the next reference of this node is assigned to the new node
-      newNode.next = node.next
-      // Then set this node's next reference to the new node
-      node.next = newNode
-    }
-    if (!this.length) {
+  public insertAfter (node: IsLinker | null, newNode: Linker | any): LinkedList {
+    newNode = this.linkerClass.make(newNode, this.linkerClass)
+    if (node === null || typeof node === 'undefined') {
+      // After nothing means at the start of the list
+      newNode.next = this.innerList
       this.innerList = newNode
+      return this
     }
+    newNode.next = node.next
+    node.next = newNode
     return this
   }
 
   /**
    * Insert a new node (or data) before a node.
-   * @param {Linker|*} node The existing node as reference
+   * @param {Linker|*} node The existing node as reference, or null to insert at the end of the list
    * @param {Linker|*} newNode The new node to go before the existing node
    * @returns {LinkedList}
+   * @throws {Error} When the reference node is not in this list
    */
-  public insertBefore (node: IsLinker, newNode: Linker | any): LinkedList {
-    newNode = this.linkerClass.make(newNode)
-    let prevNode = null
-    let currentNode: IsLinker = this.first
-    while (currentNode !== node) {
+  public insertBefore (node: IsLinker | null, newNode: Linker | any): LinkedList {
+    newNode = this.linkerClass.make(newNode, this.linkerClass)
+    if (node === null || typeof node === 'undefined') {
+      // Before nothing means at the end of the list
+      const tail: Linker = this.last
+      if (tail === null) {
+        this.innerList = newNode
+      } else {
+        tail.next = newNode
+      }
+      return this
+    }
+    let prevNode: Linker | null = null
+    let currentNode: Linker | null = this.first
+    while (currentNode !== null && currentNode !== node) {
       prevNode = currentNode
       currentNode = currentNode.next
     }
-    // The new node will reference this node as next
+    if (currentNode === null) {
+      throw new Error('The reference node is not in this list.')
+    }
     newNode.next = node
     if (prevNode) {
-      // Ensure the next reference of the previous node is assigned to the new node
       prevNode.next = newNode
-    }
-    if (node === this.first || node === null) {
+    } else {
       this.innerList = newNode
     }
     return this
@@ -158,21 +168,25 @@ export class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
   /**
    * Remove a linker from this linked list.
    * @param {Linker} node The node we wish to remove (and it will be returned after removal)
-   * @return {Linker}
+   * @return {Linker|null} The removed node, or null when it was not in this list (nothing is removed)
    */
-  public remove (node: Linker): Linker {
-    let prevNode = null
-    let currentNode: IsLinker = this.first
-    while (currentNode !== node) {
+  public remove (node: Linker | null): Linker | null {
+    if (node === null || typeof node === 'undefined') {
+      return null
+    }
+    let prevNode: Linker | null = null
+    let currentNode: Linker | null = this.first
+    while (currentNode !== null && currentNode !== node) {
       prevNode = currentNode
       currentNode = currentNode.next
     }
-    if (prevNode) {
-      // Ensure the next reference of the previous node skips over the removed node
-      prevNode.next = node.next
+    if (currentNode === null) {
+      // The node is not in this list, so there is nothing to remove
+      return null
     }
-    if (node === this.first && node !== null) {
-      // Update list head to point to next if it was this node
+    if (prevNode) {
+      prevNode.next = node.next
+    } else {
       this.innerList = node.next
     }
     return node

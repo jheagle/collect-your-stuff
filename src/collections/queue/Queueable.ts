@@ -36,7 +36,7 @@ export class Queueable implements IsLinker, IsRunnable {
   public constructor ({ task = null, next = null, ready = false }: {
     task?: any;
     next?: Queueable | null;
-    ready?: boolean
+    ready?: boolean | Function
   } = {}) {
     this.classType = Queueable
     this.data = task
@@ -116,15 +116,15 @@ export class Queueable implements IsLinker, IsRunnable {
    * @return {Queueable}
    */
   public static make = (queueable: Queueable | any, classType: any = Queueable): IsLinker => {
-    if (typeof queueable !== 'object') {
-      // It is not an object, so instantiate the Queueable with an element as the data
+    if (queueable === null || typeof queueable !== 'object') {
+      // It is not an object (or it is null), so instantiate the Queueable with an element as the data
       return new classType({ task: queueable, ready: true })
     }
     if (queueable.classType) {
       // Already valid Queueable, return as-is
       return queueable
     }
-    if (!queueable.task) {
+    if (!('task' in queueable)) {
       queueable = { task: queueable, ready: true }
     }
     // Create the new node as the configured #classType
@@ -137,7 +137,7 @@ export class Queueable implements IsLinker, IsRunnable {
    * @param {IsLinker} [classType=Queueable] Provide the type of IsLinker to use.
    * @returns {{head: Queueable, tail: Queueable}}
    */
-  public static fromArray = (values: Array<any>, classType: any = Queueable): {
+  public static fromArray = (values: Array<any> = [], classType: any = Queueable): {
     head: IsLinker;
     tail: IsLinker;
   } => Linker.fromArray(values, classType)

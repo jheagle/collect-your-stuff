@@ -85,4 +85,18 @@ describe('Queueable', () => {
     expect(queueableTask.run()).toEqual({ success: false, error: "Queued task is already running, possible missing 'complete' callback", context: willRun })
     expect(queueableTask.complete).toBeFalsy()
   })
+
+  test('falsy tasks are kept, null can be stored, and fromArray can be given nothing', () => {
+    expect(Queueable.make({ task: 0, ready: true }).data).toBe(0)
+    expect(Queueable.make(null).data).toBeNull()
+    expect(Queueable.fromArray()).toEqual({ head: null, tail: null })
+  })
+
+  test('ready can be a function', () => {
+    let isReady = false
+    const queueable = new Queueable({ task: () => 'ran', ready: () => isReady })
+    expect(queueable.isReady).toBe(false)
+    isReady = true
+    expect(queueable.isReady).toBe(true)
+  })
 })

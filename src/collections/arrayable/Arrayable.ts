@@ -31,6 +31,20 @@ export class Arrayable implements IsArrayable<ArrayElement>, Iterable<ArrayEleme
   }
 
   /**
+   * Find the position of an element which must be in this list.
+   * @param {ArrayElement} node The element to find
+   * @returns {number}
+   * @throws {Error} When the element is not in this list
+   */
+  private indexOfElement (node: ArrayElement): number {
+    const index: number = this.innerList.indexOf(node)
+    if (index < 0) {
+      throw new Error('The reference element is not in this list.')
+    }
+    return index
+  }
+
+  /**
    * Initialize the inner list, should only run once.
    * @param {Array<ArrayElement>} initialList Give the array of elements to start in this Arrayable.
    * @return {Arrayable}
@@ -46,7 +60,7 @@ export class Arrayable implements IsArrayable<ArrayElement>, Iterable<ArrayEleme
   }
 
   /**
-   * Retrieve a copy of the innerList used.
+   * Retrieve the innerList used (the list itself, not a copy).
    * @returns {Array<ArrayElement>}
    */
   public get list (): Array<ArrayElement> {
@@ -55,18 +69,18 @@ export class Arrayable implements IsArrayable<ArrayElement>, Iterable<ArrayEleme
 
   /**
    * Retrieve the first Element from the Arrayable
-   * @returns {ArrayElement}
+   * @returns {ArrayElement|null} The first element, or null when the Arrayable is empty
    */
-  public get first (): ArrayElement {
-    return this.innerList[0]
+  public get first (): ArrayElement | null {
+    return this.length ? this.innerList[0] : null
   }
 
   /**
    * Retrieve the last Element from the Arrayable
-   * @returns {ArrayElement}
+   * @returns {ArrayElement|null} The last element, or null when the Arrayable is empty
    */
-  public get last (): ArrayElement {
-    return this.innerList[this.length - 1]
+  public get last (): ArrayElement | null {
+    return this.length ? this.innerList[this.length - 1] : null
   }
 
   /**
@@ -79,25 +93,29 @@ export class Arrayable implements IsArrayable<ArrayElement>, Iterable<ArrayEleme
 
   /**
    * Insert a new node (or data) after a node.
-   * @param {ArrayElement|*} node The existing node as reference
+   * @param {ArrayElement|null} node The existing node as reference, or null to insert at the start of the list
    * @param {ArrayElement|*} newNode The new node to go after the existing node
    * @returns {Arrayable}
+   * @throws {Error} When the reference node is not in this list
    */
-  public insertAfter (node: ArrayElement, newNode: ArrayElement | any): Arrayable {
-    const insertAt: number = this.innerList.indexOf(node)
-    this.innerList.splice(insertAt + 1, 0, this.elementClass.make(newNode))
+  public insertAfter (node: ArrayElement | null, newNode: ArrayElement | any): Arrayable {
+    // With no reference element, the new one goes after nothing: at the start of the list
+    const insertAt: number = node === null || typeof node === 'undefined' ? -1 : this.indexOfElement(node)
+    this.innerList.splice(insertAt + 1, 0, this.elementClass.make(newNode, this.elementClass))
     return this
   }
 
   /**
    * Insert a new node (or data) before a node.
-   * @param {ArrayElement|*} node The existing node as reference
+   * @param {ArrayElement|null} node The existing node as reference, or null to insert at the end of the list
    * @param {ArrayElement|*} newNode The new node to go before the existing node
    * @returns {Arrayable}
+   * @throws {Error} When the reference node is not in this list
    */
-  public insertBefore (node: ArrayElement, newNode: ArrayElement | any): Arrayable {
-    const insertAt: number = this.innerList.indexOf(node)
-    this.innerList.splice(insertAt, 0, this.elementClass.make(newNode))
+  public insertBefore (node: ArrayElement | null, newNode: ArrayElement | any): Arrayable {
+    // With no reference element, the new one goes before nothing: at the end of the list
+    const insertAt: number = node === null || typeof node === 'undefined' ? this.length : this.indexOfElement(node)
+    this.innerList.splice(insertAt, 0, this.elementClass.make(newNode, this.elementClass))
     return this
   }
 
@@ -124,10 +142,13 @@ export class Arrayable implements IsArrayable<ArrayElement>, Iterable<ArrayEleme
   /**
    * Remove an element from this arrayable.
    * @param {ArrayElement} node The node we wish to remove (and it will be returned after removal)
-   * @return {ArrayElement}
+   * @return {ArrayElement|null} The removed node, or null when it was not in this list (nothing is removed)
    */
-  public remove (node: ArrayElement): ArrayElement {
+  public remove (node: ArrayElement): ArrayElement | null {
     const deleteAt = this.innerList.indexOf(node)
+    if (deleteAt < 0) {
+      return null
+    }
     this.innerList.splice(deleteAt, 1)
     return node
   }

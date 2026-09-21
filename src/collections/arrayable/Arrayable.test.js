@@ -1,3 +1,4 @@
+import { ArrayElement } from './ArrayElement'
 import { Arrayable } from './Arrayable'
 
 describe('Arrayable', () => {
@@ -125,5 +126,53 @@ describe('Arrayable', () => {
     expect(someArray.item(-3).data).toBe(arrayData[1])
     expect(someArray.item(-4).data).toBe(arrayData[0])
     expect(someArray.item(-5)).toBeNull()
+  })
+
+  describe('with elements which are not in the list, or no reference element', () => {
+    const values = list => Array.from(list).map(element => element.data)
+
+    test('remove returns null and leaves the list alone for an element which is not in it', () => {
+      const someArray = Arrayable.fromArray(['a', 'b', 'c'])
+      expect(someArray.remove(new ArrayElement('x'))).toBeNull()
+      expect(values(someArray)).toEqual(['a', 'b', 'c'])
+    })
+
+    test('insertBefore and insertAfter throw for a reference element which is not in the list', () => {
+      const someArray = Arrayable.fromArray(['a', 'b', 'c'])
+      expect(() => someArray.insertBefore(new ArrayElement('x'), 'y')).toThrow('not in this list')
+      expect(() => someArray.insertAfter(new ArrayElement('x'), 'y')).toThrow('not in this list')
+      expect(values(someArray)).toEqual(['a', 'b', 'c'])
+    })
+
+    test('inserting after null goes at the start, before null goes at the end', () => {
+      const someArray = Arrayable.fromArray(['a', 'b'])
+      someArray.insertAfter(null, 'start')
+      someArray.insertBefore(null, 'end')
+      expect(values(someArray)).toEqual(['start', 'a', 'b', 'end'])
+    })
+
+    test('first and last are null when the list is empty', () => {
+      const emptyArray = new Arrayable()
+      expect(emptyArray.first).toBeNull()
+      expect(emptyArray.last).toBeNull()
+      emptyArray.append('only')
+      expect(emptyArray.first.data).toBe('only')
+      expect(emptyArray.last.data).toBe('only')
+    })
+
+    test('append and prepend work on an empty list', () => {
+      const emptyArray = new Arrayable()
+      emptyArray.append('b')
+      emptyArray.prepend('a')
+      expect(values(emptyArray)).toEqual(['a', 'b'])
+    })
+  })
+
+  test('elements added to the list are made with the element class the list was given', () => {
+    class CustomElement extends ArrayElement {}
+    const someArray = new Arrayable(CustomElement)
+    someArray.append('a')
+    someArray.prepend('b')
+    expect(Array.from(someArray).every(element => element instanceof CustomElement)).toBe(true)
   })
 })

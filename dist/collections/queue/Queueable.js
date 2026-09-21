@@ -117,8 +117,8 @@ class Queueable {
  */
 exports.Queueable = Queueable
 Queueable.make = (queueable, classType = Queueable) => {
-  if (typeof queueable !== 'object') {
-    // It is not an object, so instantiate the Queueable with an element as the data
+  if (queueable === null || typeof queueable !== 'object') {
+    // It is not an object (or it is null), so instantiate the Queueable with an element as the data
     return new classType({
       task: queueable,
       ready: true
@@ -128,7 +128,7 @@ Queueable.make = (queueable, classType = Queueable) => {
     // Already valid Queueable, return as-is
     return queueable
   }
-  if (!queueable.task) {
+  if (!('task' in queueable)) {
     queueable = {
       task: queueable,
       ready: true
@@ -143,4 +143,4 @@ Queueable.make = (queueable, classType = Queueable) => {
  * @param {IsLinker} [classType=Queueable] Provide the type of IsLinker to use.
  * @returns {{head: Queueable, tail: Queueable}}
  */
-Queueable.fromArray = (values, classType = Queueable) => _Linker.Linker.fromArray(values, classType)
+Queueable.fromArray = (values = [], classType = Queueable) => _Linker.Linker.fromArray(values, classType)

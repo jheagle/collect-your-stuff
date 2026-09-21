@@ -40,15 +40,16 @@ export class Linker implements IsLinker {
    * @return {Linker}
    */
   public static make = (linker: Linker | any, classType: any = Linker): IsLinker | any => {
-    if (typeof linker !== 'object') {
-      // It is not an object, so instantiate the Linker with element as the data
+    if (linker === null || typeof linker !== 'object') {
+      // It is not an object (or it is null), so instantiate the Linker with element as the data
       return new classType({ data: linker })
     }
     if (linker.classType) {
       // Already valid Linker, return as-is
       return linker
     }
-    if (!linker.data) {
+    if (!('data' in linker)) {
+      // Not the settings for a linker (which would have data, even if it is falsy), so it is the data itself
       linker = { data: linker }
     }
     // Create the new node as the configured #classType
@@ -61,7 +62,7 @@ export class Linker implements IsLinker {
    * @param {IsLinker} [classType=Linker] Provide the type of IsLinker to use.
    * @returns {{head: Linker, tail: Linker}}
    */
-  public static fromArray = (values: Array<any>, classType: any = Linker): {
+  public static fromArray = (values: Array<any> = [], classType: any = Linker): {
     head: IsLinker;
     tail: IsLinker;
   } => values.reduce(

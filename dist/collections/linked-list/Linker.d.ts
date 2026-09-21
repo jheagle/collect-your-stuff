@@ -39,7 +39,7 @@ export declare class Linker implements IsLinker {
      * @param {IsLinker} [classType=Linker] Provide the type of IsLinker to use.
      * @returns {{head: Linker, tail: Linker}}
      */
-    static fromArray: (values: Array<any>, classType?: any) => {
+    static fromArray: (values?: Array<any>, classType?: any) => {
         head: IsLinker;
         tail: IsLinker;
     };

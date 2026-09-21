@@ -102,5 +102,5 @@ exports.Stack = Stack
 Stack.fromArray = (values = [], stackableClass = _Stackable.Stackable, listClass = _LinkedList.LinkedList) => {
   const list = new listClass(stackableClass)
   list.initialize(stackableClass.fromArray(values, stackableClass).head)
-  return new Stack(list)
+  return new Stack(list, listClass, stackableClass)
 }

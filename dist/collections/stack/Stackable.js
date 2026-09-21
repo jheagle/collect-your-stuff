@@ -58,8 +58,8 @@ class Stackable {
  */
 exports.Stackable = Stackable
 Stackable.make = (stackable, classType = Stackable) => {
-  if (typeof stackable !== 'object') {
-    // It is not an object, so instantiate the Stackable with stackable as the data
+  if (stackable === null || typeof stackable !== 'object') {
+    // It is not an object (or it is null), so instantiate the Stackable with stackable as the data
     return new classType({
       task: stackable
     })
@@ -68,13 +68,13 @@ Stackable.make = (stackable, classType = Stackable) => {
     // Already valid Stackable, return as-is
     return stackable
   }
-  if (!stackable.task) {
+  if (!('task' in stackable)) {
     stackable = {
       task: stackable
     }
   }
   // Create the new node as the configured stackableClass
-  return new Stackable(stackable)
+  return new classType(stackable)
 }
 /**
  * Convert an array into Stackable instances, return the head and tail Stackables.

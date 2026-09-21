@@ -33,7 +33,7 @@ export declare class LinkedTreeList implements IsTree, Iterable<TreeLinker> {
      */
     initialize(initialList: TreeLinker): LinkedTreeList;
     /**
-     * Retrieve a copy of the innerList used.
+     * Retrieve the innerList used (the list itself, not a copy).
      * @returns {TreeLinker}
      */
     get list(): TreeLinker;

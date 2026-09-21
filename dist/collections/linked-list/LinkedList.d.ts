@@ -32,7 +32,7 @@ export declare class LinkedList implements IsArrayable<Linker>, Iterable<Linker>
      */
     initialize(initialList: Linker): LinkedList;
     /**
-     * Retrieve a copy of the innerList used.
+     * Retrieve the innerList used (the list itself, not a copy).
      * @returns {Linker}
      */
     get list(): IsLinker;
@@ -53,18 +53,19 @@ export declare class LinkedList implements IsArrayable<Linker>, Iterable<Linker>
     get length(): number;
     /**
      * Insert a new node (or data) after a node.
-     * @param {Linker|*} node The existing node as reference
+     * @param {Linker|*} node The existing node as reference, or null to insert at the start of the list
      * @param {Linker|*} newNode The new node to go after the existing node
      * @returns {LinkedList}
      */
-    insertAfter(node: IsLinker, newNode: Linker | any): LinkedList;
+    insertAfter(node: IsLinker | null, newNode: Linker | any): LinkedList;
     /**
      * Insert a new node (or data) before a node.
-     * @param {Linker|*} node The existing node as reference
+     * @param {Linker|*} node The existing node as reference, or null to insert at the end of the list
      * @param {Linker|*} newNode The new node to go before the existing node
      * @returns {LinkedList}
+     * @throws {Error} When the reference node is not in this list
      */
-    insertBefore(node: IsLinker, newNode: Linker | any): LinkedList;
+    insertBefore(node: IsLinker | null, newNode: Linker | any): LinkedList;
     /**
      * Add a node (or data) after the given (or last) node in the list.
      * @param {Linker|*} node The new node to add to the end of the list
@@ -82,9 +83,9 @@ export declare class LinkedList implements IsArrayable<Linker>, Iterable<Linker>
     /**
      * Remove a linker from this linked list.
      * @param {Linker} node The node we wish to remove (and it will be returned after removal)
-     * @return {Linker}
+     * @return {Linker|null} The removed node, or null when it was not in this list (nothing is removed)
      */
-    remove(node: Linker): Linker;
+    remove(node: Linker | null): Linker | null;
     /**
      * Retrieve a Linker item from this list by numeric index, otherwise return null.
      * @param {number} index The integer number for retrieving a node by position.

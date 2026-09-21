@@ -1,3 +1,4 @@
+import { Queueable } from './Queueable'
 import { Queue } from './Queue'
 
 describe('Queue', () => {
@@ -122,5 +123,34 @@ describe('Queue', () => {
     expect(someQueue.size()).toBe(4)
     expect(someQueue.peek().data).toBe('two')
     expect(someQueue.queuedList.last.data).toBe('one')
+  })
+
+  test('a task which is not ready is kept in the queue, even when it is the only one', () => {
+    let isReady = false
+    const someQueue = new Queue()
+    someQueue.enqueue(new Queueable({ task: () => 'ran', ready: () => isReady }))
+    expect(someQueue.dequeue().error).toBe('Unable to find ready task.')
+    expect(someQueue.size()).toBe(1)
+    isReady = true
+    expect(someQueue.dequeue()).toBe('ran')
+  })
+
+  test('a not-ready task goes to the back so the ready ones can be tried', () => {
+    const someQueue = new Queue()
+    someQueue.enqueue(new Queueable({ task: () => 'later', ready: false }))
+    someQueue.enqueue(new Queueable({ task: () => 'now', ready: true }))
+    expect(someQueue.dequeue().error).toBe('Unable to find ready task.')
+    expect(someQueue.dequeue()).toBe('now')
+  })
+
+  test('any number of completed tasks are skipped without recursing', () => {
+    const someQueue = new Queue()
+    for (let i = 0; i < 20000; i++) {
+      const completed = new Queueable({ task: () => i, ready: true })
+      completed.complete = true
+      someQueue.enqueue(completed)
+    }
+    someQueue.enqueue(new Queueable({ task: () => 'last', ready: true }))
+    expect(someQueue.dequeue()).toBe('last')
   })
 })

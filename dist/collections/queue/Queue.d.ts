@@ -24,7 +24,9 @@ export declare class Queue {
      */
     constructor(queuedList?: IsArrayable<any>, listClass?: any, queueableClass?: typeof Queueable);
     /**
-     * Take a queued task from the front of the queue and run it if ready.
+     * Take a queued task from the front of the queue and run it if ready. A task which is not ready yet is kept in the
+     * queue (never dropped), a task which is still running is reported as blocking and left to finish on its own, and
+     * completed tasks are discarded.
      * @return {completeResponse|*}
      */
     dequeue(): completeResponse | any;

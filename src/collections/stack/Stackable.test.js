@@ -36,4 +36,12 @@ describe('Stackable', () => {
     const stackableData = new Stackable({ task: someData })
     expect(stackableData.task()).toBe(someData)
   })
+
+  test('falsy tasks are kept, null can be stored, and the given class is used', () => {
+    expect(Stackable.make({ task: 0 }).data).toBe(0)
+    expect(Stackable.make(null).data).toBeNull()
+    class CustomStackable extends Stackable {}
+    expect(Stackable.make('a', CustomStackable)).toBeInstanceOf(CustomStackable)
+    expect(Stackable.make({ task: 'a' }, CustomStackable)).toBeInstanceOf(CustomStackable)
+  })
 })
