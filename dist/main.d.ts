@@ -5,7 +5,6 @@
  * @version 1.0.0
  * @module collect-your-stuff
  */
-import 'core-js/stable';
 import { ArrayElement } from './collections/arrayable/ArrayElement';
 import { Arrayable } from './collections/arrayable/Arrayable';
 import { DoubleLinker } from './collections/doubly-linked-list/DoubleLinker';

@@ -100,7 +100,6 @@ Object.defineProperty(exports, 'services', {
     return _services.services
   }
 })
-require('core-js/stable')
 var _ArrayElement = require('./collections/arrayable/ArrayElement')
 var _Arrayable = require('./collections/arrayable/Arrayable')
 var _DoubleLinker = require('./collections/doubly-linked-list/DoubleLinker')
