@@ -6,7 +6,7 @@ Object.defineProperty(exports, '__esModule', {
 exports.Linker = void 0
 require('core-js/modules/esnext.iterator.constructor.js')
 require('core-js/modules/esnext.iterator.reduce.js')
-var _ArrayElement = require('../arrayable/ArrayElement')
+const _ArrayElement = require('../arrayable/ArrayElement')
 /**
  * Linker represents a node in a LinkedList.
  * @extends ArrayElement

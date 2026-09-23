@@ -4,7 +4,7 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 })
 exports.parseTree = void 0
-var _parseTreeNext = require('./parseTreeNext')
+const _parseTreeNext = require('./parseTreeNext')
 /**
  * Loop over all the nodes in a tree starting from left and apply a callback for each
  * @param {IsArrayable<IsTreeNode>} tree

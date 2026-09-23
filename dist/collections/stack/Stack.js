@@ -6,8 +6,8 @@ Object.defineProperty(exports, '__esModule', {
 exports.Stack = void 0
 require('core-js/modules/esnext.iterator.constructor.js')
 require('core-js/modules/esnext.iterator.for-each.js')
-var _LinkedList = require('../linked-list/LinkedList')
-var _Linker = require('../linked-list/Linker')
+const _LinkedList = require('../linked-list/LinkedList')
+const _Linker = require('../linked-list/Linker')
 /**
  * @file stack.
  * @author Joshua Heagle <joshuaheagle@gmail.com>
@@ -101,13 +101,15 @@ class Stack {
     return {
       next: () => {
         const result = linkers.next()
-        return result.done ? {
-          done: true,
-          value: undefined
-        } : {
-          done: false,
-          value: result.value.data
-        }
+        return result.done
+          ? {
+              done: true,
+              value: undefined
+            }
+          : {
+              done: false,
+              value: result.value.data
+            }
       }
     }
   }

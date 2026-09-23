@@ -4,7 +4,7 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 })
 exports.TreeLinkerIterator = void 0
-var _parseTreeNext = require('../services/parseTreeNext')
+const _parseTreeNext = require('../services/parseTreeNext')
 /**
  * Class TreeLinkerIterator returns the next value taking a left-first approach down a tree.
  */

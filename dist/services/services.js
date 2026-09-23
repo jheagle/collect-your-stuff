@@ -4,8 +4,8 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 })
 exports.services = void 0
-var _parseTree = require('./parseTree')
-var _parseTreeNext = require('./parseTreeNext')
+const _parseTree = require('./parseTree')
+const _parseTreeNext = require('./parseTreeNext')
 /**
  * @file some useful resources when working with collections.
  * @author Joshua Heagle <joshuaheagle@gmail.com>

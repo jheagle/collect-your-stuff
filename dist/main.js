@@ -155,7 +155,7 @@ const collectYourStuff = {
   recipes: _recipes.recipes,
   services: _services.services
 }
-var _default = exports.default = collectYourStuff
+const _default = exports.default = collectYourStuff
 if (void 0) {
   // @ts-ignore
   (void 0).collectYourStuff = collectYourStuff

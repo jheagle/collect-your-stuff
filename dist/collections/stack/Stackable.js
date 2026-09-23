@@ -4,7 +4,7 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 })
 exports.Stackable = void 0
-var _Linker = require('../linked-list/Linker')
+const _Linker = require('../linked-list/Linker')
 /**
  * Stackable represents a runnable entry in stack.
  * @extends Linker

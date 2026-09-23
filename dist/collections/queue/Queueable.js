@@ -4,7 +4,7 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 })
 exports.Queueable = void 0
-var _Linker = require('../linked-list/Linker')
+const _Linker = require('../linked-list/Linker')
 /**
  * Queueable represents a runnable entry in a queue.
  * @extends Linker
@@ -56,9 +56,11 @@ class Queueable {
     if (typeof this.data === 'function') {
       return this.data
     }
-    return complete => typeof complete === 'function' ? complete({
-      context: this.data
-    }).context : this.data
+    return complete => typeof complete === 'function'
+      ? complete({
+        context: this.data
+      }).context
+      : this.data
   }
 
   /**
@@ -77,9 +79,9 @@ class Queueable {
     this.complete = true
     this.running = false
     return {
-      success: success,
-      error: error,
-      context: context
+      success,
+      error,
+      context
     }
   }
 
