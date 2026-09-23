@@ -4,8 +4,8 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 })
 exports.recipes = void 0
-var _ArrayIterator = require('./ArrayIterator')
-var _Runnable = require('./Runnable')
+const _ArrayIterator = require('./ArrayIterator')
+const _Runnable = require('./Runnable')
 /**
  * @file sample classes which follow a pattern (have certain members or methods).
  * @author Joshua Heagle <joshuaheagle@gmail.com>

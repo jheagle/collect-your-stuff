@@ -4,8 +4,8 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 })
 exports.TaskQueue = void 0
-var _Queueable = require('./Queueable')
-var _LinkedList = require('../linked-list/LinkedList')
+const _Queueable = require('./Queueable')
+const _LinkedList = require('../linked-list/LinkedList')
 /**
  * @file task queue
  * @author Joshua Heagle <joshuaheagle@gmail.com>

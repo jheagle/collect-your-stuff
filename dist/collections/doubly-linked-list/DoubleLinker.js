@@ -6,7 +6,7 @@ Object.defineProperty(exports, '__esModule', {
 exports.DoubleLinker = void 0
 require('core-js/modules/esnext.iterator.constructor.js')
 require('core-js/modules/esnext.iterator.reduce.js')
-var _Linker = require('../linked-list/Linker')
+const _Linker = require('../linked-list/Linker')
 /**
  * DoubleLinker represents a node in a DoublyLinkedList which is chained by next and prev.
  * @extends Linker

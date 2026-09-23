@@ -4,8 +4,8 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 })
 exports.TaskStack = void 0
-var _Stackable = require('./Stackable')
-var _LinkedList = require('../linked-list/LinkedList')
+const _Stackable = require('./Stackable')
+const _LinkedList = require('../linked-list/LinkedList')
 /**
  * @file task stack.
  * @author Joshua Heagle <joshuaheagle@gmail.com>

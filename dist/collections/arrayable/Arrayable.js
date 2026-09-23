@@ -4,8 +4,8 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 })
 exports.Arrayable = void 0
-var _ArrayElement = require('./ArrayElement')
-var _ArrayIterator = require('../../recipes/ArrayIterator')
+const _ArrayElement = require('./ArrayElement')
+const _ArrayIterator = require('../../recipes/ArrayIterator')
 /**
  * @file arrayable list.
  * @author Joshua Heagle <joshuaheagle@gmail.com>

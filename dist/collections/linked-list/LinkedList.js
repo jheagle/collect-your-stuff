@@ -4,9 +4,9 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 })
 exports.LinkedList = void 0
-var _Linker = require('./Linker')
-var _LinkerIterator = require('../../recipes/LinkerIterator')
-var _Arrayable = require('../arrayable/Arrayable')
+const _Linker = require('./Linker')
+const _LinkerIterator = require('../../recipes/LinkerIterator')
+const _Arrayable = require('../arrayable/Arrayable')
 /**
  * LinkedList represents a collection stored as a LinkedList with next references.
  * @extends Arrayable
