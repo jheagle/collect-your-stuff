@@ -10,7 +10,7 @@ exports.LinkerIterator = void 0
 class LinkerIterator {
   /**
    * Create an iterator starting at the given item.
-   * @param {IsLinker} current The item to start from.
+   * @param current The item to start from.
    */
   constructor (current) {
     this.current = current
@@ -18,8 +18,8 @@ class LinkerIterator {
 
   /**
    * Get the current item and move on to the following one.
-   * @param {*} [value] Not used, present to match the Iterator interface.
-   * @return {IteratorResult<IsLinker>} The current item, or done when there are no more.
+   * @param value Not used, present to match the Iterator interface.
+   * @returns The current item, or done when there are no more.
    */
   next (value) {
     const result = {

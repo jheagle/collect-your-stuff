@@ -1,8 +1,5 @@
 /**
- * @file queue
- * @author Joshua Heagle <joshuaheagle@gmail.com>
- * @version 2.0.0
- * @memberOf module:collect-your-stuff
+ * queue
  */
 import { LinkedList } from '../linked-list/LinkedList'
 import { Linker } from '../linked-list/Linker'
@@ -21,9 +18,9 @@ export class Queue<T = any> implements IsQueue<T>, Iterable<T> {
 
   /**
    * Instantiate the queue, optionally with a list of items to start from.
-   * @param {IsArrayable|null} [queuedList=null] The list of linkers to start in this queue (the first is the front)
-   * @param {IsArrayable} [listClass=LinkedList] The type of list to create when no queued list is given
-   * @param {Linker} [linkerClass=Linker] The class used to hold each queued item
+   * @param queuedList The list of linkers to start in this queue (the first is the front)
+   * @param listClass The type of list to create when no queued list is given
+   * @param linkerClass The class used to hold each queued item
    */
   public constructor (queuedList: IsArrayable<any> | null = null, listClass: any = LinkedList, linkerClass: typeof Linker = Linker) {
     this.linkerClass = linkerClass
@@ -32,7 +29,7 @@ export class Queue<T = any> implements IsQueue<T>, Iterable<T> {
 
   /**
    * Take the item from the front of the queue.
-   * @return {*|null} The item, or null when the queue is empty
+   * @returns The item, or null when the queue is empty
    */
   public dequeue (): T | null {
     const front = this.queuedList.first
@@ -45,7 +42,6 @@ export class Queue<T = any> implements IsQueue<T>, Iterable<T> {
 
   /**
    * Check whether the queue has no items.
-   * @return {boolean}
    */
   public empty (): boolean {
     return this.size() <= 0
@@ -53,8 +49,8 @@ export class Queue<T = any> implements IsQueue<T>, Iterable<T> {
 
   /**
    * Add an item to the back of the queue.
-   * @param {*} data The item to add
-   * @return {Queue} This queue, so that adding can be chained
+   * @param data The item to add
+   * @returns This queue, so that adding can be chained
    */
   public enqueue (data: T): this {
     // The item is wrapped here rather than left to the list, since the list treats objects that look like a linker's
@@ -65,7 +61,7 @@ export class Queue<T = any> implements IsQueue<T>, Iterable<T> {
 
   /**
    * Look at the item at the front of the queue, without removing it.
-   * @return {*|null} The item, or null when the queue is empty
+   * @returns The item, or null when the queue is empty
    */
   public peek (): T | null {
     const front = this.queuedList.first
@@ -74,7 +70,6 @@ export class Queue<T = any> implements IsQueue<T>, Iterable<T> {
 
   /**
    * Count the items in the queue.
-   * @return {number}
    */
   public size (): number {
     return this.queuedList.length
@@ -82,7 +77,6 @@ export class Queue<T = any> implements IsQueue<T>, Iterable<T> {
 
   /**
    * Iterate over the items from the front of the queue to the back, without removing them.
-   * @return {Iterator}
    */
   public [Symbol.iterator] (): Iterator<T> {
     const linkers: Iterator<any> = this.queuedList[Symbol.iterator]()
@@ -96,10 +90,9 @@ export class Queue<T = any> implements IsQueue<T>, Iterable<T> {
 
   /**
    * Convert an array to a Queue, the first value is at the front.
-   * @param {Array} [values=[]] The items to queue
-   * @param {IsArrayable} [listClass=LinkedList] The type of list used to store the items
-   * @param {Linker} [linkerClass=Linker] The class used to hold each queued item
-   * @returns {Queue}
+   * @param values The items to queue
+   * @param listClass The type of list used to store the items
+   * @param linkerClass The class used to hold each queued item
    */
   public static fromArray = <T = any>(values: Array<T> = [], listClass: any = LinkedList, linkerClass: typeof Linker = Linker): Queue<T> => {
     const queue = new Queue<T>(null, listClass, linkerClass)

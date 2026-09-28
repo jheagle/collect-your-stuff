@@ -12,10 +12,10 @@ const _Linker = require('../linked-list/Linker')
 class Stackable {
   /**
    * Create a stackable item that can be used in a stack.
-   * @param {Object} [stackData={}] The settings for the new stackable.
-   * @param {*} [stackData.task=null] The data to be stored in this stackable
-   * @param {Stackable|null} [stackData.next=null] The reference to the next stackable if any
-   * @param {boolean|Function} [stackData.ready=false] Indicate if the stackable is ready to run
+   * @param stackData The settings for the new stackable.
+   * @param stackData.task The data to be stored in this stackable
+   * @param stackData.next The reference to the next stackable if any
+   * @param stackData.ready Indicate if the stackable is ready to run
    */
   constructor ({
     task = null,
@@ -33,7 +33,6 @@ class Stackable {
 
   /**
    * Retrieve the data which should be formed as a task.
-   * @return {*}
    */
   get task () {
     if (typeof this.data === 'function') {
@@ -44,7 +43,6 @@ class Stackable {
 
   /**
    * Run the stacked task.
-   * @return {*}
    */
   run () {
     return this.task()
@@ -52,9 +50,8 @@ class Stackable {
 }
 /**
  * Make a new Stackable from the data given if it is not already a valid Stackable.
- * @param {Stackable|*} stackable Return a valid Stackable instance from given data, or even an already valid one.
- * @param {IsLinker} [classType=Stackable] Provide the type of IsLinker to use.
- * @return {Stackable}
+ * @param stackable Return a valid Stackable instance from given data, or even an already valid one.
+ * @param classType Provide the type of IsLinker to use.
  */
 exports.Stackable = Stackable
 Stackable.make = (stackable, classType = Stackable) => {
@@ -78,8 +75,7 @@ Stackable.make = (stackable, classType = Stackable) => {
 }
 /**
  * Convert an array into Stackable instances, return the head and tail Stackables.
- * @param {Array} [values=[]] Provide an array of data that will be converted to a chain of stackable linkers.
- * @param {IsLinker} [classType=Stackable] Provide the type of IsLinker to use.
- * @returns {{head: Stackable, tail: Stackable}}
+ * @param values Provide an array of data that will be converted to a chain of stackable linkers.
+ * @param classType Provide the type of IsLinker to use.
  */
 Stackable.fromArray = (values = [], classType = Stackable) => _Linker.Linker.fromArray(values, classType)

@@ -1,8 +1,5 @@
 /**
- * @file sample classes which follow a pattern (have certain members or methods).
- * @author Joshua Heagle <joshuaheagle@gmail.com>
- * @version 1.0.0
- * @memberOf module:collect-your-stuff
+ * sample classes which follow a pattern (have certain members or methods).
  */
 import { ArrayIterator } from './ArrayIterator';
 import { Runnable } from './Runnable';

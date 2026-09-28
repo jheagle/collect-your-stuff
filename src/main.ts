@@ -1,9 +1,5 @@
 /**
  * All of the collections available.
- * @file
- * @author Joshua Heagle <joshuaheagle@gmail.com>
- * @version 1.0.0
- * @module collect-your-stuff
  */
 import { ArrayElement } from './collections/arrayable/ArrayElement'
 import { Arrayable } from './collections/arrayable/Arrayable'

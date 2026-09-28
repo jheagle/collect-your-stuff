@@ -1,8 +1,5 @@
 /**
- * @file Queue recipe.
- * @author Joshua Heagle <joshuaheagle@gmail.com>
- * @version 1.0.0
- * @memberOf module:collect-your-stuff
+ * Queue recipe.
  */
 
 /**
@@ -12,31 +9,29 @@
 export interface IsQueue<T = any> {
   /**
    * Take the item from the front of the queue.
-   * @return {T|null} The item, or null when the queue is empty
+   * @returns The item, or null when the queue is empty
    */
   dequeue: () => T | null
 
   /**
    * Check whether the queue has no items.
-   * @return {boolean}
    */
   empty: () => boolean
 
   /**
    * Add an item to the back of the queue.
-   * @param {T} data The item to add
+   * @param data The item to add
    */
   enqueue: (data: T) => void
 
   /**
    * Look at the item at the front of the queue, without removing it.
-   * @return {T|null} The item, or null when the queue is empty
+   * @returns The item, or null when the queue is empty
    */
   peek: () => T | null
 
   /**
    * Count the items in the queue.
-   * @return {number}
    */
   size: () => number
 }

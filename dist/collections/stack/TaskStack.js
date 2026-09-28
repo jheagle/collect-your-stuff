@@ -7,10 +7,7 @@ exports.TaskStack = void 0
 const _Stackable = require('./Stackable')
 const _LinkedList = require('../linked-list/LinkedList')
 /**
- * @file task stack.
- * @author Joshua Heagle <joshuaheagle@gmail.com>
- * @version 1.0.0
- * @memberOf module:collect-your-stuff
+ * task stack.
  */
 
 /**
@@ -20,9 +17,9 @@ const _LinkedList = require('../linked-list/LinkedList')
 class TaskStack {
   /**
    * Instantiate the state with the starter stacked list.
-   * @param {Iterable|LinkedList} [stackedList=null] The list of stackables to start in this stack.
-   * @param {IsArrayable} [listClass=LinkedList] The type of list to create when no stacked list is given.
-   * @param {Stackable} [stackableClass=Stackable] The class used to wrap stacked items.
+   * @param stackedList The list of stackables to start in this stack.
+   * @param listClass The type of list to create when no stacked list is given.
+   * @param stackableClass The class used to wrap stacked items.
    */
   constructor (stackedList = null, listClass = _LinkedList.LinkedList, stackableClass = _Stackable.Stackable) {
     this.listClass = listClass
@@ -35,7 +32,6 @@ class TaskStack {
 
   /**
    * Return true if the stack is empty (there are no tasks in the stacked list)
-   * @return {boolean}
    */
   empty () {
     return this.size() <= 0
@@ -43,7 +39,6 @@ class TaskStack {
 
   /**
    * Take a look at the next stacked task
-   * @return {Stackable}
    */
   top () {
     return this.stackedList.first
@@ -51,7 +46,6 @@ class TaskStack {
 
   /**
    * Remove the next stacked task and return it.
-   * @return {Stackable|null}
    */
   pop () {
     const next = this.remove()
@@ -67,7 +61,7 @@ class TaskStack {
 
   /**
    * Push a stackable task to the top of the stack.
-   * @param {Stackable|*} stackable Add a new stackable to the top of the stack
+   * @param stackable Add a new stackable to the top of the stack
    */
   push (stackable) {
     this.stackedList.prepend(stackable)
@@ -75,7 +69,6 @@ class TaskStack {
 
   /**
    * Remove the next stacked task and return it.
-   * @return {Stackable|null}
    */
   remove () {
     if (this.empty()) {
@@ -86,7 +79,6 @@ class TaskStack {
 
   /**
    * Get the size of the current stack.
-   * @return {number}
    */
   size () {
     return this.stackedList.length
@@ -94,10 +86,9 @@ class TaskStack {
 }
 /**
  * Convert an array to a TaskStack.
- * @param {Array} values An array of values which will be converted to stackables in this queue
- * @param {Stackable} stackableClass The class to use for each stackable
- * @param {TaskStack|Iterable} listClass The class to use to manage the stackables
- * @returns {TaskStack}
+ * @param values An array of values which will be converted to stackables in this queue
+ * @param stackableClass The class to use for each stackable
+ * @param listClass The class to use to manage the stackables
  */
 exports.TaskStack = TaskStack
 TaskStack.fromArray = (values = [], stackableClass = _Stackable.Stackable, listClass = _LinkedList.LinkedList) => {

@@ -1,17 +1,7 @@
 /**
- * @file Runnable class recipe.
- * @author Joshua Heagle <joshuaheagle@gmail.com>
- * @version 1.0.0
- * @memberOf module:collect-your-stuff
+ * Runnable class recipe.
  */
 
-/**
- * Return results of the task.
- * @typedef {Object} completeResponse
- * @property {*} success
- * @property {*} error
- * @property {*} context
- */
 export type completeResponse = { success: boolean | any, error: boolean | any, context: any }
 
 /**
@@ -34,7 +24,7 @@ export class Runnable implements IsRunnable {
 
   /**
    * Instantiate a Runnable class.
-   * @param {*} [data=null] The task (a function) or the data which the task returns.
+   * @param data The task (a function) or the data which the task returns.
    */
   constructor (data: any = null) {
     this.data = data
@@ -42,7 +32,6 @@ export class Runnable implements IsRunnable {
 
   /**
    * Retrieve the data which should be formed as a task.
-   * @return {Function}
    */
   get task (): Function {
     if (typeof this.data === 'function') {
@@ -53,7 +42,6 @@ export class Runnable implements IsRunnable {
 
   /**
    * Run the runnable task.
-   * @return {*}
    */
   public run (): completeResponse | any {
     return this.task()
@@ -62,8 +50,7 @@ export class Runnable implements IsRunnable {
   /**
    * Check if a given thing is Runnable
    * @memberof Runnable
-   * @param {*} thing The value to check, or nothing to check whether this class is Runnable.
-   * @return {boolean}
+   * @param thing The value to check, or nothing to check whether this class is Runnable.
    */
   public static isRunnable (thing: any): boolean {
     if (typeof thing === 'undefined') {

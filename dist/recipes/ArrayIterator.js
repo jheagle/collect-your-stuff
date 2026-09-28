@@ -10,8 +10,8 @@ exports.ArrayIterator = void 0
 class ArrayIterator {
   /**
    * Create an iterator over the given array.
-   * @param {Array<IsElement>} innerList The elements to iterate over.
-   * @param {number} [index=0] The position to start from.
+   * @param innerList The elements to iterate over.
+   * @param index The position to start from.
    */
   constructor (innerList, index = 0) {
     this.innerList = innerList
@@ -20,8 +20,8 @@ class ArrayIterator {
 
   /**
    * Get the next element, moving the iterator forward.
-   * @param {*} [value] Not used, present to match the Iterator interface.
-   * @return {IteratorResult<IsElement>} The next element, or done when there are no more.
+   * @param value Not used, present to match the Iterator interface.
+   * @returns The next element, or done when there are no more.
    */
   next (value) {
     if (this.index < this.innerList.length) {

@@ -1,8 +1,5 @@
 /**
- * @file linked list.
- * @author Joshua Heagle <joshuaheagle@gmail.com>
- * @version 1.1.0
- * @memberOf module:collect-your-stuff
+ * linked list.
  */
 import { forEachCallback, IsArrayable } from '../../recipes/IsArrayable'
 import { IsLinker } from '../../recipes/IsLinker'
@@ -31,7 +28,7 @@ export class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
 
   /**
    * Create the new LinkedList instance.
-   * @param {Linker} [linkerClass=Linker] The class used to wrap given data as linkers.
+   * @param linkerClass The class used to wrap given data as linkers.
    */
   public constructor (linkerClass: typeof Linker = Linker) {
     this.linkerClass = linkerClass
@@ -39,8 +36,7 @@ export class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
 
   /**
    * Initialize the inner list, should only run once.
-   * @param {Linker|Array} initialList Give the list of linkers to start in this linked-list.
-   * @return {LinkedList}
+   * @param initialList Give the list of linkers to start in this linked-list.
    */
   public initialize (initialList: Linker): LinkedList {
     // Borrowed from Arrayable, which types its return as an Arrayable although it returns whatever list called it
@@ -49,7 +45,6 @@ export class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
 
   /**
    * Retrieve the innerList used (the list itself, not a copy).
-   * @returns {Linker}
    */
   public get list (): IsLinker {
     return this.innerList
@@ -57,7 +52,6 @@ export class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
 
   /**
    * Retrieve the first Linker in the list.
-   * @returns {Linker}
    */
   public get first (): Linker {
     return this.innerList
@@ -65,7 +59,6 @@ export class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
 
   /**
    * Retrieve the last Linker in the list. The end is remembered, so this does not walk the list.
-   * @returns {Linker}
    */
   public get last (): Linker | null {
     if (this.innerList === null) {
@@ -83,7 +76,6 @@ export class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
   /**
    * Return the length of the list. It is kept up to date by the list's own methods, so this does not walk the list
    * (call reset() after linkers were changed directly).
-   * @returns {number}
    */
   public get length (): number {
     if (this.countCache === null) {
@@ -94,9 +86,8 @@ export class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
 
   /**
    * Insert a new node (or data) after a node.
-   * @param {Linker|*} node The existing node as reference, or null to insert at the start of the list
-   * @param {Linker|*} newNode The new node to go after the existing node
-   * @returns {LinkedList}
+   * @param node The existing node as reference, or null to insert at the start of the list
+   * @param newNode The new node to go after the existing node
    */
   public insertAfter (node: IsLinker | null, newNode: Linker | any): LinkedList {
     newNode = this.linkerClass.make(newNode, this.linkerClass)
@@ -122,9 +113,8 @@ export class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
 
   /**
    * Insert a new node (or data) before a node.
-   * @param {Linker|*} node The existing node as reference, or null to insert at the end of the list
-   * @param {Linker|*} newNode The new node to go before the existing node
-   * @returns {LinkedList}
+   * @param node The existing node as reference, or null to insert at the end of the list
+   * @param newNode The new node to go before the existing node
    * @throws {Error} When the reference node is not in this list
    */
   public insertBefore (node: IsLinker | null, newNode: Linker | any): LinkedList {
@@ -164,9 +154,8 @@ export class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
 
   /**
    * Add a node (or data) after the given (or last) node in the list.
-   * @param {Linker|*} node The new node to add to the end of the list
-   * @param {Linker} after The existing last node
-   * @returns {Linker}
+   * @param node The new node to add to the end of the list
+   * @param after The existing last node
    */
   public append (node: Linker | any, after: IsLinker = this.last): LinkedList {
     return this.insertAfter(after, node)
@@ -174,9 +163,8 @@ export class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
 
   /**
    * Add a node (or data) before the given (or first) node in the list.
-   * @param {Linker|*} node The new node to add to the start of the list
-   * @param {Linker} before The existing first node
-   * @returns {Linker}
+   * @param node The new node to add to the start of the list
+   * @param before The existing first node
    */
   public prepend (node: Linker | any, before: IsLinker = this.first): LinkedList {
     return this.insertBefore(before, node)
@@ -184,8 +172,8 @@ export class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
 
   /**
    * Remove a linker from this linked list.
-   * @param {Linker} node The node we wish to remove (and it will be returned after removal)
-   * @return {Linker|null} The removed node, or null when it was not in this list (nothing is removed)
+   * @param node The node we wish to remove (and it will be returned after removal)
+   * @returns The removed node, or null when it was not in this list (nothing is removed)
    */
   public remove (node: Linker | null): Linker | null {
     if (node === null || typeof node === 'undefined') {
@@ -221,7 +209,7 @@ export class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
   /**
    * Refresh the remembered end and length of the list by walking it once. The list's own methods keep these up to date,
    * so this is only needed after linkers were changed directly (for example by setting next on a linker).
-   * @return {Linker|null} The first linker of the list
+   * @returns The first linker of the list
    */
   public reset (): Linker | null {
     let count: number = 0
@@ -239,8 +227,7 @@ export class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
 
   /**
    * Retrieve a Linker item from this list by numeric index, otherwise return null.
-   * @param {number} index The integer number for retrieving a node by position.
-   * @returns {Linker|null}
+   * @param index The integer number for retrieving a node by position.
    */
   public item (index: number): Linker | null {
     if (index >= 0) {
@@ -266,9 +253,8 @@ export class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
 
   /**
    * Be able to run forEach on this LinkedList to iterate over the linkers.
-   * @param {forEachCallback} callback The function to call for-each linker
-   * @param {LinkedList} thisArg Optional, 'this' reference
-   * @returns {LinkedList}
+   * @param callback The function to call for-each linker
+   * @param thisArg Optional, 'this' reference
    */
   public forEach (callback: forEachCallback, thisArg: LinkedList = this): LinkedList {
     let index: number = 0
@@ -283,7 +269,6 @@ export class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
 
   /**
    * Be able to iterate over this class.
-   * @returns {Iterator}
    */
   [Symbol.iterator] (): Iterator<Linker> {
     return new LinkerIterator(this.first)
@@ -291,10 +276,9 @@ export class LinkedList implements IsArrayable<Linker>, Iterable<Linker> {
 
   /**
    * Convert an array to a LinkedList.
-   * @param {Array} values An array of values which will be converted to linkers in this linked-list
-   * @param {IsLinker} linkerClass The class to use for each linker
-   * @param {IsArrayable<Linker>} [classType=LinkedList] Provide the type of IsArrayable to use.
-   * @returns {LinkedList}
+   * @param values An array of values which will be converted to linkers in this linked-list
+   * @param linkerClass The class to use for each linker
+   * @param classType Provide the type of IsArrayable to use.
    */
   public static fromArray = (values: Array<any> = [], linkerClass: typeof Linker = Linker, classType: any = LinkedList): IsArrayable<IsLinker> | any => {
     const list: IsArrayable<IsLinker> = new classType(linkerClass)

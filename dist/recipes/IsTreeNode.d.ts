@@ -23,7 +23,7 @@ export interface IsTreeNode extends IsDoubleLinker {
     children: IsArrayable<IsTreeNode> | null;
     /**
      * Create the children for this tree from an array.
-     * @param {Array} children
+     * @param children
      */
     childrenFromArray(children: Array<any> | null): LinkedTreeList;
 }

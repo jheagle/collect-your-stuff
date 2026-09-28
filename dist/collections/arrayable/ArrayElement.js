@@ -12,7 +12,7 @@ require('core-js/modules/esnext.iterator.reduce.js')
 class ArrayElement {
   /**
    * Create the new Element instance, provide the data and optionally configure the type of Element.
-   * @param {*} [data=null] The data to be stored in this element.
+   * @param data The data to be stored in this element.
    */
   constructor (data = null) {
     /** The class used to create this instance, so that it can be recognized as valid without an instanceof check. */
@@ -24,9 +24,8 @@ class ArrayElement {
 }
 /**
  * Make a new Element from the data given if it is not already a valid Element.
- * @param {ArrayElement|*} element Return a valid ArrayElement instance from given data, or even an already valid one.
- * @param {IsElement} [classType=ArrayElement] Provide the type of IsElement to use.
- * @return {ArrayElement}
+ * @param element Return a valid ArrayElement instance from given data, or even an already valid one.
+ * @param classType Provide the type of IsElement to use.
  */
 exports.ArrayElement = ArrayElement
 ArrayElement.make = (element, classType = ArrayElement) => {
@@ -43,9 +42,8 @@ ArrayElement.make = (element, classType = ArrayElement) => {
 }
 /**
  * Convert an array into Element instances, return the head and tail Elements.
- * @param {Array<IsElement>} [values=[]] Provide an array of data that will be converted to array of elements.
- * @param {IsElement} [classType=ArrayElement] Provide the type of IsElement to use.
- * @returns {{head: ArrayElement[], tail: ArrayElement}}
+ * @param values Provide an array of data that will be converted to array of elements.
+ * @param classType Provide the type of IsElement to use.
  */
 ArrayElement.fromArray = (values = [], classType = ArrayElement) => values.reduce((references, element) => {
   const newElement = classType.make(element, classType)

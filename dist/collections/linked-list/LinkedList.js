@@ -14,7 +14,7 @@ const _Arrayable = require('../arrayable/Arrayable')
 class LinkedList {
   /**
    * Create the new LinkedList instance.
-   * @param {Linker} [linkerClass=Linker] The class used to wrap given data as linkers.
+   * @param linkerClass The class used to wrap given data as linkers.
    */
   constructor (linkerClass = _Linker.Linker) {
     /** The class used to create this instance, so that it can be recognized as valid without an instanceof check. */
@@ -32,8 +32,7 @@ class LinkedList {
 
   /**
    * Initialize the inner list, should only run once.
-   * @param {Linker|Array} initialList Give the list of linkers to start in this linked-list.
-   * @return {LinkedList}
+   * @param initialList Give the list of linkers to start in this linked-list.
    */
   initialize (initialList) {
     // Borrowed from Arrayable, which types its return as an Arrayable although it returns whatever list called it
@@ -42,7 +41,6 @@ class LinkedList {
 
   /**
    * Retrieve the innerList used (the list itself, not a copy).
-   * @returns {Linker}
    */
   get list () {
     return this.innerList
@@ -50,7 +48,6 @@ class LinkedList {
 
   /**
    * Retrieve the first Linker in the list.
-   * @returns {Linker}
    */
   get first () {
     return this.innerList
@@ -58,7 +55,6 @@ class LinkedList {
 
   /**
    * Retrieve the last Linker in the list. The end is remembered, so this does not walk the list.
-   * @returns {Linker}
    */
   get last () {
     if (this.innerList === null) {
@@ -76,7 +72,6 @@ class LinkedList {
   /**
    * Return the length of the list. It is kept up to date by the list's own methods, so this does not walk the list
    * (call reset() after linkers were changed directly).
-   * @returns {number}
    */
   get length () {
     if (this.countCache === null) {
@@ -87,9 +82,8 @@ class LinkedList {
 
   /**
    * Insert a new node (or data) after a node.
-   * @param {Linker|*} node The existing node as reference, or null to insert at the start of the list
-   * @param {Linker|*} newNode The new node to go after the existing node
-   * @returns {LinkedList}
+   * @param node The existing node as reference, or null to insert at the start of the list
+   * @param newNode The new node to go after the existing node
    */
   insertAfter (node, newNode) {
     newNode = this.linkerClass.make(newNode, this.linkerClass)
@@ -115,9 +109,8 @@ class LinkedList {
 
   /**
    * Insert a new node (or data) before a node.
-   * @param {Linker|*} node The existing node as reference, or null to insert at the end of the list
-   * @param {Linker|*} newNode The new node to go before the existing node
-   * @returns {LinkedList}
+   * @param node The existing node as reference, or null to insert at the end of the list
+   * @param newNode The new node to go before the existing node
    * @throws {Error} When the reference node is not in this list
    */
   insertBefore (node, newNode) {
@@ -157,9 +150,8 @@ class LinkedList {
 
   /**
    * Add a node (or data) after the given (or last) node in the list.
-   * @param {Linker|*} node The new node to add to the end of the list
-   * @param {Linker} after The existing last node
-   * @returns {Linker}
+   * @param node The new node to add to the end of the list
+   * @param after The existing last node
    */
   append (node, after = this.last) {
     return this.insertAfter(after, node)
@@ -167,9 +159,8 @@ class LinkedList {
 
   /**
    * Add a node (or data) before the given (or first) node in the list.
-   * @param {Linker|*} node The new node to add to the start of the list
-   * @param {Linker} before The existing first node
-   * @returns {Linker}
+   * @param node The new node to add to the start of the list
+   * @param before The existing first node
    */
   prepend (node, before = this.first) {
     return this.insertBefore(before, node)
@@ -177,8 +168,8 @@ class LinkedList {
 
   /**
    * Remove a linker from this linked list.
-   * @param {Linker} node The node we wish to remove (and it will be returned after removal)
-   * @return {Linker|null} The removed node, or null when it was not in this list (nothing is removed)
+   * @param node The node we wish to remove (and it will be returned after removal)
+   * @returns The removed node, or null when it was not in this list (nothing is removed)
    */
   remove (node) {
     if (node === null || typeof node === 'undefined') {
@@ -214,7 +205,7 @@ class LinkedList {
   /**
    * Refresh the remembered end and length of the list by walking it once. The list's own methods keep these up to date,
    * so this is only needed after linkers were changed directly (for example by setting next on a linker).
-   * @return {Linker|null} The first linker of the list
+   * @returns The first linker of the list
    */
   reset () {
     let count = 0
@@ -232,8 +223,7 @@ class LinkedList {
 
   /**
    * Retrieve a Linker item from this list by numeric index, otherwise return null.
-   * @param {number} index The integer number for retrieving a node by position.
-   * @returns {Linker|null}
+   * @param index The integer number for retrieving a node by position.
    */
   item (index) {
     if (index >= 0) {
@@ -259,9 +249,8 @@ class LinkedList {
 
   /**
    * Be able to run forEach on this LinkedList to iterate over the linkers.
-   * @param {forEachCallback} callback The function to call for-each linker
-   * @param {LinkedList} thisArg Optional, 'this' reference
-   * @returns {LinkedList}
+   * @param callback The function to call for-each linker
+   * @param thisArg Optional, 'this' reference
    */
   forEach (callback, thisArg = this) {
     let index = 0
@@ -276,7 +265,6 @@ class LinkedList {
 
   /**
    * Be able to iterate over this class.
-   * @returns {Iterator}
    */
   [Symbol.iterator] () {
     return new _LinkerIterator.LinkerIterator(this.first)
@@ -284,10 +272,9 @@ class LinkedList {
 }
 /**
  * Convert an array to a LinkedList.
- * @param {Array} values An array of values which will be converted to linkers in this linked-list
- * @param {IsLinker} linkerClass The class to use for each linker
- * @param {IsArrayable<Linker>} [classType=LinkedList] Provide the type of IsArrayable to use.
- * @returns {LinkedList}
+ * @param values An array of values which will be converted to linkers in this linked-list
+ * @param linkerClass The class to use for each linker
+ * @param classType Provide the type of IsArrayable to use.
  */
 exports.LinkedList = LinkedList
 LinkedList.fromArray = (values = [], linkerClass = _Linker.Linker, classType = LinkedList) => {
