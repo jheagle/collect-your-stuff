@@ -14,9 +14,9 @@ const _ArrayElement = require('../arrayable/ArrayElement')
 class Linker {
   /**
    * Create the new Linker instance, provide the data and optionally give the next Linker.
-   * @param {Object} [nodeData={}] The settings for the new linker.
-   * @param {*} [nodeData.data=null] The data to be stored in this linker
-   * @param {Linker|null} [nodeData.next=null] The reference to the next linker if any
+   * @param nodeData The settings for the new linker.
+   * @param nodeData.data The data to be stored in this linker
+   * @param nodeData.next The reference to the next linker if any
    */
   constructor ({
     data = null,
@@ -34,9 +34,8 @@ class Linker {
 }
 /**
  * Make a new Linker from the data given if it is not already a valid Linker.
- * @param {Linker|*} linker Return a valid Linker instance from given data, or even an already valid one.
- * @param {IsLinker} [classType=Linker] Provide the type of IsLinker to use.
- * @return {Linker}
+ * @param linker Return a valid Linker instance from given data, or even an already valid one.
+ * @param classType Provide the type of IsLinker to use.
  */
 exports.Linker = Linker
 Linker.make = (linker, classType = Linker) => {
@@ -61,9 +60,8 @@ Linker.make = (linker, classType = Linker) => {
 }
 /**
  * Convert an array into Linker instances, return the head and tail Linkers.
- * @param {Array} [values=[]] Provide an array of data that will be converted to a chain of linkers.
- * @param {IsLinker} [classType=Linker] Provide the type of IsLinker to use.
- * @returns {{head: Linker, tail: Linker}}
+ * @param values Provide an array of data that will be converted to a chain of linkers.
+ * @param classType Provide the type of IsLinker to use.
  */
 Linker.fromArray = (values = [], classType = Linker) => values.reduce((references, linker) => {
   const newLinker = classType.make(linker, classType)

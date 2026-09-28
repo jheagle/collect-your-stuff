@@ -7,9 +7,8 @@ exports.parseTree = void 0
 const _parseTreeNext = require('./parseTreeNext')
 /**
  * Loop over all the nodes in a tree starting from left and apply a callback for each
- * @param {IsArrayable<IsTreeNode>} tree
- * @param {forEachCallback} callback
- * @returns {IsArrayable<IsTreeNode>}
+ * @param tree
+ * @param callback
  */
 const parseTree = (tree, callback) => {
   let index = 0

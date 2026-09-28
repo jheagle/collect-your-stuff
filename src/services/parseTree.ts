@@ -5,9 +5,8 @@ import { parseTreeNext } from './parseTreeNext'
 
 /**
  * Loop over all the nodes in a tree starting from left and apply a callback for each
- * @param {IsArrayable<IsTreeNode>} tree
- * @param {forEachCallback} callback
- * @returns {IsArrayable<IsTreeNode>}
+ * @param tree
+ * @param callback
  */
 export const parseTree = (tree: IsTree, callback: forEachCallback): IsTree => {
   let index: number = 0

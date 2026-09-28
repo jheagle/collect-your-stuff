@@ -2,8 +2,11 @@
   "browser":{
     "name": "collect-your-stuff"
   },
-  "readme":{
-    "from": "dist/**/!(*.min).js"
+  "docs": {
+    "enabled": true,
+    "from": "src",
+    "index": "MAIN.md",
+    "to": "../joshuaheagle.local/projects/collect-your-stuff/docs"
   },
   "typescript":{
     "config": "tsconfig.json",

@@ -9,10 +9,7 @@ require('core-js/modules/esnext.iterator.for-each.js')
 const _LinkedList = require('../linked-list/LinkedList')
 const _Linker = require('../linked-list/Linker')
 /**
- * @file stack.
- * @author Joshua Heagle <joshuaheagle@gmail.com>
- * @version 2.0.0
- * @memberOf module:collect-your-stuff
+ * stack.
  */
 
 /**
@@ -23,9 +20,9 @@ const _Linker = require('../linked-list/Linker')
 class Stack {
   /**
    * Instantiate the stack, optionally with a list of items to start from.
-   * @param {IsArrayable|null} [stackedList=null] The list of linkers to start in this stack (the first is the top)
-   * @param {IsArrayable} [listClass=LinkedList] The type of list to create when no stacked list is given
-   * @param {Linker} [linkerClass=Linker] The class used to hold each stacked item
+   * @param stackedList The list of linkers to start in this stack (the first is the top)
+   * @param listClass The type of list to create when no stacked list is given
+   * @param linkerClass The class used to hold each stacked item
    */
   constructor (stackedList = null, listClass = _LinkedList.LinkedList, linkerClass = _Linker.Linker) {
     this.linkerClass = linkerClass
@@ -34,7 +31,6 @@ class Stack {
 
   /**
    * Check whether the stack has no items.
-   * @return {boolean}
    */
   empty () {
     return this.size() <= 0
@@ -42,7 +38,7 @@ class Stack {
 
   /**
    * Look at the item on the top of the stack, without removing it.
-   * @return {*|null} The item, or null when the stack is empty
+   * @returns The item, or null when the stack is empty
    */
   peek () {
     const top = this.stackedList.first
@@ -51,7 +47,7 @@ class Stack {
 
   /**
    * Take the item from the top of the stack.
-   * @return {*|null} The item, or null when the stack is empty
+   * @returns The item, or null when the stack is empty
    */
   pop () {
     const top = this.stackedList.first
@@ -64,8 +60,8 @@ class Stack {
 
   /**
    * Add an item to the top of the stack.
-   * @param {*} data The item to add
-   * @return {Stack} This stack, so that adding can be chained
+   * @param data The item to add
+   * @returns This stack, so that adding can be chained
    */
   push (data) {
     // The item is wrapped here rather than left to the list, since the list treats objects that look like a linker's
@@ -78,7 +74,6 @@ class Stack {
 
   /**
    * Count the items in the stack.
-   * @return {number}
    */
   size () {
     return this.stackedList.length
@@ -86,7 +81,7 @@ class Stack {
 
   /**
    * The item on the top of the stack (the same as peek).
-   * @return {*|null} The item, or null when the stack is empty
+   * @returns The item, or null when the stack is empty
    */
   top () {
     return this.peek()
@@ -94,7 +89,6 @@ class Stack {
 
   /**
    * Iterate over the items from the top of the stack to the bottom, without removing them.
-   * @return {Iterator}
    */
   [Symbol.iterator] () {
     const linkers = this.stackedList[Symbol.iterator]()
@@ -116,10 +110,9 @@ class Stack {
 }
 /**
  * Convert an array to a Stack by pushing each value in turn, so the last value is on the top.
- * @param {Array} [values=[]] The items to stack
- * @param {IsArrayable} [listClass=LinkedList] The type of list used to store the items
- * @param {Linker} [linkerClass=Linker] The class used to hold each stacked item
- * @returns {Stack}
+ * @param values The items to stack
+ * @param listClass The type of list used to store the items
+ * @param linkerClass The class used to hold each stacked item
  */
 exports.Stack = Stack
 Stack.fromArray = (values = [], listClass = _LinkedList.LinkedList, linkerClass = _Linker.Linker) => {

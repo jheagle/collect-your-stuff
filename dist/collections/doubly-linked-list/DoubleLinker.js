@@ -14,10 +14,10 @@ const _Linker = require('../linked-list/Linker')
 class DoubleLinker {
   /**
    * Create the new DoubleLinker instance, provide the data and optionally the next and prev references.
-   * @param {Object} [nodeData={}] The settings for the new linker.
-   * @param {*} [nodeData.data=null] The data to be stored in this linker
-   * @param {DoubleLinker|null} [nodeData.next=null] The reference to the next linker if any
-   * @param {DoubleLinker|null} [nodeData.prev=null] The reference to the previous linker if any
+   * @param nodeData The settings for the new linker.
+   * @param nodeData.data The data to be stored in this linker
+   * @param nodeData.next The reference to the next linker if any
+   * @param nodeData.prev The reference to the previous linker if any
    */
   constructor ({
     data = null,
@@ -39,9 +39,8 @@ class DoubleLinker {
 }
 /**
  * Make a new DoubleLinker from the data given if it is not already a valid Linker.
- * @param {DoubleLinker|*} linker Return a valid Linker instance from given data, or even an already valid one.
- * @param {IsDoubleLinker} [classType=DoubleLinker] Provide the type of IsDoubleLinker to use.
- * @return {DoubleLinker}
+ * @param linker Return a valid Linker instance from given data, or even an already valid one.
+ * @param classType Provide the type of IsDoubleLinker to use.
  */
 exports.DoubleLinker = DoubleLinker
 DoubleLinker.make = (linker, classType = DoubleLinker) => {
@@ -49,9 +48,8 @@ DoubleLinker.make = (linker, classType = DoubleLinker) => {
 }
 /**
  * Convert an array into DoubleLinker instances, return the head and tail DoubleLinkers.
- * @param {Array} [values=[]] Provide an array of data that will be converted to a chain of linkers.
- * @param {IsDoubleLinker} [classType=DoubleLinker] Provide the type of IsDoubleLinker to use.
- * @returns {{head: DoubleLinker, tail: DoubleLinker}}
+ * @param values Provide an array of data that will be converted to a chain of linkers.
+ * @param classType Provide the type of IsDoubleLinker to use.
  */
 DoubleLinker.fromArray = (values = [], classType = DoubleLinker) => values.reduce((references, linker) => {
   const newLinker = classType.make(linker, classType)

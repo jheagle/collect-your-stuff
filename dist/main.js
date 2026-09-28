@@ -118,10 +118,6 @@ var _recipes = require('./recipes/recipes')
 var _services = require('./services/services')
 /**
  * All of the collections available.
- * @file
- * @author Joshua Heagle <joshuaheagle@gmail.com>
- * @version 1.0.0
- * @module collect-your-stuff
  */
 
 /**

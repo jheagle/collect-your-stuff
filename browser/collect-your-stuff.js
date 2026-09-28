@@ -14,7 +14,7 @@
     class ArrayElement {
       /**
    * Create the new Element instance, provide the data and optionally configure the type of Element.
-   * @param {*} [data=null] The data to be stored in this element.
+   * @param data The data to be stored in this element.
    */
       constructor (data = null) {
         /** The class used to create this instance, so that it can be recognized as valid without an instanceof check. */
@@ -26,9 +26,8 @@
     }
     /**
  * Make a new Element from the data given if it is not already a valid Element.
- * @param {ArrayElement|*} element Return a valid ArrayElement instance from given data, or even an already valid one.
- * @param {IsElement} [classType=ArrayElement] Provide the type of IsElement to use.
- * @return {ArrayElement}
+ * @param element Return a valid ArrayElement instance from given data, or even an already valid one.
+ * @param classType Provide the type of IsElement to use.
  */
     exports.ArrayElement = ArrayElement
     ArrayElement.make = (element, classType = ArrayElement) => {
@@ -45,9 +44,8 @@
     }
     /**
  * Convert an array into Element instances, return the head and tail Elements.
- * @param {Array<IsElement>} [values=[]] Provide an array of data that will be converted to array of elements.
- * @param {IsElement} [classType=ArrayElement] Provide the type of IsElement to use.
- * @returns {{head: ArrayElement[], tail: ArrayElement}}
+ * @param values Provide an array of data that will be converted to array of elements.
+ * @param classType Provide the type of IsElement to use.
  */
     ArrayElement.fromArray = (values = [], classType = ArrayElement) => values.reduce((references, element) => {
       const newElement = classType.make(element, classType)
@@ -77,10 +75,7 @@
     const _ArrayElement = require('./ArrayElement')
     const _ArrayIterator = require('../../recipes/ArrayIterator')
     /**
- * @file arrayable list.
- * @author Joshua Heagle <joshuaheagle@gmail.com>
- * @version 1.1.0
- * @memberOf module:collect-your-stuff
+ * arrayable list.
  */
 
     /**
@@ -89,7 +84,7 @@
     class Arrayable {
       /**
    * Create the new Arrayable instance, configure the Arrayable class.
-   * @param {ArrayElement} [elementClass=ArrayElement] The class used to wrap given data as elements.
+   * @param elementClass The class used to wrap given data as elements.
    */
       constructor (elementClass = _ArrayElement.ArrayElement) {
         /** The class used to create this instance, so that it can be recognized as valid without an instanceof check. */
@@ -103,8 +98,7 @@
 
       /**
    * Find the position of an element which must be in this list.
-   * @param {ArrayElement} node The element to find
-   * @returns {number}
+   * @param node The element to find
    * @throws {Error} When the element is not in this list
    */
       indexOfElement (node) {
@@ -117,8 +111,7 @@
 
       /**
    * Initialize the inner list, should only run once.
-   * @param {Array<ArrayElement>} initialList Give the array of elements to start in this Arrayable.
-   * @return {Arrayable}
+   * @param initialList Give the array of elements to start in this Arrayable.
    */
       initialize (initialList) {
         if (this.initialized) {
@@ -132,7 +125,6 @@
 
       /**
    * Retrieve the innerList used (the list itself, not a copy).
-   * @returns {Array<ArrayElement>}
    */
       get list () {
         return this.innerList
@@ -140,7 +132,7 @@
 
       /**
    * Retrieve the first Element from the Arrayable
-   * @returns {ArrayElement|null} The first element, or null when the Arrayable is empty
+   * @returns The first element, or null when the Arrayable is empty
    */
       get first () {
         return this.length ? this.innerList[0] : null
@@ -148,7 +140,7 @@
 
       /**
    * Retrieve the last Element from the Arrayable
-   * @returns {ArrayElement|null} The last element, or null when the Arrayable is empty
+   * @returns The last element, or null when the Arrayable is empty
    */
       get last () {
         return this.length ? this.innerList[this.length - 1] : null
@@ -156,7 +148,6 @@
 
       /**
    * Return the length of the list.
-   * @returns {number}
    */
       get length () {
         return this.innerList.length
@@ -164,9 +155,8 @@
 
       /**
    * Insert a new node (or data) after a node.
-   * @param {ArrayElement|null} node The existing node as reference, or null to insert at the start of the list
-   * @param {ArrayElement|*} newNode The new node to go after the existing node
-   * @returns {Arrayable}
+   * @param node The existing node as reference, or null to insert at the start of the list
+   * @param newNode The new node to go after the existing node
    * @throws {Error} When the reference node is not in this list
    */
       insertAfter (node, newNode) {
@@ -178,9 +168,8 @@
 
       /**
    * Insert a new node (or data) before a node.
-   * @param {ArrayElement|null} node The existing node as reference, or null to insert at the end of the list
-   * @param {ArrayElement|*} newNode The new node to go before the existing node
-   * @returns {Arrayable}
+   * @param node The existing node as reference, or null to insert at the end of the list
+   * @param newNode The new node to go before the existing node
    * @throws {Error} When the reference node is not in this list
    */
       insertBefore (node, newNode) {
@@ -192,9 +181,8 @@
 
       /**
    * Add a node (or data) after the given (or last) node in the list.
-   * @param {ArrayElement|*} node The new node to add to the end of the list
-   * @param {ArrayElement} after The existing last node
-   * @returns {Arrayable}
+   * @param node The new node to add to the end of the list
+   * @param after The existing last node
    */
       append (node, after = this.last) {
         if (after === this.last) {
@@ -207,9 +195,8 @@
 
       /**
    * Add a node (or data) before the given (or first) node in the list.
-   * @param {ArrayElement|*} node The new node to add to the start of the list
-   * @param {ArrayElement} before The existing first node
-   * @returns {Arrayable}
+   * @param node The new node to add to the start of the list
+   * @param before The existing first node
    */
       prepend (node, before = this.first) {
         if (before === this.first) {
@@ -222,8 +209,8 @@
 
       /**
    * Remove an element from this arrayable.
-   * @param {ArrayElement} node The node we wish to remove (and it will be returned after removal)
-   * @return {ArrayElement|null} The removed node, or null when it was not in this list (nothing is removed)
+   * @param node The node we wish to remove (and it will be returned after removal)
+   * @returns The removed node, or null when it was not in this list (nothing is removed)
    */
       remove (node) {
         const deleteAt = this.innerList.indexOf(node)
@@ -236,8 +223,7 @@
 
       /**
    * Retrieve an ArrayElement item from this list by numeric index, otherwise return null.
-   * @param {number} index The integer number for retrieving a node by position.
-   * @return {ArrayElement|null}
+   * @param index The integer number for retrieving a node by position.
    */
       item (index) {
         if (index >= this.length) {
@@ -259,9 +245,8 @@
 
       /**
    * Be able to run forEach on this Arrayable to iterate over the elements.
-   * @param {forEachCallback} callback The function to call for-each element
-   * @param {Arrayable} thisArg Optional, 'this' reference
-   * @returns {Arrayable}
+   * @param callback The function to call for-each element
+   * @param thisArg Optional, 'this' reference
    */
       forEach (callback, thisArg = this) {
         for (let i = 0; i < thisArg.length; ++i) {
@@ -272,7 +257,6 @@
 
       /**
    * Be able to iterate over this class.
-   * @returns {Iterator}
    */
       [Symbol.iterator] () {
         const index = 0
@@ -281,10 +265,9 @@
     }
     /**
  * Convert an array to an Arrayable.
- * @param {Array} values An array of values which will be converted to elements in this arrayable
- * @param {IsElement} [elementClass=ArrayElement] The class to use for each element
- * @param {IsArrayable<ArrayElement>} [classType=Arrayable] Provide the type of IsArrayable to use.
- * @returns {Arrayable}
+ * @param values An array of values which will be converted to elements in this arrayable
+ * @param elementClass The class to use for each element
+ * @param classType Provide the type of IsArrayable to use.
  */
     exports.Arrayable = Arrayable
     Arrayable.fromArray = (values = [], elementClass = _ArrayElement.ArrayElement, classType = Arrayable) => {
@@ -309,10 +292,10 @@
     class DoubleLinker {
       /**
    * Create the new DoubleLinker instance, provide the data and optionally the next and prev references.
-   * @param {Object} [nodeData={}] The settings for the new linker.
-   * @param {*} [nodeData.data=null] The data to be stored in this linker
-   * @param {DoubleLinker|null} [nodeData.next=null] The reference to the next linker if any
-   * @param {DoubleLinker|null} [nodeData.prev=null] The reference to the previous linker if any
+   * @param nodeData The settings for the new linker.
+   * @param nodeData.data The data to be stored in this linker
+   * @param nodeData.next The reference to the next linker if any
+   * @param nodeData.prev The reference to the previous linker if any
    */
       constructor ({
         data = null,
@@ -334,9 +317,8 @@
     }
     /**
  * Make a new DoubleLinker from the data given if it is not already a valid Linker.
- * @param {DoubleLinker|*} linker Return a valid Linker instance from given data, or even an already valid one.
- * @param {IsDoubleLinker} [classType=DoubleLinker] Provide the type of IsDoubleLinker to use.
- * @return {DoubleLinker}
+ * @param linker Return a valid Linker instance from given data, or even an already valid one.
+ * @param classType Provide the type of IsDoubleLinker to use.
  */
     exports.DoubleLinker = DoubleLinker
     DoubleLinker.make = (linker, classType = DoubleLinker) => {
@@ -344,9 +326,8 @@
     }
     /**
  * Convert an array into DoubleLinker instances, return the head and tail DoubleLinkers.
- * @param {Array} [values=[]] Provide an array of data that will be converted to a chain of linkers.
- * @param {IsDoubleLinker} [classType=DoubleLinker] Provide the type of IsDoubleLinker to use.
- * @returns {{head: DoubleLinker, tail: DoubleLinker}}
+ * @param values Provide an array of data that will be converted to a chain of linkers.
+ * @param classType Provide the type of IsDoubleLinker to use.
  */
     DoubleLinker.fromArray = (values = [], classType = DoubleLinker) => values.reduce((references, linker) => {
       const newLinker = classType.make(linker, classType)
@@ -380,10 +361,7 @@
     const _DoubleLinkerIterator = require('../../recipes/DoubleLinkerIterator')
     const _LinkedList = require('../linked-list/LinkedList')
     /**
- * @file doubly linked list.
- * @author Joshua Heagle <joshuaheagle@gmail.com>
- * @version 1.1.0
- * @memberOf module:collect-your-stuff
+ * doubly linked list.
  */
 
     /**
@@ -393,7 +371,7 @@
     class DoublyLinkedList {
       /**
    * Create the new DoublyLinkedList instance.
-   * @param {DoubleLinker} [linkerClass=DoubleLinker] The class used to wrap given data as linkers.
+   * @param linkerClass The class used to wrap given data as linkers.
    */
       constructor (linkerClass = _DoubleLinker.DoubleLinker) {
         /** The class used to create this instance, so that it can be recognized as valid without an instanceof check. */
@@ -411,8 +389,7 @@
 
       /**
    * Initialize the inner list, should only run once.
-   * @param {DoubleLinker} initialList Give the list of double-linkers to start in this doubly linked-list.
-   * @return {DoublyLinkedList}
+   * @param initialList Give the list of double-linkers to start in this doubly linked-list.
    */
       initialize (initialList) {
         // Borrowed from LinkedList, which types its return as a LinkedList although it returns whatever list called it
@@ -421,7 +398,6 @@
 
       /**
    * Retrieve the innerList used (the list itself, not a copy).
-   * @returns {DoubleLinker}
    */
       get list () {
         return this.innerList
@@ -429,7 +405,6 @@
 
       /**
    * Retrieve the first DoubleLinker in the list.
-   * @returns {DoubleLinker}
    */
       get first () {
         let head = this.innerList
@@ -446,7 +421,6 @@
 
       /**
    * Retrieve the last DoubleLinker in the list. The end is remembered, so this does not walk the list.
-   * @returns {DoubleLinker}
    */
       get last () {
         if (this.innerList === null) {
@@ -464,7 +438,6 @@
       /**
    * Return the length of the list. It is kept up to date by the list's own methods, so this does not walk the list
    * (call reset() after linkers were changed directly).
-   * @returns {number}
    */
       get length () {
         if (this.countCache === null) {
@@ -475,9 +448,8 @@
 
       /**
    * Insert a new node (or data) after a node.
-   * @param {DoubleLinker|*} node The existing node as reference (which must be in this list, this is not checked), or null to insert at the start of the list
-   * @param {DoubleLinker|*} newNode The new node to go after the existing node
-   * @returns {DoublyLinkedList}
+   * @param node The existing node as reference (which must be in this list, this is not checked), or null to insert at the start of the list
+   * @param newNode The new node to go after the existing node
    */
       insertAfter (node, newNode) {
         newNode = this.linkerClass.make(newNode, this.linkerClass)
@@ -514,9 +486,8 @@
 
       /**
    * Insert a new node (or data) before a node.
-   * @param {DoubleLinker|*} node The existing node as reference (which must be in this list, this is not checked), or null to insert at the end of the list
-   * @param {DoubleLinker|*} newNode The new node to go before the existing node
-   * @returns {DoublyLinkedList}
+   * @param node The existing node as reference (which must be in this list, this is not checked), or null to insert at the end of the list
+   * @param newNode The new node to go before the existing node
    */
       insertBefore (node, newNode) {
         newNode = this.linkerClass.make(newNode, this.linkerClass)
@@ -553,9 +524,8 @@
 
       /**
    * Add a node (or data) after the given (or last) node in the list.
-   * @param {DoubleLinker|*} node The new node to add to the end of the list
-   * @param {DoubleLinker} after The existing last node
-   * @returns {DoubleLinker}
+   * @param node The new node to add to the end of the list
+   * @param after The existing last node
    */
       append (node, after = this.last) {
         return this.insertAfter(after, node)
@@ -563,9 +533,8 @@
 
       /**
    * Add a node (or data) before the given (or first) node in the list.
-   * @param {DoubleLinker|*} node The new node to add to the start of the list
-   * @param {DoubleLinker} before The existing first node
-   * @returns {DoubleLinker}
+   * @param node The new node to add to the start of the list
+   * @param before The existing first node
    */
       prepend (node, before = this.first) {
         return this.insertBefore(before, node)
@@ -573,8 +542,7 @@
 
       /**
    * Remove a linker from this linked list.
-   * @param {DoubleLinker} node The node we wish to remove (and it will be returned after removal)
-   * @return {DoubleLinker}
+   * @param node The node we wish to remove (and it will be returned after removal)
    */
       remove (node) {
         if (node === null || typeof node === 'undefined') {
@@ -608,7 +576,6 @@
       /**
    * Refresh all references (the head, the end and the length) by walking the list once, and return the head. The list's
    * own methods keep these up to date, so this is only needed after linkers were changed directly.
-   * @return {DoubleLinker|null}
    */
       reset () {
         // Start at the pointer for the list
@@ -639,8 +606,7 @@
 
       /**
    * Retrieve a DoubleLinker item from this list by numeric index, otherwise return null.
-   * @param {number} index The integer number for retrieving a node by position.
-   * @returns {DoubleLinker|null}
+   * @param index The integer number for retrieving a node by position.
    */
       item (index) {
         if (index >= 0) {
@@ -667,9 +633,9 @@
 
       /**
    * Be able to run forEach on this DoublyLinkedList to iterate over the DoubleLinker Items.
-   * @param {forEachCallback} callback The function to call for-each double linker
-   * @param {DoublyLinkedList} thisArg Optional, 'this' reference
-   * @return {DoublyLinkedList} The list which was iterated.
+   * @param callback The function to call for-each double linker
+   * @param thisArg Optional, 'this' reference
+   * @returns The list which was iterated.
    */
       forEach (callback, thisArg = this) {
         return _LinkedList.LinkedList.prototype.forEach.call(this, callback, thisArg)
@@ -677,7 +643,6 @@
 
       /**
    * Be able to iterate over this class.
-   * @returns {Iterator}
    */
       [Symbol.iterator] () {
         const current = this.first
@@ -686,10 +651,9 @@
     }
     /**
  * Convert an array into a DoublyLinkedList instance, return the new instance.
- * @param {Array} [values=[]] An array of values which will be converted to linkers in this doubly-linked-list
- * @param {IsDoubleLinker} [linkerClass=DoubleLinker] The class to use for each linker
- * @param {IsArrayable<IsDoubleLinker>} [classType=LinkedList] Provide the type of IsArrayable to use.
- * @returns {DoublyLinkedList}
+ * @param values An array of values which will be converted to linkers in this doubly-linked-list
+ * @param linkerClass The class to use for each linker
+ * @param classType Provide the type of IsArrayable to use.
  */
     exports.DoublyLinkedList = DoublyLinkedList
     DoublyLinkedList.fromArray = (values = [], linkerClass = _DoubleLinker.DoubleLinker, classType = DoublyLinkedList) => {
@@ -713,7 +677,7 @@
     class LinkedList {
       /**
    * Create the new LinkedList instance.
-   * @param {Linker} [linkerClass=Linker] The class used to wrap given data as linkers.
+   * @param linkerClass The class used to wrap given data as linkers.
    */
       constructor (linkerClass = _Linker.Linker) {
         /** The class used to create this instance, so that it can be recognized as valid without an instanceof check. */
@@ -731,8 +695,7 @@
 
       /**
    * Initialize the inner list, should only run once.
-   * @param {Linker|Array} initialList Give the list of linkers to start in this linked-list.
-   * @return {LinkedList}
+   * @param initialList Give the list of linkers to start in this linked-list.
    */
       initialize (initialList) {
         // Borrowed from Arrayable, which types its return as an Arrayable although it returns whatever list called it
@@ -741,7 +704,6 @@
 
       /**
    * Retrieve the innerList used (the list itself, not a copy).
-   * @returns {Linker}
    */
       get list () {
         return this.innerList
@@ -749,7 +711,6 @@
 
       /**
    * Retrieve the first Linker in the list.
-   * @returns {Linker}
    */
       get first () {
         return this.innerList
@@ -757,7 +718,6 @@
 
       /**
    * Retrieve the last Linker in the list. The end is remembered, so this does not walk the list.
-   * @returns {Linker}
    */
       get last () {
         if (this.innerList === null) {
@@ -775,7 +735,6 @@
       /**
    * Return the length of the list. It is kept up to date by the list's own methods, so this does not walk the list
    * (call reset() after linkers were changed directly).
-   * @returns {number}
    */
       get length () {
         if (this.countCache === null) {
@@ -786,9 +745,8 @@
 
       /**
    * Insert a new node (or data) after a node.
-   * @param {Linker|*} node The existing node as reference, or null to insert at the start of the list
-   * @param {Linker|*} newNode The new node to go after the existing node
-   * @returns {LinkedList}
+   * @param node The existing node as reference, or null to insert at the start of the list
+   * @param newNode The new node to go after the existing node
    */
       insertAfter (node, newNode) {
         newNode = this.linkerClass.make(newNode, this.linkerClass)
@@ -814,9 +772,8 @@
 
       /**
    * Insert a new node (or data) before a node.
-   * @param {Linker|*} node The existing node as reference, or null to insert at the end of the list
-   * @param {Linker|*} newNode The new node to go before the existing node
-   * @returns {LinkedList}
+   * @param node The existing node as reference, or null to insert at the end of the list
+   * @param newNode The new node to go before the existing node
    * @throws {Error} When the reference node is not in this list
    */
       insertBefore (node, newNode) {
@@ -856,9 +813,8 @@
 
       /**
    * Add a node (or data) after the given (or last) node in the list.
-   * @param {Linker|*} node The new node to add to the end of the list
-   * @param {Linker} after The existing last node
-   * @returns {Linker}
+   * @param node The new node to add to the end of the list
+   * @param after The existing last node
    */
       append (node, after = this.last) {
         return this.insertAfter(after, node)
@@ -866,9 +822,8 @@
 
       /**
    * Add a node (or data) before the given (or first) node in the list.
-   * @param {Linker|*} node The new node to add to the start of the list
-   * @param {Linker} before The existing first node
-   * @returns {Linker}
+   * @param node The new node to add to the start of the list
+   * @param before The existing first node
    */
       prepend (node, before = this.first) {
         return this.insertBefore(before, node)
@@ -876,8 +831,8 @@
 
       /**
    * Remove a linker from this linked list.
-   * @param {Linker} node The node we wish to remove (and it will be returned after removal)
-   * @return {Linker|null} The removed node, or null when it was not in this list (nothing is removed)
+   * @param node The node we wish to remove (and it will be returned after removal)
+   * @returns The removed node, or null when it was not in this list (nothing is removed)
    */
       remove (node) {
         if (node === null || typeof node === 'undefined') {
@@ -913,7 +868,7 @@
       /**
    * Refresh the remembered end and length of the list by walking it once. The list's own methods keep these up to date,
    * so this is only needed after linkers were changed directly (for example by setting next on a linker).
-   * @return {Linker|null} The first linker of the list
+   * @returns The first linker of the list
    */
       reset () {
         let count = 0
@@ -931,8 +886,7 @@
 
       /**
    * Retrieve a Linker item from this list by numeric index, otherwise return null.
-   * @param {number} index The integer number for retrieving a node by position.
-   * @returns {Linker|null}
+   * @param index The integer number for retrieving a node by position.
    */
       item (index) {
         if (index >= 0) {
@@ -958,9 +912,8 @@
 
       /**
    * Be able to run forEach on this LinkedList to iterate over the linkers.
-   * @param {forEachCallback} callback The function to call for-each linker
-   * @param {LinkedList} thisArg Optional, 'this' reference
-   * @returns {LinkedList}
+   * @param callback The function to call for-each linker
+   * @param thisArg Optional, 'this' reference
    */
       forEach (callback, thisArg = this) {
         let index = 0
@@ -975,7 +928,6 @@
 
       /**
    * Be able to iterate over this class.
-   * @returns {Iterator}
    */
       [Symbol.iterator] () {
         return new _LinkerIterator.LinkerIterator(this.first)
@@ -983,10 +935,9 @@
     }
     /**
  * Convert an array to a LinkedList.
- * @param {Array} values An array of values which will be converted to linkers in this linked-list
- * @param {IsLinker} linkerClass The class to use for each linker
- * @param {IsArrayable<Linker>} [classType=LinkedList] Provide the type of IsArrayable to use.
- * @returns {LinkedList}
+ * @param values An array of values which will be converted to linkers in this linked-list
+ * @param linkerClass The class to use for each linker
+ * @param classType Provide the type of IsArrayable to use.
  */
     exports.LinkedList = LinkedList
     LinkedList.fromArray = (values = [], linkerClass = _Linker.Linker, classType = LinkedList) => {
@@ -1011,9 +962,9 @@
     class Linker {
       /**
    * Create the new Linker instance, provide the data and optionally give the next Linker.
-   * @param {Object} [nodeData={}] The settings for the new linker.
-   * @param {*} [nodeData.data=null] The data to be stored in this linker
-   * @param {Linker|null} [nodeData.next=null] The reference to the next linker if any
+   * @param nodeData The settings for the new linker.
+   * @param nodeData.data The data to be stored in this linker
+   * @param nodeData.next The reference to the next linker if any
    */
       constructor ({
         data = null,
@@ -1031,9 +982,8 @@
     }
     /**
  * Make a new Linker from the data given if it is not already a valid Linker.
- * @param {Linker|*} linker Return a valid Linker instance from given data, or even an already valid one.
- * @param {IsLinker} [classType=Linker] Provide the type of IsLinker to use.
- * @return {Linker}
+ * @param linker Return a valid Linker instance from given data, or even an already valid one.
+ * @param classType Provide the type of IsLinker to use.
  */
     exports.Linker = Linker
     Linker.make = (linker, classType = Linker) => {
@@ -1058,9 +1008,8 @@
     }
     /**
  * Convert an array into Linker instances, return the head and tail Linkers.
- * @param {Array} [values=[]] Provide an array of data that will be converted to a chain of linkers.
- * @param {IsLinker} [classType=Linker] Provide the type of IsLinker to use.
- * @returns {{head: Linker, tail: Linker}}
+ * @param values Provide an array of data that will be converted to a chain of linkers.
+ * @param classType Provide the type of IsLinker to use.
  */
     Linker.fromArray = (values = [], classType = Linker) => values.reduce((references, linker) => {
       const newLinker = classType.make(linker, classType)
@@ -1093,17 +1042,13 @@
     const _TreeLinkerIterator = require('../../recipes/TreeLinkerIterator')
     const _DoublyLinkedList = require('../doubly-linked-list/DoublyLinkedList')
     /**
- * @file doubly linked tree list.
- * @author Joshua Heagle <joshuaheagle@gmail.com>
- * @version 1.1.0
- * @memberOf module:collect-your-stuff
+ * doubly linked tree list.
  */
 
     /**
  * Use one of the accessors of DoublyLinkedList (which keeps track of the head, tail and length) for a LinkedTreeList.
- * @param {string} name The accessor to use
- * @param {LinkedTreeList} list The list to use it on
- * @returns {*}
+ * @param name The accessor to use
+ * @param list The list to use it on
  */
     const borrowedGetter = (name, list) => Object.getOwnPropertyDescriptor(_DoublyLinkedList.DoublyLinkedList.prototype, name).get.call(list)
     /**
@@ -1113,7 +1058,7 @@
     class LinkedTreeList {
       /**
    * Create the new LinkedTreeList instance, configure the list class.
-   * @param {TreeLinker} [linkerClass=TreeLinker] The class used to wrap given data as tree linkers.
+   * @param linkerClass The class used to wrap given data as tree linkers.
    */
       constructor (linkerClass = _TreeLinker.TreeLinker) {
         /** The class used to create this instance, so that it can be recognized as valid without an instanceof check. */
@@ -1133,8 +1078,7 @@
 
       /**
    * Initialize the inner list, should only run once.
-   * @param {TreeLinker} initialList Give the list of tree-linkers to start in this linked-tree-list.
-   * @return {LinkedTreeList}
+   * @param initialList Give the list of tree-linkers to start in this linked-tree-list.
    */
       initialize (initialList) {
         if (this.initialized) {
@@ -1148,7 +1092,6 @@
 
       /**
    * Retrieve the innerList used (the list itself, not a copy).
-   * @returns {TreeLinker}
    */
       get list () {
         return this.innerList
@@ -1156,7 +1099,6 @@
 
       /**
    * Retrieve the first TreeLinker in the list.
-   * @returns {TreeLinker}
    */
       get first () {
         return borrowedGetter('first', this)
@@ -1164,7 +1106,6 @@
 
       /**
    * Retrieve the last TreeLinker in the list. The end is remembered, so this does not walk the list.
-   * @returns {TreeLinker}
    */
       get last () {
         return borrowedGetter('last', this)
@@ -1173,7 +1114,6 @@
       /**
    * Return the length of the list. It is kept up to date by the list's own methods, so this does not walk the list
    * (call reset() after linkers were changed directly).
-   * @returns {number}
    */
       get length () {
         return borrowedGetter('length', this)
@@ -1182,7 +1122,6 @@
       /**
    * Get the parent of this tree list: the node these linkers are the children of (remembered even while the list is
    * empty), or null for the linkers at the top of a tree.
-   * @return {TreeLinker|null}
    */
       get parent () {
         if (this.ownerNode !== undefined) {
@@ -1195,7 +1134,7 @@
       /**
    * Set the parent of this tree list: every linker in it gets the node as its parent, and the node gets this list as its
    * children. Linkers added to the list later get this parent too.
-   * @param {TreeLinker|null} parent The new node to use as the parent for this group of children
+   * @param parent The new node to use as the parent for this group of children
    */
       set parent (parent) {
         this.ownerNode = parent
@@ -1211,7 +1150,6 @@
 
       /**
    * Return the root parent of the entire tree.
-   * @return {TreeLinker}
    */
       get rootParent () {
         let current = this.first
@@ -1228,8 +1166,8 @@
 
       /**
    * Set the children on a parent item.
-   * @param {TreeLinker} item The TreeLinker node (one of the linkers of this list) that will be the parent of the children
-   * @param {LinkedTreeList|null} [children=null] The LinkedTreeList which has the child nodes to use, or null to remove the children of the item
+   * @param item The TreeLinker node (one of the linkers of this list) that will be the parent of the children
+   * @param children The LinkedTreeList which has the child nodes to use, or null to remove the children of the item
    * @throws {Error} When the item is not one of the linkers of this list
    */
       setChildren (item, children = null) {
@@ -1252,8 +1190,7 @@
 
       /**
    * Make a linker of the given node (or data) and make this list's parent its parent.
-   * @param {TreeLinker|*} newNode The node (or data) which is being added to this list
-   * @returns {TreeLinker}
+   * @param newNode The node (or data) which is being added to this list
    */
       adopt (newNode) {
         const linker = this.linkerClass.make(newNode, this.linkerClass)
@@ -1263,9 +1200,8 @@
 
       /**
    * Insert a new node (or data) after a node. The new node gets the parent of this list.
-   * @param {TreeLinker|*} node The existing node as reference, or null to insert at the start of the list
-   * @param {TreeLinker|*} newNode The new node to go after the existing node
-   * @returns {LinkedTreeList}
+   * @param node The existing node as reference, or null to insert at the start of the list
+   * @param newNode The new node to go after the existing node
    */
       insertAfter (node, newNode) {
         return _DoublyLinkedList.DoublyLinkedList.prototype.insertAfter.call(this, node, this.adopt(newNode))
@@ -1273,9 +1209,8 @@
 
       /**
    * Insert a new node (or data) before a node. The new node gets the parent of this list.
-   * @param {TreeLinker|*} node The existing node as reference, or null to insert at the end of the list
-   * @param {TreeLinker|*} newNode The new node to go before the existing node
-   * @returns {LinkedTreeList}
+   * @param node The existing node as reference, or null to insert at the end of the list
+   * @param newNode The new node to go before the existing node
    */
       insertBefore (node, newNode) {
         return _DoublyLinkedList.DoublyLinkedList.prototype.insertBefore.call(this, node, this.adopt(newNode))
@@ -1283,9 +1218,8 @@
 
       /**
    * Add a node (or data) after the given (or last) node in the list.
-   * @param {TreeLinker|*} node The new node to add to the end of the list
-   * @param {TreeLinker} after The existing last node
-   * @returns {TreeLinker}
+   * @param node The new node to add to the end of the list
+   * @param after The existing last node
    */
       append (node, after = this.last) {
         return _DoublyLinkedList.DoublyLinkedList.prototype.append.call(this, node, after)
@@ -1293,9 +1227,8 @@
 
       /**
    * Add a node (or data) before the given (or first) node in the list.
-   * @param {TreeLinker|*} node The new node to add to the start of the list
-   * @param {TreeLinker} before The existing first node
-   * @returns {TreeLinker}
+   * @param node The new node to add to the start of the list
+   * @param before The existing first node
    */
       prepend (node, before = this.first) {
         return _DoublyLinkedList.DoublyLinkedList.prototype.prepend.call(this, node, before)
@@ -1303,8 +1236,8 @@
 
       /**
    * Remove a linker from this linked list. The removed node no longer has a parent.
-   * @param {TreeLinker} node The node we wish to remove (and it will be returned after removal)
-   * @return {TreeLinker|null} The removed node, or null when there was nothing to remove
+   * @param node The node we wish to remove (and it will be returned after removal)
+   * @returns The removed node, or null when there was nothing to remove
    */
       remove (node) {
         const owner = this.parent
@@ -1320,7 +1253,6 @@
       /**
    * Refresh all references (the head, the end and the length) by walking the list once, and return the head. The
    * list's own methods keep these up to date, so this is only needed after linkers were changed directly.
-   * @return {TreeLinker}
    */
       reset () {
         return _DoublyLinkedList.DoublyLinkedList.prototype.reset.call(this)
@@ -1328,8 +1260,7 @@
 
       /**
    * Retrieve a TreeLinker item from this list by numeric index, otherwise return null.
-   * @param {number} index The integer number for retrieving a node by position.
-   * @returns {TreeLinker|null}
+   * @param index The integer number for retrieving a node by position.
    */
       item (index) {
         return _DoublyLinkedList.DoublyLinkedList.prototype.item.call(this, index)
@@ -1337,9 +1268,9 @@
 
       /**
    * Be able to run forEach on this LinkedTreeList to iterate over the TreeLinker Items.
-   * @param {forEachCallback} callback The function to call for-each tree node
-   * @param {LinkedTreeList} thisArg Optional, 'this' reference
-   * @return {LinkedTreeList} The list which was iterated.
+   * @param callback The function to call for-each tree node
+   * @param thisArg Optional, 'this' reference
+   * @returns The list which was iterated.
    */
       forEach (callback, thisArg = this) {
         let index = 0
@@ -1355,7 +1286,6 @@
       /**
    * Be able to iterate over this class: the linkers of this list and everything below them (left-first). It stays within
    * this list (it does not start at, or climb up to, the parents), use the parseTree service to parse a whole tree.
-   * @returns {Iterator}
    */
       [Symbol.iterator] () {
         // The linkers of this list and everything below them, left-first. It stays within this list: it does not start at,
@@ -1365,10 +1295,9 @@
     }
     /**
  * Convert an array into a LinkedTreeList instance, return the new instance.
- * @param {Array} [values=[]] An array of values which will be converted to nodes in this tree-list
- * @param {TreeLinker} [linkerClass=TreeLinker] The class to use for each node
- * @param {IsArrayable<TreeLinker>} [classType=LinkedTreeList] Provide the type of IsArrayable to use.
- * @returns {LinkedTreeList}
+ * @param values An array of values which will be converted to nodes in this tree-list
+ * @param linkerClass The class to use for each node
+ * @param classType Provide the type of IsArrayable to use.
  */
     exports.LinkedTreeList = LinkedTreeList
     LinkedTreeList.fromArray = (values = [], linkerClass = _TreeLinker.TreeLinker, classType = LinkedTreeList) => {
@@ -1394,13 +1323,13 @@
     class TreeLinker {
       /**
    * Create the new TreeLinker instance, provide the data and optionally set references for next, prev, parent, or children.
-   * @param {Object} [settings={}] The settings for the new tree node.
-   * @param {*} [settings.data=null] The data to be stored in this tree node
-   * @param {TreeLinker} [settings.next=null] The reference to the next linker if any
-   * @param {TreeLinker} [settings.prev=null] The reference to the previous linker if any
-   * @param {LinkedTreeList} [settings.children=null] The references to child linkers if any
-   * @param {TreeLinker} [settings.parent=null] The reference to a parent linker if any
-   * @param {IsArrayable<IsTreeNode>} listClass Give the type of list to use for storing the children
+   * @param settings The settings for the new tree node.
+   * @param settings.data The data to be stored in this tree node
+   * @param settings.next The reference to the next linker if any
+   * @param settings.prev The reference to the previous linker if any
+   * @param settings.children The references to child linkers if any
+   * @param settings.parent The reference to a parent linker if any
+   * @param listClass Give the type of list to use for storing the children
    */
       constructor ({
         data = null,
@@ -1433,9 +1362,8 @@
    * Create the children for this tree from an array. Each child becomes a tree linker with this node as its parent: an
    * existing linker is kept as it is, an object with a data property gives the settings of the linker, and anything
    * else is the data of the linker.
-   * @param {Array|null} children Provide an array of data / linker references to be children of this tree node.
-   * @param {IsArrayable<IsTreeNode>} listClass Give the type of list to use for storing the children
-   * @return {LinkedTreeList|null}
+   * @param children Provide an array of data / linker references to be children of this tree node.
+   * @param listClass Give the type of list to use for storing the children
    */
       childrenFromArray (children = null, listClass = _LinkedTreeList.LinkedTreeList) {
         if (children === null) {
@@ -1456,9 +1384,8 @@
     }
     /**
  * Make a new DoubleLinker from the data given if it is not already a valid Linker.
- * @param {TreeLinker|*} linker Return a valid TreeLinker instance from given data, or even an already valid one.
- * @param {IsTreeNode} [classType=TreeLinker] Provide the type of IsTreeNode to use.
- * @return {TreeLinker}
+ * @param linker Return a valid TreeLinker instance from given data, or even an already valid one.
+ * @param classType Provide the type of IsTreeNode to use.
  */
     exports.TreeLinker = TreeLinker
     TreeLinker.make = (linker, classType = TreeLinker) => {
@@ -1466,9 +1393,8 @@
     }
     /**
  * Convert an array into DoubleLinker instances, return the head and tail DoubleLinkers.
- * @param {Array} [values=[]] Provide an array of data that will be converted to a chain of tree-linkers.
- * @param {IsTreeNode} [classType=TreeLinker] Provide the type of IsTreeNode to use.
- * @returns {{head: TreeLinker, tail: TreeLinker}}
+ * @param values Provide an array of data that will be converted to a chain of tree-linkers.
+ * @param classType Provide the type of IsTreeNode to use.
  */
     TreeLinker.fromArray = (values = [], classType = TreeLinker) => _DoubleLinker.DoubleLinker.fromArray(values, classType)
   }, { '../doubly-linked-list/DoubleLinker': 3, './LinkedTreeList': 7, 'core-js/modules/esnext.iterator.constructor.js': 122, 'core-js/modules/esnext.iterator.map.js': 124 }],
@@ -1484,10 +1410,7 @@
     const _LinkedList = require('../linked-list/LinkedList')
     const _Linker = require('../linked-list/Linker')
     /**
- * @file queue
- * @author Joshua Heagle <joshuaheagle@gmail.com>
- * @version 2.0.0
- * @memberOf module:collect-your-stuff
+ * queue
  */
 
     /**
@@ -1498,9 +1421,9 @@
     class Queue {
       /**
    * Instantiate the queue, optionally with a list of items to start from.
-   * @param {IsArrayable|null} [queuedList=null] The list of linkers to start in this queue (the first is the front)
-   * @param {IsArrayable} [listClass=LinkedList] The type of list to create when no queued list is given
-   * @param {Linker} [linkerClass=Linker] The class used to hold each queued item
+   * @param queuedList The list of linkers to start in this queue (the first is the front)
+   * @param listClass The type of list to create when no queued list is given
+   * @param linkerClass The class used to hold each queued item
    */
       constructor (queuedList = null, listClass = _LinkedList.LinkedList, linkerClass = _Linker.Linker) {
         this.linkerClass = linkerClass
@@ -1509,7 +1432,7 @@
 
       /**
    * Take the item from the front of the queue.
-   * @return {*|null} The item, or null when the queue is empty
+   * @returns The item, or null when the queue is empty
    */
       dequeue () {
         const front = this.queuedList.first
@@ -1522,7 +1445,6 @@
 
       /**
    * Check whether the queue has no items.
-   * @return {boolean}
    */
       empty () {
         return this.size() <= 0
@@ -1530,8 +1452,8 @@
 
       /**
    * Add an item to the back of the queue.
-   * @param {*} data The item to add
-   * @return {Queue} This queue, so that adding can be chained
+   * @param data The item to add
+   * @returns This queue, so that adding can be chained
    */
       enqueue (data) {
         // The item is wrapped here rather than left to the list, since the list treats objects that look like a linker's
@@ -1544,7 +1466,7 @@
 
       /**
    * Look at the item at the front of the queue, without removing it.
-   * @return {*|null} The item, or null when the queue is empty
+   * @returns The item, or null when the queue is empty
    */
       peek () {
         const front = this.queuedList.first
@@ -1553,7 +1475,6 @@
 
       /**
    * Count the items in the queue.
-   * @return {number}
    */
       size () {
         return this.queuedList.length
@@ -1561,7 +1482,6 @@
 
       /**
    * Iterate over the items from the front of the queue to the back, without removing them.
-   * @return {Iterator}
    */
       [Symbol.iterator] () {
         const linkers = this.queuedList[Symbol.iterator]()
@@ -1583,10 +1503,9 @@
     }
     /**
  * Convert an array to a Queue, the first value is at the front.
- * @param {Array} [values=[]] The items to queue
- * @param {IsArrayable} [listClass=LinkedList] The type of list used to store the items
- * @param {Linker} [linkerClass=Linker] The class used to hold each queued item
- * @returns {Queue}
+ * @param values The items to queue
+ * @param listClass The type of list used to store the items
+ * @param linkerClass The class used to hold each queued item
  */
     exports.Queue = Queue
     Queue.fromArray = (values = [], listClass = _LinkedList.LinkedList, linkerClass = _Linker.Linker) => {
@@ -1610,10 +1529,10 @@
     class Queueable {
       /**
    * Create a queueable item that can be used in a queue.
-   * @param {Object} [queueableData={}] The settings for the new queueable.
-   * @param {*} [queueableData.task=null] The data to be stored in this queueable
-   * @param {Queueable|null} [queueableData.next=null] The reference to the next queueable if any
-   * @param {boolean|Function} [queueableData.ready=false] Indicate if the queueable is ready to run
+   * @param queueableData The settings for the new queueable.
+   * @param queueableData.task The data to be stored in this queueable
+   * @param queueableData.next The reference to the next queueable if any
+   * @param queueableData.ready Indicate if the queueable is ready to run
    */
       constructor ({
         task = null,
@@ -1640,7 +1559,6 @@
 
       /**
    * Check ready state.
-   * @return {boolean}
    */
       get isReady () {
         return typeof this.ready === 'function' ? this.ready() : this.ready
@@ -1648,7 +1566,6 @@
 
       /**
    * Retrieve the data which should be formed as a task.
-   * @return {*}
    */
       get task () {
         if (typeof this.data === 'function') {
@@ -1663,11 +1580,10 @@
 
       /**
    * Set this queueable as completed.
-   * @param {Object} [completeResponse={}] The result to report for the task.
-   * @param {*} [completeResponse.success=true] Indicate when the task failed (use false) or give a success message
-   * @param {*} [completeResponse.error=false] Indicate a task was error-free (use false) or give an error message
-   * @param {*} [completeResponse.context=null] Provide additional data in the response
-   * @return {completeResponse}
+   * @param completeResponse The result to report for the task.
+   * @param completeResponse.success Indicate when the task failed (use false) or give a success message
+   * @param completeResponse.error Indicate a task was error-free (use false) or give an error message
+   * @param completeResponse.context Provide additional data in the response
    */
       markCompleted ({
         success = true,
@@ -1685,7 +1601,6 @@
 
       /**
    * Intend to run the queued task when it is ready. If ready, mark this task as running and run the task.
-   * @return {completeResponse}
    */
       run () {
         if (!this.isReady) {
@@ -1711,9 +1626,8 @@
     }
     /**
  * Make a new Queueable from the data given if it is not already a valid Queueable.
- * @param {Queueable|*} queueable Return a valid Queueable instance from given data, or even an already valid one.
- * @param {IsLinker} [classType=Queueable] Provide the type of IsLinker to use.
- * @return {Queueable}
+ * @param queueable Return a valid Queueable instance from given data, or even an already valid one.
+ * @param classType Provide the type of IsLinker to use.
  */
     exports.Queueable = Queueable
     Queueable.make = (queueable, classType = Queueable) => {
@@ -1739,9 +1653,8 @@
     }
     /**
  * Convert an array into Queueable instances, return the head and tail Queueables.
- * @param {Array} values Provide an array of data that will be converted to a chain of queueable linkers.
- * @param {IsLinker} [classType=Queueable] Provide the type of IsLinker to use.
- * @returns {{head: Queueable, tail: Queueable}}
+ * @param values Provide an array of data that will be converted to a chain of queueable linkers.
+ * @param classType Provide the type of IsLinker to use.
  */
     Queueable.fromArray = (values = [], classType = Queueable) => _Linker.Linker.fromArray(values, classType)
   }, { '../linked-list/Linker': 6 }],
@@ -1755,10 +1668,7 @@
     const _Queueable = require('./Queueable')
     const _LinkedList = require('../linked-list/LinkedList')
     /**
- * @file task queue
- * @author Joshua Heagle <joshuaheagle@gmail.com>
- * @version 1.1.0
- * @memberOf module:collect-your-stuff
+ * task queue
  */
 
     /**
@@ -1769,9 +1679,9 @@
     class TaskQueue {
       /**
    * Instantiate the queue with the given queue list.
-   * @param {Iterable|LinkedList} queuedList Give the list of queueables to start in this queue.
-   * @param {IsArrayable} [listClass=LinkedList] The type of list to create when no queued list is given.
-   * @param {Queueable} [queueableClass=Queueable] The class used to wrap queued items.
+   * @param queuedList Give the list of queueables to start in this queue.
+   * @param listClass The type of list to create when no queued list is given.
+   * @param queueableClass The class used to wrap queued items.
    */
       constructor (queuedList = null, listClass = _LinkedList.LinkedList, queueableClass = _Queueable.Queueable) {
         this.listClass = listClass
@@ -1786,7 +1696,6 @@
    * Take a queued task from the front of the queue and run it if ready. A task which is not ready yet is kept in the
    * queue (never dropped), a task which is still running is reported as blocking and left to finish on its own, and
    * completed tasks are discarded.
-   * @return {completeResponse|*}
    */
       dequeue () {
         let next = this.remove()
@@ -1829,7 +1738,6 @@
 
       /**
    * Return true if the queue is empty (there are no tasks in the queue list)
-   * @return {boolean}
    */
       empty () {
         return this.size() <= 0
@@ -1837,7 +1745,7 @@
 
       /**
    * Add a queued task to the end of the queue
-   * @param {Queueable} queueable Add a new queueable to the end of the queue
+   * @param queueable Add a new queueable to the end of the queue
    */
       enqueue (queueable) {
         this.queuedList.append(queueable)
@@ -1845,7 +1753,6 @@
 
       /**
    * Take a look at the next queued task
-   * @return {Queueable}
    */
       peek () {
         return this.queuedList.first
@@ -1853,7 +1760,6 @@
 
       /**
    * Remove the next queued item and return it.
-   * @return {Queueable|null}
    */
       remove () {
         if (this.empty()) {
@@ -1864,7 +1770,6 @@
 
       /**
    * Get the length of the current queue.
-   * @return {number}
    */
       size () {
         return this.queuedList.length
@@ -1872,10 +1777,9 @@
     }
     /**
  * Convert an array to a TaskQueue.
- * @param {Array} values An array of values which will be converted to queueables in this queue
- * @param {Queueable} queueableClass The class to use for each queueable
- * @param {TaskQueue|Iterable} listClass The class to use to manage the queueables
- * @returns {TaskQueue}
+ * @param values An array of values which will be converted to queueables in this queue
+ * @param queueableClass The class to use for each queueable
+ * @param listClass The class to use to manage the queueables
  */
     exports.TaskQueue = TaskQueue
     TaskQueue.fromArray = (values = [], queueableClass = _Queueable.Queueable, listClass = _LinkedList.LinkedList) => {
@@ -1896,10 +1800,7 @@
     const _LinkedList = require('../linked-list/LinkedList')
     const _Linker = require('../linked-list/Linker')
     /**
- * @file stack.
- * @author Joshua Heagle <joshuaheagle@gmail.com>
- * @version 2.0.0
- * @memberOf module:collect-your-stuff
+ * stack.
  */
 
     /**
@@ -1910,9 +1811,9 @@
     class Stack {
       /**
    * Instantiate the stack, optionally with a list of items to start from.
-   * @param {IsArrayable|null} [stackedList=null] The list of linkers to start in this stack (the first is the top)
-   * @param {IsArrayable} [listClass=LinkedList] The type of list to create when no stacked list is given
-   * @param {Linker} [linkerClass=Linker] The class used to hold each stacked item
+   * @param stackedList The list of linkers to start in this stack (the first is the top)
+   * @param listClass The type of list to create when no stacked list is given
+   * @param linkerClass The class used to hold each stacked item
    */
       constructor (stackedList = null, listClass = _LinkedList.LinkedList, linkerClass = _Linker.Linker) {
         this.linkerClass = linkerClass
@@ -1921,7 +1822,6 @@
 
       /**
    * Check whether the stack has no items.
-   * @return {boolean}
    */
       empty () {
         return this.size() <= 0
@@ -1929,7 +1829,7 @@
 
       /**
    * Look at the item on the top of the stack, without removing it.
-   * @return {*|null} The item, or null when the stack is empty
+   * @returns The item, or null when the stack is empty
    */
       peek () {
         const top = this.stackedList.first
@@ -1938,7 +1838,7 @@
 
       /**
    * Take the item from the top of the stack.
-   * @return {*|null} The item, or null when the stack is empty
+   * @returns The item, or null when the stack is empty
    */
       pop () {
         const top = this.stackedList.first
@@ -1951,8 +1851,8 @@
 
       /**
    * Add an item to the top of the stack.
-   * @param {*} data The item to add
-   * @return {Stack} This stack, so that adding can be chained
+   * @param data The item to add
+   * @returns This stack, so that adding can be chained
    */
       push (data) {
         // The item is wrapped here rather than left to the list, since the list treats objects that look like a linker's
@@ -1965,7 +1865,6 @@
 
       /**
    * Count the items in the stack.
-   * @return {number}
    */
       size () {
         return this.stackedList.length
@@ -1973,7 +1872,7 @@
 
       /**
    * The item on the top of the stack (the same as peek).
-   * @return {*|null} The item, or null when the stack is empty
+   * @returns The item, or null when the stack is empty
    */
       top () {
         return this.peek()
@@ -1981,7 +1880,6 @@
 
       /**
    * Iterate over the items from the top of the stack to the bottom, without removing them.
-   * @return {Iterator}
    */
       [Symbol.iterator] () {
         const linkers = this.stackedList[Symbol.iterator]()
@@ -2003,10 +1901,9 @@
     }
     /**
  * Convert an array to a Stack by pushing each value in turn, so the last value is on the top.
- * @param {Array} [values=[]] The items to stack
- * @param {IsArrayable} [listClass=LinkedList] The type of list used to store the items
- * @param {Linker} [linkerClass=Linker] The class used to hold each stacked item
- * @returns {Stack}
+ * @param values The items to stack
+ * @param listClass The type of list used to store the items
+ * @param linkerClass The class used to hold each stacked item
  */
     exports.Stack = Stack
     Stack.fromArray = (values = [], listClass = _LinkedList.LinkedList, linkerClass = _Linker.Linker) => {
@@ -2030,10 +1927,10 @@
     class Stackable {
       /**
    * Create a stackable item that can be used in a stack.
-   * @param {Object} [stackData={}] The settings for the new stackable.
-   * @param {*} [stackData.task=null] The data to be stored in this stackable
-   * @param {Stackable|null} [stackData.next=null] The reference to the next stackable if any
-   * @param {boolean|Function} [stackData.ready=false] Indicate if the stackable is ready to run
+   * @param stackData The settings for the new stackable.
+   * @param stackData.task The data to be stored in this stackable
+   * @param stackData.next The reference to the next stackable if any
+   * @param stackData.ready Indicate if the stackable is ready to run
    */
       constructor ({
         task = null,
@@ -2051,7 +1948,6 @@
 
       /**
    * Retrieve the data which should be formed as a task.
-   * @return {*}
    */
       get task () {
         if (typeof this.data === 'function') {
@@ -2062,7 +1958,6 @@
 
       /**
    * Run the stacked task.
-   * @return {*}
    */
       run () {
         return this.task()
@@ -2070,9 +1965,8 @@
     }
     /**
  * Make a new Stackable from the data given if it is not already a valid Stackable.
- * @param {Stackable|*} stackable Return a valid Stackable instance from given data, or even an already valid one.
- * @param {IsLinker} [classType=Stackable] Provide the type of IsLinker to use.
- * @return {Stackable}
+ * @param stackable Return a valid Stackable instance from given data, or even an already valid one.
+ * @param classType Provide the type of IsLinker to use.
  */
     exports.Stackable = Stackable
     Stackable.make = (stackable, classType = Stackable) => {
@@ -2096,9 +1990,8 @@
     }
     /**
  * Convert an array into Stackable instances, return the head and tail Stackables.
- * @param {Array} [values=[]] Provide an array of data that will be converted to a chain of stackable linkers.
- * @param {IsLinker} [classType=Stackable] Provide the type of IsLinker to use.
- * @returns {{head: Stackable, tail: Stackable}}
+ * @param values Provide an array of data that will be converted to a chain of stackable linkers.
+ * @param classType Provide the type of IsLinker to use.
  */
     Stackable.fromArray = (values = [], classType = Stackable) => _Linker.Linker.fromArray(values, classType)
   }, { '../linked-list/Linker': 6 }],
@@ -2112,10 +2005,7 @@
     const _Stackable = require('./Stackable')
     const _LinkedList = require('../linked-list/LinkedList')
     /**
- * @file task stack.
- * @author Joshua Heagle <joshuaheagle@gmail.com>
- * @version 1.0.0
- * @memberOf module:collect-your-stuff
+ * task stack.
  */
 
     /**
@@ -2125,9 +2015,9 @@
     class TaskStack {
       /**
    * Instantiate the state with the starter stacked list.
-   * @param {Iterable|LinkedList} [stackedList=null] The list of stackables to start in this stack.
-   * @param {IsArrayable} [listClass=LinkedList] The type of list to create when no stacked list is given.
-   * @param {Stackable} [stackableClass=Stackable] The class used to wrap stacked items.
+   * @param stackedList The list of stackables to start in this stack.
+   * @param listClass The type of list to create when no stacked list is given.
+   * @param stackableClass The class used to wrap stacked items.
    */
       constructor (stackedList = null, listClass = _LinkedList.LinkedList, stackableClass = _Stackable.Stackable) {
         this.listClass = listClass
@@ -2140,7 +2030,6 @@
 
       /**
    * Return true if the stack is empty (there are no tasks in the stacked list)
-   * @return {boolean}
    */
       empty () {
         return this.size() <= 0
@@ -2148,7 +2037,6 @@
 
       /**
    * Take a look at the next stacked task
-   * @return {Stackable}
    */
       top () {
         return this.stackedList.first
@@ -2156,7 +2044,6 @@
 
       /**
    * Remove the next stacked task and return it.
-   * @return {Stackable|null}
    */
       pop () {
         const next = this.remove()
@@ -2172,7 +2059,7 @@
 
       /**
    * Push a stackable task to the top of the stack.
-   * @param {Stackable|*} stackable Add a new stackable to the top of the stack
+   * @param stackable Add a new stackable to the top of the stack
    */
       push (stackable) {
         this.stackedList.prepend(stackable)
@@ -2180,7 +2067,6 @@
 
       /**
    * Remove the next stacked task and return it.
-   * @return {Stackable|null}
    */
       remove () {
         if (this.empty()) {
@@ -2191,7 +2077,6 @@
 
       /**
    * Get the size of the current stack.
-   * @return {number}
    */
       size () {
         return this.stackedList.length
@@ -2199,10 +2084,9 @@
     }
     /**
  * Convert an array to a TaskStack.
- * @param {Array} values An array of values which will be converted to stackables in this queue
- * @param {Stackable} stackableClass The class to use for each stackable
- * @param {TaskStack|Iterable} listClass The class to use to manage the stackables
- * @returns {TaskStack}
+ * @param values An array of values which will be converted to stackables in this queue
+ * @param stackableClass The class to use for each stackable
+ * @param listClass The class to use to manage the stackables
  */
     exports.TaskStack = TaskStack
     TaskStack.fromArray = (values = [], stackableClass = _Stackable.Stackable, listClass = _LinkedList.LinkedList) => {
@@ -2332,10 +2216,6 @@
     var _services = require('./services/services')
     /**
  * All of the collections available.
- * @file
- * @author Joshua Heagle <joshuaheagle@gmail.com>
- * @version 1.0.0
- * @module collect-your-stuff
  */
 
     /**
@@ -2391,8 +2271,8 @@
     class ArrayIterator {
       /**
    * Create an iterator over the given array.
-   * @param {Array<IsElement>} innerList The elements to iterate over.
-   * @param {number} [index=0] The position to start from.
+   * @param innerList The elements to iterate over.
+   * @param index The position to start from.
    */
       constructor (innerList, index = 0) {
         this.innerList = innerList
@@ -2401,8 +2281,8 @@
 
       /**
    * Get the next element, moving the iterator forward.
-   * @param {*} [value] Not used, present to match the Iterator interface.
-   * @return {IteratorResult<IsElement>} The next element, or done when there are no more.
+   * @param value Not used, present to match the Iterator interface.
+   * @returns The next element, or done when there are no more.
    */
       next (value) {
         if (this.index < this.innerList.length) {
@@ -2432,7 +2312,7 @@
     class DoubleLinkerIterator {
       /**
    * Create an iterator starting at the given item.
-   * @param {IsDoubleLinker} current The item to start from.
+   * @param current The item to start from.
    */
       constructor (current) {
         this.current = current
@@ -2440,8 +2320,8 @@
 
       /**
    * Get the current item and move on to the following one.
-   * @param {*} [value] Not used, present to match the Iterator interface.
-   * @return {IteratorResult<IsDoubleLinker>} The current item, or done when there are no more.
+   * @param value Not used, present to match the Iterator interface.
+   * @returns The current item, or done when there are no more.
    */
       next (value) {
         const result = {
@@ -2467,7 +2347,7 @@
     class LinkerIterator {
       /**
    * Create an iterator starting at the given item.
-   * @param {IsLinker} current The item to start from.
+   * @param current The item to start from.
    */
       constructor (current) {
         this.current = current
@@ -2475,8 +2355,8 @@
 
       /**
    * Get the current item and move on to the following one.
-   * @param {*} [value] Not used, present to match the Iterator interface.
-   * @return {IteratorResult<IsLinker>} The current item, or done when there are no more.
+   * @param value Not used, present to match the Iterator interface.
+   * @returns The current item, or done when there are no more.
    */
       next (value) {
         const result = {
@@ -2497,10 +2377,7 @@
     })
     exports.Runnable = void 0
     /**
- * @file Runnable class recipe.
- * @author Joshua Heagle <joshuaheagle@gmail.com>
- * @version 1.0.0
- * @memberOf module:collect-your-stuff
+ * Runnable class recipe.
  */
     /**
  * Identify a class that can be run.
@@ -2508,7 +2385,7 @@
     class Runnable {
       /**
    * Instantiate a Runnable class.
-   * @param {*} [data=null] The task (a function) or the data which the task returns.
+   * @param data The task (a function) or the data which the task returns.
    */
       constructor (data = null) {
         /** The task (or data) this runnable holds. */
@@ -2518,7 +2395,6 @@
 
       /**
    * Retrieve the data which should be formed as a task.
-   * @return {Function}
    */
       get task () {
         if (typeof this.data === 'function') {
@@ -2529,7 +2405,6 @@
 
       /**
    * Run the runnable task.
-   * @return {*}
    */
       run () {
         return this.task()
@@ -2538,8 +2413,7 @@
       /**
    * Check if a given thing is Runnable
    * @memberof Runnable
-   * @param {*} thing The value to check, or nothing to check whether this class is Runnable.
-   * @return {boolean}
+   * @param thing The value to check, or nothing to check whether this class is Runnable.
    */
       static isRunnable (thing) {
         if (typeof thing === 'undefined') {
@@ -2574,8 +2448,8 @@
     class TreeLinkerIterator {
       /**
    * Create an iterator starting at the given item.
-   * @param {IsTreeNode} current The item to start from.
-   * @param {IsTreeNode|null} [boundaryParent] The parent of the nodes to stay within (null for the top of a tree), the whole tree when not given.
+   * @param current The item to start from.
+   * @param boundaryParent The parent of the nodes to stay within (null for the top of a tree), the whole tree when not given.
    */
       constructor (current, boundaryParent) {
         this.current = current
@@ -2584,8 +2458,8 @@
 
       /**
    * Get the current item and move on to the following one (left-first, down each branch).
-   * @param {*} [value] Not used, present to match the Iterator interface.
-   * @return {IteratorResult<IsTreeNode>} The current item, or done when there are no more.
+   * @param value Not used, present to match the Iterator interface.
+   * @returns The current item, or done when there are no more.
    */
       next (value) {
         const result = {
@@ -2608,10 +2482,7 @@
     const _ArrayIterator = require('./ArrayIterator')
     const _Runnable = require('./Runnable')
     /**
- * @file sample classes which follow a pattern (have certain members or methods).
- * @author Joshua Heagle <joshuaheagle@gmail.com>
- * @version 1.0.0
- * @memberOf module:collect-your-stuff
+ * sample classes which follow a pattern (have certain members or methods).
  */
 
     /**
@@ -2632,9 +2503,8 @@
     const _parseTreeNext = require('./parseTreeNext')
     /**
  * Loop over all the nodes in a tree starting from left and apply a callback for each
- * @param {IsArrayable<IsTreeNode>} tree
- * @param {forEachCallback} callback
- * @returns {IsArrayable<IsTreeNode>}
+ * @param tree
+ * @param callback
  */
     const parseTree = (tree, callback) => {
       let index = 0
@@ -2666,9 +2536,8 @@
  * 7. Stop at root (next is null and parent is null
  * A boundary can be given to parse only part of a tree: going back up to the parents stops at the boundary, so the
  * parsing stays within the nodes whose parent is the boundary (and everything below them).
- * @param {IsTreeNode} treeNode Provide a node in a tree and get the next node (left-first approach)
- * @param {IsTreeNode|null} [boundaryParent] The parent of the nodes to stay within, null for the nodes at the top of a tree. When it is not given the whole tree is parsed.
- * @returns {IsTreeNode|null}
+ * @param treeNode Provide a node in a tree and get the next node (left-first approach)
+ * @param boundaryParent The parent of the nodes to stay within, null for the nodes at the top of a tree. When it is not given the whole tree is parsed.
  */
     const parseTreeNext = (treeNode, boundaryParent) => {
       if (!treeNode) {
@@ -2702,10 +2571,7 @@
     const _parseTree = require('./parseTree')
     const _parseTreeNext = require('./parseTreeNext')
     /**
- * @file some useful resources when working with collections.
- * @author Joshua Heagle <joshuaheagle@gmail.com>
- * @version 1.1.0
- * @memberOf module:collect-your-stuff
+ * some useful resources when working with collections.
  */
 
     /**

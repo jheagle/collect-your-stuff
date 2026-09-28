@@ -9,10 +9,7 @@ require('core-js/modules/esnext.iterator.for-each.js')
 const _LinkedList = require('../linked-list/LinkedList')
 const _Linker = require('../linked-list/Linker')
 /**
- * @file queue
- * @author Joshua Heagle <joshuaheagle@gmail.com>
- * @version 2.0.0
- * @memberOf module:collect-your-stuff
+ * queue
  */
 
 /**
@@ -23,9 +20,9 @@ const _Linker = require('../linked-list/Linker')
 class Queue {
   /**
    * Instantiate the queue, optionally with a list of items to start from.
-   * @param {IsArrayable|null} [queuedList=null] The list of linkers to start in this queue (the first is the front)
-   * @param {IsArrayable} [listClass=LinkedList] The type of list to create when no queued list is given
-   * @param {Linker} [linkerClass=Linker] The class used to hold each queued item
+   * @param queuedList The list of linkers to start in this queue (the first is the front)
+   * @param listClass The type of list to create when no queued list is given
+   * @param linkerClass The class used to hold each queued item
    */
   constructor (queuedList = null, listClass = _LinkedList.LinkedList, linkerClass = _Linker.Linker) {
     this.linkerClass = linkerClass
@@ -34,7 +31,7 @@ class Queue {
 
   /**
    * Take the item from the front of the queue.
-   * @return {*|null} The item, or null when the queue is empty
+   * @returns The item, or null when the queue is empty
    */
   dequeue () {
     const front = this.queuedList.first
@@ -47,7 +44,6 @@ class Queue {
 
   /**
    * Check whether the queue has no items.
-   * @return {boolean}
    */
   empty () {
     return this.size() <= 0
@@ -55,8 +51,8 @@ class Queue {
 
   /**
    * Add an item to the back of the queue.
-   * @param {*} data The item to add
-   * @return {Queue} This queue, so that adding can be chained
+   * @param data The item to add
+   * @returns This queue, so that adding can be chained
    */
   enqueue (data) {
     // The item is wrapped here rather than left to the list, since the list treats objects that look like a linker's
@@ -69,7 +65,7 @@ class Queue {
 
   /**
    * Look at the item at the front of the queue, without removing it.
-   * @return {*|null} The item, or null when the queue is empty
+   * @returns The item, or null when the queue is empty
    */
   peek () {
     const front = this.queuedList.first
@@ -78,7 +74,6 @@ class Queue {
 
   /**
    * Count the items in the queue.
-   * @return {number}
    */
   size () {
     return this.queuedList.length
@@ -86,7 +81,6 @@ class Queue {
 
   /**
    * Iterate over the items from the front of the queue to the back, without removing them.
-   * @return {Iterator}
    */
   [Symbol.iterator] () {
     const linkers = this.queuedList[Symbol.iterator]()
@@ -108,10 +102,9 @@ class Queue {
 }
 /**
  * Convert an array to a Queue, the first value is at the front.
- * @param {Array} [values=[]] The items to queue
- * @param {IsArrayable} [listClass=LinkedList] The type of list used to store the items
- * @param {Linker} [linkerClass=Linker] The class used to hold each queued item
- * @returns {Queue}
+ * @param values The items to queue
+ * @param listClass The type of list used to store the items
+ * @param linkerClass The class used to hold each queued item
  */
 exports.Queue = Queue
 Queue.fromArray = (values = [], listClass = _LinkedList.LinkedList, linkerClass = _Linker.Linker) => {

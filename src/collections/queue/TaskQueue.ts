@@ -1,8 +1,5 @@
 /**
- * @file task queue
- * @author Joshua Heagle <joshuaheagle@gmail.com>
- * @version 1.1.0
- * @memberOf module:collect-your-stuff
+ * task queue
  */
 import { Queueable } from './Queueable'
 import { LinkedList } from '../linked-list/LinkedList'
@@ -23,9 +20,9 @@ export class TaskQueue {
 
   /**
    * Instantiate the queue with the given queue list.
-   * @param {Iterable|LinkedList} queuedList Give the list of queueables to start in this queue.
-   * @param {IsArrayable} [listClass=LinkedList] The type of list to create when no queued list is given.
-   * @param {Queueable} [queueableClass=Queueable] The class used to wrap queued items.
+   * @param queuedList Give the list of queueables to start in this queue.
+   * @param listClass The type of list to create when no queued list is given.
+   * @param queueableClass The class used to wrap queued items.
    */
   public constructor (queuedList: IsArrayable<any> = null, listClass: any = LinkedList, queueableClass: typeof Queueable = Queueable) {
     this.listClass = listClass
@@ -40,7 +37,6 @@ export class TaskQueue {
    * Take a queued task from the front of the queue and run it if ready. A task which is not ready yet is kept in the
    * queue (never dropped), a task which is still running is reported as blocking and left to finish on its own, and
    * completed tasks are discarded.
-   * @return {completeResponse|*}
    */
   public dequeue (): completeResponse | any {
     let next: Queueable | null = this.remove()
@@ -83,7 +79,6 @@ export class TaskQueue {
 
   /**
    * Return true if the queue is empty (there are no tasks in the queue list)
-   * @return {boolean}
    */
   public empty (): boolean {
     return this.size() <= 0
@@ -91,7 +86,7 @@ export class TaskQueue {
 
   /**
    * Add a queued task to the end of the queue
-   * @param {Queueable} queueable Add a new queueable to the end of the queue
+   * @param queueable Add a new queueable to the end of the queue
    */
   public enqueue (queueable: Queueable) {
     this.queuedList.append(queueable)
@@ -99,7 +94,6 @@ export class TaskQueue {
 
   /**
    * Take a look at the next queued task
-   * @return {Queueable}
    */
   public peek (): IsLinker {
     return this.queuedList.first
@@ -107,7 +101,6 @@ export class TaskQueue {
 
   /**
    * Remove the next queued item and return it.
-   * @return {Queueable|null}
    */
   public remove (): Queueable | null {
     if (this.empty()) {
@@ -118,7 +111,6 @@ export class TaskQueue {
 
   /**
    * Get the length of the current queue.
-   * @return {number}
    */
   public size (): number {
     return this.queuedList.length
@@ -126,10 +118,9 @@ export class TaskQueue {
 
   /**
    * Convert an array to a TaskQueue.
-   * @param {Array} values An array of values which will be converted to queueables in this queue
-   * @param {Queueable} queueableClass The class to use for each queueable
-   * @param {TaskQueue|Iterable} listClass The class to use to manage the queueables
-   * @returns {TaskQueue}
+   * @param values An array of values which will be converted to queueables in this queue
+   * @param queueableClass The class to use for each queueable
+   * @param listClass The class to use to manage the queueables
    */
   public static fromArray = (values: Array<any> = [], queueableClass: typeof Queueable = Queueable, listClass: any = LinkedList): TaskQueue => {
     const list: IsArrayable<any> = new listClass(queueableClass)

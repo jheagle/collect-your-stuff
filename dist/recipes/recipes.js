@@ -7,10 +7,7 @@ exports.recipes = void 0
 const _ArrayIterator = require('./ArrayIterator')
 const _Runnable = require('./Runnable')
 /**
- * @file sample classes which follow a pattern (have certain members or methods).
- * @author Joshua Heagle <joshuaheagle@gmail.com>
- * @version 1.0.0
- * @memberOf module:collect-your-stuff
+ * sample classes which follow a pattern (have certain members or methods).
  */
 
 /**

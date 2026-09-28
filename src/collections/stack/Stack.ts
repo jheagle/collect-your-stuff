@@ -1,8 +1,5 @@
 /**
- * @file stack.
- * @author Joshua Heagle <joshuaheagle@gmail.com>
- * @version 2.0.0
- * @memberOf module:collect-your-stuff
+ * stack.
  */
 import { LinkedList } from '../linked-list/LinkedList'
 import { Linker } from '../linked-list/Linker'
@@ -21,9 +18,9 @@ export class Stack<T = any> implements IsStack<T>, Iterable<T> {
 
   /**
    * Instantiate the stack, optionally with a list of items to start from.
-   * @param {IsArrayable|null} [stackedList=null] The list of linkers to start in this stack (the first is the top)
-   * @param {IsArrayable} [listClass=LinkedList] The type of list to create when no stacked list is given
-   * @param {Linker} [linkerClass=Linker] The class used to hold each stacked item
+   * @param stackedList The list of linkers to start in this stack (the first is the top)
+   * @param listClass The type of list to create when no stacked list is given
+   * @param linkerClass The class used to hold each stacked item
    */
   public constructor (stackedList: IsArrayable<any> | null = null, listClass: any = LinkedList, linkerClass: typeof Linker = Linker) {
     this.linkerClass = linkerClass
@@ -32,7 +29,6 @@ export class Stack<T = any> implements IsStack<T>, Iterable<T> {
 
   /**
    * Check whether the stack has no items.
-   * @return {boolean}
    */
   public empty (): boolean {
     return this.size() <= 0
@@ -40,7 +36,7 @@ export class Stack<T = any> implements IsStack<T>, Iterable<T> {
 
   /**
    * Look at the item on the top of the stack, without removing it.
-   * @return {*|null} The item, or null when the stack is empty
+   * @returns The item, or null when the stack is empty
    */
   public peek (): T | null {
     const top = this.stackedList.first
@@ -49,7 +45,7 @@ export class Stack<T = any> implements IsStack<T>, Iterable<T> {
 
   /**
    * Take the item from the top of the stack.
-   * @return {*|null} The item, or null when the stack is empty
+   * @returns The item, or null when the stack is empty
    */
   public pop (): T | null {
     const top = this.stackedList.first
@@ -62,8 +58,8 @@ export class Stack<T = any> implements IsStack<T>, Iterable<T> {
 
   /**
    * Add an item to the top of the stack.
-   * @param {*} data The item to add
-   * @return {Stack} This stack, so that adding can be chained
+   * @param data The item to add
+   * @returns This stack, so that adding can be chained
    */
   public push (data: T): this {
     // The item is wrapped here rather than left to the list, since the list treats objects that look like a linker's
@@ -74,7 +70,6 @@ export class Stack<T = any> implements IsStack<T>, Iterable<T> {
 
   /**
    * Count the items in the stack.
-   * @return {number}
    */
   public size (): number {
     return this.stackedList.length
@@ -82,7 +77,7 @@ export class Stack<T = any> implements IsStack<T>, Iterable<T> {
 
   /**
    * The item on the top of the stack (the same as peek).
-   * @return {*|null} The item, or null when the stack is empty
+   * @returns The item, or null when the stack is empty
    */
   public top (): T | null {
     return this.peek()
@@ -90,7 +85,6 @@ export class Stack<T = any> implements IsStack<T>, Iterable<T> {
 
   /**
    * Iterate over the items from the top of the stack to the bottom, without removing them.
-   * @return {Iterator}
    */
   public [Symbol.iterator] (): Iterator<T> {
     const linkers: Iterator<any> = this.stackedList[Symbol.iterator]()
@@ -104,10 +98,9 @@ export class Stack<T = any> implements IsStack<T>, Iterable<T> {
 
   /**
    * Convert an array to a Stack by pushing each value in turn, so the last value is on the top.
-   * @param {Array} [values=[]] The items to stack
-   * @param {IsArrayable} [listClass=LinkedList] The type of list used to store the items
-   * @param {Linker} [linkerClass=Linker] The class used to hold each stacked item
-   * @returns {Stack}
+   * @param values The items to stack
+   * @param listClass The type of list used to store the items
+   * @param linkerClass The class used to hold each stacked item
    */
   public static fromArray = <T = any>(values: Array<T> = [], listClass: any = LinkedList, linkerClass: typeof Linker = Linker): Stack<T> => {
     const stack = new Stack<T>(null, listClass, linkerClass)

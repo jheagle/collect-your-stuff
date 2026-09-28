@@ -5,10 +5,7 @@ Object.defineProperty(exports, '__esModule', {
 })
 exports.Runnable = void 0
 /**
- * @file Runnable class recipe.
- * @author Joshua Heagle <joshuaheagle@gmail.com>
- * @version 1.0.0
- * @memberOf module:collect-your-stuff
+ * Runnable class recipe.
  */
 /**
  * Identify a class that can be run.
@@ -16,7 +13,7 @@ exports.Runnable = void 0
 class Runnable {
   /**
    * Instantiate a Runnable class.
-   * @param {*} [data=null] The task (a function) or the data which the task returns.
+   * @param data The task (a function) or the data which the task returns.
    */
   constructor (data = null) {
     /** The task (or data) this runnable holds. */
@@ -26,7 +23,6 @@ class Runnable {
 
   /**
    * Retrieve the data which should be formed as a task.
-   * @return {Function}
    */
   get task () {
     if (typeof this.data === 'function') {
@@ -37,7 +33,6 @@ class Runnable {
 
   /**
    * Run the runnable task.
-   * @return {*}
    */
   run () {
     return this.task()
@@ -46,8 +41,7 @@ class Runnable {
   /**
    * Check if a given thing is Runnable
    * @memberof Runnable
-   * @param {*} thing The value to check, or nothing to check whether this class is Runnable.
-   * @return {boolean}
+   * @param thing The value to check, or nothing to check whether this class is Runnable.
    */
   static isRunnable (thing) {
     if (typeof thing === 'undefined') {

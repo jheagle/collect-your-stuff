@@ -7,10 +7,7 @@ exports.Arrayable = void 0
 const _ArrayElement = require('./ArrayElement')
 const _ArrayIterator = require('../../recipes/ArrayIterator')
 /**
- * @file arrayable list.
- * @author Joshua Heagle <joshuaheagle@gmail.com>
- * @version 1.1.0
- * @memberOf module:collect-your-stuff
+ * arrayable list.
  */
 
 /**
@@ -19,7 +16,7 @@ const _ArrayIterator = require('../../recipes/ArrayIterator')
 class Arrayable {
   /**
    * Create the new Arrayable instance, configure the Arrayable class.
-   * @param {ArrayElement} [elementClass=ArrayElement] The class used to wrap given data as elements.
+   * @param elementClass The class used to wrap given data as elements.
    */
   constructor (elementClass = _ArrayElement.ArrayElement) {
     /** The class used to create this instance, so that it can be recognized as valid without an instanceof check. */
@@ -33,8 +30,7 @@ class Arrayable {
 
   /**
    * Find the position of an element which must be in this list.
-   * @param {ArrayElement} node The element to find
-   * @returns {number}
+   * @param node The element to find
    * @throws {Error} When the element is not in this list
    */
   indexOfElement (node) {
@@ -47,8 +43,7 @@ class Arrayable {
 
   /**
    * Initialize the inner list, should only run once.
-   * @param {Array<ArrayElement>} initialList Give the array of elements to start in this Arrayable.
-   * @return {Arrayable}
+   * @param initialList Give the array of elements to start in this Arrayable.
    */
   initialize (initialList) {
     if (this.initialized) {
@@ -62,7 +57,6 @@ class Arrayable {
 
   /**
    * Retrieve the innerList used (the list itself, not a copy).
-   * @returns {Array<ArrayElement>}
    */
   get list () {
     return this.innerList
@@ -70,7 +64,7 @@ class Arrayable {
 
   /**
    * Retrieve the first Element from the Arrayable
-   * @returns {ArrayElement|null} The first element, or null when the Arrayable is empty
+   * @returns The first element, or null when the Arrayable is empty
    */
   get first () {
     return this.length ? this.innerList[0] : null
@@ -78,7 +72,7 @@ class Arrayable {
 
   /**
    * Retrieve the last Element from the Arrayable
-   * @returns {ArrayElement|null} The last element, or null when the Arrayable is empty
+   * @returns The last element, or null when the Arrayable is empty
    */
   get last () {
     return this.length ? this.innerList[this.length - 1] : null
@@ -86,7 +80,6 @@ class Arrayable {
 
   /**
    * Return the length of the list.
-   * @returns {number}
    */
   get length () {
     return this.innerList.length
@@ -94,9 +87,8 @@ class Arrayable {
 
   /**
    * Insert a new node (or data) after a node.
-   * @param {ArrayElement|null} node The existing node as reference, or null to insert at the start of the list
-   * @param {ArrayElement|*} newNode The new node to go after the existing node
-   * @returns {Arrayable}
+   * @param node The existing node as reference, or null to insert at the start of the list
+   * @param newNode The new node to go after the existing node
    * @throws {Error} When the reference node is not in this list
    */
   insertAfter (node, newNode) {
@@ -108,9 +100,8 @@ class Arrayable {
 
   /**
    * Insert a new node (or data) before a node.
-   * @param {ArrayElement|null} node The existing node as reference, or null to insert at the end of the list
-   * @param {ArrayElement|*} newNode The new node to go before the existing node
-   * @returns {Arrayable}
+   * @param node The existing node as reference, or null to insert at the end of the list
+   * @param newNode The new node to go before the existing node
    * @throws {Error} When the reference node is not in this list
    */
   insertBefore (node, newNode) {
@@ -122,9 +113,8 @@ class Arrayable {
 
   /**
    * Add a node (or data) after the given (or last) node in the list.
-   * @param {ArrayElement|*} node The new node to add to the end of the list
-   * @param {ArrayElement} after The existing last node
-   * @returns {Arrayable}
+   * @param node The new node to add to the end of the list
+   * @param after The existing last node
    */
   append (node, after = this.last) {
     if (after === this.last) {
@@ -137,9 +127,8 @@ class Arrayable {
 
   /**
    * Add a node (or data) before the given (or first) node in the list.
-   * @param {ArrayElement|*} node The new node to add to the start of the list
-   * @param {ArrayElement} before The existing first node
-   * @returns {Arrayable}
+   * @param node The new node to add to the start of the list
+   * @param before The existing first node
    */
   prepend (node, before = this.first) {
     if (before === this.first) {
@@ -152,8 +141,8 @@ class Arrayable {
 
   /**
    * Remove an element from this arrayable.
-   * @param {ArrayElement} node The node we wish to remove (and it will be returned after removal)
-   * @return {ArrayElement|null} The removed node, or null when it was not in this list (nothing is removed)
+   * @param node The node we wish to remove (and it will be returned after removal)
+   * @returns The removed node, or null when it was not in this list (nothing is removed)
    */
   remove (node) {
     const deleteAt = this.innerList.indexOf(node)
@@ -166,8 +155,7 @@ class Arrayable {
 
   /**
    * Retrieve an ArrayElement item from this list by numeric index, otherwise return null.
-   * @param {number} index The integer number for retrieving a node by position.
-   * @return {ArrayElement|null}
+   * @param index The integer number for retrieving a node by position.
    */
   item (index) {
     if (index >= this.length) {
@@ -189,9 +177,8 @@ class Arrayable {
 
   /**
    * Be able to run forEach on this Arrayable to iterate over the elements.
-   * @param {forEachCallback} callback The function to call for-each element
-   * @param {Arrayable} thisArg Optional, 'this' reference
-   * @returns {Arrayable}
+   * @param callback The function to call for-each element
+   * @param thisArg Optional, 'this' reference
    */
   forEach (callback, thisArg = this) {
     for (let i = 0; i < thisArg.length; ++i) {
@@ -202,7 +189,6 @@ class Arrayable {
 
   /**
    * Be able to iterate over this class.
-   * @returns {Iterator}
    */
   [Symbol.iterator] () {
     const index = 0
@@ -211,10 +197,9 @@ class Arrayable {
 }
 /**
  * Convert an array to an Arrayable.
- * @param {Array} values An array of values which will be converted to elements in this arrayable
- * @param {IsElement} [elementClass=ArrayElement] The class to use for each element
- * @param {IsArrayable<ArrayElement>} [classType=Arrayable] Provide the type of IsArrayable to use.
- * @returns {Arrayable}
+ * @param values An array of values which will be converted to elements in this arrayable
+ * @param elementClass The class to use for each element
+ * @param classType Provide the type of IsArrayable to use.
  */
 exports.Arrayable = Arrayable
 Arrayable.fromArray = (values = [], elementClass = _ArrayElement.ArrayElement, classType = Arrayable) => {
