@@ -57,6 +57,12 @@ Object.defineProperty(exports, 'Queueable', {
     return _Queueable.Queueable
   }
 })
+Object.defineProperty(exports, 'ScopedCollection', {
+  enumerable: true,
+  get: function () {
+    return _ScopedCollection.ScopedCollection
+  }
+})
 Object.defineProperty(exports, 'Stack', {
   enumerable: true,
   get: function () {
@@ -111,6 +117,7 @@ var _LinkedTreeList = require('./collections/linked-tree-list/LinkedTreeList')
 var _Queueable = require('./collections/queue/Queueable')
 var _Queue = require('./collections/queue/Queue')
 var _TaskQueue = require('./collections/queue/TaskQueue')
+var _ScopedCollection = require('./collections/scoped-collection/ScopedCollection')
 var _Stackable = require('./collections/stack/Stackable')
 var _Stack = require('./collections/stack/Stack')
 var _TaskStack = require('./collections/stack/TaskStack')
@@ -145,6 +152,7 @@ const collectYourStuff = {
   Queueable: _Queueable.Queueable,
   Queue: _Queue.Queue,
   TaskQueue: _TaskQueue.TaskQueue,
+  ScopedCollection: _ScopedCollection.ScopedCollection,
   Stackable: _Stackable.Stackable,
   Stack: _Stack.Stack,
   TaskStack: _TaskStack.TaskStack,

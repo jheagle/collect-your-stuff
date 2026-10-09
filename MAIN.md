@@ -9,10 +9,11 @@ recipe interfaces and services used to build and walk them.
 Each module of the documentation is a folder of `src/`:
 
 * `collections`: the collection classes themselves - `Arrayable`/`ArrayElement`, `LinkedList`/`Linker`,
-  `DoublyLinkedList`/`DoubleLinker`, `LinkedTreeList`/`TreeLinker`, `Queue`/`Queueable`/`TaskQueue`, and
-  `Stack`/`Stackable`/`TaskStack`.
+  `DoublyLinkedList`/`DoubleLinker`, `LinkedTreeList`/`TreeLinker`, `Queue`/`Queueable`/`TaskQueue`,
+  `Stack`/`Stackable`/`TaskStack`, and `ScopedCollection` (a keyed collection partitioned by scope, held in a
+  `WeakMap` so each scope's own keys are freed once nothing else references that scope).
 * `recipes`: the `Is*` interfaces each collection implements (`IsArrayable`, `IsLinker`, `IsTree`, `IsQueue`,
-  `IsStack`, ...), their iterators, and `Runnable`.
+  `IsScopedCollection`, `IsStack`, ...), their iterators, and `Runnable`.
 * `services`: helpers for working with trees (`parseTree`, `parseTreeNext`) and other collection-agnostic utilities.
 
 ## Example
