@@ -30,8 +30,8 @@ The reference for every class is in [`docs/`](https://joshuaheagle.com/projects/
 
 | Module | What it holds |
 | --- | --- |
-| `collections` | The collection classes: `Arrayable`/`ArrayElement`, `LinkedList`/`Linker`, `DoublyLinkedList`/`DoubleLinker`, `LinkedTreeList`/`TreeLinker`, `Queue`/`Queueable`/`TaskQueue`, `Stack`/`Stackable`/`TaskStack` |
-| `recipes` | The `Is*` interfaces each collection implements, their iterators, and `Runnable` |
+| `collections` | The collection classes: `Arrayable`/`ArrayElement`, `LinkedList`/`Linker`, `DoublyLinkedList`/`DoubleLinker`, `LinkedTreeList`/`TreeLinker`, `Queue`/`Queueable`/`TaskQueue`, `Stack`/`Stackable`/`TaskStack`, `ScopedCollection` |
+| `recipes` | The `Is*` interfaces each collection implements (including `IsScopedCollection`), their iterators, and `Runnable` |
 | `services` | Tree-walking helpers (`parseTree`, `parseTreeNext`) and other collection-agnostic utilities |
 
 ## Development
