@@ -43,14 +43,14 @@ export class TreeLinker implements IsTreeNode {
     parent = null,
     listClass = LinkedTreeList
   }:
-    {
-      data?: any;
-      next?: IsTreeNode;
-      prev?: IsTreeNode;
-      children?: Array<any>;
-      parent?: IsTreeNode;
-      listClass?: any
-    } = {}) {
+  {
+    data?: any;
+    next?: IsTreeNode;
+    prev?: IsTreeNode;
+    children?: Array<any>;
+    parent?: IsTreeNode;
+    listClass?: any
+  } = {}) {
     this.data = data
     this.next = next
     this.prev = prev

@@ -74,7 +74,7 @@ export class Queueable implements IsLinker, IsRunnable {
   } = {}): completeResponse {
     this.complete = true
     this.running = false
-    return { success: success, error: error, context: context }
+    return { success, error, context }
   }
 
   /**

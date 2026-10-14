@@ -1,128 +1,128 @@
-'use strict'
+"use strict";
 
-Object.defineProperty(exports, '__esModule', {
+Object.defineProperty(exports, "__esModule", {
   value: true
-})
-Object.defineProperty(exports, 'ArrayElement', {
+});
+Object.defineProperty(exports, "ArrayElement", {
   enumerable: true,
   get: function () {
-    return _ArrayElement.ArrayElement
+    return _ArrayElement.ArrayElement;
   }
-})
-Object.defineProperty(exports, 'Arrayable', {
+});
+Object.defineProperty(exports, "Arrayable", {
   enumerable: true,
   get: function () {
-    return _Arrayable.Arrayable
+    return _Arrayable.Arrayable;
   }
-})
-Object.defineProperty(exports, 'DoubleLinker', {
+});
+Object.defineProperty(exports, "DoubleLinker", {
   enumerable: true,
   get: function () {
-    return _DoubleLinker.DoubleLinker
+    return _DoubleLinker.DoubleLinker;
   }
-})
-Object.defineProperty(exports, 'DoublyLinkedList', {
+});
+Object.defineProperty(exports, "DoublyLinkedList", {
   enumerable: true,
   get: function () {
-    return _DoublyLinkedList.DoublyLinkedList
+    return _DoublyLinkedList.DoublyLinkedList;
   }
-})
-Object.defineProperty(exports, 'LinkedList', {
+});
+Object.defineProperty(exports, "LinkedList", {
   enumerable: true,
   get: function () {
-    return _LinkedList.LinkedList
+    return _LinkedList.LinkedList;
   }
-})
-Object.defineProperty(exports, 'LinkedTreeList', {
+});
+Object.defineProperty(exports, "LinkedTreeList", {
   enumerable: true,
   get: function () {
-    return _LinkedTreeList.LinkedTreeList
+    return _LinkedTreeList.LinkedTreeList;
   }
-})
-Object.defineProperty(exports, 'Linker', {
+});
+Object.defineProperty(exports, "Linker", {
   enumerable: true,
   get: function () {
-    return _Linker.Linker
+    return _Linker.Linker;
   }
-})
-Object.defineProperty(exports, 'Queue', {
+});
+Object.defineProperty(exports, "Queue", {
   enumerable: true,
   get: function () {
-    return _Queue.Queue
+    return _Queue.Queue;
   }
-})
-Object.defineProperty(exports, 'Queueable', {
+});
+Object.defineProperty(exports, "Queueable", {
   enumerable: true,
   get: function () {
-    return _Queueable.Queueable
+    return _Queueable.Queueable;
   }
-})
-Object.defineProperty(exports, 'ScopedCollection', {
+});
+Object.defineProperty(exports, "ScopedCollection", {
   enumerable: true,
   get: function () {
-    return _ScopedCollection.ScopedCollection
+    return _ScopedCollection.ScopedCollection;
   }
-})
-Object.defineProperty(exports, 'Stack', {
+});
+Object.defineProperty(exports, "Stack", {
   enumerable: true,
   get: function () {
-    return _Stack.Stack
+    return _Stack.Stack;
   }
-})
-Object.defineProperty(exports, 'Stackable', {
+});
+Object.defineProperty(exports, "Stackable", {
   enumerable: true,
   get: function () {
-    return _Stackable.Stackable
+    return _Stackable.Stackable;
   }
-})
-Object.defineProperty(exports, 'TaskQueue', {
+});
+Object.defineProperty(exports, "TaskQueue", {
   enumerable: true,
   get: function () {
-    return _TaskQueue.TaskQueue
+    return _TaskQueue.TaskQueue;
   }
-})
-Object.defineProperty(exports, 'TaskStack', {
+});
+Object.defineProperty(exports, "TaskStack", {
   enumerable: true,
   get: function () {
-    return _TaskStack.TaskStack
+    return _TaskStack.TaskStack;
   }
-})
-Object.defineProperty(exports, 'TreeLinker', {
+});
+Object.defineProperty(exports, "TreeLinker", {
   enumerable: true,
   get: function () {
-    return _TreeLinker.TreeLinker
+    return _TreeLinker.TreeLinker;
   }
-})
-exports.default = void 0
-Object.defineProperty(exports, 'recipes', {
+});
+exports.default = void 0;
+Object.defineProperty(exports, "recipes", {
   enumerable: true,
   get: function () {
-    return _recipes.recipes
+    return _recipes.recipes;
   }
-})
-Object.defineProperty(exports, 'services', {
+});
+Object.defineProperty(exports, "services", {
   enumerable: true,
   get: function () {
-    return _services.services
+    return _services.services;
   }
-})
-var _ArrayElement = require('./collections/arrayable/ArrayElement')
-var _Arrayable = require('./collections/arrayable/Arrayable')
-var _DoubleLinker = require('./collections/doubly-linked-list/DoubleLinker')
-var _DoublyLinkedList = require('./collections/doubly-linked-list/DoublyLinkedList')
-var _Linker = require('./collections/linked-list/Linker')
-var _LinkedList = require('./collections/linked-list/LinkedList')
-var _TreeLinker = require('./collections/linked-tree-list/TreeLinker')
-var _LinkedTreeList = require('./collections/linked-tree-list/LinkedTreeList')
-var _Queueable = require('./collections/queue/Queueable')
-var _Queue = require('./collections/queue/Queue')
-var _TaskQueue = require('./collections/queue/TaskQueue')
-var _ScopedCollection = require('./collections/scoped-collection/ScopedCollection')
-var _Stackable = require('./collections/stack/Stackable')
-var _Stack = require('./collections/stack/Stack')
-var _TaskStack = require('./collections/stack/TaskStack')
-var _recipes = require('./recipes/recipes')
-var _services = require('./services/services')
+});
+var _ArrayElement = require("./collections/arrayable/ArrayElement");
+var _Arrayable = require("./collections/arrayable/Arrayable");
+var _DoubleLinker = require("./collections/doubly-linked-list/DoubleLinker");
+var _DoublyLinkedList = require("./collections/doubly-linked-list/DoublyLinkedList");
+var _Linker = require("./collections/linked-list/Linker");
+var _LinkedList = require("./collections/linked-list/LinkedList");
+var _TreeLinker = require("./collections/linked-tree-list/TreeLinker");
+var _LinkedTreeList = require("./collections/linked-tree-list/LinkedTreeList");
+var _Queueable = require("./collections/queue/Queueable");
+var _Queue = require("./collections/queue/Queue");
+var _TaskQueue = require("./collections/queue/TaskQueue");
+var _ScopedCollection = require("./collections/scoped-collection/ScopedCollection");
+var _Stackable = require("./collections/stack/Stackable");
+var _Stack = require("./collections/stack/Stack");
+var _TaskStack = require("./collections/stack/TaskStack");
+var _recipes = require("./recipes/recipes");
+var _services = require("./services/services");
 /**
  * All of the collections available.
  */
@@ -158,12 +158,12 @@ const collectYourStuff = {
   TaskStack: _TaskStack.TaskStack,
   recipes: _recipes.recipes,
   services: _services.services
-}
-const _default = exports.default = collectYourStuff
+};
+var _default = exports.default = collectYourStuff;
 if (void 0) {
   // @ts-ignore
-  (void 0).collectYourStuff = collectYourStuff
+  (void 0).collectYourStuff = collectYourStuff;
 } else if (typeof window !== 'undefined') {
   // @ts-ignore
-  window.collectYourStuff = collectYourStuff
+  window.collectYourStuff = collectYourStuff;
 }

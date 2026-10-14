@@ -19,7 +19,6 @@ const siblings = list => {
   return found
 }
 
-
 describe('LinkedTreeList', () => {
   test('can store linkers', () => {
     const arrayData = ['one', 'two', 'three', 'four']

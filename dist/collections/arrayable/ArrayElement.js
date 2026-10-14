@@ -1,11 +1,11 @@
-'use strict'
+"use strict";
 
-Object.defineProperty(exports, '__esModule', {
+Object.defineProperty(exports, "__esModule", {
   value: true
-})
-exports.ArrayElement = void 0
-require('core-js/modules/esnext.iterator.constructor.js')
-require('core-js/modules/esnext.iterator.reduce.js')
+});
+exports.ArrayElement = void 0;
+require("core-js/modules/esnext.iterator.constructor.js");
+require("core-js/modules/esnext.iterator.reduce.js");
 /**
  * Element represents a node in an Arrayable.
  */
@@ -14,12 +14,12 @@ class ArrayElement {
    * Create the new Element instance, provide the data and optionally configure the type of Element.
    * @param data The data to be stored in this element.
    */
-  constructor (data = null) {
+  constructor(data = null) {
     /** The class used to create this instance, so that it can be recognized as valid without an instanceof check. */
-    this.classType = ArrayElement
+    this.classType = ArrayElement;
     /** The data stored in this element. */
-    this.data = null
-    this.data = data
+    this.data = null;
+    this.data = data;
   }
 }
 /**
@@ -27,38 +27,38 @@ class ArrayElement {
  * @param element Return a valid ArrayElement instance from given data, or even an already valid one.
  * @param classType Provide the type of IsElement to use.
  */
-exports.ArrayElement = ArrayElement
+exports.ArrayElement = ArrayElement;
 ArrayElement.make = (element, classType = ArrayElement) => {
   if (element === null || typeof element !== 'object') {
     // It is not an object (or it is null), so instantiate the Element with element as the data
-    return new classType(element)
+    return new classType(element);
   }
   if (element.classType) {
     // Already valid Element, return as-is
-    return element
+    return element;
   }
   // Create the new node as the configured #classType
-  return new classType(element)
-}
+  return new classType(element);
+};
 /**
  * Convert an array into Element instances, return the head and tail Elements.
  * @param values Provide an array of data that will be converted to array of elements.
  * @param classType Provide the type of IsElement to use.
  */
 ArrayElement.fromArray = (values = [], classType = ArrayElement) => values.reduce((references, element) => {
-  const newElement = classType.make(element, classType)
+  const newElement = classType.make(element, classType);
   if (!references.head.length) {
     // Initialize the head and tail with the new node
     return {
       head: [newElement],
       tail: newElement
-    }
+    };
   }
   // Only update the tail once head has been set, tail is always the most recent node
-  references.head.push(newElement)
-  references.tail = newElement
-  return references
+  references.head.push(newElement);
+  references.tail = newElement;
+  return references;
 }, {
   head: [],
   tail: null
-})
+});

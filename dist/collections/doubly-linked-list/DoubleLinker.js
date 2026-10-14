@@ -1,12 +1,12 @@
-'use strict'
+"use strict";
 
-Object.defineProperty(exports, '__esModule', {
+Object.defineProperty(exports, "__esModule", {
   value: true
-})
-exports.DoubleLinker = void 0
-require('core-js/modules/esnext.iterator.constructor.js')
-require('core-js/modules/esnext.iterator.reduce.js')
-const _Linker = require('../linked-list/Linker')
+});
+exports.DoubleLinker = void 0;
+require("core-js/modules/esnext.iterator.constructor.js");
+require("core-js/modules/esnext.iterator.reduce.js");
+var _Linker = require("../linked-list/Linker");
 /**
  * DoubleLinker represents a node in a DoublyLinkedList which is chained by next and prev.
  * @extends Linker
@@ -19,22 +19,22 @@ class DoubleLinker {
    * @param nodeData.next The reference to the next linker if any
    * @param nodeData.prev The reference to the previous linker if any
    */
-  constructor ({
+  constructor({
     data = null,
     next = null,
     prev = null
   } = {}) {
     /** The class used to create this instance, so that it can be recognized as valid without an instanceof check. */
-    this.classType = DoubleLinker
+    this.classType = DoubleLinker;
     /** The data stored in this linker. */
-    this.data = null
+    this.data = null;
     /** The linker after this one, or null when this is the last. */
-    this.next = null
+    this.next = null;
     /** The linker before this one, or null when this is the first. */
-    this.prev = null
-    this.data = data
-    this.next = next
-    this.prev = prev
+    this.prev = null;
+    this.data = data;
+    this.next = next;
+    this.prev = prev;
   }
 }
 /**
@@ -42,30 +42,30 @@ class DoubleLinker {
  * @param linker Return a valid Linker instance from given data, or even an already valid one.
  * @param classType Provide the type of IsDoubleLinker to use.
  */
-exports.DoubleLinker = DoubleLinker
+exports.DoubleLinker = DoubleLinker;
 DoubleLinker.make = (linker, classType = DoubleLinker) => {
-  return _Linker.Linker.make(linker, classType)
-}
+  return _Linker.Linker.make(linker, classType);
+};
 /**
  * Convert an array into DoubleLinker instances, return the head and tail DoubleLinkers.
  * @param values Provide an array of data that will be converted to a chain of linkers.
  * @param classType Provide the type of IsDoubleLinker to use.
  */
 DoubleLinker.fromArray = (values = [], classType = DoubleLinker) => values.reduce((references, linker) => {
-  const newLinker = classType.make(linker, classType)
+  const newLinker = classType.make(linker, classType);
   if (references.head === null) {
     // Initialize the head and tail with the new node
     return {
       head: newLinker,
       tail: newLinker
-    }
+    };
   }
-  newLinker.prev = references.tail
+  newLinker.prev = references.tail;
   // Only update the tail once head has been set, tail is always the most recent node
-  references.tail.next = newLinker
-  references.tail = newLinker
-  return references
+  references.tail.next = newLinker;
+  references.tail = newLinker;
+  return references;
 }, {
   head: null,
   tail: null
-})
+});

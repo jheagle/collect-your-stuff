@@ -190,7 +190,7 @@ export class Arrayable implements IsArrayable<ArrayElement>, Iterable<ArrayEleme
    * Be able to iterate over this class.
    */
   [Symbol.iterator] (): Iterator<ArrayElement> {
-    let index = 0
+    const index = 0
     return new ArrayIterator(this.innerList, index)
   }
 

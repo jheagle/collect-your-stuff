@@ -1,11 +1,11 @@
-'use strict'
+"use strict";
 
-Object.defineProperty(exports, '__esModule', {
+Object.defineProperty(exports, "__esModule", {
   value: true
-})
-exports.TaskQueue = void 0
-const _Queueable = require('./Queueable')
-const _LinkedList = require('../linked-list/LinkedList')
+});
+exports.TaskQueue = void 0;
+var _Queueable = require("./Queueable");
+var _LinkedList = require("../linked-list/LinkedList");
 /**
  * task queue
  */
@@ -22,32 +22,31 @@ class TaskQueue {
    * @param listClass The type of list to create when no queued list is given.
    * @param queueableClass The class used to wrap queued items.
    */
-  constructor (queuedList = null, listClass = _LinkedList.LinkedList, queueableClass = _Queueable.Queueable) {
-    this.listClass = listClass
-    this.queueableClass = queueableClass
+  constructor(queuedList = null, listClass = _LinkedList.LinkedList, queueableClass = _Queueable.Queueable) {
+    this.listClass = listClass;
+    this.queueableClass = queueableClass;
     if (queuedList === null) {
-      queuedList = new listClass(queueableClass)
+      queuedList = new listClass(queueableClass);
     }
-    this.queuedList = queuedList
+    this.queuedList = queuedList;
   }
-
   /**
    * Take a queued task from the front of the queue and run it if ready. A task which is not ready yet is kept in the
    * queue (never dropped), a task which is still running is reported as blocking and left to finish on its own, and
    * completed tasks are discarded.
    */
-  dequeue () {
-    let next = this.remove()
+  dequeue() {
+    let next = this.remove();
     // Tasks which already completed are discarded when they reach the front of the queue
     while (next && next.complete) {
-      next = this.remove()
+      next = this.remove();
     }
     if (!next) {
       return {
         success: 'No more queueable tasks in the queue',
         error: false,
         context: this.queuedList
-      }
+      };
     }
     if (next.running) {
       // The unfinished task reports back through its own complete callback, so it is not kept in the queue
@@ -55,63 +54,58 @@ class TaskQueue {
         success: false,
         error: 'The queue has been blocked by an unfinished task.',
         context: next
-      }
+      };
     }
     if (!next.isReady) {
       // Keep the task (at the back, so the next dequeue can try the other tasks) rather than losing it
-      this.enqueue(next)
+      this.enqueue(next);
       // We could go check the next in queue here but if we end up in a state where nothing is ready it would infinite loop
       // Also, we want the loop handled externally
       return {
         success: false,
         error: 'Unable to find ready task.',
         context: next
-      }
+      };
     }
     if (!this.empty()) {
       // Place back in queue to be checked once again next time, only if the queue will not be empty
-      this.enqueue(next)
+      this.enqueue(next);
     }
-    return next.run.call(next)
+    return next.run.call(next);
   }
-
   /**
    * Return true if the queue is empty (there are no tasks in the queue list)
    */
-  empty () {
-    return this.size() <= 0
+  empty() {
+    return this.size() <= 0;
   }
-
   /**
    * Add a queued task to the end of the queue
    * @param queueable Add a new queueable to the end of the queue
    */
-  enqueue (queueable) {
-    this.queuedList.append(queueable)
+  enqueue(queueable) {
+    this.queuedList.append(queueable);
   }
-
   /**
    * Take a look at the next queued task
    */
-  peek () {
-    return this.queuedList.first
+  peek() {
+    return this.queuedList.first;
   }
-
   /**
    * Remove the next queued item and return it.
    */
-  remove () {
+  remove() {
     if (this.empty()) {
-      return null
+      return null;
     }
-    return this.queuedList.remove(this.queuedList.first)
+    return this.queuedList.remove(this.queuedList.first);
   }
-
   /**
    * Get the length of the current queue.
    */
-  size () {
-    return this.queuedList.length
+  size() {
+    return this.queuedList.length;
   }
 }
 /**
@@ -120,9 +114,9 @@ class TaskQueue {
  * @param queueableClass The class to use for each queueable
  * @param listClass The class to use to manage the queueables
  */
-exports.TaskQueue = TaskQueue
+exports.TaskQueue = TaskQueue;
 TaskQueue.fromArray = (values = [], queueableClass = _Queueable.Queueable, listClass = _LinkedList.LinkedList) => {
-  const list = new listClass(queueableClass)
-  list.initialize(queueableClass.fromArray(values, queueableClass).head)
-  return new TaskQueue(list, listClass, queueableClass)
-}
+  const list = new listClass(queueableClass);
+  list.initialize(queueableClass.fromArray(values, queueableClass).head);
+  return new TaskQueue(list, listClass, queueableClass);
+};
