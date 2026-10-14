@@ -292,7 +292,7 @@ export class DoublyLinkedList implements IsArrayable<DoubleLinker>, Iterable<Dou
    * Be able to iterate over this class.
    */
   [Symbol.iterator] (): Iterator<DoubleLinker> {
-    let current: DoubleLinker = this.first
+    const current: DoubleLinker = this.first
     return new DoubleLinkerIterator(current)
   }
 

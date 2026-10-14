@@ -1,9 +1,9 @@
-'use strict'
+"use strict";
 
-Object.defineProperty(exports, '__esModule', {
+Object.defineProperty(exports, "__esModule", {
   value: true
-})
-exports.parseTreeNext = void 0
+});
+exports.parseTreeNext = void 0;
 /**
  * Be able to parse over every node in a tree.
  * 1. Start at root (get root parent)
@@ -20,22 +20,22 @@ exports.parseTreeNext = void 0
  */
 const parseTreeNext = (treeNode, boundaryParent) => {
   if (!treeNode) {
-    return null
+    return null;
   }
   if (treeNode.children && treeNode.children.length) {
-    return treeNode.children.first
+    return treeNode.children.first;
   }
   if (treeNode.next) {
-    return treeNode.next
+    return treeNode.next;
   }
   // Nothing more below or beside this node, so go back up until there is a node which has a next (or the boundary)
-  let parent = treeNode.parent
+  let parent = treeNode.parent;
   while (parent && parent !== boundaryParent) {
     if (parent.next) {
-      return parent.next
+      return parent.next;
     }
-    parent = parent.parent
+    parent = parent.parent;
   }
-  return null
-}
-exports.parseTreeNext = parseTreeNext
+  return null;
+};
+exports.parseTreeNext = parseTreeNext;

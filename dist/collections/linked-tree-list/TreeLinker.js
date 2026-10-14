@@ -1,13 +1,13 @@
-'use strict'
+"use strict";
 
-Object.defineProperty(exports, '__esModule', {
+Object.defineProperty(exports, "__esModule", {
   value: true
-})
-exports.TreeLinker = void 0
-require('core-js/modules/esnext.iterator.constructor.js')
-require('core-js/modules/esnext.iterator.map.js')
-const _DoubleLinker = require('../doubly-linked-list/DoubleLinker')
-const _LinkedTreeList = require('./LinkedTreeList')
+});
+exports.TreeLinker = void 0;
+require("core-js/modules/esnext.iterator.constructor.js");
+require("core-js/modules/esnext.iterator.map.js");
+var _DoubleLinker = require("../doubly-linked-list/DoubleLinker");
+var _LinkedTreeList = require("./LinkedTreeList");
 /**
  * TreeLinker represents a node in a LinkedTreeList having a parent (or root) and child nodes.
  * @extends DoubleLinker
@@ -23,7 +23,7 @@ class TreeLinker {
    * @param settings.parent The reference to a parent linker if any
    * @param listClass Give the type of list to use for storing the children
    */
-  constructor ({
+  constructor({
     data = null,
     next = null,
     prev = null,
@@ -32,24 +32,23 @@ class TreeLinker {
     listClass = _LinkedTreeList.LinkedTreeList
   } = {}) {
     /** The class used to create this instance, so that it can be recognized as valid without an instanceof check. */
-    this.classType = TreeLinker
+    this.classType = TreeLinker;
     /** The data stored in this tree node. */
-    this.data = null
+    this.data = null;
     /** The sibling after this node, or null when this is the last child. */
-    this.next = null
+    this.next = null;
     /** The sibling before this node, or null when this is the first child. */
-    this.prev = null
+    this.prev = null;
     /** The node this node is a child of, or null for a root node. */
-    this.parent = null
+    this.parent = null;
     /** The list of the children of this node, or null when it has none. */
-    this.children = null
-    this.data = data
-    this.next = next
-    this.prev = prev
-    this.parent = parent
-    this.children = this.childrenFromArray(children, listClass)
+    this.children = null;
+    this.data = data;
+    this.next = next;
+    this.prev = prev;
+    this.parent = parent;
+    this.children = this.childrenFromArray(children, listClass);
   }
-
   /**
    * Create the children for this tree from an array. Each child becomes a tree linker with this node as its parent: an
    * existing linker is kept as it is, an object with a data property gives the settings of the linker, and anything
@@ -57,21 +56,21 @@ class TreeLinker {
    * @param children Provide an array of data / linker references to be children of this tree node.
    * @param listClass Give the type of list to use for storing the children
    */
-  childrenFromArray (children = null, listClass = _LinkedTreeList.LinkedTreeList) {
+  childrenFromArray(children = null, listClass = _LinkedTreeList.LinkedTreeList) {
     if (children === null) {
-      return null
+      return null;
     }
     // Every child is made into a tree linker (an existing one is kept as it is, and a plain value is the data) and is
     // given this node as its parent
     const nodes = children.map(child => {
-      const linker = this.classType.make(child, this.classType)
-      linker.parent = this
-      return linker
-    })
+      const linker = this.classType.make(child, this.classType);
+      linker.parent = this;
+      return linker;
+    });
     // Creates a linked-tree-list to store the children, which remembers this node as its parent even when it is empty
-    const list = listClass.fromArray(nodes, this.classType)
-    list.parent = this
-    return list
+    const list = listClass.fromArray(nodes, this.classType);
+    list.parent = this;
+    return list;
   }
 }
 /**
@@ -79,13 +78,13 @@ class TreeLinker {
  * @param linker Return a valid TreeLinker instance from given data, or even an already valid one.
  * @param classType Provide the type of IsTreeNode to use.
  */
-exports.TreeLinker = TreeLinker
+exports.TreeLinker = TreeLinker;
 TreeLinker.make = (linker, classType = TreeLinker) => {
-  return _DoubleLinker.DoubleLinker.make(linker, classType)
-}
+  return _DoubleLinker.DoubleLinker.make(linker, classType);
+};
 /**
  * Convert an array into DoubleLinker instances, return the head and tail DoubleLinkers.
  * @param values Provide an array of data that will be converted to a chain of tree-linkers.
  * @param classType Provide the type of IsTreeNode to use.
  */
-TreeLinker.fromArray = (values = [], classType = TreeLinker) => _DoubleLinker.DoubleLinker.fromArray(values, classType)
+TreeLinker.fromArray = (values = [], classType = TreeLinker) => _DoubleLinker.DoubleLinker.fromArray(values, classType);

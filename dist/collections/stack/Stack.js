@@ -1,13 +1,13 @@
-'use strict'
+"use strict";
 
-Object.defineProperty(exports, '__esModule', {
+Object.defineProperty(exports, "__esModule", {
   value: true
-})
-exports.Stack = void 0
-require('core-js/modules/esnext.iterator.constructor.js')
-require('core-js/modules/esnext.iterator.for-each.js')
-const _LinkedList = require('../linked-list/LinkedList')
-const _Linker = require('../linked-list/Linker')
+});
+exports.Stack = void 0;
+require("core-js/modules/esnext.iterator.constructor.js");
+require("core-js/modules/esnext.iterator.for-each.js");
+var _LinkedList = require("../linked-list/LinkedList");
+var _Linker = require("../linked-list/Linker");
 /**
  * stack.
  */
@@ -24,88 +24,79 @@ class Stack {
    * @param listClass The type of list to create when no stacked list is given
    * @param linkerClass The class used to hold each stacked item
    */
-  constructor (stackedList = null, listClass = _LinkedList.LinkedList, linkerClass = _Linker.Linker) {
-    this.linkerClass = linkerClass
-    this.stackedList = stackedList === null ? new listClass(linkerClass) : stackedList
+  constructor(stackedList = null, listClass = _LinkedList.LinkedList, linkerClass = _Linker.Linker) {
+    this.linkerClass = linkerClass;
+    this.stackedList = stackedList === null ? new listClass(linkerClass) : stackedList;
   }
-
   /**
    * Check whether the stack has no items.
    */
-  empty () {
-    return this.size() <= 0
+  empty() {
+    return this.size() <= 0;
   }
-
   /**
    * Look at the item on the top of the stack, without removing it.
    * @returns The item, or null when the stack is empty
    */
-  peek () {
-    const top = this.stackedList.first
-    return top === null || typeof top === 'undefined' ? null : top.data
+  peek() {
+    const top = this.stackedList.first;
+    return top === null || typeof top === 'undefined' ? null : top.data;
   }
-
   /**
    * Take the item from the top of the stack.
    * @returns The item, or null when the stack is empty
    */
-  pop () {
-    const top = this.stackedList.first
+  pop() {
+    const top = this.stackedList.first;
     if (top === null || typeof top === 'undefined') {
-      return null
+      return null;
     }
-    this.stackedList.remove(top)
-    return top.data
+    this.stackedList.remove(top);
+    return top.data;
   }
-
   /**
    * Add an item to the top of the stack.
    * @param data The item to add
    * @returns This stack, so that adding can be chained
    */
-  push (data) {
+  push(data) {
     // The item is wrapped here rather than left to the list, since the list treats objects that look like a linker's
     // settings (they have a data property) as such, and a stack must give back exactly what it was given
     this.stackedList.prepend(new this.linkerClass({
       data
-    }))
-    return this
+    }));
+    return this;
   }
-
   /**
    * Count the items in the stack.
    */
-  size () {
-    return this.stackedList.length
+  size() {
+    return this.stackedList.length;
   }
-
   /**
    * The item on the top of the stack (the same as peek).
    * @returns The item, or null when the stack is empty
    */
-  top () {
-    return this.peek()
+  top() {
+    return this.peek();
   }
-
   /**
    * Iterate over the items from the top of the stack to the bottom, without removing them.
    */
-  [Symbol.iterator] () {
-    const linkers = this.stackedList[Symbol.iterator]()
+  [Symbol.iterator]() {
+    const linkers = this.stackedList[Symbol.iterator]();
     return {
       next: () => {
-        const result = linkers.next()
-        return result.done
-          ? {
-              done: true,
-              value: undefined
-            }
-          : {
-              done: false,
-              value: result.value.data
-            }
+        const result = linkers.next();
+        return result.done ? {
+          done: true,
+          value: undefined
+        } : {
+          done: false,
+          value: result.value.data
+        };
       }
-    }
+    };
   }
 }
 /**
@@ -114,9 +105,9 @@ class Stack {
  * @param listClass The type of list used to store the items
  * @param linkerClass The class used to hold each stacked item
  */
-exports.Stack = Stack
+exports.Stack = Stack;
 Stack.fromArray = (values = [], listClass = _LinkedList.LinkedList, linkerClass = _Linker.Linker) => {
-  const stack = new Stack(null, listClass, linkerClass)
-  values.forEach(value => stack.push(value))
-  return stack
-}
+  const stack = new Stack(null, listClass, linkerClass);
+  values.forEach(value => stack.push(value));
+  return stack;
+};

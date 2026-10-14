@@ -1,11 +1,11 @@
-'use strict'
+"use strict";
 
-Object.defineProperty(exports, '__esModule', {
+Object.defineProperty(exports, "__esModule", {
   value: true
-})
-exports.services = void 0
-const _parseTree = require('./parseTree')
-const _parseTreeNext = require('./parseTreeNext')
+});
+exports.services = void 0;
+var _parseTree = require("./parseTree");
+var _parseTreeNext = require("./parseTreeNext");
 /**
  * some useful resources when working with collections.
  */
@@ -16,4 +16,4 @@ const _parseTreeNext = require('./parseTreeNext')
 const services = exports.services = {
   parseTree: _parseTree.parseTree,
   parseTreeNext: _parseTreeNext.parseTreeNext
-}
+};

@@ -1,11 +1,11 @@
-'use strict'
+"use strict";
 
-Object.defineProperty(exports, '__esModule', {
+Object.defineProperty(exports, "__esModule", {
   value: true
-})
-exports.TaskStack = void 0
-const _Stackable = require('./Stackable')
-const _LinkedList = require('../linked-list/LinkedList')
+});
+exports.TaskStack = void 0;
+var _Stackable = require("./Stackable");
+var _LinkedList = require("../linked-list/LinkedList");
 /**
  * task stack.
  */
@@ -21,67 +21,61 @@ class TaskStack {
    * @param listClass The type of list to create when no stacked list is given.
    * @param stackableClass The class used to wrap stacked items.
    */
-  constructor (stackedList = null, listClass = _LinkedList.LinkedList, stackableClass = _Stackable.Stackable) {
-    this.listClass = listClass
-    this.stackableClass = stackableClass
+  constructor(stackedList = null, listClass = _LinkedList.LinkedList, stackableClass = _Stackable.Stackable) {
+    this.listClass = listClass;
+    this.stackableClass = stackableClass;
     if (stackedList === null) {
-      stackedList = new listClass(stackableClass)
+      stackedList = new listClass(stackableClass);
     }
-    this.stackedList = stackedList
+    this.stackedList = stackedList;
   }
-
   /**
    * Return true if the stack is empty (there are no tasks in the stacked list)
    */
-  empty () {
-    return this.size() <= 0
+  empty() {
+    return this.size() <= 0;
   }
-
   /**
    * Take a look at the next stacked task
    */
-  top () {
-    return this.stackedList.first
+  top() {
+    return this.stackedList.first;
   }
-
   /**
    * Remove the next stacked task and return it.
    */
-  pop () {
-    const next = this.remove()
+  pop() {
+    const next = this.remove();
     if (!next) {
       return {
         success: 'No more stackable tasks in the stack',
         error: false,
         context: this.stackedList
-      }
+      };
     }
-    return next.run()
+    return next.run();
   }
-
   /**
    * Push a stackable task to the top of the stack.
    * @param stackable Add a new stackable to the top of the stack
    */
-  push (stackable) {
-    this.stackedList.prepend(stackable)
+  push(stackable) {
+    this.stackedList.prepend(stackable);
   }
-
   /**
    * Remove the next stacked task and return it.
    */
-  remove () {
+  remove() {
     if (this.empty()) {
-      return null
+      return null;
     }
-    return this.stackedList.remove(this.stackedList.first)
+    return this.stackedList.remove(this.stackedList.first);
   }
-
   /**
    * Get the size of the current stack.
    */
-  size () {
-    return this.stackedList.length
+  size() {
+    return this.stackedList.length;
   }
 }
 /**
@@ -90,9 +84,9 @@ class TaskStack {
  * @param stackableClass The class to use for each stackable
  * @param listClass The class to use to manage the stackables
  */
-exports.TaskStack = TaskStack
+exports.TaskStack = TaskStack;
 TaskStack.fromArray = (values = [], stackableClass = _Stackable.Stackable, listClass = _LinkedList.LinkedList) => {
-  const list = new listClass(stackableClass)
-  list.initialize(stackableClass.fromArray(values, stackableClass).head)
-  return new TaskStack(list, listClass, stackableClass)
-}
+  const list = new listClass(stackableClass);
+  list.initialize(stackableClass.fromArray(values, stackableClass).head);
+  return new TaskStack(list, listClass, stackableClass);
+};

@@ -1,10 +1,10 @@
-'use strict'
+"use strict";
 
-Object.defineProperty(exports, '__esModule', {
+Object.defineProperty(exports, "__esModule", {
   value: true
-})
-exports.TreeLinkerIterator = void 0
-const _parseTreeNext = require('../services/parseTreeNext')
+});
+exports.TreeLinkerIterator = void 0;
+var _parseTreeNext = require("../services/parseTreeNext");
 /**
  * Class TreeLinkerIterator returns the next value taking a left-first approach down a tree.
  */
@@ -14,23 +14,22 @@ class TreeLinkerIterator {
    * @param current The item to start from.
    * @param boundaryParent The parent of the nodes to stay within (null for the top of a tree), the whole tree when not given.
    */
-  constructor (current, boundaryParent) {
-    this.current = current
-    this.boundaryParent = boundaryParent
+  constructor(current, boundaryParent) {
+    this.current = current;
+    this.boundaryParent = boundaryParent;
   }
-
   /**
    * Get the current item and move on to the following one (left-first, down each branch).
    * @param value Not used, present to match the Iterator interface.
    * @returns The current item, or done when there are no more.
    */
-  next (value) {
+  next(value) {
     const result = {
       value: this.current,
       done: !this.current
-    }
-    this.current = (0, _parseTreeNext.parseTreeNext)(this.current, this.boundaryParent)
-    return result
+    };
+    this.current = (0, _parseTreeNext.parseTreeNext)(this.current, this.boundaryParent);
+    return result;
   }
 }
-exports.TreeLinkerIterator = TreeLinkerIterator
+exports.TreeLinkerIterator = TreeLinkerIterator;

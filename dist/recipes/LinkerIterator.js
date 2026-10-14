@@ -1,9 +1,9 @@
-'use strict'
+"use strict";
 
-Object.defineProperty(exports, '__esModule', {
+Object.defineProperty(exports, "__esModule", {
   value: true
-})
-exports.LinkerIterator = void 0
+});
+exports.LinkerIterator = void 0;
 /**
  * Class LinkerIterator returns the next value when using linkers of linked type lists.
  */
@@ -12,22 +12,21 @@ class LinkerIterator {
    * Create an iterator starting at the given item.
    * @param current The item to start from.
    */
-  constructor (current) {
-    this.current = current
+  constructor(current) {
+    this.current = current;
   }
-
   /**
    * Get the current item and move on to the following one.
    * @param value Not used, present to match the Iterator interface.
    * @returns The current item, or done when there are no more.
    */
-  next (value) {
+  next(value) {
     const result = {
       value: this.current,
       done: !this.current
-    }
-    this.current = this.current ? this.current.next : null
-    return result
+    };
+    this.current = this.current ? this.current.next : null;
+    return result;
   }
 }
-exports.LinkerIterator = LinkerIterator
+exports.LinkerIterator = LinkerIterator;

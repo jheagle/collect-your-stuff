@@ -1,12 +1,12 @@
-'use strict'
+"use strict";
 
-Object.defineProperty(exports, '__esModule', {
+Object.defineProperty(exports, "__esModule", {
   value: true
-})
-exports.Linker = void 0
-require('core-js/modules/esnext.iterator.constructor.js')
-require('core-js/modules/esnext.iterator.reduce.js')
-const _ArrayElement = require('../arrayable/ArrayElement')
+});
+exports.Linker = void 0;
+require("core-js/modules/esnext.iterator.constructor.js");
+require("core-js/modules/esnext.iterator.reduce.js");
+var _ArrayElement = require("../arrayable/ArrayElement");
 /**
  * Linker represents a node in a LinkedList.
  * @extends ArrayElement
@@ -18,18 +18,18 @@ class Linker {
    * @param nodeData.data The data to be stored in this linker
    * @param nodeData.next The reference to the next linker if any
    */
-  constructor ({
+  constructor({
     data = null,
     next = null
   } = {}) {
     /** The class used to create this instance, so that it can be recognized as valid without an instanceof check. */
-    this.classType = Linker
+    this.classType = Linker;
     /** The data stored in this linker. */
-    this.data = null
+    this.data = null;
     /** The linker after this one, or null when this is the last. */
-    this.next = null
-    this.data = data
-    this.next = next
+    this.next = null;
+    this.data = data;
+    this.next = next;
   }
 }
 /**
@@ -37,46 +37,46 @@ class Linker {
  * @param linker Return a valid Linker instance from given data, or even an already valid one.
  * @param classType Provide the type of IsLinker to use.
  */
-exports.Linker = Linker
+exports.Linker = Linker;
 Linker.make = (linker, classType = Linker) => {
   if (linker === null || typeof linker !== 'object') {
     // It is not an object (or it is null), so instantiate the Linker with element as the data
     return new classType({
       data: linker
-    })
+    });
   }
   if (linker.classType) {
     // Already valid Linker, return as-is
-    return linker
+    return linker;
   }
   if (!('data' in linker)) {
     // Not the settings for a linker (which would have data, even if it is falsy), so it is the data itself
     linker = {
       data: linker
-    }
+    };
   }
   // Create the new node as the configured #classType
-  return _ArrayElement.ArrayElement.make(linker, classType)
-}
+  return _ArrayElement.ArrayElement.make(linker, classType);
+};
 /**
  * Convert an array into Linker instances, return the head and tail Linkers.
  * @param values Provide an array of data that will be converted to a chain of linkers.
  * @param classType Provide the type of IsLinker to use.
  */
 Linker.fromArray = (values = [], classType = Linker) => values.reduce((references, linker) => {
-  const newLinker = classType.make(linker, classType)
+  const newLinker = classType.make(linker, classType);
   if (references.head === null) {
     // Initialize the head and tail with the new node
     return {
       head: newLinker,
       tail: newLinker
-    }
+    };
   }
   // Only update the tail once head has been set, tail is always the most recent node
-  references.tail.next = newLinker
-  references.tail = newLinker
-  return references
+  references.tail.next = newLinker;
+  references.tail = newLinker;
+  return references;
 }, {
   head: null,
   tail: null
-})
+});

@@ -80,5 +80,5 @@ export class Stackable implements IsLinker, IsRunnable {
   public static fromArray = (values: Array<any> = [], classType: any = Stackable): {
     head: IsLinker;
     tail: IsLinker
-  } =>  Linker.fromArray(values, classType)
+  } => Linker.fromArray(values, classType)
 }

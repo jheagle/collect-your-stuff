@@ -1,7 +1,7 @@
 {
   "name": "collect-your-stuff",
   "description": "Use a variety of collections to collect your stuff when building code.",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "main": "dist/main.js",
   "types": "dist/main.d.ts",
   "author": "Joshua Heagle",
@@ -24,7 +24,7 @@
     "watch:test": "gulp watchTest"
   },
   "devDependencies": {
-    "js-build-tools": "^5.3.2",
+    "js-build-tools": "^6.1.0",
     "typedoc": "^0.28.20"
   },
   "repository": {
