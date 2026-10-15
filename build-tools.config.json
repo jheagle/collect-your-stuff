@@ -2,6 +2,12 @@
   "browser":{
     "name": "collect-your-stuff"
   },
+  "copyFiles": [
+    {
+      "from": "browser/*.js",
+      "to": "../joshuaheagle.local/projects/collect-your-stuff/browser"
+    }
+  ],
   "docs": {
     "enabled": true,
     "from": "src",
