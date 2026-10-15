@@ -17,6 +17,9 @@
     "build": "gulp build",
     "dev": "gulp",
     "docs": "gulp docs",
+    "publish:bundle": "gulp copyFiles",
+    "release": "release-it",
+    "release:dry-run": "release-it --dry-run",
     "test": "gulp testFull",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "test:quick": "gulp testQuick",
@@ -25,6 +28,7 @@
   },
   "devDependencies": {
     "js-build-tools": "^6.1.0",
+    "release-it": "^21.1.1",
     "typedoc": "^0.28.20"
   },
   "repository": {
