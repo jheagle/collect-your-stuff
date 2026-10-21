@@ -49,7 +49,6 @@ export class Runnable implements IsRunnable {
 
   /**
    * Check if a given thing is Runnable
-   * @memberof Runnable
    * @param thing The value to check, or nothing to check whether this class is Runnable.
    */
   public static isRunnable (thing: any): boolean {

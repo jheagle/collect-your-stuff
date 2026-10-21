@@ -35,7 +35,6 @@ export declare class Runnable implements IsRunnable {
     run(): completeResponse | any;
     /**
      * Check if a given thing is Runnable
-     * @memberof Runnable
      * @param thing The value to check, or nothing to check whether this class is Runnable.
      */
     static isRunnable(thing: any): boolean;

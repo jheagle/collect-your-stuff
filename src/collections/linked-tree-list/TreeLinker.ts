@@ -33,7 +33,7 @@ export class TreeLinker implements IsTreeNode {
    * @param settings.prev The reference to the previous linker if any
    * @param settings.children The references to child linkers if any
    * @param settings.parent The reference to a parent linker if any
-   * @param listClass Give the type of list to use for storing the children
+   * @param settings.listClass Give the type of list to use for storing the children
    */
   public constructor ({
     data = null,
