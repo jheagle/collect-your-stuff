@@ -74,7 +74,7 @@ export class TaskQueue {
       // Place back in queue to be checked once again next time, only if the queue will not be empty
       this.enqueue(next)
     }
-    return next.run.call(next)
+    return next.run()
   }
 
   /**

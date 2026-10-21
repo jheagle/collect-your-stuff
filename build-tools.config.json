@@ -20,5 +20,15 @@
   "typescript": {
     "config": "tsconfig.json",
     "enabled": true
+  },
+  "lint": {
+    "rules": {
+      "new-cap": [
+        "error",
+        {
+          "newIsCapExceptionPattern": "(^|\\.)(classType|listClass|linkerClass)$"
+        }
+      ]
+    }
   }
 }
