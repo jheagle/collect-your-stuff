@@ -1,11 +1,10 @@
 // Your local gulpfile.js
-import { partials } from 'js-build-tools/gulpfile.base.mjs'
-
 export {
   build,
   copyFiles,
   defaultCmd as default,
   docs,
+  lint,
   readme,
   testFull,
   testQuick,
