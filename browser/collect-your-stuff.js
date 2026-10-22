@@ -1279,7 +1279,7 @@ class TreeLinker {
    * @param settings.prev The reference to the previous linker if any
    * @param settings.children The references to child linkers if any
    * @param settings.parent The reference to a parent linker if any
-   * @param listClass Give the type of list to use for storing the children
+   * @param settings.listClass Give the type of list to use for storing the children
    */
   constructor({
     data = null,
@@ -2393,7 +2393,6 @@ class Runnable {
   }
   /**
    * Check if a given thing is Runnable
-   * @memberof Runnable
    * @param thing The value to check, or nothing to check whether this class is Runnable.
    */
   static isRunnable(thing) {
