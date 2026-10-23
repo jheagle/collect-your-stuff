@@ -15,7 +15,9 @@
     "enabled": true,
     "from": "src",
     "index": "MAIN.md",
-    "to": "../joshuaheagle.local/projects/collect-your-stuff/docs"
+    "to": "../joshuaheagle.local/projects/collect-your-stuff/docs",
+    "inBuild": false,
+    "gitRevision": "main"
   },
   "typescript": {
     "config": "tsconfig.json",
