@@ -18,6 +18,7 @@
     "dev": "gulp",
     "docs": "gulp docs",
     "publish:bundle": "gulp copyFiles",
+    "prepublishOnly": "npm run build",
     "release": "release-it",
     "release:dry-run": "release-it --dry-run",
     "test": "gulp testFull",
