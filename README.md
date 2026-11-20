@@ -1,5 +1,7 @@
 # Collect your stuff (and go)!
 
+[![tests](https://github.com/jheagle/collect-your-stuff/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/jheagle/collect-your-stuff/actions/workflows/tests.yml)
+
 Data allocation and manipulation - a set of classic collection types (linked lists, doubly-linked lists, tree lists,
 queues, stacks) built on a common `Linker`/`Arrayable` foundation.
 
